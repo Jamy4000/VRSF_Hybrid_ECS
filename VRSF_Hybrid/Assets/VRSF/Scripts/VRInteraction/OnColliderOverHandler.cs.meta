@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 7e09f441a6451494099c46033aa632d7
+timeCreated: 1518191866
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - IsOverSomethingRight: {fileID: 11400000, guid: e4af7546d84d07a4eabe05d5d54a7986,
+      type: 2}
+  - IsOverSomethingLeft: {fileID: 11400000, guid: 0daffa7486ad84748897c181625ce7b7,
+      type: 2}
+  - IsOverSomethingGaze: {fileID: 11400000, guid: e02255ccfbf76d948a328cfb0301b382,
+      type: 2}
+  - RightHit: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00, type: 2}
+  - LeftHit: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802, type: 2}
+  - GazeHit: {fileID: 11400000, guid: a37975abb0fc52843a2064290bb07819, type: 2}
+  - RightOverObject: {fileID: 11400000, guid: 727e4033ea83fee43a190ca7f021c4e2, type: 2}
+  - LeftOverObject: {fileID: 11400000, guid: 1d0f1345b760b4d40b2f15fc143005ef, type: 2}
+  - GazeOverObject: {fileID: 11400000, guid: 3c6a71e81ab29f24c9b1b0ec66411bdc, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

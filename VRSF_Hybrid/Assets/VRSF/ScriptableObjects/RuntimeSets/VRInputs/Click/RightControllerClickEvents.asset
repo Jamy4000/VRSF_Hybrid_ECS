@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ba884a730a4ab45947ba7501f8aa7e, type: 3}
+  m_Name: RightControllerClickEvents
+  m_EditorClassIdentifier: 
+  KeyList:
+  - GripDown
+  - GripUp
+  - TriggerDown
+  - TriggerUp
+  - MenuDown
+  - MenuUp
+  - ThumbDown
+  - ThumbUp
+  - AButtonDown
+  - AButtonUp
+  - BButtonDown
+  - BButtonUp
+  ValueList:
+  - {fileID: 11400000, guid: cabbb325cbc11974cabf81052c5f93b1, type: 2}
+  - {fileID: 11400000, guid: 3f677c82b81966a4b9e2adab3a8f9592, type: 2}
+  - {fileID: 11400000, guid: 1497e6320590921488bb10967ec8bd75, type: 2}
+  - {fileID: 11400000, guid: fc7a705c62855db4894b8f8121dd8df5, type: 2}
+  - {fileID: 11400000, guid: 105ba519d792bdb40975ae5b25787450, type: 2}
+  - {fileID: 11400000, guid: 7fe841d77980d05438d3378a3f058646, type: 2}
+  - {fileID: 11400000, guid: d91b2c5b805b06746a8cfa5ce63e4ad2, type: 2}
+  - {fileID: 11400000, guid: 6487cd691d31e2642add6cd9638596cc, type: 2}
+  - {fileID: 11400000, guid: 14cf89d3df738724d8bd285e74d4247a, type: 2}
+  - {fileID: 11400000, guid: 7f485ec07811e064eb9bada630273889, type: 2}
+  - {fileID: 11400000, guid: 56b1bee864338594c87c0196ca82d021, type: 2}
+  - {fileID: 11400000, guid: 4c00eef112ee2c14994e71d69e838017, type: 2}

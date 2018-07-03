@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfd5acd7cc30e34fb85916b754a8111, type: 3}
+  m_Name: LeftControllerTouchBool
+  m_EditorClassIdentifier: 
+  KeyList:
+  - ThumbIsTouching
+  - TriggerIsTouching
+  - XButtonIsTouching
+  - YButtonIsTouching
+  - ThumbrestIsTouching
+  ValueList:
+  - {fileID: 11400000, guid: 7f8240028b78cfa47a2576d7d979842a, type: 2}
+  - {fileID: 11400000, guid: b36b0bdbdc6bb414bb451634fc7e3ef3, type: 2}
+  - {fileID: 11400000, guid: c69b775a4769ba14ea069860dd2b8cfe, type: 2}
+  - {fileID: 11400000, guid: 3dfee76bce6b0c34fb1846934b09d74f, type: 2}
+  - {fileID: 11400000, guid: 697d5c080ac5c414c90d59315ba6b4f8, type: 2}

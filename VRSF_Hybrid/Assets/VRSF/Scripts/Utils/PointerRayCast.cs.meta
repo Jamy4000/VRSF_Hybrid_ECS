@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 261210feaea32b846817a88269589667
+timeCreated: 1511802773
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RightController: {instanceID: 0}
+  - LeftController: {instanceID: 0}
+  - VRCamera: {instanceID: 0}
+  - RightHit: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00, type: 2}
+  - LeftHit: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802, type: 2}
+  - GazeHit: {fileID: 11400000, guid: a37975abb0fc52843a2064290bb07819, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

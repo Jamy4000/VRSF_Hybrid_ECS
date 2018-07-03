@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 70a8268a1ac4cea40b2434a517035c14
+timeCreated: 1513097794
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RightHitsVariable: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00,
+      type: 2}
+  - LeftHitsVariable: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802, type: 2}
+  - GazeHitsVariable: {fileID: 11400000, guid: a37975abb0fc52843a2064290bb07819, type: 2}
+  - Reticle: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

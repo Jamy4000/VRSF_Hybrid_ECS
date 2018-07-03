@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: 43ce60615c96981468036900d4ebc654
+timeCreated: 1518191866
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RightClickDown: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
+  - LeftClickDown: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
+  - GazeClickDown: {fileID: 11400000, guid: 3a578cb63b55c3148a0506a4bca056bf, type: 2}
+  - HasClickSomethingRight: {fileID: 11400000, guid: 53fc7375e651fb949bb4d4ddcb235110,
+      type: 2}
+  - HasClickSomethingLeft: {fileID: 11400000, guid: 618ea11461b082f49a6fa75558d2c447,
+      type: 2}
+  - HasClickSomethingGaze: {fileID: 11400000, guid: d5394cbe21ad8ae45b561f17c385456a,
+      type: 2}
+  - RightObjectWasClicked: {fileID: 11400000, guid: d950e288b5a70f94e996d9d436b42c57,
+      type: 2}
+  - LeftObjectWasClicked: {fileID: 11400000, guid: 15ddfd9adffbaa74da38eada75f74d63,
+      type: 2}
+  - GazeObjectWasClicked: {fileID: 11400000, guid: 80b7c4c0489ac954d9c9cf6ab954e431,
+      type: 2}
+  - RightHit: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00, type: 2}
+  - LeftHit: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802, type: 2}
+  - GazeHit: {fileID: 11400000, guid: a37975abb0fc52843a2064290bb07819, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

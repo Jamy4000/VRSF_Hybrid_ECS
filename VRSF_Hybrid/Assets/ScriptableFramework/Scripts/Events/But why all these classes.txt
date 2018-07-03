@@ -1,0 +1,2 @@
+In order for ScribtableObjects to work they have to serializable. Vector3 for example is not, so a different route had to be taken.
+It's not pretty... but it works.

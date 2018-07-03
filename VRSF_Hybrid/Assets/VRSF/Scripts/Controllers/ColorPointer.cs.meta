@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 324b63ec658ea6a4492f18f3d3e7b325
+timeCreated: 1517592766
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RightHandPointer: {instanceID: 0}
+  - LeftHandPointer: {instanceID: 0}
+  - GazeBackground: {instanceID: 0}
+  - GazeTarget: {instanceID: 0}
+  - MatOnLeft: {fileID: 2100000, guid: 9d8b8ebef5dc7d248b97e1d14e2499ab, type: 2}
+  - MatOffLeft: {fileID: 2100000, guid: 98578d12de8a4db45bdd190c76c215e6, type: 2}
+  - MatSelectableLeft: {fileID: 2100000, guid: ff337caa52621f247a5e15559248f573, type: 2}
+  - MatOnRight: {fileID: 2100000, guid: f704dcd2dfa818a4abe8f7bd648e64c3, type: 2}
+  - MatOffRight: {fileID: 2100000, guid: fb766f2bde315db49a0ee8ff016cd289, type: 2}
+  - MatSelectableRight: {fileID: 2100000, guid: bdf8431f5039d28418f989a9f788edf2,
+      type: 2}
+  - IsOverRight: {fileID: 11400000, guid: e4af7546d84d07a4eabe05d5d54a7986, type: 2}
+  - IsOverLeft: {fileID: 11400000, guid: 0daffa7486ad84748897c181625ce7b7, type: 2}
+  - IsOverGaze: {fileID: 11400000, guid: e02255ccfbf76d948a328cfb0301b382, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

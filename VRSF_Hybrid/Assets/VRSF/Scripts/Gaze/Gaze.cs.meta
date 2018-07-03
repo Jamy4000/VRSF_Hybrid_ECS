@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 73bf6fe655e60bc4688d038170aae827
+timeCreated: 1519151426
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ReticleVariables: {fileID: 11400000, guid: f48268faef9c4b5469e3e79cd705017a, type: 2}
+  - m_ReticleTransform: {instanceID: 0}
+  - m_Camera: {instanceID: 0}
+  - m_Image: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

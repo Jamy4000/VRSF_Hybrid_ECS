@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e6ce1076fe62b334abc70e36e0bccb41
+timeCreated: 1519299174
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ReticleSprite: {fileID: 2800000, guid: 112755491ecfe934385689b67162826c, type: 3}
+  - ReticleTargetSprite: {fileID: 2800000, guid: 099b47fd3d429e843b292bbd5ce7c365,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

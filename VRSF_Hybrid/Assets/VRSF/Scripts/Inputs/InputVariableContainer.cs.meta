@@ -1,0 +1,40 @@
+fileFormatVersion: 2
+guid: 191c7642b2ee3b94ab70734fa22ca91f
+timeCreated: 1526567991
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RightClickEvents: {fileID: 11400000, guid: 755a77ee9660ae64387f0ec4b1b54a1a, type: 2}
+  - LeftClickEvents: {fileID: 11400000, guid: 51a3ab5869adf9b42869262ca6898c28, type: 2}
+  - RightTouchEvents: {fileID: 11400000, guid: b16debc7e9c934f40b9db27f4af1ca99, type: 2}
+  - LeftTouchEvents: {fileID: 11400000, guid: bd864ad7acc902b4d888f1b8f5983c43, type: 2}
+  - GazeClickDown: {fileID: 11400000, guid: 4bad82b2101be9540839849ba993a488, type: 2}
+  - GazeClickUp: {fileID: 11400000, guid: b661ac5153d165c4fb9739714233016d, type: 2}
+  - GazeStartTouching: {fileID: 11400000, guid: 68212922c20ff3c4881143e173b92723,
+      type: 2}
+  - GazeStopTouching: {fileID: 11400000, guid: 4f3839e1f9da23841b99716e866ca24c, type: 2}
+  - WheelClickDown: {fileID: 11400000, guid: e86dc00b78171eb4faabb75abbf2411c, type: 2}
+  - WheelClickUp: {fileID: 11400000, guid: bc177fbba1731e6479252d1ddf4ce07f, type: 2}
+  - RightClickBoolean: {fileID: 11400000, guid: f89544e095cdbd14284d80f8b750d3dc,
+      type: 2}
+  - LeftClickBoolean: {fileID: 11400000, guid: abaa606710f28bd42b41c9810650c384, type: 2}
+  - RightTouchBoolean: {fileID: 11400000, guid: eff0cc8ebcbd49a4494b545a858a95f9,
+      type: 2}
+  - LeftTouchBoolean: {fileID: 11400000, guid: 86a2ce4e0d370c34897d7be3f4484d3d, type: 2}
+  - GazeIsCliking: {fileID: 11400000, guid: 3a578cb63b55c3148a0506a4bca056bf, type: 2}
+  - GazeIsTouching: {fileID: 11400000, guid: 010e5632196b4e545b77ebf88dc749a9, type: 2}
+  - WheelIsClicking: {fileID: 11400000, guid: 410961f64ac5c4b4492e7e3701de88b0, type: 2}
+  - RightHit: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00, type: 2}
+  - LeftHit: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802, type: 2}
+  - GazeHit: {fileID: 11400000, guid: a37975abb0fc52843a2064290bb07819, type: 2}
+  - RightThumbPosition: {fileID: 11400000, guid: 161161a085f046348a1de415b2059733,
+      type: 2}
+  - LeftThumbPosition: {fileID: 11400000, guid: 6606c50b01312104dbf0e10bd44e077a,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

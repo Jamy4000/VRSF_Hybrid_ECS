@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ba884a730a4ab45947ba7501f8aa7e, type: 3}
+  m_Name: RightControllerTouchEvents
+  m_EditorClassIdentifier: 
+  KeyList:
+  - TriggerStartTouching
+  - TriggerStopTouching
+  - ThumbStartTouching
+  - ThumbStopTouching
+  - AButtonStartTouching
+  - AButtonStopTouching
+  - BButtonStartTouching
+  - BButtonStopTouching
+  - ThumbrestStartTouching
+  - ThumbrestStopTouching
+  ValueList:
+  - {fileID: 11400000, guid: da685f2fc26627347b875d4f53a308d9, type: 2}
+  - {fileID: 11400000, guid: 34e588e01da8f1b48bef4e1dc477bf10, type: 2}
+  - {fileID: 11400000, guid: 45b8e72fcbfaa424abb035bcb9cc9a79, type: 2}
+  - {fileID: 11400000, guid: 78e13164f0242d04b85c9d7ad12a5e72, type: 2}
+  - {fileID: 11400000, guid: 1d9603a85daec1242b7e3888a88f17c9, type: 2}
+  - {fileID: 11400000, guid: 269601e76d4febb40802ed893f65fec1, type: 2}
+  - {fileID: 11400000, guid: ea2a590dd63432846a289dc32bb50084, type: 2}
+  - {fileID: 11400000, guid: 52e7418108026d643977857c11d269a1, type: 2}
+  - {fileID: 11400000, guid: a0d80933e9f80b147a93c347b6083217, type: 2}
+  - {fileID: 11400000, guid: 1fe4db2c312ab2e488fcad3f8f318b5f, type: 2}

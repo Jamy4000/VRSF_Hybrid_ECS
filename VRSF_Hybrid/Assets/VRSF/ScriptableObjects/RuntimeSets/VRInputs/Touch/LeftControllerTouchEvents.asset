@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ba884a730a4ab45947ba7501f8aa7e, type: 3}
+  m_Name: LeftControllerTouchEvents
+  m_EditorClassIdentifier: 
+  KeyList:
+  - TriggerStartTouching
+  - TriggerStopTouching
+  - ThumbStartTouching
+  - ThumbStopTouching
+  - XButtonStartTouching
+  - XButtonStopTouching
+  - YButtonStartTouching
+  - YButtonStopTouching
+  - ThumbrestStartTouching
+  - ThumbrestStopTouching
+  ValueList:
+  - {fileID: 11400000, guid: 92eb5d129c753b140ad961ccb5c50a14, type: 2}
+  - {fileID: 11400000, guid: dd9aeded56cd4224a9123cfa52e992a3, type: 2}
+  - {fileID: 11400000, guid: 5f8955d731aa5aa42aca3b30c99b462a, type: 2}
+  - {fileID: 11400000, guid: e13b71b9cf88e4c489b1b044deb0916e, type: 2}
+  - {fileID: 11400000, guid: 660d9419fdaa4eb4ebafd51a869f3d64, type: 2}
+  - {fileID: 11400000, guid: 624bf83dbbaa3864cb56c143cb783b25, type: 2}
+  - {fileID: 11400000, guid: 5af47980d61e35546a139f84d0b59d91, type: 2}
+  - {fileID: 11400000, guid: 14453748116b6c147927066e82846db1, type: 2}
+  - {fileID: 11400000, guid: 71def2cad4235e74da444375d087d60d, type: 2}
+  - {fileID: 11400000, guid: a70b062d439541d4ea49a8f28b0e6202, type: 2}

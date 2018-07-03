@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7184a61b5173243428fe88f48e13270e
+timeCreated: 1527519939
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_PersistentViewDataDictionary: {instanceID: 0}
+  - ControllersParameters: {fileID: 11400000, guid: 5cf443bff07995442981d8c722ea5bd1,
+      type: 2}
+  - ReticleParameters: {fileID: 11400000, guid: f48268faef9c4b5469e3e79cd705017a,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

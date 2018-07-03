@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6bcf36ba8557ae14fac6c655931c6110
+timeCreated: 1527525122
+licenseType: Pro
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ScriptableToSave: {fileID: 11400000, guid: 4edb998035098274593530d86f71436f, type: 2}
+  - SingletonToSave: {fileID: 11400000, guid: e85721f7ea6831b4d9f18c14b2679f11, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
