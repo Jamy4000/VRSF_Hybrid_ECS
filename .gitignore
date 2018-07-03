@@ -6,17 +6,17 @@
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 
-VRScriptableProject/[Ll]ibrary/
-VRScriptableProject/[Tt]emp/
-VRScriptableProject/[Oo]bj/
-VRScriptableProject/[Bb]uild/
-VRScriptableProject/[Bb]uilds/
+VRSF_Hybrid/[Ll]ibrary/
+VRSF_Hybrid/[Tt]emp/
+VRSF_Hybrid/[Oo]bj/
+VRSF_Hybrid/[Bb]uild/
+VRSF_Hybrid/[Bb]uilds/
 
 *.unitypackage
 
 # Added to use a Lab folder
-VRScriptableProject/Assets/Lab
-VRScriptableProject/Assets/Lab.meta
+VRSF_Hybrid/Assets/Lab
+VRSF_Hybrid/Assets/Lab.meta
 
 # Visual Studio 2015 cache directory
 /.vs/
