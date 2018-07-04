@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using ScriptableFramework.Events;
-using ScriptableFramework.Util;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,7 +22,7 @@ namespace ScriptableFramework.UI.Editor
         public bool TraceEvents;
         [Tooltip("This is what actually makes the tracing slow, since we create stacktrace for each call.")]
         public bool TraceEventCaller;
-        public bool LogTrace { get; set; }
+        public bool LogTrace = false;
 
         [MenuItem("Window/Event Inspector")]
         public static void ShowWindow()
@@ -235,61 +234,9 @@ namespace ScriptableFramework.UI.Editor
         {
             if (LogTrace)
             {
-                Log.Write(_standIn.LastEventDescription.ToString(), false);
+                Debug.Log(_standIn.LastEventDescription.ToString());
             }
             Repaint();
         }
     }
 }
-
-
-
-//void SetLayout()
-//{
-////var maxEvent = 0f;
-////var maxCaller = 0f;
-////var maxCallee = 0f;
-////var maxParameter = 0f;
-////foreach (var e in _standIn.Events)
-////{
-////    var curWidth = GetColWidth(GetEventName(e));
-////    maxEvent = curWidth > maxEvent ? curWidth : maxEvent;
-
-////    curWidth = GetColWidth(GetCaller(e));
-////    maxCaller = curWidth > maxCaller ? curWidth : maxCaller;
-
-////    for (int i = 0; i < e.Response.GetPersistentEventCount(); i++)
-////    {
-////        curWidth = GetColWidth(GetCallee(e, i));
-////        maxCallee = curWidth > maxCallee ? curWidth : maxCallee;
-////    }
-
-////    curWidth = GetColWidth(GetParameter(e));
-////    maxParameter = curWidth > maxParameter ? curWidth : maxParameter;
-////}
-////_layouts = new List<GUILayoutOption[]>
-////{
-////    new [] {GUILayout.Width(maxEvent * 2)},
-////    new [] {GUILayout.Width(maxCaller)},
-////    new [] {GUILayout.Width(maxCallee * 2)},
-////    new [] {GUILayout.Width(maxParameter)}
-////};
-
-//_layouts = new List<GUILayoutOption[]>
-//{
-//    new [] {GUILayout.Width(200)},
-//    new [] {GUILayout.Width(200)},
-//    new [] {GUILayout.Width(200)},
-//    new [] {GUILayout.Width(200)}
-//};
-//}
-
-////float GetColWidth(string s)
-////{
-////    GUIContent content = new GUIContent(s);
-
-////    GUIStyle style = GUI.skin.box;
-////    style.alignment = TextAnchor.MiddleCenter;
-
-////    return style.CalcSize(content).x;
-////}

@@ -107,69 +107,6 @@ namespace ScriptableFramework.UI.Editor
         }
     }
 
-    [CustomEditor(typeof(StringVariable))]
-    public class VariableStringEditor : VariableEditorBase
-    {
-        public override VariableSubscriber GetVariableSubscriber(FieldInfo memberInfo, MonoBehaviour var, PrefabType prefabType)
-        {
-            var fr = memberInfo.GetValue(var) as StringReference;
-
-            if (fr != null && fr.Variable != null && fr.Variable.name == target.name)
-            {
-                var varSubscriber = new VariableSubscriber
-                {
-                    ConsumerObject = var.gameObject,
-                    Script = var,
-                    Variable = fr.Variable,
-                    PrefabType = prefabType
-                };
-                return varSubscriber;
-            }
-            return null;
-        }
-    }
-    [CustomEditor(typeof(GameEventVariable))]
-    public class VariableGameEventEditor : VariableEditorBase
-    {
-        public override VariableSubscriber GetVariableSubscriber(FieldInfo memberInfo, MonoBehaviour var, PrefabType prefabType)
-        {
-            var fr = memberInfo.GetValue(var) as GameEventReference;
-
-            if (fr != null && fr.Variable != null && fr.Variable.name == target.name)
-            {
-                var varSubscriber = new VariableSubscriber
-                {
-                    ConsumerObject = var.gameObject,
-                    Script = var,
-                    Variable = fr.Variable,
-                    PrefabType = prefabType
-                };
-                return varSubscriber;
-            }
-            return null;
-        }
-    }
-    [CustomEditor(typeof(GameEventObjectVariable))]
-    public class VariableGameEventObjectEditor : VariableEditorBase
-    {
-        public override VariableSubscriber GetVariableSubscriber(FieldInfo memberInfo, MonoBehaviour var, PrefabType prefabType)
-        {
-            var fr = memberInfo.GetValue(var) as GameEventObjectReference;
-
-            if (fr != null && fr.Variable != null && fr.Variable.name == target.name)
-            {
-                var varSubscriber = new VariableSubscriber
-                {
-                    ConsumerObject = var.gameObject,
-                    Script = var,
-                    Variable = fr.Variable,
-                    PrefabType = prefabType
-                };
-                return varSubscriber;
-            }
-            return null;
-        }
-    }
     [CustomEditor(typeof(TransformVariable))]
     public class VariableTransformEditor : VariableEditorBase
     {
@@ -212,26 +149,4 @@ namespace ScriptableFramework.UI.Editor
             return null;
         }
     }
-    [CustomEditor(typeof(GameObjectVariable))]
-    public class VariableGameObjectEditor : VariableEditorBase
-    {
-        public override VariableSubscriber GetVariableSubscriber(FieldInfo memberInfo, MonoBehaviour var, PrefabType prefabType)
-        {
-            var fr = memberInfo.GetValue(var) as GameObjectReference;
-
-            if (fr != null && fr.Variable != null && fr.Variable.name == target.name)
-            {
-                var varSubscriber = new VariableSubscriber
-                {
-                    ConsumerObject = var.gameObject,
-                    Script = var,
-                    Variable = fr.Variable,
-                    PrefabType = prefabType
-                };
-                return varSubscriber;
-            }
-            return null;
-        }
-    }
-
 }
