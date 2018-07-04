@@ -3,17 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - UIBorder
+  - KeyboardKey
+  - RightController
+  - LeftController
+  - CameraRig
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
   - 
-  - Water
-  - UI
   - 
   - 
   - 
+  - 
+  - Teleport
   - 
   - 
   - 
@@ -40,4 +45,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: AlwaysOnTop
+    uniqueID: 1900413077
     locked: 0
