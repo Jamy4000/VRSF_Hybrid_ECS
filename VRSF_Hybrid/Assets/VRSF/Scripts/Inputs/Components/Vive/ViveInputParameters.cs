@@ -4,7 +4,7 @@ using ScriptableFramework.Variables;
 namespace VRSF.Inputs.Components.Vive
 {
     /// <summary>
-    /// Used to handle the Right and Left controllers Inputs in the Vive, 
+    /// Used to handle the Right and Left controllers Inputs in the Vive
     /// </summary>
     public struct ViveInputParameters
     {

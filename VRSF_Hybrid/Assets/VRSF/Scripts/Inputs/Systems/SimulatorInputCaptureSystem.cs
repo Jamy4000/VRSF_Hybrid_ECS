@@ -16,6 +16,9 @@ namespace VRSF.Inputs
     /// </summary>
     public class SimulatorInputCaptureSystem : ComponentSystem
     {
+        /// <summary>
+        /// The filter for the entity component.
+        /// </summary>
         struct Filter
         {
             public VRInputCaptureComponent VRInputCapture;
@@ -23,6 +26,9 @@ namespace VRSF.Inputs
 
 
         #region ComponentSystem_Methods
+        /// <summary>
+        /// Called after the scene was loaded, setup the entities variables
+        /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private void Awake()
         {
@@ -46,8 +52,11 @@ namespace VRSF.Inputs
                     CheckLeftControllerInput(entity.VRInputCapture);
                     CheckRightControllerInput(entity.VRInputCapture);
 
+                    // If we want to check the gaze interactions
                     if (entity.VRInputCapture.CheckGazeInteractions)
                         CheckGazeClickButton(entity.VRInputCapture);
+
+                    CheckWheelClick();
                 }
             }
         }
@@ -512,6 +521,7 @@ namespace VRSF.Inputs
         /// </summary>
         void CheckGazeInputs(VRInputCaptureComponent vrInputCapture)
         {
+            // If the gaze boolVariable is at false but the gaze button is clicking
             if (!vrInputCapture.InputContainer.GazeIsCliking.Value && 
                 Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[vrInputCapture.GazeParameters.GazeButtonSimulator]))
             {
@@ -520,6 +530,7 @@ namespace VRSF.Inputs
                 vrInputCapture.InputContainer.GazeClickDown.Raise();
                 vrInputCapture.InputContainer.GazeStartTouching.Raise();
             }
+            // If the gaze boolVariable is at true but the gaze button is not clicking
             else if (vrInputCapture.InputContainer.GazeIsCliking.Value && 
                 Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[vrInputCapture.GazeParameters.GazeButtonSimulator]))
             {
@@ -533,17 +544,21 @@ namespace VRSF.Inputs
         /// <summary>
         /// Handle the click on the Wheel button of the Mouse
         /// </summary>
-        private void CheckWheelClick(VRInputCaptureComponent vrInputCapture)
+        private void CheckWheelClick()
         {
-            if (!vrInputCapture.InputContainer.WheelIsClicking.Value && Input.GetKeyDown(KeyCode.Mouse2))
+            var inputContainer = InputVariableContainer.Instance;
+
+            // If the boolVariable for the wheel is clicking is at false but the user is pressing it
+            if (!inputContainer.WheelIsClicking.Value && Input.GetKeyDown(KeyCode.Mouse2))
             {
-                vrInputCapture.InputContainer.WheelIsClicking.SetValue(true);
-                vrInputCapture.InputContainer.WheelClickDown.Raise();
+                inputContainer.WheelIsClicking.SetValue(true);
+                inputContainer.WheelClickDown.Raise();
             }
-            else if (vrInputCapture.InputContainer.WheelIsClicking.Value && Input.GetKeyUp(KeyCode.Mouse2))
+            // If the boolVariable for the wheel is clicking is at true but the user is not pressing it
+            else if (inputContainer.WheelIsClicking.Value && Input.GetKeyUp(KeyCode.Mouse2))
             {
-                vrInputCapture.InputContainer.WheelIsClicking.SetValue(false);
-                vrInputCapture.InputContainer.WheelClickUp.Raise();
+                inputContainer.WheelIsClicking.SetValue(false);
+                inputContainer.WheelClickUp.Raise();
             }
         }
 

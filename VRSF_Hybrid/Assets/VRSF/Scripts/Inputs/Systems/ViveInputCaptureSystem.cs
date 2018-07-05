@@ -219,10 +219,16 @@ namespace VRSF.Inputs.Systems.Vive
             }
         }
 
+        /// <summary>
+        /// Set the references in the viveInputCaptureComponent script. 
+        /// We need to do it in an update method as the two Vive controllers need to be seen by the sensors to be referenced. 
+        /// </summary>
+        /// <param name="viveInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
         private void CheckReferencesVive(ViveInputCaptureComponent viveInputCapture)
         {
             try
             {
+                // We check the Gaze Click Button
                 if (viveInputCapture.GazeParameters.GazeButtonOpenVR == EControllersInput.NONE)
                 {
                     viveInputCapture.CheckGazeInteractions = false;
@@ -256,7 +262,10 @@ namespace VRSF.Inputs.Systems.Vive
             }
         }
 
-
+        /// <summary>
+        /// Setup the two controllers parameters to use in the CheckControllersInput method.
+        /// </summary>
+        /// <param name="viveInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
         private void SetupControllersParameters(ViveInputCaptureComponent viveInputCapture)
         {
             viveInputCapture.LeftParameters = new ViveInputParameters
