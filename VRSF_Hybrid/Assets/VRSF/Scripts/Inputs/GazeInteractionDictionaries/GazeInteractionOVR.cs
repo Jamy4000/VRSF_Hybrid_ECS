@@ -7,10 +7,10 @@ namespace VRSF.Inputs.Gaze
     /// <summary>
     /// Contain the two dictionnary for all Inputs corresponding to the possible gaze click with OVR
     /// </summary>
-    public static class GazeInteractionDictionaryOVR
+    public static class GazeInteractionOVR
     {
-        [Header("The dictionary with references to the OVR Buttons")]
-        public static Dictionary<EControllersInput, OVRInput.Button> GazeClickOVRInput = new Dictionary<EControllersInput, OVRInput.Button>()
+        // The dictionary with references to the OVR Buttons
+        public static Dictionary<EControllersInput, OVRInput.Button> ClickDictionnary = new Dictionary<EControllersInput, OVRInput.Button>()
         {
             { EControllersInput.NONE, OVRInput.Button.None },
 
@@ -33,8 +33,8 @@ namespace VRSF.Inputs.Gaze
         };
 
 
-        [Header("The dictionary with references to the OVR Touch ")]
-        public static Dictionary<EControllersInput, OVRInput.Touch> GazeTouchOVRInput = new Dictionary<EControllersInput, OVRInput.Touch>()
+        // The dictionary with references to the OVR Touch
+        public static Dictionary<EControllersInput, OVRInput.Touch> TouchDictionnary = new Dictionary<EControllersInput, OVRInput.Touch>()
         {
             { EControllersInput.NONE, OVRInput.Touch.None },
 

@@ -7,10 +7,10 @@ namespace VRSF.Inputs.Gaze
     /// <summary>
     /// Contain the dictionary for all keys corresponding to the possible gaze click with the Simulator
     /// </summary>
-    public static class GazeInteractionDictionarySimulator
+    public static class GazeInteractionSimulator
     {
-        [Header("The dictionary with references to the Input Buttons")]
-        public static Dictionary<EControllersInput, KeyCode> GazeToKeyCode = new Dictionary<EControllersInput, KeyCode>()
+        // The dictionary with references to the Input Buttons
+        public static Dictionary<EControllersInput, KeyCode> Dictionnary = new Dictionary<EControllersInput, KeyCode>()
         {
             { EControllersInput.NONE, KeyCode.None },
 

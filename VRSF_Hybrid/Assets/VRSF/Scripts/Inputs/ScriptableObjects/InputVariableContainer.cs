@@ -11,12 +11,6 @@ namespace VRSF.Inputs
     /// </summary>
     public class InputVariableContainer : ScriptableSingleton<InputVariableContainer>
     {
-        // EMPTY
-        #region PRIVATE_VARIABLE
-        #endregion
-
-
-        #region PUBLIC_VARIABLE
         [Multiline(10)]
         public string DeveloperDescription = "";
 
@@ -52,12 +46,5 @@ namespace VRSF.Inputs
         [Header("Vector2Variable for the Thumb position")]
         public Vector2Variable RightThumbPosition;
         public Vector2Variable LeftThumbPosition;
-
-        #endregion PUBLIC_VARIABLE
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
-        #endregion PUBLIC_METHODS
     }
 }

@@ -1,7 +1,5 @@
 fileFormatVersion: 2
-guid: ce3ae44fce1a3a24d9bbd7e6a9a880eb
-timeCreated: 1524505242
-licenseType: Pro
+guid: 96f8673ef31489242acdf45fd2146237
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -10,6 +8,9 @@ MonoImporter:
       type: 2}
   - GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
   - InputContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
+  - TempEvent: {instanceID: 0}
+  - LeftTrackedObject: {instanceID: 0}
+  - RightTrackedObject: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

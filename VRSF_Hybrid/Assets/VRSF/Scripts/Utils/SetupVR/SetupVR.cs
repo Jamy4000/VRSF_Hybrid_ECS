@@ -4,6 +4,8 @@ using UnityEngine.XR;
 using VRSF.Inputs;
 using VRSF.Controllers;
 using System;
+using VRSF.Inputs.Components.Vive;
+using VRSF.Inputs.Components;
 
 namespace VRSF.Utils
 {
@@ -319,14 +321,12 @@ namespace VRSF.Utils
                 switch (VRSF_Components.DeviceLoaded)
                 {
                     case (EDevice.OPENVR):
-                        _sdk.GetComponent<ViveInputCapture>().enabled = false;
+                        _sdk.GetComponent<ViveInputCaptureComponent>().enabled = false;
                         _sdk.GetComponent<SteamVR_ControllerManager>().enabled = false;
                         break;
                     case (EDevice.OVR):
-                        _sdk.GetComponent<OculusInputCapture>().enabled = false;
-                        break;
                     case (EDevice.SIMULATOR):
-                        _sdk.GetComponent<SimulatorInputCapture>().enabled = false;
+                        _sdk.GetComponent<VRInputCaptureComponent>().enabled = false;
                         break;
                     default:
                         Debug.LogError("VRSF : Device Loaded is not set to a valid value : " + VRSF_Components.DeviceLoaded);

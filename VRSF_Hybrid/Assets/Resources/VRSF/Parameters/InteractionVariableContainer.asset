@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Name: InteractionVariableContainer
   m_EditorClassIdentifier: 
   DeveloperDescription: 
+  RightRay: {fileID: 11400000, guid: 73ad3c653f63b3745af367ee98e425a2, type: 2}
+  LeftRay: {fileID: 11400000, guid: 2caba0516daf56e48b20d2de9d2e0254, type: 2}
+  GazeRay: {fileID: 11400000, guid: 99ccfc61852ddd642a797987a536ed60, type: 2}
   RightHit: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00, type: 2}
   LeftHit: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802, type: 2}
   GazeHit: {fileID: 11400000, guid: a37975abb0fc52843a2064290bb07819, type: 2}
