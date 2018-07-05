@@ -22,9 +22,11 @@ namespace VRSF.Inputs.Systems
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private void SceneStarted()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
             foreach (var entity in GetEntities<Filter>())
             {
                 entity.VRInputCapture.ControllersParameters = ControllersParametersVariable.Instance;

@@ -17,21 +17,21 @@ namespace VRSF.Utils.Systems
     {
         struct Filter
         {
-            public PointerRaycastComponents PointerComponents;
+            public PointerRaycastComponents RaycastComponents;
         }
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private void SceneStarted()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        protected override void OnStartRunning()
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                entity.PointerComponents.ControllersParameters = ControllersParametersVariable.Instance;
-                entity.PointerComponents.GazeParameters = GazeParametersVariable.Instance;
-                entity.PointerComponents.InteractionsContainer = InteractionVariableContainer.Instance;
+                entity.RaycastComponents.ControllersParameters = ControllersParametersVariable.Instance;
+                entity.RaycastComponents.GazeParameters = GazeParametersVariable.Instance;
+                entity.RaycastComponents.InteractionsContainer = InteractionVariableContainer.Instance;
                 
                 // We check the raycast if we use the controllers or we use the gaze
-                entity.PointerComponents.CheckRaycast = entity.PointerComponents.ControllersParameters.UseControllers || entity.PointerComponents.GazeParameters.UseGaze;
+                entity.RaycastComponents.CheckRaycast = entity.RaycastComponents.ControllersParameters.UseControllers || entity.RaycastComponents.GazeParameters.UseGaze;
             }
         }
 
@@ -39,12 +39,12 @@ namespace VRSF.Utils.Systems
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.PointerComponents.CheckRaycast)
+                if (entity.RaycastComponents.CheckRaycast)
                 {
                     if (VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
-                        CheckMouseRays(entity.PointerComponents);
+                        CheckMouseRays(entity.RaycastComponents);
                     else if (VRSF_Components.DeviceLoaded != EDevice.NULL)
-                        CheckVRRays(entity.PointerComponents);
+                        CheckVRRays(entity.RaycastComponents);
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace VRSF.Utils.Systems
             var interactionContainer = pointerRaycast.InteractionsContainer;
             var controllerParam = pointerRaycast.ControllersParameters;
             var gazeParam = pointerRaycast.GazeParameters;
-
+            
             // Handle raycasting for both controllers
             if (controllerParam.UseControllers)
             {

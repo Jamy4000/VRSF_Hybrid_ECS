@@ -29,8 +29,8 @@ namespace VRSF.Inputs
         /// <summary>
         /// Called after the scene was loaded, setup the entities variables
         /// </summary>
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private void SceneStarted()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        protected override void OnStartRunning()
         {
             foreach (var entity in GetEntities<Filter>())
             {
@@ -54,7 +54,7 @@ namespace VRSF.Inputs
 
                     // If we want to check the gaze interactions
                     if (entity.VRInputCapture.CheckGazeInteractions)
-                        CheckGazeClickButton(entity.VRInputCapture);
+                        CheckGazeInputs(entity.VRInputCapture);
 
                     CheckWheelClick();
                 }

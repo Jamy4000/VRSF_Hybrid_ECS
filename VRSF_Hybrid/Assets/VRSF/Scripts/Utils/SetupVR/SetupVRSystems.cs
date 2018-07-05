@@ -21,12 +21,11 @@ namespace VRSF.Utils.Systems
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private void Awake()
+        protected override void OnStartRunning()
         {
             foreach (var entity in GetEntities<Filter>())
             {
                 entity.SetupVR.ControllersParameters = ControllersParametersVariable.Instance;
-
                 SetupVRInScene(entity.SetupVR);
             }
         }
