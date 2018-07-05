@@ -38,9 +38,7 @@ namespace VRSF.UI
         private Vector3 _lastDragPos;
         //private GameObject _draggedThing;
         private float _distance;
-
-        private PointerRayCast _pointerRayCast;
-
+        
         private EHand _draggingHand;
         #endregion
 
@@ -53,18 +51,11 @@ namespace VRSF.UI
 
             _leftTriggerDown = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
             _rightTriggerDown = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
-
-            _pointerRayCast = FindObjectOfType<PointerRayCast>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_pointerRayCast == null)
-            {
-                _pointerRayCast = FindObjectOfType<PointerRayCast>();
-                return;
-            }
             CheckDragging();
         }
         #endregion

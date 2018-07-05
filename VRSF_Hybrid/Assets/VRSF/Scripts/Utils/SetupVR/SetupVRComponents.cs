@@ -2,7 +2,7 @@
 using UnityEngine;
 using VRSF.Controllers;
 
-namespace VRSF.Utils
+namespace VRSF.Utils.Components
 {
     [RequireComponent(typeof(EventInspectorStandIn))]
     public class SetupVRComponents : MonoBehaviour

@@ -1,13 +1,13 @@
 ﻿using System;
 using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using VRSF.Controllers;
 using VRSF.Inputs.Components;
 using VRSF.Inputs.Components.Vive;
+using VRSF.Utils.Components;
 
-namespace VRSF.Utils
+namespace VRSF.Utils.Systems
 {
     public class SetupVRSystems : ComponentSystem
     {

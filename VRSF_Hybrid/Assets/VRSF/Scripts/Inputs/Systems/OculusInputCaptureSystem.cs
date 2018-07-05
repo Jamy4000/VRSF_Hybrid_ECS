@@ -23,7 +23,7 @@ namespace VRSF.Inputs.Systems
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private void Awake()
+        private void SceneStarted()
         {
             foreach (var entity in GetEntities<Filter>())
             {

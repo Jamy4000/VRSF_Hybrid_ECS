@@ -21,7 +21,7 @@ namespace VRSF.Inputs.Systems.Vive
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private void Awake()
+        private void SceneStarted()
         {
             foreach (var entity in GetEntities<ViveFilter>())
             {

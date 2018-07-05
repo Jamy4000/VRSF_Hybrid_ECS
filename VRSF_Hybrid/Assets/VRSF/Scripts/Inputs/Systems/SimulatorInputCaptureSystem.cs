@@ -30,7 +30,7 @@ namespace VRSF.Inputs
         /// Called after the scene was loaded, setup the entities variables
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private void Awake()
+        private void SceneStarted()
         {
             foreach (var entity in GetEntities<Filter>())
             {
