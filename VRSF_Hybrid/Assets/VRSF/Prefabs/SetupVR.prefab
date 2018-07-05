@@ -53,13 +53,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4510786243131436}
-  - component: {fileID: 114798742317392976}
-  - component: {fileID: 114790167966168194}
+  - component: {fileID: 114096012416647498}
+  - component: {fileID: 114659255184726792}
+  - component: {fileID: 114956965750407208}
   - component: {fileID: 114664162902929284}
   - component: {fileID: 114906052996278480}
   - component: {fileID: 114526758324373678}
   - component: {fileID: 114227215284595176}
-  - component: {fileID: 114956965750407208}
   - component: {fileID: 114080766574852394}
   m_Layer: 0
   m_Name: VRInteractionScripts
@@ -239,6 +239,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114096012416647498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169340077094496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1543867edeb586a438d512744ab84885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ControllersParameters: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
+    type: 2}
+  GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
+  InteractionsContainer: {fileID: 11400000, guid: fe3b805d02f64c44ebcb1e3c8ff9a6cd,
+    type: 2}
+  CheckRaycast: 1
 --- !u!114 &114227215284595176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -289,6 +306,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LineMat: {fileID: 2100000, guid: 854b6af582c2d6f4881453e9a0bf85bd, type: 2}
+--- !u!114 &114659255184726792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169340077094496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1302670a1c5225548a4ba535eb0a8cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ControllersParameters: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
+    type: 2}
+  GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
+  InputsContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
+  InteractionsContainer: {fileID: 11400000, guid: fe3b805d02f64c44ebcb1e3c8ff9a6cd,
+    type: 2}
+  LeftClickBool: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
+  RightClickBool: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
+  CheckRaycast: 1
 --- !u!114 &114664162902929284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -298,28 +335,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 324b63ec658ea6a4492f18f3d3e7b325, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114790167966168194
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e09f441a6451494099c46033aa632d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114798742317392976
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ce60615c96981468036900d4ebc654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114806137930654248
