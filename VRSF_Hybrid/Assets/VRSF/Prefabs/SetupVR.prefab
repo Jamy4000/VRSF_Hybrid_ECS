@@ -53,10 +53,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4510786243131436}
-  - component: {fileID: 114096012416647498}
-  - component: {fileID: 114659255184726792}
+  - component: {fileID: 114261721487393040}
+  - component: {fileID: 114674006622435158}
   - component: {fileID: 114956965750407208}
-  - component: {fileID: 114664162902929284}
+  - component: {fileID: 114572354867394086}
   - component: {fileID: 114906052996278480}
   - component: {fileID: 114526758324373678}
   - component: {fileID: 114227215284595176}
@@ -239,7 +239,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114096012416647498
+--- !u!114 &114227215284595176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169340077094496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
+--- !u!114 &114261721487393040
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,18 +268,6 @@ MonoBehaviour:
   InteractionsContainer: {fileID: 11400000, guid: fe3b805d02f64c44ebcb1e3c8ff9a6cd,
     type: 2}
   CheckRaycast: 1
---- !u!114 &114227215284595176
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
 --- !u!114 &114468450047122696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -306,7 +306,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LineMat: {fileID: 2100000, guid: 854b6af582c2d6f4881453e9a0bf85bd, type: 2}
---- !u!114 &114659255184726792
+--- !u!114 &114572354867394086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169340077094496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce57b6e5818785648a04257bc130caec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ControllersParameters: {fileID: 0}
+  GazeParameters: {fileID: 0}
+  InteractionContainer: {fileID: 0}
+  CheckGazeStates: 0
+  GazeBackground: {fileID: 0}
+  GazeTarget: {fileID: 0}
+  RightHandPointer: {fileID: 0}
+  LeftHandPointer: {fileID: 0}
+  IsSetup: 0
+  CameraRigTransform: {fileID: 0}
+--- !u!114 &114674006622435158
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,17 +347,6 @@ MonoBehaviour:
   LeftClickBool: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
   RightClickBool: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
   CheckRaycast: 1
---- !u!114 &114664162902929284
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 324b63ec658ea6a4492f18f3d3e7b325, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114806137930654248
 MonoBehaviour:
   m_ObjectHideFlags: 1
