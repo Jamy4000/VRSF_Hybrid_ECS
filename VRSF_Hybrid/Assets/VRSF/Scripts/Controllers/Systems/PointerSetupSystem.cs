@@ -11,7 +11,7 @@ namespace VRSF.Controllers.Systems
     {
         struct Filter
         {
-            public ControllerPointerComponents colorPointerComp;
+            public ControllerPointerComponents ControllerPointerComp;
         }
 
         #region ComponentSystem_Methods
@@ -21,16 +21,16 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // Init
-                e.colorPointerComp.ControllersParameters = ControllersParametersVariable.Instance;
-                e.colorPointerComp.GazeParameters = GazeParametersVariable.Instance;
-                e.colorPointerComp.InteractionContainer = InteractionVariableContainer.Instance;
+                e.ControllerPointerComp.ControllersParameters = ControllersParametersVariable.Instance;
+                e.ControllerPointerComp.GazeParameters = GazeParametersVariable.Instance;
+                e.ControllerPointerComp.InteractionContainer = InteractionVariableContainer.Instance;
 
-                if (e.colorPointerComp.GazeParameters.UseGaze && e.colorPointerComp.GazeParameters.UseDifferentStates)
+                if (e.ControllerPointerComp.GazeParameters.UseGaze && e.ControllerPointerComp.GazeParameters.UseDifferentStates)
                 {
-                    e.colorPointerComp.CheckGazeStates = true;
+                    e.ControllerPointerComp.CheckGazeStates = true;
                 }
 
-                SetupVRComponents(e.colorPointerComp);
+                SetupVRComponents(e.ControllerPointerComp);
             }
         }
 
@@ -40,9 +40,9 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (!e.colorPointerComp.IsSetup)
+                if (!e.ControllerPointerComp.IsSetup)
                 {
-                    SetupVRComponents(e.colorPointerComp);
+                    SetupVRComponents(e.ControllerPointerComp);
                 }
             }
         }
@@ -95,11 +95,13 @@ namespace VRSF.Controllers.Systems
         {
             try
             {
-                if (!comp.GazeBackground)
-                    comp.GazeBackground = GameObject.FindObjectOfType<Gaze.Gaze>().ReticleBackground;
+                    comp.GazeScript = GameObject.FindObjectOfType<Gaze.Gaze>();
 
-                if (!comp.GazeTarget)
-                    comp.GazeTarget = GameObject.FindObjectOfType<Gaze.Gaze>().ReticleTarget;
+                    if (!comp.GazeBackground)
+                        comp.GazeBackground = comp.GazeScript.ReticleBackground;
+
+                    if (!comp.GazeTarget)
+                        comp.GazeTarget = comp.GazeScript.ReticleTarget;
             }
             catch (System.Exception e)
             {

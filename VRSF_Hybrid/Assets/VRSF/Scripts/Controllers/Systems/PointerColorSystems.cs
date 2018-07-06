@@ -9,7 +9,7 @@ namespace VRSF.Controllers.Systems
     {
         struct Filter
         {
-            public ControllerPointerComponents colorPointerComp;
+            public ControllerPointerComponents ControllerPointerComp;
         }
 
         #region ComponentSystem_Methods
@@ -19,22 +19,22 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.colorPointerComp.IsSetup)
+                if (e.ControllerPointerComp.IsSetup)
                 {
                     // If we use the controllers, we check their PointerStates
-                    if (e.colorPointerComp.ControllersParameters.UseControllers)
+                    if (e.ControllerPointerComp.ControllersParameters.UseControllers)
                     {
-                        e.colorPointerComp.ControllersParameters.RightPointerState =
-                            CheckPointerState(e.colorPointerComp.InteractionContainer.IsOverSomethingRight, e.colorPointerComp.ControllersParameters.RightPointerState, e.colorPointerComp.RightHandPointer, EHand.RIGHT);
+                        e.ControllerPointerComp.ControllersParameters.RightPointerState =
+                            CheckPointerState(e.ControllerPointerComp.InteractionContainer.IsOverSomethingRight, e.ControllerPointerComp.ControllersParameters.RightPointerState, e.ControllerPointerComp.RightHandPointer, EHand.RIGHT);
 
-                        e.colorPointerComp.ControllersParameters.LeftPointerState =
-                            CheckPointerState(e.colorPointerComp.InteractionContainer.IsOverSomethingLeft, e.colorPointerComp.ControllersParameters.LeftPointerState, e.colorPointerComp.LeftHandPointer, EHand.LEFT);
+                        e.ControllerPointerComp.ControllersParameters.LeftPointerState =
+                            CheckPointerState(e.ControllerPointerComp.InteractionContainer.IsOverSomethingLeft, e.ControllerPointerComp.ControllersParameters.LeftPointerState, e.ControllerPointerComp.LeftHandPointer, EHand.LEFT);
                     }
 
                     // If we use the Gaze, we check its PointerState
-                    if (e.colorPointerComp.GazeParameters.UseGaze)
+                    if (e.ControllerPointerComp.GazeParameters.UseGaze)
                     {
-                        CheckGazeState(e.colorPointerComp);
+                        CheckGazeState(e.ControllerPointerComp);
                     }
                 }
             }

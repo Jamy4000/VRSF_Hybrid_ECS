@@ -7,7 +7,7 @@ namespace VRSF.Controllers.Systems
     {
         struct Filter
         {
-            public ControllerPointerComponents colorPointerComp;
+            public ControllerPointerComponents ControllerPointerComp;
         }
 
         #region ComponentSystem_Methods
@@ -17,9 +17,9 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.colorPointerComp.IsSetup && e.colorPointerComp.ControllersParameters.UseControllers)
+                if (e.ControllerPointerComp.IsSetup && e.ControllerPointerComp.ControllersParameters.UseControllers)
                 {
-                    CheckPointersScale(e.colorPointerComp);
+                    CheckPointersScale(e.ControllerPointerComp);
                 }
             }
         }
