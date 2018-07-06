@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 114674006622435158}
   - component: {fileID: 114956965750407208}
   - component: {fileID: 114572354867394086}
-  - component: {fileID: 114906052996278480}
   - component: {fileID: 114526758324373678}
   - component: {fileID: 114227215284595176}
   - component: {fileID: 114080766574852394}
@@ -323,6 +322,7 @@ MonoBehaviour:
   CheckGazeStates: 0
   GazeBackground: {fileID: 0}
   GazeTarget: {fileID: 0}
+  GazeScript: {fileID: 0}
   RightHandPointer: {fileID: 0}
   LeftHandPointer: {fileID: 0}
   IsSetup: 0
@@ -356,17 +356,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ec19f0f501fc07408f2e9a4fd74313e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114906052996278480
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70a8268a1ac4cea40b2434a517035c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114956965750407208
