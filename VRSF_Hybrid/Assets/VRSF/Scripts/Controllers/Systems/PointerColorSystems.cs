@@ -2,6 +2,8 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers.Components;
+using VRSF.Gaze;
+using VRSF.Interactions;
 
 namespace VRSF.Controllers.Systems
 {
@@ -12,7 +14,25 @@ namespace VRSF.Controllers.Systems
             public ControllerPointerComponents ControllerPointerComp;
         }
 
+
+        #region PRIVATE_VARIABLE
+        private GazeParametersVariable _gazeParameters;
+        private ControllersParametersVariable _controllersParameters;
+        private InteractionVariableContainer _interactionsContainer;
+        #endregion PRIVATE_VARIABLE
+
+
         #region ComponentSystem_Methods
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        protected override void OnStartRunning()
+        {
+            base.OnStartRunning();
+
+            _controllersParameters = ControllersParametersVariable.Instance;
+            _gazeParameters = GazeParametersVariable.Instance;
+            _interactionsContainer = InteractionVariableContainer.Instance;
+        }
+
         // Update is called once per frame
         protected override void OnUpdate()
         {
@@ -22,17 +42,17 @@ namespace VRSF.Controllers.Systems
                 if (e.ControllerPointerComp.IsSetup)
                 {
                     // If we use the controllers, we check their PointerStates
-                    if (e.ControllerPointerComp.ControllersParameters.UseControllers)
+                    if (_controllersParameters.UseControllers)
                     {
-                        e.ControllerPointerComp.ControllersParameters.RightPointerState =
-                            CheckPointerState(e.ControllerPointerComp.InteractionContainer.IsOverSomethingRight, e.ControllerPointerComp.ControllersParameters.RightPointerState, e.ControllerPointerComp.RightHandPointer, EHand.RIGHT);
+                        _controllersParameters.RightPointerState =
+                            CheckPointerState(_interactionsContainer.IsOverSomethingRight, _controllersParameters.RightPointerState, e.ControllerPointerComp.RightHandPointer, EHand.RIGHT);
 
-                        e.ControllerPointerComp.ControllersParameters.LeftPointerState =
-                            CheckPointerState(e.ControllerPointerComp.InteractionContainer.IsOverSomethingLeft, e.ControllerPointerComp.ControllersParameters.LeftPointerState, e.ControllerPointerComp.LeftHandPointer, EHand.LEFT);
+                        _controllersParameters.LeftPointerState =
+                            CheckPointerState(_interactionsContainer.IsOverSomethingLeft, _controllersParameters.LeftPointerState, e.ControllerPointerComp.LeftHandPointer, EHand.LEFT);
                     }
 
                     // If we use the Gaze, we check its PointerState
-                    if (e.ControllerPointerComp.GazeParameters.UseGaze)
+                    if (_gazeParameters.UseGaze)
                     {
                         CheckGazeState(e.ControllerPointerComp);
                     }
@@ -128,9 +148,9 @@ namespace VRSF.Controllers.Systems
             else
             {
                 if (comp.GazeBackground != null)
-                    comp.GazeBackground.color = comp.GazeParameters.ReticleColor;
+                    comp.GazeBackground.color = _gazeParameters.ReticleColor;
                 if (comp.GazeBackground != null)
-                    comp.GazeTarget.color = comp.GazeParameters.ReticleTargetColor;
+                    comp.GazeTarget.color = _gazeParameters.ReticleTargetColor;
             }
         }
 
@@ -140,35 +160,35 @@ namespace VRSF.Controllers.Systems
         private void SetGazeColorState(ControllerPointerComponents comp)
         {
             // If the Gaze is supposed to be off
-            if (comp.GazeParameters.GazePointerState == EPointerState.OFF)
+            if (_gazeParameters.GazePointerState == EPointerState.OFF)
             {
                 if (comp.GazeBackground != null)
-                    comp.GazeBackground.color = comp.GazeParameters.ColorOffReticleBackgroud;
+                    comp.GazeBackground.color = _gazeParameters.ColorOffReticleBackgroud;
 
                 if (comp.GazeTarget != null)
-                    comp.GazeTarget.color = comp.GazeParameters.ColorOffReticleTarget;
+                    comp.GazeTarget.color = _gazeParameters.ColorOffReticleTarget;
             }
             // If the Gaze is not over something and it's state is not On
-            else if (!comp.InteractionContainer.IsOverSomethingGaze.Value && comp.GazeParameters.GazePointerState != EPointerState.ON)
+            else if (!_interactionsContainer.IsOverSomethingGaze.Value && _gazeParameters.GazePointerState != EPointerState.ON)
             {
                 if (comp.GazeBackground)
-                    comp.GazeBackground.color = comp.GazeParameters.ColorOnReticleBackgroud;
+                    comp.GazeBackground.color = _gazeParameters.ColorOnReticleBackgroud;
 
                 if (comp.GazeTarget != null)
-                    comp.GazeTarget.color = comp.GazeParameters.ColorOnReticleTarget;
+                    comp.GazeTarget.color = _gazeParameters.ColorOnReticleTarget;
 
-                comp.GazeParameters.GazePointerState = EPointerState.ON;
+                _gazeParameters.GazePointerState = EPointerState.ON;
             }
             // If the Gaze is over something and it's state is not at Selectable
-            else if (comp.InteractionContainer.IsOverSomethingGaze.Value && comp.GazeParameters.GazePointerState != EPointerState.SELECTABLE)
+            else if (_interactionsContainer.IsOverSomethingGaze.Value && _gazeParameters.GazePointerState != EPointerState.SELECTABLE)
             {
                 if (comp.GazeBackground != null)
-                    comp.GazeBackground.color = comp.GazeParameters.ColorSelectableReticleBackgroud;
+                    comp.GazeBackground.color = _gazeParameters.ColorSelectableReticleBackgroud;
 
                 if (comp.GazeTarget != null)
-                    comp.GazeTarget.color = comp.GazeParameters.ColorSelectableReticleTarget;
+                    comp.GazeTarget.color = _gazeParameters.ColorSelectableReticleTarget;
 
-                comp.GazeParameters.GazePointerState = EPointerState.SELECTABLE;
+                _gazeParameters.GazePointerState = EPointerState.SELECTABLE;
             }
         }
         #endregion PRIVATE_METHODS

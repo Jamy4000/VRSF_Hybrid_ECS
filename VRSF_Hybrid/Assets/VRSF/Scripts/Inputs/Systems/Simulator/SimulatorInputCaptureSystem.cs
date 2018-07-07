@@ -24,6 +24,12 @@ namespace VRSF.Inputs
             public VRInputCaptureComponent VRInputCapture;
         }
 
+        #region PRIVATE_VARIABLES
+        // VRSF Parameters references
+        private GazeParametersVariable _gazeParameters;
+        private InputVariableContainer _inputContainer;
+        #endregion PRIVATE_VARIABLES
+
 
         #region ComponentSystem_Methods
         /// <summary>
@@ -32,12 +38,13 @@ namespace VRSF.Inputs
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
+            _gazeParameters = GazeParametersVariable.Instance;
+            _inputContainer = InputVariableContainer.Instance;
+
             foreach (var entity in GetEntities<Filter>())
             {
-                entity.VRInputCapture.ControllersParameters = ControllersParametersVariable.Instance;
-                entity.VRInputCapture.GazeParameters = GazeParametersVariable.Instance;
-                entity.VRInputCapture.InputContainer = InputVariableContainer.Instance;
-
                 CheckGazeClickButton(entity.VRInputCapture);
             }
         }
@@ -78,18 +85,18 @@ namespace VRSF.Inputs
 
             //Left Click
             #region TRIGGER
-            temp = vrInputCapture.InputContainer.LeftClickBoolean.Get("TriggerIsDown");
+            temp = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
 
             if (!temp.Value && Input.GetMouseButtonDown(0))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("TriggerDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("TriggerDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetMouseButtonUp(0))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("TriggerUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("TriggerUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion TRIGGERa
@@ -97,132 +104,132 @@ namespace VRSF.Inputs
 
             //W, A, S and D
             #region THUMB
-            temp = vrInputCapture.InputContainer.LeftClickBoolean.Get("ThumbIsDown");
+            temp = _inputContainer.LeftClickBoolean.Get("ThumbIsDown");
 
             //GO UP
             if (!temp.Value && Input.GetKeyDown(KeyCode.W))
             {
                 temp.SetValue(true);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.up);
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.up);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.LeftThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.W))
+            else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.W))
             {
                 temp.SetValue(false);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbUp");
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
             // GO DOWN
             if (!temp.Value && Input.GetKeyDown(KeyCode.S))
             {
                 temp.SetValue(true);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.down);
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.down);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.LeftThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.S))
+            else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.S))
             {
                 temp.SetValue(false);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbUp");
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
             //GO RIGHT
             if (!temp.Value && Input.GetKeyDown(KeyCode.D))
             {
                 temp.SetValue(true);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.right);
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.right);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.LeftThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.D))
+            else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.D))
             {
                 temp.SetValue(false);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbUp");
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
             //GO LEFT
             if (!temp.Value && Input.GetKeyDown(KeyCode.A))
             {
                 temp.SetValue(true);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.left);
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.left);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.LeftThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.A))
+            else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.A))
             {
                 temp.SetValue(false);
-                vrInputCapture.InputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("ThumbUp");
+                _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
             #endregion THUMB
         
 
             //Left Shift
             #region GRIP
-            temp = vrInputCapture.InputContainer.LeftClickBoolean.Get("GripIsDown");
+            temp = _inputContainer.LeftClickBoolean.Get("GripIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("GripDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("GripDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.LeftShift))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("GripUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("GripUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion GRIP
@@ -230,18 +237,18 @@ namespace VRSF.Inputs
 
             //Left Control
             #region MENU
-            temp = vrInputCapture.InputContainer.LeftClickBoolean.Get("MenuIsDown");
+            temp = _inputContainer.LeftClickBoolean.Get("MenuIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftControl))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("MenuDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("MenuDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.LeftControl))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("MenuUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("MenuUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion MENU
@@ -251,18 +258,18 @@ namespace VRSF.Inputs
             
             //F
             #region X BUTTON
-            temp = vrInputCapture.InputContainer.LeftClickBoolean.Get("XButtonIsDown");
+            temp = _inputContainer.LeftClickBoolean.Get("XButtonIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.F))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("XButtonDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("XButtonDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.F))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("XButtonUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("XButtonUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion X BUTTON
@@ -270,18 +277,18 @@ namespace VRSF.Inputs
 
             //R
             #region Y BUTTON
-            temp = vrInputCapture.InputContainer.LeftClickBoolean.Get("YButtonIsDown");
+            temp = _inputContainer.LeftClickBoolean.Get("YButtonIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.R))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("YButtonDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("YButtonDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.R))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.LeftClickEvents.Get("YButtonUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("YButtonUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion Y BUTTON
@@ -298,18 +305,18 @@ namespace VRSF.Inputs
 
             //Right Click
             #region TRIGGER
-            temp = vrInputCapture.InputContainer.RightClickBoolean.Get("TriggerIsDown");
+            temp = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
 
             if (!temp.Value && Input.GetMouseButtonDown(1))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("TriggerDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("TriggerDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetMouseButtonUp(1))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("TriggerUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("TriggerUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion TRIGGER
@@ -317,136 +324,136 @@ namespace VRSF.Inputs
 
             //Up, Down, Left and Right Arrows
             #region THUMB
-            temp = vrInputCapture.InputContainer.RightClickBoolean.Get("ThumbIsDown");
+            temp = _inputContainer.RightClickBoolean.Get("ThumbIsDown");
 
             //GO UP
             if (!temp.Value && Input.GetKeyDown(KeyCode.UpArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.up);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.up);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.RightThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.UpArrow))
+            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.UpArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.zero);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
             //GO DOWN
             if (!temp.Value && Input.GetKeyDown(KeyCode.DownArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.down);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.down);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.RightThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.DownArrow))
+            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.DownArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.zero);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
             //GO RIGHT
             if (!temp.Value && Input.GetKeyDown(KeyCode.RightArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.right);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.right);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.RightThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.RightArrow))
+            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.RightArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.zero);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
             //GO LEFT
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.left);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.left);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStartTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
-            else if (temp.Value && vrInputCapture.InputContainer.RightThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.LeftArrow))
+            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.LeftArrow))
             {
-                vrInputCapture.InputContainer.RightThumbPosition.SetValue(Vector2.zero);
+                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("ThumbUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
                 vrInputCapture.TempEvent.Raise();
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightTouchEvents.Get("ThumbStopTouching");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
                 vrInputCapture.TempEvent.Raise();
-                vrInputCapture.InputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
             #endregion THUMB
 
 
             //Right Shift
             #region GRIP
-            temp = vrInputCapture.InputContainer.RightClickBoolean.Get("GripIsDown");
+            temp = _inputContainer.RightClickBoolean.Get("GripIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.RightShift))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("GripDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("GripDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.RightShift))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("GripUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("GripUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion GRIP
@@ -456,18 +463,18 @@ namespace VRSF.Inputs
 
             //Right Control
             #region MENU
-            temp = vrInputCapture.InputContainer.RightClickBoolean.Get("MenuIsDown");
+            temp = _inputContainer.RightClickBoolean.Get("MenuIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.RightControl))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("MenuDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("MenuDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.RightControl))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("MenuUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("MenuUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion MENU
@@ -479,36 +486,36 @@ namespace VRSF.Inputs
 
             //L
             #region A BUTTON
-            temp = vrInputCapture.InputContainer.RightClickBoolean.Get("AButtonIsDown");
+            temp = _inputContainer.RightClickBoolean.Get("AButtonIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.L))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("AButtonDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("AButtonDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.L))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("AButtonUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("AButtonUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion A BUTTON
 
             //O
             #region B BUTTON
-            temp = vrInputCapture.InputContainer.RightClickBoolean.Get("BButtonIsDown");
+            temp = _inputContainer.RightClickBoolean.Get("BButtonIsDown");
 
             if (!temp.Value && Input.GetKeyDown(KeyCode.O))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("BButtonDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("BButtonDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.O))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)vrInputCapture.InputContainer.RightClickEvents.Get("BButtonUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("BButtonUp");
                 vrInputCapture.TempEvent.Raise();
             }
             #endregion B BUTTON
@@ -522,22 +529,22 @@ namespace VRSF.Inputs
         void CheckGazeInputs(VRInputCaptureComponent vrInputCapture)
         {
             // If the gaze boolVariable is at false but the gaze button is clicking
-            if (!vrInputCapture.InputContainer.GazeIsCliking.Value && 
-                Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[vrInputCapture.GazeParameters.GazeButtonSimulator]))
+            if (!_inputContainer.GazeIsCliking.Value && 
+                Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[_gazeParameters.GazeButtonSimulator]))
             {
-                vrInputCapture.InputContainer.GazeIsCliking.SetValue(true);
-                vrInputCapture.InputContainer.GazeIsTouching.SetValue(true);
-                vrInputCapture.InputContainer.GazeClickDown.Raise();
-                vrInputCapture.InputContainer.GazeStartTouching.Raise();
+                _inputContainer.GazeIsCliking.SetValue(true);
+                _inputContainer.GazeIsTouching.SetValue(true);
+                _inputContainer.GazeClickDown.Raise();
+                _inputContainer.GazeStartTouching.Raise();
             }
             // If the gaze boolVariable is at true but the gaze button is not clicking
-            else if (vrInputCapture.InputContainer.GazeIsCliking.Value && 
-                Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[vrInputCapture.GazeParameters.GazeButtonSimulator]))
+            else if (_inputContainer.GazeIsCliking.Value && 
+                Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[_gazeParameters.GazeButtonSimulator]))
             {
-                vrInputCapture.InputContainer.GazeIsCliking.SetValue(false);
-                vrInputCapture.InputContainer.GazeIsTouching.SetValue(false);
-                vrInputCapture.InputContainer.GazeClickUp.Raise();
-                vrInputCapture.InputContainer.GazeStopTouching.Raise();
+                _inputContainer.GazeIsCliking.SetValue(false);
+                _inputContainer.GazeIsTouching.SetValue(false);
+                _inputContainer.GazeClickUp.Raise();
+                _inputContainer.GazeStopTouching.Raise();
             }
         }
 
@@ -567,7 +574,7 @@ namespace VRSF.Inputs
         /// </summary>
         private void CheckGazeClickButton(VRInputCaptureComponent vrInputCapture)
         {
-            if (vrInputCapture.GazeParameters.GazeButtonSimulator == EControllersInput.NONE)
+            if (_gazeParameters.GazeButtonSimulator == EControllersInput.NONE)
             {
                 vrInputCapture.CheckGazeInteractions = false;
             }

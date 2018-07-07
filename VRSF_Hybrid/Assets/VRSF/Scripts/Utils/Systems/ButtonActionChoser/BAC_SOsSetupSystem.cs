@@ -23,14 +23,18 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
         #region PRIVATE_VARIBALES
         private ButtonActionChoserComponents _currentComp;
+
+        private InputVariableContainer _inputsContainer;
         #endregion PRIVATE_VARIABLES
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+
+            _inputsContainer = InputVariableContainer.Instance;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -39,13 +43,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 // We init the Scriptable Objects References
                 InitGelAndGe();
 
-                if (!_currentComp.ActionButtonIsReady)
+                if (_currentComp.ActionButtonIsReady)
                 {
-                    _currentComp.StartCoroutine(WaitForActionButton());
+                    CheckInitSOs();
                 }
                 else
                 {
-                    CheckInitSOs();
+                    _currentComp.StartCoroutine(WaitForActionButton());
                 }
             }
             
@@ -56,6 +60,21 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
 
         #region PRIVATE_METHODS
+        /// <summary>
+        /// Check that the Initialization of the ScriptableObjects are done properly.
+        /// </summary>
+        private void CheckInitSOs()
+        {
+            // We init the Scriptable Object references and how they work
+            if (!InitSOsReferences())
+            {
+                Debug.LogError("VRSF : An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
+                    "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                _currentComp.CanBeUsed = false;
+            }
+        }
+
+
         /// <summary>
         /// Instantiate and set the GameEventListeners and BoolVariable
         /// </summary>
@@ -114,9 +133,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 {
                     return false;
                 }
-                _currentComp.GeDown = _currentComp.InputsContainer.WheelClickDown;
-                _currentComp.GeUp = _currentComp.InputsContainer.WheelClickUp;
-                _currentComp.IsClicking = _currentComp.InputsContainer.WheelIsClicking;
+                _currentComp.GeDown = _inputsContainer.WheelClickDown;
+                _currentComp.GeUp = _inputsContainer.WheelClickUp;
+                _currentComp.IsClicking = _inputsContainer.WheelIsClicking;
                 return true;
             }
             else
@@ -138,15 +157,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
             if ((_currentComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentComp.GeDown = _currentComp.InputsContainer.GazeClickDown;
-                _currentComp.GeUp = _currentComp.InputsContainer.GazeClickUp;
-                _currentComp.IsClicking = _currentComp.InputsContainer.GazeIsCliking;
+                _currentComp.GeDown = _inputsContainer.GazeClickDown;
+                _currentComp.GeUp = _inputsContainer.GazeClickUp;
+                _currentComp.IsClicking = _inputsContainer.GazeIsCliking;
             }
             if ((_currentComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentComp.GeTouched = _currentComp.InputsContainer.GazeStartTouching;
-                _currentComp.GeUntouched = _currentComp.InputsContainer.GazeStopTouching;
-                _currentComp.IsTouching = _currentComp.InputsContainer.GazeIsTouching;
+                _currentComp.GeTouched = _inputsContainer.GazeStartTouching;
+                _currentComp.GeUntouched = _inputsContainer.GazeStopTouching;
+                _currentComp.IsTouching = _inputsContainer.GazeIsTouching;
             }
             return true;
         }
@@ -172,14 +191,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 switch (_currentComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        _currentComp.GeDown = _currentComp.InputsContainer.RightClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.GeUp = _currentComp.InputsContainer.RightClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.IsClicking = _currentComp.InputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeDown = _inputsContainer.RightClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUp = _inputsContainer.RightClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsClicking = _inputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        _currentComp.GeDown = _currentComp.InputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.GeUp = _currentComp.InputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.IsClicking = _currentComp.InputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeDown = _inputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUp = _inputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsClicking = _inputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -193,14 +212,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 switch (_currentComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        _currentComp.GeTouched = _currentComp.InputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.GeUntouched = _currentComp.InputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.IsTouching = _currentComp.InputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeTouched = _inputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUntouched = _inputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsTouching = _inputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        _currentComp.GeTouched = _currentComp.InputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.GeUntouched = _currentComp.InputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp.IsTouching = _currentComp.InputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeTouched = _inputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUntouched = _inputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsTouching = _inputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -403,23 +422,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
         }
 
-
+        /// <summary>
+        /// As some values are initialized in other Systems, we just want to be sure that everything is setup before checking the Scriptable Objects.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator WaitForActionButton()
         {
-            yield return new WaitForEndOfFrame();
-            CheckInitSOs();
-        }
-
-
-        private void CheckInitSOs()
-        {
-            // We init the Scriptable Object references and how they work
-            if (!InitSOsReferences())
+            while (!_currentComp.ActionButtonIsReady)
             {
-                Debug.LogError("VRSF : An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
-                    "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                _currentComp.CanBeUsed = false;
+                yield return new WaitForEndOfFrame();
             }
+            CheckInitSOs();
         }
         #endregion
     }

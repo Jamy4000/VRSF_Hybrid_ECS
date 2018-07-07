@@ -19,13 +19,19 @@ namespace VRSF.Utils.Systems
             public SetupVRComponents SetupVR;
         }
 
+        private ControllersParametersVariable _controllersParameters;
+
+
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
+            _controllersParameters = ControllersParametersVariable.Instance;
+
             foreach (var entity in GetEntities<Filter>())
             {
-                entity.SetupVR.ControllersParameters = ControllersParametersVariable.Instance;
                 SetupVRInScene(entity.SetupVR);
             }
         }
@@ -73,7 +79,7 @@ namespace VRSF.Utils.Systems
                 return;
 
             // If the user is not using the controllers and we cannot disable them
-            if (!setupVR.ControllersParameters.UseControllers && !DisableControllers())
+            if (!_controllersParameters.UseControllers && !DisableControllers())
                 return;
 
             // We set the references to the VRCamera
@@ -84,7 +90,7 @@ namespace VRSF.Utils.Systems
             VRSF_Components.SetupTransformFromContainer(setupVR.CameraRigScripts, ref VRSF_Components.CameraRig);
             VRSF_Components.SetupTransformFromContainer(setupVR.VRCameraScripts, ref VRSF_Components.VRCamera);
 
-            if (setupVR.ControllersParameters.UseControllers)
+            if (_controllersParameters.UseControllers)
             {
                 VRSF_Components.SetupTransformFromContainer(setupVR.LeftControllerScripts, ref VRSF_Components.LeftController);
                 VRSF_Components.SetupTransformFromContainer(setupVR.RightControllerScripts, ref VRSF_Components.RightController);

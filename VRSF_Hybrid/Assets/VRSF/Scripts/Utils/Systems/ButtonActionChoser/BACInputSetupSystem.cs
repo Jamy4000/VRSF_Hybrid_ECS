@@ -4,7 +4,6 @@ using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs;
-using VRSF.Interactions;
 using VRSF.Utils.Components;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
@@ -21,6 +20,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
         #region PRIVATE_VARIBALES
         private ButtonActionChoserComponents _currentComp;
+
+        private GazeParametersVariable _gazeParameters;
+        private ControllersParametersVariable _controllersParameters;
+        private InputVariableContainer _inputsContainer;
         #endregion PRIVATE_VARIABLES
 
 
@@ -30,17 +33,19 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             base.OnStartRunning();
 
+            _gazeParameters = GazeParametersVariable.Instance;
+            _controllersParameters = ControllersParametersVariable.Instance;
+            _inputsContainer = InputVariableContainer.Instance;
+
             foreach (var entity in GetEntities<Filter>())
             {
                 _currentComp = entity.ButtonComponents;
-
-                InitScriptableSingletons();
                 
                 // We check on which hand is set the Action Button selected
                 CheckButtonHand();
 
                 // We check that all the parameters are set correctly
-                if (!CheckParameters())
+                if (_currentComp.ParametersAreInvalid || !CheckParameters())
                 {
                     Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                         "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
@@ -55,15 +60,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
 
         #region PRIVATES_METHODS
-        private void InitScriptableSingletons()
-        {
-            _currentComp.ControllersParameters = ControllersParametersVariable.Instance;
-            _currentComp.GazeParameters = GazeParametersVariable.Instance;
-            _currentComp.InputsContainer = InputVariableContainer.Instance;
-            _currentComp.InteractionsContainer = InteractionVariableContainer.Instance;
-        }
-
-
         /// <summary>
         /// We check which hand correspond to the Action Button that was choosen
         /// </summary>
@@ -72,7 +68,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             EControllersInput gazeClick = GetGazeClick();
 
             // If we use the Gaze Button but the Controllers are inactive
-            if (_currentComp.UseGazeButton && !_currentComp.ControllersParameters.UseControllers)
+            if (_currentComp.UseGazeButton && !_controllersParameters.UseControllers)
             {
                 _currentComp.CanBeUsed = false;
                 throw new Exception("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
@@ -138,11 +134,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             switch (VRSF_Components.DeviceLoaded)
             {
                 case EDevice.OPENVR:
-                    return _currentComp.GazeParameters.GazeButtonOpenVR;
+                    return _gazeParameters.GazeButtonOpenVR;
                 case EDevice.OVR:
-                    return _currentComp.GazeParameters.GazeButtonOVR;
+                    return _gazeParameters.GazeButtonOVR;
                 default:
-                    return _currentComp.GazeParameters.GazeButtonSimulator;
+                    return _gazeParameters.GazeButtonSimulator;
             }
         }
 
@@ -191,7 +187,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     return false;
                 }
 
-                _currentComp.ThumbPos = _currentComp.InputsContainer.LeftThumbPosition;
+                _currentComp.ThumbPos = _inputsContainer.LeftThumbPosition;
             }
             else if (_currentComp.ActionButton == EControllersInput.RIGHT_THUMBSTICK)
             {
@@ -202,7 +198,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     return false;
                 }
 
-                _currentComp.ThumbPos = _currentComp.InputsContainer.RightThumbPosition;
+                _currentComp.ThumbPos = _inputsContainer.RightThumbPosition;
             }
 
             _currentComp.ActionButtonIsReady = true;

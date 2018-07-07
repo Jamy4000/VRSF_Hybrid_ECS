@@ -18,30 +18,38 @@ namespace VRSF.Interactions.Systems
             public OnColliderClickComponents OnClickComp;
         }
 
+        #region PRIVATE_VARIABLES
+        [Tooltip("The Gaze Parameters as ScriptableSingletons")]
+        private GazeParametersVariable _gazeParameters;
+
+        [Tooltip("The Interactions and Input Container, as ScriptableSingletons, for the VRSF Scriptable Objects")]
+        private InputVariableContainer _inputsContainer;
+        private InteractionVariableContainer _interactionsContainer;
+        #endregion
+
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
+            
+            _gazeParameters = GazeParametersVariable.Instance;
+            _inputsContainer = InputVariableContainer.Instance;
+            _interactionsContainer = InteractionVariableContainer.Instance;
+            
             foreach (var entity in GetEntities<Filter>())
             {
-                 entity.OnClickComp.ControllersParameters = ControllersParametersVariable.Instance;
-                 entity.OnClickComp.GazeParameters = GazeParametersVariable.Instance;
-                 entity.OnClickComp.InputsContainer = InputVariableContainer.Instance;
-                 entity.OnClickComp.InteractionsContainer = InteractionVariableContainer.Instance;
-
-                 entity.OnClickComp.LeftClickBool =  entity.OnClickComp.InputsContainer.LeftClickBoolean.Get("TriggerIsDown");
-                 entity.OnClickComp.RightClickBool =  entity.OnClickComp.InputsContainer.RightClickBoolean.Get("TriggerIsDown");
+                 entity.OnClickComp.LeftClickBool = _inputsContainer.LeftClickBoolean.Get("TriggerIsDown");
+                 entity.OnClickComp.RightClickBool = _inputsContainer.RightClickBoolean.Get("TriggerIsDown");
 
                 // Set to true to avoid error on the first frame.
-                 entity.OnClickComp.InteractionsContainer.RightHit.isNull = true;
-                 entity.OnClickComp.InteractionsContainer.LeftHit.isNull = true;
-                 entity.OnClickComp.InteractionsContainer.GazeHit.isNull = true;
+                _interactionsContainer.RightHit.isNull = true;
+                _interactionsContainer.LeftHit.isNull = true;
+                _interactionsContainer.GazeHit.isNull = true;
 
                 // As we cannot click without controllers, we disable this script if we don't use them
-                entity.OnClickComp.CheckRaycast = entity.OnClickComp.ControllersParameters.UseControllers;
+                entity.OnClickComp.CheckRaycast = ControllersParametersVariable.Instance.UseControllers;
             }
         }
 
@@ -74,16 +82,14 @@ namespace VRSF.Interactions.Systems
         /// </summary>
         void CheckResetClick(OnColliderClickComponents onClickComp)
         {
-            var interactions = onClickComp.InteractionsContainer;
+            if (!onClickComp.RightClickBool.Value && _interactionsContainer.HasClickSomethingRight.Value)
+                _interactionsContainer.HasClickSomethingRight.SetValue(false);
 
-            if (!onClickComp.RightClickBool.Value && interactions.HasClickSomethingRight.Value)
-                interactions.HasClickSomethingRight.SetValue(false);
+            if (!onClickComp.LeftClickBool.Value && _interactionsContainer.HasClickSomethingLeft.Value)
+                _interactionsContainer.HasClickSomethingLeft.SetValue(false);
 
-            if (!onClickComp.LeftClickBool.Value && interactions.HasClickSomethingLeft.Value)
-                interactions.HasClickSomethingLeft.SetValue(false);
-
-            if (onClickComp.GazeParameters.UseGaze && !onClickComp.InputsContainer.GazeIsCliking.Value && interactions.HasClickSomethingGaze.Value)
-                interactions.HasClickSomethingGaze.SetValue(false);
+            if (_gazeParameters.UseGaze && !_inputsContainer.GazeIsCliking.Value && _interactionsContainer.HasClickSomethingGaze.Value)
+                _interactionsContainer.HasClickSomethingGaze.SetValue(false);
         }
 
         /// <summary>
@@ -91,16 +97,14 @@ namespace VRSF.Interactions.Systems
         /// </summary>
         void CheckClick(OnColliderClickComponents onClickComp)
         {
-            var interactions = onClickComp.InteractionsContainer;
+            if (onClickComp.RightClickBool.Value && !_interactionsContainer.HasClickSomethingRight.Value)
+                HandleClick(_interactionsContainer.RightHit, _interactionsContainer.HasClickSomethingRight, _interactionsContainer.RightObjectWasClicked);
 
-            if (onClickComp.RightClickBool.Value && !interactions.HasClickSomethingRight.Value)
-                HandleClick(interactions.RightHit, interactions.HasClickSomethingRight, interactions.RightObjectWasClicked);
+            if (onClickComp.LeftClickBool.Value && !_interactionsContainer.HasClickSomethingLeft.Value)
+                HandleClick(_interactionsContainer.LeftHit, _interactionsContainer.HasClickSomethingLeft, _interactionsContainer.LeftObjectWasClicked);
 
-            if (onClickComp.LeftClickBool.Value && !interactions.HasClickSomethingLeft.Value)
-                HandleClick(interactions.LeftHit, interactions.HasClickSomethingLeft, interactions.LeftObjectWasClicked);
-
-            if (onClickComp.GazeParameters.UseGaze && onClickComp.InputsContainer.GazeIsCliking.Value && !interactions.HasClickSomethingGaze.Value)
-                HandleClick(interactions.GazeHit, interactions.HasClickSomethingGaze, interactions.GazeObjectWasClicked);
+            if (_gazeParameters.UseGaze && _inputsContainer.GazeIsCliking.Value && !_interactionsContainer.HasClickSomethingGaze.Value)
+                HandleClick(_interactionsContainer.GazeHit, _interactionsContainer.HasClickSomethingGaze, _interactionsContainer.GazeObjectWasClicked);
         }
 
         /// <summary>

@@ -4,9 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Controllers;
-using VRSF.Gaze;
 using VRSF.Inputs;
-using VRSF.Interactions;
 
 namespace VRSF.Utils.Components
 {
@@ -59,14 +57,8 @@ namespace VRSF.Utils.Components
 
         [HideInInspector] public bool SOsAreReady = false;
         [HideInInspector] public bool ActionButtonIsReady = false;
-
+        [HideInInspector] public bool ParametersAreInvalid = false;
         [HideInInspector] public bool CanBeUsed = true;
-
-        // VRSF Parameters references
-        [HideInInspector] public GazeParametersVariable GazeParameters;
-        [HideInInspector] public ControllersParametersVariable ControllersParameters;
-        [HideInInspector] public InputVariableContainer InputsContainer;
-        [HideInInspector] public InteractionVariableContainer InteractionsContainer;
 
         // The RaycastHitVariable and Ray to check for this feature
         [HideInInspector] public RaycastHitVariable HitVar;

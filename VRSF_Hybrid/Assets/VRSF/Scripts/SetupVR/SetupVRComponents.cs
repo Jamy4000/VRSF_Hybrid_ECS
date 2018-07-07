@@ -1,6 +1,5 @@
 ﻿using ScriptableFramework.Events;
 using UnityEngine;
-using VRSF.Controllers;
 
 namespace VRSF.Utils.Components
 {
@@ -49,7 +48,5 @@ namespace VRSF.Utils.Components
         [HideInInspector] public bool SDKHasBeenInstantiated;
         [HideInInspector] public bool Loaded;
         [HideInInspector] public bool IsReady;
-        
-        [HideInInspector] public ControllersParametersVariable ControllersParameters;     // The Controllers Parameters
     }
 }

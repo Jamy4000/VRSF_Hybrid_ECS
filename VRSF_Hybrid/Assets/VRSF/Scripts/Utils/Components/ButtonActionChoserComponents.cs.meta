@@ -3,7 +3,25 @@ guid: 90d8922b657dd054db03af7807bf0529
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - GazeParameters: {instanceID: 0}
+  - ControllersParameters: {instanceID: 0}
+  - InputsContainer: {instanceID: 0}
+  - InteractionsContainer: {instanceID: 0}
+  - HitVar: {instanceID: 0}
+  - RayVar: {instanceID: 0}
+  - ThumbPos: {instanceID: 0}
+  - GeDown: {instanceID: 0}
+  - GeUp: {instanceID: 0}
+  - GeTouched: {instanceID: 0}
+  - GeUntouched: {instanceID: 0}
+  - GelDown: {instanceID: 0}
+  - GelUp: {instanceID: 0}
+  - GelTouched: {instanceID: 0}
+  - GelUntouched: {instanceID: 0}
+  - IsTouching: {instanceID: 0}
+  - IsClicking: {instanceID: 0}
+  - GameEventsContainer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
