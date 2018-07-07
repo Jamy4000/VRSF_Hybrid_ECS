@@ -4,7 +4,7 @@ using VRSF.Utils.Components;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
-    public class ButtonActionChoserSystem : ComponentSystem
+    public class BACUpdateSystem : ComponentSystem
     {
         struct Filter
         {
@@ -22,19 +22,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ButtonComponents.CanBeUsed)
+                _currentComp = e.ButtonComponents;
+
+                // If we use the touch event and the user is touching on the button
+                if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
                 {
-                    _currentComp = e.ButtonComponents;
-                    // If we use the touch event and the user is touching on the button
-                    if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
-                    {
-                        StartActionIsTouching();
-                    }
-                    // If we use the click event and the user is clicking on the button
-                    if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value && !e.ButtonComponents.UnclickEventWasRaised)
-                    {
-                        StartActionIsClicking();
-                    }
+                    StartActionIsTouching();
+                }
+                // If we use the click event and the user is clicking on the button
+                if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value && !e.ButtonComponents.UnclickEventWasRaised)
+                {
+                    StartActionIsClicking();
                 }
             }
         }

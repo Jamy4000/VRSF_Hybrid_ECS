@@ -56,8 +56,9 @@ namespace VRSF.Utils.Components
         [HideInInspector] [SerializeField] public UnityEvent OnButtonStartClicking;
         [HideInInspector] [SerializeField] public UnityEvent OnButtonStopClicking;
         [HideInInspector] [SerializeField] public UnityEvent OnButtonIsClicking;
-        
-        [HideInInspector] public bool ParametersAreInvalid = false;
+
+        [HideInInspector] public bool SOsAreReady = false;
+        [HideInInspector] public bool ActionButtonIsReady = false;
 
         [HideInInspector] public bool CanBeUsed = true;
 
