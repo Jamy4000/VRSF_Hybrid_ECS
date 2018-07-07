@@ -149,7 +149,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
 
             //We create the container for the GameEventListeners
-            _currentComp.gameEventsContainer = CreateGEContainer();
+            _currentComp.GameEventsContainer = CreateGEContainer();
 
             // We add the GameEventListeners to the GameEventContainer, set the events and response for the listeners, 
             // and register the listeners in the GameEvent
@@ -170,15 +170,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             _currentComp.InputsContainer = InputVariableContainer.Instance;
             _currentComp.InteractionsContainer = InteractionVariableContainer.Instance;
 
-            _currentComp._geDown = null;
-            _currentComp._geUp = null;
-            _currentComp._geTouched = null;
-            _currentComp._geUntouched = null;
+            _currentComp.GeDown = null;
+            _currentComp.GeUp = null;
+            _currentComp.GeTouched = null;
+            _currentComp.GeUntouched = null;
 
-            _currentComp._gelDown = null;
-            _currentComp._gelUp = null;
-            _currentComp._gelTouched = null;
-            _currentComp._gelUntouched = null;
+            _currentComp.GelDown = null;
+            _currentComp.GelUp = null;
+            _currentComp.GelTouched = null;
+            _currentComp.GelUntouched = null;
         }
 
 
@@ -208,7 +208,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             // if the Action Button is set to the Wheel Button (SIMULATOR SPECIFIC)
             else if (_currentComp.ActionButton == EControllersInput.WHEEL_BUTTON)
             {
-                _currentComp._isUsingWheelButton = true;
+                _currentComp.IsUsingWheelButton = true;
             }
 
             // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
@@ -216,33 +216,33 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                      _currentComp.ActionButton == EControllersInput.B_BUTTON || 
                      _currentComp.ActionButton == EControllersInput.RIGHT_THUMBREST)
             {
-                _currentComp._isUsingOculusButton = true;
-                _currentComp._buttonHand = EHand.RIGHT;
+                _currentComp.IsUsingOculusButton = true;
+                _currentComp.ButtonHand = EHand.RIGHT;
             }
             // if the Action Button is set to the X, Y or Left Thumbrest option (OCULUS SPECIFIC)
             else if (_currentComp.ActionButton == EControllersInput.X_BUTTON ||
                      _currentComp.ActionButton == EControllersInput.Y_BUTTON ||
                      _currentComp.ActionButton == EControllersInput.LEFT_THUMBREST)
             {
-                _currentComp._isUsingOculusButton = true;
-                _currentComp._buttonHand = EHand.LEFT;
+                _currentComp.IsUsingOculusButton = true;
+                _currentComp.ButtonHand = EHand.LEFT;
             }
 
             // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
             else if (_currentComp.ActionButton == EControllersInput.RIGHT_MENU)
             {
-                _currentComp._isUsingViveButton = true;
-                _currentComp._buttonHand = EHand.RIGHT;
+                _currentComp.IsUsingViveButton = true;
+                _currentComp.ButtonHand = EHand.RIGHT;
             }
 
             // If non of the previous solution was chosen, we just check if the button is on the right or left controller
             else if (_currentComp.ActionButton.ToString().Contains("RIGHT"))
             {
-                _currentComp._buttonHand = EHand.RIGHT;
+                _currentComp.ButtonHand = EHand.RIGHT;
             }
             else if (_currentComp.ActionButton.ToString().Contains("LEFT"))
             {
-                _currentComp._buttonHand = EHand.LEFT;
+                _currentComp.ButtonHand = EHand.LEFT;
             }
         }
 
@@ -309,7 +309,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     return false;
                 }
 
-                _currentComp._thumbPos = _currentComp.InputsContainer.LeftThumbPosition;
+                _currentComp.ThumbPos = _currentComp.InputsContainer.LeftThumbPosition;
             }
             else if (_currentComp.ActionButton == EControllersInput.RIGHT_THUMBSTICK)
             {
@@ -320,7 +320,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     return false;
                 }
 
-                _currentComp._thumbPos = _currentComp.InputsContainer.RightThumbPosition;
+                _currentComp.ThumbPos = _currentComp.InputsContainer.RightThumbPosition;
             }
 
             return true;
@@ -334,21 +334,21 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         private bool CheckActionButton()
         {
             // If we are using an Oculus Touch Specific Button but the device loaded is not the Oculus
-            if (_currentComp._isUsingOculusButton && (VRSF_Components.DeviceLoaded != EDevice.OVR && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR))
+            if (_currentComp.IsUsingOculusButton && (VRSF_Components.DeviceLoaded != EDevice.OVR && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR))
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Oculus. Disabling the script.");
                 return false;
             }
             // If we are using an OpenVR Specific Button but the device loaded is not the OpenVR
-            else if (_currentComp._isUsingViveButton && (VRSF_Components.DeviceLoaded != EDevice.OPENVR && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR))
+            else if (_currentComp.IsUsingViveButton && (VRSF_Components.DeviceLoaded != EDevice.OPENVR && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR))
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Vive. Disabling the script.");
                 return false;
             }
             // If we are using a Simulator Specific Button but the device loaded is not the Simulator
-            else if (_currentComp._isUsingWheelButton && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
+            else if (_currentComp.IsUsingWheelButton && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Simulator. Disabling the script.");
@@ -373,15 +373,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 return SetupGazeInteraction();
             }
             // If we use the Mouse Wheel Button
-            else if (_currentComp._isUsingWheelButton)
+            else if (_currentComp.IsUsingWheelButton)
             {
                 if (_currentComp.InteractionType == EControllerInteractionType.NONE || _currentComp.InteractionType == EControllerInteractionType.TOUCH)
                 {
                     return false;
                 }
-                _currentComp._geDown = _currentComp.InputsContainer.WheelClickDown;
-                _currentComp._geUp = _currentComp.InputsContainer.WheelClickUp;
-                _currentComp._isClicking = _currentComp.InputsContainer.WheelIsClicking;
+                _currentComp.GeDown = _currentComp.InputsContainer.WheelClickDown;
+                _currentComp.GeUp = _currentComp.InputsContainer.WheelClickUp;
+                _currentComp.IsClicking = _currentComp.InputsContainer.WheelIsClicking;
                 return true;
             }
             else
@@ -403,15 +403,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
             if ((_currentComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentComp._geDown = _currentComp.InputsContainer.GazeClickDown;
-                _currentComp._geUp = _currentComp.InputsContainer.GazeClickUp;
-                _currentComp._isClicking = _currentComp.InputsContainer.GazeIsCliking;
+                _currentComp.GeDown = _currentComp.InputsContainer.GazeClickDown;
+                _currentComp.GeUp = _currentComp.InputsContainer.GazeClickUp;
+                _currentComp.IsClicking = _currentComp.InputsContainer.GazeIsCliking;
             }
             if ((_currentComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentComp._geTouched = _currentComp.InputsContainer.GazeStartTouching;
-                _currentComp._geUntouched = _currentComp.InputsContainer.GazeStopTouching;
-                _currentComp._isTouching = _currentComp.InputsContainer.GazeIsTouching;
+                _currentComp.GeTouched = _currentComp.InputsContainer.GazeStartTouching;
+                _currentComp.GeUntouched = _currentComp.InputsContainer.GazeStopTouching;
+                _currentComp.IsTouching = _currentComp.InputsContainer.GazeIsTouching;
             }
             return true;
         }
@@ -434,17 +434,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             // If the Interaction Type contains at least CLICK
             if ((_currentComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                switch (_currentComp._buttonHand)
+                switch (_currentComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        _currentComp._geDown = _currentComp.InputsContainer.RightClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._geUp = _currentComp.InputsContainer.RightClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._isClicking = _currentComp.InputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeDown = _currentComp.InputsContainer.RightClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUp = _currentComp.InputsContainer.RightClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsClicking = _currentComp.InputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        _currentComp._geDown = _currentComp.InputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._geUp = _currentComp.InputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._isClicking = _currentComp.InputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeDown = _currentComp.InputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUp = _currentComp.InputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsClicking = _currentComp.InputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(_currentComp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -455,17 +455,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if ((_currentComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 // Handle Touch events
-                switch (_currentComp._buttonHand)
+                switch (_currentComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        _currentComp._geTouched = _currentComp.InputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._geUntouched = _currentComp.InputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._isTouching = _currentComp.InputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeTouched = _currentComp.InputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUntouched = _currentComp.InputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsTouching = _currentComp.InputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        _currentComp._geTouched = _currentComp.InputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._geUntouched = _currentComp.InputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
-                        _currentComp._isTouching = _currentComp.InputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
+                        _currentComp.GeTouched = _currentComp.InputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.GeUntouched = _currentComp.InputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(_currentComp.ActionButton)] as GameEvent;
+                        _currentComp.IsTouching = _currentComp.InputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(_currentComp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -485,23 +485,23 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             yield return new WaitForEndOfFrame();
 
             // CLICK
-            if (_currentComp._geDown != null)
+            if (_currentComp.GeDown != null)
             {
-                _currentComp._gelDown = _currentComp.gameEventsContainer.AddComponent<GameEventListener>();
-                SetupGEListener(_currentComp._gelDown, _currentComp._geDown, StartActionDown);
+                _currentComp.GelDown = _currentComp.GameEventsContainer.AddComponent<GameEventListener>();
+                SetupGEListener(_currentComp.GelDown, _currentComp.GeDown, StartActionDown);
 
-                _currentComp._gelUp = _currentComp.gameEventsContainer.AddComponent<GameEventListener>();
-                SetupGEListener(_currentComp._gelUp, _currentComp._geUp, StartActionUp);
+                _currentComp.GelUp = _currentComp.GameEventsContainer.AddComponent<GameEventListener>();
+                SetupGEListener(_currentComp.GelUp, _currentComp.GeUp, StartActionUp);
             }
 
             // TOUCH
-            if (_currentComp._geTouched != null)
+            if (_currentComp.GeTouched != null)
             {
-                _currentComp._gelTouched = _currentComp.gameEventsContainer.AddComponent<GameEventListener>();
-                SetupGEListener(_currentComp._gelTouched, _currentComp._geTouched, StartActionTouched);
+                _currentComp.GelTouched = _currentComp.GameEventsContainer.AddComponent<GameEventListener>();
+                SetupGEListener(_currentComp.GelTouched, _currentComp.GeTouched, StartActionTouched);
 
-                _currentComp._gelUntouched = _currentComp.gameEventsContainer.AddComponent<GameEventListener>();
-                SetupGEListener(_currentComp._gelUntouched, _currentComp._geUntouched, StartActionUntouched);
+                _currentComp.GelUntouched = _currentComp.GameEventsContainer.AddComponent<GameEventListener>();
+                SetupGEListener(_currentComp.GelUntouched, _currentComp.GeUntouched, StartActionUntouched);
             }
         }
 
@@ -554,11 +554,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 if (t.name.Contains("_GameEvent_Listeners"))
                 {
-                    _currentComp.gameEventsContainer = t.gameObject;
+                    _currentComp.GameEventsContainer = t.gameObject;
                     break;
                 }
             }
-            if (_currentComp.gameEventsContainer == null)
+            if (_currentComp.GameEventsContainer == null)
             {
                 throw new Exception("VRSF : The gameEventsContainer couldn't be found");
             }
@@ -573,17 +573,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (_currentComp.CanBeUsed)
             {
                 // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-                if (_currentComp._thumbPos != null && _currentComp.ClickThreshold > 0.0f)
+                if (_currentComp.ThumbPos != null && _currentComp.ClickThreshold > 0.0f)
                 {
-                    _currentComp._unclickEventWasRaised = false;
+                    _currentComp.UnclickEventWasRaised = false;
 
-                    switch (_currentComp._buttonHand)
+                    switch (_currentComp.ButtonHand)
                     {
                         case EHand.RIGHT:
-                            HandleThumbPosition.CheckThumbPosition(_currentComp.RightClickThumbPosition, _currentComp.OnButtonStartClicking, _currentComp.ClickThreshold, _currentComp._thumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(_currentComp.RightClickThumbPosition, _currentComp.OnButtonStartClicking, _currentComp.ClickThreshold, _currentComp.ThumbPos.Value);
                             break;
                         case EHand.LEFT:
-                            HandleThumbPosition.CheckThumbPosition(_currentComp.LeftClickThumbPosition, _currentComp.OnButtonStartClicking, _currentComp.ClickThreshold, _currentComp._thumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(_currentComp.LeftClickThumbPosition, _currentComp.OnButtonStartClicking, _currentComp.ClickThreshold, _currentComp.ThumbPos.Value);
                             break;
                     }
                 }
@@ -603,15 +603,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (_currentComp.CanBeUsed)
             {
                 // If we don't use the Thumb
-                if (_currentComp._thumbPos == null)
+                if (_currentComp.ThumbPos == null)
                     _currentComp.OnButtonStopClicking.Invoke();
 
                 // If we use the Thumb and the click action is beyond the threshold
-                else if (_currentComp._thumbPos != null && _currentComp._clickActionBeyondThreshold)
+                else if (_currentComp.ThumbPos != null && _currentComp.ClickActionBeyondThreshold)
                     _currentComp.OnButtonStopClicking.Invoke();
 
                 // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (_currentComp._thumbPos != null && _currentComp.ClickThreshold == 0.0f)
+                else if (_currentComp.ThumbPos != null && _currentComp.ClickThreshold == 0.0f)
                     _currentComp.OnButtonStopClicking.Invoke();
             }
         }
@@ -625,17 +625,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (_currentComp.CanBeUsed)
             {
                 // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-                if (_currentComp._thumbPos != null && _currentComp.TouchThreshold > 0.0f)
+                if (_currentComp.ThumbPos != null && _currentComp.TouchThreshold > 0.0f)
                 {
-                    _currentComp._untouchedEventWasRaised = false;
+                    _currentComp.UntouchedEventWasRaised = false;
 
-                    switch (_currentComp._buttonHand)
+                    switch (_currentComp.ButtonHand)
                     {
                         case EHand.RIGHT:
-                            HandleThumbPosition.CheckThumbPosition(_currentComp.RightTouchThumbPosition, _currentComp.OnButtonStartTouching, _currentComp.TouchThreshold, _currentComp._thumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(_currentComp.RightTouchThumbPosition, _currentComp.OnButtonStartTouching, _currentComp.TouchThreshold, _currentComp.ThumbPos.Value);
                             break;
                         case EHand.LEFT:
-                            HandleThumbPosition.CheckThumbPosition(_currentComp.LeftTouchThumbPosition, _currentComp.OnButtonStartTouching, _currentComp.TouchThreshold, _currentComp._thumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(_currentComp.LeftTouchThumbPosition, _currentComp.OnButtonStartTouching, _currentComp.TouchThreshold, _currentComp.ThumbPos.Value);
                             break;
                     }
                 }
@@ -655,15 +655,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (_currentComp.CanBeUsed)
             {
                 // If we don't use the Thumb
-                if (_currentComp._thumbPos == null)
+                if (_currentComp.ThumbPos == null)
                     _currentComp.OnButtonStopTouching.Invoke();
 
                 // If we use the Thumb and the click action is beyond the threshold
-                else if (_currentComp._thumbPos != null && _currentComp._touchActionBeyondThreshold)
+                else if (_currentComp.ThumbPos != null && _currentComp.TouchActionBeyondThreshold)
                     _currentComp.OnButtonStopTouching.Invoke();
 
                 // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (_currentComp._thumbPos != null && _currentComp.TouchThreshold == 0.0f)
+                else if (_currentComp.ThumbPos != null && _currentComp.TouchThreshold == 0.0f)
                     _currentComp.OnButtonStopTouching.Invoke();
             }
         }

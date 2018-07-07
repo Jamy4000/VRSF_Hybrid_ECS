@@ -72,39 +72,39 @@ namespace VRSF.Utils.Components
         [HideInInspector] public RayVariable RayVar;
 
         // The hand on which the button to use is situated
-        [HideInInspector] public EHand _buttonHand = EHand.NONE;
+        [HideInInspector] public EHand ButtonHand = EHand.NONE;
 
         // To keep track of the event that were raised, used for the features that use the Thumbstick
-        [HideInInspector] public bool _clickActionBeyondThreshold;
-        [HideInInspector] public bool _touchActionBeyondThreshold;
-        [HideInInspector] public bool _untouchedEventWasRaised;
-        [HideInInspector] public bool _unclickEventWasRaised;
+        [HideInInspector] public bool ClickActionBeyondThreshold;
+        [HideInInspector] public bool TouchActionBeyondThreshold;
+        [HideInInspector] public bool UntouchedEventWasRaised;
+        [HideInInspector] public bool UnclickEventWasRaised;
 
         // For SDKs Specific ActionButton 
-        [HideInInspector] public bool _isUsingOculusButton;
-        [HideInInspector] public bool _isUsingViveButton;
-        [HideInInspector] public bool _isUsingWheelButton;
+        [HideInInspector] public bool IsUsingOculusButton;
+        [HideInInspector] public bool IsUsingViveButton;
+        [HideInInspector] public bool IsUsingWheelButton;
 
         // Thumb Parameters
-        [HideInInspector] public Vector2Variable _thumbPos = null;
+        [HideInInspector] public Vector2Variable ThumbPos = null;
 
         // All GameEvents
-        [HideInInspector] public GameEvent _geDown = null;
-        [HideInInspector] public GameEvent _geUp = null;
-        [HideInInspector] public GameEvent _geTouched = null;
-        [HideInInspector] public GameEvent _geUntouched = null;
+        [HideInInspector] public GameEvent GeDown = null;
+        [HideInInspector] public GameEvent GeUp = null;
+        [HideInInspector] public GameEvent GeTouched = null;
+        [HideInInspector] public GameEvent GeUntouched = null;
 
         // All GameEventListeners
-        [HideInInspector] public GameEventListener _gelDown = null;
-        [HideInInspector] public GameEventListener _gelUp = null;
-        [HideInInspector] public GameEventListener _gelTouched = null;
-        [HideInInspector] public GameEventListener _gelUntouched = null;
+        [HideInInspector] public GameEventListener GelDown = null;
+        [HideInInspector] public GameEventListener GelUp = null;
+        [HideInInspector] public GameEventListener GelTouched = null;
+        [HideInInspector] public GameEventListener GelUntouched = null;
 
         // BoolVariable to check
-        [HideInInspector] public BoolVariable _isTouching = null;
-        [HideInInspector] public BoolVariable _isClicking = null;
+        [HideInInspector] public BoolVariable IsTouching = null;
+        [HideInInspector] public BoolVariable IsClicking = null;
 
         // GameObject containing the GameEventListeners
-        [HideInInspector] public GameObject gameEventsContainer = null;
+        [HideInInspector] public GameObject GameEventsContainer = null;
     }
 }
