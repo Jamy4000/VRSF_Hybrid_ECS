@@ -23,6 +23,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             foreach (var entity in GetEntities<Filter>())
             {
+                // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
                 if (!CheckUseSDKToggles(entity.ButtonComponents))
                 {
                     entity.ButtonComponents.CanBeUsed = false;

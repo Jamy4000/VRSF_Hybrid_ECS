@@ -6,6 +6,7 @@ namespace VRSF.Controllers.Components
     /// <summary>
     /// Contains all the variable for the ControllerPointer Systems
     /// </summary>
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ControllerPointerComponents : MonoBehaviour
     {
         // Wheter we need to change the gaze state or not

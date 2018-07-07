@@ -18,8 +18,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         }
 
         #region PRIVATE_VARIABLES
-        private ButtonActionChoserComponents _currentComp;
-
         private InteractionVariableContainer _interactionsContainer;
         #endregion
 
@@ -32,16 +30,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             foreach (var entity in GetEntities<Filter>())
             {
-                _currentComp = entity.ButtonComponents;
-
-                if (_currentComp.SOsAreReady)
+                if (entity.ButtonComponents.SOsAreReady)
                 {
                     // We check which hit to use for this feature with the RayOrigin
-                    SetupRayAndHit();
+                    SetupRayAndHit(entity.ButtonComponents);
                 }
                 else
                 {
-                    _currentComp.StartCoroutine(WaitForScriptableSingletons());
+                    entity.ButtonComponents.StartCoroutine(WaitForScriptableSingletons(entity.ButtonComponents));
                 }
             }
         }
@@ -55,28 +51,28 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Check which RaycastHitVariable is used depending on the RayOrigin specified
         /// </summary>
-        private void SetupRayAndHit()
+        private void SetupRayAndHit(ButtonActionChoserComponents comp)
         {
-            switch (_currentComp.RayOrigin)
+            switch (comp.RayOrigin)
             {
                 case (EHand.LEFT):
-                    _currentComp.HitVar = _interactionsContainer.LeftHit;
-                    _currentComp.RayVar = _interactionsContainer.LeftRay;
+                    comp.HitVar = _interactionsContainer.LeftHit;
+                    comp.RayVar = _interactionsContainer.LeftRay;
                     break;
 
                 case (EHand.RIGHT):
-                    _currentComp.HitVar = _interactionsContainer.RightHit;
-                    _currentComp.RayVar = _interactionsContainer.RightRay;
+                    comp.HitVar = _interactionsContainer.RightHit;
+                    comp.RayVar = _interactionsContainer.RightRay;
                     break;
 
                 case (EHand.GAZE):
-                    _currentComp.HitVar = _interactionsContainer.GazeHit;
-                    _currentComp.RayVar = _interactionsContainer.GazeRay;
+                    comp.HitVar = _interactionsContainer.GazeHit;
+                    comp.RayVar = _interactionsContainer.GazeRay;
                     break;
 
                 default:
                     Debug.LogError("VRSF : You need to specify the RayOrigin for the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                    _currentComp.CanBeUsed = false;
+                    comp.CanBeUsed = false;
                     break;
             }
         }
@@ -85,14 +81,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// As some values are initialized in other Systems, we just want to be sure that everything is setup before setting up everything.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator WaitForScriptableSingletons()
+        private IEnumerator WaitForScriptableSingletons(ButtonActionChoserComponents comp)
         {
-            while (!_currentComp.SOsAreReady)
+            while (!comp.SOsAreReady)
             {
                 yield return new WaitForEndOfFrame();
             }
             // We check which hit to use for this feature with the RayOrigin
-            SetupRayAndHit();
+            SetupRayAndHit(comp);
         }
         #endregion PRIVATES_METHODS
     }

@@ -9,13 +9,14 @@ using VRSF.Inputs;
 namespace VRSF.Utils.Components
 {
     [Serializable]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ButtonActionChoserComponents : MonoBehaviour
     {
         /// <summary>
         /// Delegate to pass the method to call when the ActionButton is down or touched
         /// </summary>
         /// <param name="t">The transform that was hit</param>
-        public delegate void OnButtonDelegate();
+        public delegate void OnButtonDelegate(ButtonActionChoserComponents comp);
 
         [Header("SDKs using this script")]
         [HideInInspector] public bool UseOVR = true;
@@ -99,5 +100,10 @@ namespace VRSF.Utils.Components
 
         // GameObject containing the GameEventListeners
         [HideInInspector] public GameObject GameEventsContainer = null;
+
+        public void Test()
+        {
+            Debug.Log(this.transform.name);
+        }
     }
 }
