@@ -55,8 +55,7 @@ namespace VRSF.Utils.Components
         [HideInInspector] [SerializeField] public UnityEvent OnButtonStartClicking;
         [HideInInspector] [SerializeField] public UnityEvent OnButtonStopClicking;
         [HideInInspector] [SerializeField] public UnityEvent OnButtonIsClicking;
-
-        [HideInInspector] public bool SOsAreReady = false;
+        
         [HideInInspector] public bool ActionButtonIsReady = false;
         [HideInInspector] public bool ParametersAreInvalid = false;
         [HideInInspector] public bool CanBeUsed = true;
@@ -100,10 +99,5 @@ namespace VRSF.Utils.Components
 
         // GameObject containing the GameEventListeners
         [HideInInspector] public GameObject GameEventsContainer = null;
-
-        public void Test()
-        {
-            Debug.Log(this.transform.name);
-        }
     }
 }

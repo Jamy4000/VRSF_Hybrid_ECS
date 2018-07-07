@@ -1,10 +1,11 @@
 ﻿using Unity.Entities;
+using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Utils.Components;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
-    public class BACUpdateSystem : ComponentSystem
+    public abstract class BACUpdateSystem : ComponentSystem
     {
         struct Filter
         {
@@ -23,7 +24,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var e in GetEntities<Filter>())
             {
                 _currentComp = e.ButtonComponents;
-
+                
                 // If we use the touch event and the user is touching on the button
                 if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
                 {
@@ -37,6 +38,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
         }
         #endregion
+
+
+        #region PUBLIC_METHODS
+        public abstract void SetupListenersResponses();
+        public abstract void RemoveListenersOnEndApp();
+        #endregion PUBLIC_METHODS
 
 
         #region PRIVATE_VARIABLES

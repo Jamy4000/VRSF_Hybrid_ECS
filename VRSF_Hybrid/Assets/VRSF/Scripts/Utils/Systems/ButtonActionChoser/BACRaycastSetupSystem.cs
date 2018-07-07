@@ -28,17 +28,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             base.OnStartRunning();
 
+            _interactionsContainer = InteractionVariableContainer.Instance;
+
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ButtonComponents.SOsAreReady)
-                {
-                    // We check which hit to use for this feature with the RayOrigin
-                    SetupRayAndHit(entity.ButtonComponents);
-                }
-                else
-                {
-                    entity.ButtonComponents.StartCoroutine(WaitForScriptableSingletons(entity.ButtonComponents));
-                }
+                // We check which hit to use for this feature with the RayOrigin
+                SetupRayAndHit(entity.ButtonComponents);
             }
         }
 
@@ -75,20 +70,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     comp.CanBeUsed = false;
                     break;
             }
-        }
-
-        /// <summary>
-        /// As some values are initialized in other Systems, we just want to be sure that everything is setup before setting up everything.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator WaitForScriptableSingletons(ButtonActionChoserComponents comp)
-        {
-            while (!comp.SOsAreReady)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-            // We check which hit to use for this feature with the RayOrigin
-            SetupRayAndHit(comp);
         }
         #endregion PRIVATES_METHODS
     }
