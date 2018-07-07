@@ -116,6 +116,7 @@ namespace VRSF.Utils.Systems
             }
         }
 
+
         /// <summary>
         /// Check the Ray from the Mouse. We use the normal camera for the three raycast hit, meaning that they are all equals.
         /// </summary>
@@ -153,6 +154,7 @@ namespace VRSF.Utils.Systems
                     gazeParam.GetGazeExclusionsLayer(), ref interactionContainer.GazeHit);
             }
         }
+
 
         /// <summary>
         /// Check if the Ray from a controller is hitting something

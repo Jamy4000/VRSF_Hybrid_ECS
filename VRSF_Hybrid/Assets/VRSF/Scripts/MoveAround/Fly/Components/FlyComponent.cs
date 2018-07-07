@@ -5,6 +5,7 @@ using UnityEngine;
 namespace VRSF.MoveAround
 {
     /// <summary>
+    /// Contains all references to the fly variables that are not in the FlyingParametersVariable already.
     /// Allow the user to fly with the thumbstick / touchpad. 
     /// </summary>
     public class FlyComponent : MonoBehaviour
