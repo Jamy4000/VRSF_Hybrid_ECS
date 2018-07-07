@@ -4,20 +4,23 @@ using UnityEngine;
 namespace VRSF.MoveAround
 {
     /// <summary>
-    /// Display lines for the Fly Boundaries in Edit Mode
+    /// Display lines for the Fly Boundaries in Edit Mode.
+    /// 
+    /// As it's using OnPostRender and OnDrawGizmos methods, derived from monoBehaviour, 
+    /// and it's only a UnityEditor Script, this wasn't refactored to fit the Hybrid System.
     /// </summary>
     [ExecuteInEditMode]
 	public class FlyBoundaries : MonoBehaviour 
 	{
         #region PUBLIC_VARIABLES
-        // Choose the Unlit/Color shader in the Material Settings
-        // You can change that color, to change the color of the connecting lines
+        [Header("Boundaries Color Material")]
+        [Tooltip("Choose the Unlit/Color shader in the Material Settings. You can change the color of the connecting lines through this mat.")]
         public Material LineMat;
         #endregion
 
         
         #region PRIVATE_VARIABLES
-        FlyingParametersVariable _FlyingParametersVariable;
+        private FlyingParametersVariable _flyingParams;
         #endregion
 
 
@@ -27,9 +30,9 @@ namespace VRSF.MoveAround
         /// </summary>
         void OnPostRender()
         {
-            _FlyingParametersVariable = FlyingParametersVariable.Instance;
+            _flyingParams = FlyingParametersVariable.Instance;
 
-            if (_FlyingParametersVariable.UseBoundaries)
+            if (_flyingParams.UseBoundaries)
             {
                 DrawConnectingLines();
             }
@@ -40,9 +43,9 @@ namespace VRSF.MoveAround
         /// </summary>
         void OnDrawGizmos()
         {
-            _FlyingParametersVariable = FlyingParametersVariable.Instance;
+            _flyingParams = FlyingParametersVariable.Instance;
 
-            if (_FlyingParametersVariable.UseBoundaries)
+            if (_flyingParams.UseBoundaries)
             {
                 DrawConnectingLines();
             }
@@ -64,14 +67,14 @@ namespace VRSF.MoveAround
             // List of points/vertices
             Vector3[] vertices = new Vector3[8]
             {
-                new Vector3(_FlyingParametersVariable.MinAvatarPosition.x, _FlyingParametersVariable.MinAvatarPosition.y, _FlyingParametersVariable.MinAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MinAvatarPosition.x, _FlyingParametersVariable.MaxAvatarPosition.y, _FlyingParametersVariable.MinAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MinAvatarPosition.x, _FlyingParametersVariable.MaxAvatarPosition.y, _FlyingParametersVariable.MaxAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MinAvatarPosition.x, _FlyingParametersVariable.MinAvatarPosition.y, _FlyingParametersVariable.MaxAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MaxAvatarPosition.x, _FlyingParametersVariable.MinAvatarPosition.y, _FlyingParametersVariable.MinAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MaxAvatarPosition.x, _FlyingParametersVariable.MaxAvatarPosition.y, _FlyingParametersVariable.MinAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MaxAvatarPosition.x, _FlyingParametersVariable.MaxAvatarPosition.y, _FlyingParametersVariable.MaxAvatarPosition.z),
-                new Vector3(_FlyingParametersVariable.MaxAvatarPosition.x, _FlyingParametersVariable.MinAvatarPosition.y, _FlyingParametersVariable.MaxAvatarPosition.z),
+                new Vector3(_flyingParams.MinAvatarPosition.x, _flyingParams.MinAvatarPosition.y, _flyingParams.MinAvatarPosition.z),
+                new Vector3(_flyingParams.MinAvatarPosition.x, _flyingParams.MaxAvatarPosition.y, _flyingParams.MinAvatarPosition.z),
+                new Vector3(_flyingParams.MinAvatarPosition.x, _flyingParams.MaxAvatarPosition.y, _flyingParams.MaxAvatarPosition.z),
+                new Vector3(_flyingParams.MinAvatarPosition.x, _flyingParams.MinAvatarPosition.y, _flyingParams.MaxAvatarPosition.z),
+                new Vector3(_flyingParams.MaxAvatarPosition.x, _flyingParams.MinAvatarPosition.y, _flyingParams.MinAvatarPosition.z),
+                new Vector3(_flyingParams.MaxAvatarPosition.x, _flyingParams.MaxAvatarPosition.y, _flyingParams.MinAvatarPosition.z),
+                new Vector3(_flyingParams.MaxAvatarPosition.x, _flyingParams.MaxAvatarPosition.y, _flyingParams.MaxAvatarPosition.z),
+                new Vector3(_flyingParams.MaxAvatarPosition.x, _flyingParams.MinAvatarPosition.y, _flyingParams.MaxAvatarPosition.z),
             };
 
             // List of indices/Vector2 between which a line must be made
@@ -97,7 +100,7 @@ namespace VRSF.MoveAround
             foreach (Vector2 i in indices)
             {
                 GL.Begin(GL.LINES);
-                LineMat.color = _FlyingParametersVariable.FlyingBoundariesColor;
+                LineMat.color = _flyingParams.FlyingBoundariesColor;
                 LineMat.SetPass(0);
                 GL.Color(new Color(LineMat.color.r, LineMat.color.g, LineMat.color.b, LineMat.color.a));
                 GL.Vertex3(vertices[(int)i.x].x, vertices[(int)i.x].y, vertices[(int)i.x].z);
@@ -105,10 +108,10 @@ namespace VRSF.MoveAround
                 GL.End();
             }
 
-            Vector3 labelPos = new Vector3(_FlyingParametersVariable.MinAvatarPosition.x, _FlyingParametersVariable.MaxAvatarPosition.y, _FlyingParametersVariable.MinAvatarPosition.z);
+            Vector3 labelPos = new Vector3(_flyingParams.MinAvatarPosition.x, _flyingParams.MaxAvatarPosition.y, _flyingParams.MinAvatarPosition.z);
             GUIStyle style = new GUIStyle();
 
-            style.normal.textColor = _FlyingParametersVariable.FlyingBoundariesColor;
+            style.normal.textColor = _flyingParams.FlyingBoundariesColor;
 
             UnityEditor.Handles.Label(labelPos, "Flying Boundaries", style);
         }
