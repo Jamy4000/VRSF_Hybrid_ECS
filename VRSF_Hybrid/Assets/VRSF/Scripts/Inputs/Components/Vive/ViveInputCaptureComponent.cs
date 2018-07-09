@@ -2,6 +2,7 @@
 
 namespace VRSF.Inputs.Components.Vive
 {
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ViveInputCaptureComponent : VRInputCaptureComponent
     {
         [Header("SteamVR Tracked Object from the two Controllers")]

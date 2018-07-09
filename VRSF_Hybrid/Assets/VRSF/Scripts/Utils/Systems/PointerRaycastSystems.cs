@@ -20,18 +20,27 @@ namespace VRSF.Utils.Systems
             public PointerRaycastComponents RaycastComponents;
         }
 
+        #region PRIVATE_VARIABLE
+        private GazeParametersVariable _gazeParameters;
+        private ControllersParametersVariable _controllersParameters;
+        private InteractionVariableContainer _interactionsContainer;
+        #endregion PRIVATE_VARIABLE
+
+
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
+            _controllersParameters = ControllersParametersVariable.Instance;
+            _gazeParameters = GazeParametersVariable.Instance;
+            _interactionsContainer = InteractionVariableContainer.Instance;
+
             foreach (var entity in GetEntities<Filter>())
             {
-                entity.RaycastComponents.ControllersParameters = ControllersParametersVariable.Instance;
-                entity.RaycastComponents.GazeParameters = GazeParametersVariable.Instance;
-                entity.RaycastComponents.InteractionsContainer = InteractionVariableContainer.Instance;
-                
                 // We check the raycast if we use the controllers or we use the gaze
-                entity.RaycastComponents.CheckRaycast = entity.RaycastComponents.ControllersParameters.UseControllers || entity.RaycastComponents.GazeParameters.UseGaze;
+                entity.RaycastComponents.CheckRaycast = _controllersParameters.UseControllers || _gazeParameters.UseGaze;
             }
         }
 
@@ -62,34 +71,29 @@ namespace VRSF.Utils.Systems
         /// </summary>
         private void CheckVRRays(PointerRaycastComponents pointerRaycast)
         {
-            // assigning pointerRaycast variable for a better readability
-            var interactionContainer = pointerRaycast.InteractionsContainer;
-            var controllerParam = pointerRaycast.ControllersParameters;
-            var gazeParam = pointerRaycast.GazeParameters;
-            
             // Handle raycasting for both controllers
-            if (controllerParam.UseControllers)
+            if (_controllersParameters.UseControllers)
             {
                 try
                 {
                     // If the rightPointer State is not off, we check its raycast
-                    if (controllerParam.RightPointerState != EPointerState.OFF)
+                    if (_controllersParameters.RightPointerState != EPointerState.OFF)
                     {
                         var startTransform = VRSF_Components.RightController.transform;
-                        interactionContainer.RightRay.SetValue(new Ray(startTransform.position, startTransform.TransformDirection(Vector3.forward)));
+                        _interactionsContainer.RightRay.SetValue(new Ray(startTransform.position, startTransform.TransformDirection(Vector3.forward)));
 
-                        RaycastHandler(interactionContainer.RightRay.Value, controllerParam.MaxDistancePointerRight,
-                            controllerParam.GetExclusionsLayer(EHand.RIGHT), ref interactionContainer.RightHit);
+                        RaycastHandler(_interactionsContainer.RightRay.Value, _controllersParameters.MaxDistancePointerRight,
+                            _controllersParameters.GetExclusionsLayer(EHand.RIGHT), ref _interactionsContainer.RightHit);
                     }
 
                     // If the leftPointer State is not off, we check its raycast
-                    if (controllerParam.LeftPointerState != EPointerState.OFF)
+                    if (_controllersParameters.LeftPointerState != EPointerState.OFF)
                     {
                         var startTransform = VRSF_Components.LeftController.transform;
-                        interactionContainer.LeftRay.SetValue(new Ray(startTransform.position, startTransform.TransformDirection(Vector3.forward)));
+                        _interactionsContainer.LeftRay.SetValue(new Ray(startTransform.position, startTransform.TransformDirection(Vector3.forward)));
 
-                        RaycastHandler(interactionContainer.LeftRay.Value, controllerParam.MaxDistancePointerLeft,
-                            controllerParam.GetExclusionsLayer(EHand.LEFT), ref interactionContainer.LeftHit);
+                        RaycastHandler(_interactionsContainer.LeftRay.Value, _controllersParameters.MaxDistancePointerLeft,
+                            _controllersParameters.GetExclusionsLayer(EHand.LEFT), ref _interactionsContainer.LeftHit);
                     }
                 }
                 catch (Exception e)
@@ -99,15 +103,15 @@ namespace VRSF.Utils.Systems
             }
 
             // Handle raycast for the Gaze
-            if (gazeParam.UseGaze)
+            if (_gazeParameters.UseGaze)
             {
                 try
                 {
                     var startTransform = VRSF_Components.VRCamera.transform;
-                    interactionContainer.GazeRay.SetValue(new Ray(startTransform.position, startTransform.forward));
+                    _interactionsContainer.GazeRay.SetValue(new Ray(startTransform.position, startTransform.forward));
 
-                    RaycastHandler(interactionContainer.GazeRay.Value, gazeParam.DefaultDistance,
-                        gazeParam.GetGazeExclusionsLayer(), ref interactionContainer.GazeHit);
+                    RaycastHandler(_interactionsContainer.GazeRay.Value, _gazeParameters.DefaultDistance,
+                        _gazeParameters.GetGazeExclusionsLayer(), ref _interactionsContainer.GazeHit);
                 }
                 catch (Exception e)
                 {
@@ -116,43 +120,40 @@ namespace VRSF.Utils.Systems
             }
         }
 
+
         /// <summary>
         /// Check the Ray from the Mouse. We use the normal camera for the three raycast hit, meaning that they are all equals.
         /// </summary>
         private void CheckMouseRays(PointerRaycastComponents pointerRaycast)
         {
-            // assigning pointerRaycast variable for a better readability
-            var interactionContainer = pointerRaycast.InteractionsContainer;
-            var controllerParam = pointerRaycast.ControllersParameters;
-            var gazeParam = pointerRaycast.GazeParameters;
-
-            if (controllerParam.UseControllers)
+            if (_controllersParameters.UseControllers)
             {
-                if (controllerParam.RightPointerState != EPointerState.OFF)
+                if (_controllersParameters.RightPointerState != EPointerState.OFF)
                 {
-                    interactionContainer.RightRay.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
+                    _interactionsContainer.RightRay.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
 
-                    RaycastHandler(interactionContainer.RightRay.Value, controllerParam.MaxDistancePointerRight,
-                        controllerParam.GetExclusionsLayer(EHand.RIGHT), ref interactionContainer.RightHit);
+                    RaycastHandler(_interactionsContainer.RightRay.Value, _controllersParameters.MaxDistancePointerRight,
+                        _controllersParameters.GetExclusionsLayer(EHand.RIGHT), ref _interactionsContainer.RightHit);
                 }
 
-                if (controllerParam.LeftPointerState != EPointerState.OFF)
+                if (_controllersParameters.LeftPointerState != EPointerState.OFF)
                 {
-                    interactionContainer.LeftRay.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
+                    _interactionsContainer.LeftRay.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
 
-                    RaycastHandler(interactionContainer.LeftRay.Value, controllerParam.MaxDistancePointerLeft,
-                        controllerParam.GetExclusionsLayer(EHand.LEFT), ref interactionContainer.LeftHit);
+                    RaycastHandler(_interactionsContainer.LeftRay.Value, _controllersParameters.MaxDistancePointerLeft,
+                        _controllersParameters.GetExclusionsLayer(EHand.LEFT), ref _interactionsContainer.LeftHit);
                 }
             }
 
-            if (gazeParam.UseGaze)
+            if (_gazeParameters.UseGaze)
             {
-                interactionContainer.GazeRay.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
+                _interactionsContainer.GazeRay.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
 
-                RaycastHandler(interactionContainer.GazeRay.Value, gazeParam.DefaultDistance,
-                    gazeParam.GetGazeExclusionsLayer(), ref interactionContainer.GazeHit);
+                RaycastHandler(_interactionsContainer.GazeRay.Value, _gazeParameters.DefaultDistance,
+                    _gazeParameters.GetGazeExclusionsLayer(), ref _interactionsContainer.GazeHit);
             }
         }
+
 
         /// <summary>
         /// Check if the Ray from a controller is hitting something

@@ -11,6 +11,21 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1197328801160216}
   m_IsPrefabAsset: 1
+--- !u!1 &1001471001096304
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4582300960853566}
+  m_Layer: 0
+  m_Name: EyeCameras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1025877261613660
 GameObject:
   m_ObjectHideFlags: 1
@@ -453,12 +468,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4459428187028272}
-  - {fileID: 4286097202086608}
-  - {fileID: 4332829879715758}
   - {fileID: 4785073172956926}
   - {fileID: 4607483101584848}
   - {fileID: 4360295369166706}
+  - {fileID: 4582300960853566}
   m_Father: {fileID: 4809244935464592}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -520,11 +533,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1853142304287386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4088411365306376}
+  m_Father: {fileID: 4582300960853566}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4332829879715758
@@ -533,11 +546,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222879591032446}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4088411365306376}
+  m_Father: {fileID: 4582300960853566}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4350658468798170
@@ -565,7 +578,7 @@ Transform:
   m_Children:
   - {fileID: 4497402044538720}
   m_Father: {fileID: 4088411365306376}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4397273799716806
 Transform:
@@ -638,11 +651,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1763331912769522}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4088411365306376}
+  m_Father: {fileID: 4582300960853566}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4497402044538720
@@ -666,6 +679,22 @@ Transform:
   m_Father: {fileID: 4360295369166706}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4582300960853566
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1001471001096304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4459428187028272}
+  - {fileID: 4286097202086608}
+  - {fileID: 4332829879715758}
+  m_Father: {fileID: 4088411365306376}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4607483101584848
 Transform:
   m_ObjectHideFlags: 1
@@ -678,7 +707,7 @@ Transform:
   m_Children:
   - {fileID: 4821707436470916}
   m_Father: {fileID: 4088411365306376}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4622665563410496
 Transform:
@@ -730,7 +759,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4088411365306376}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4809244935464592
 Transform:
@@ -1663,10 +1692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3f47ad96e62d5408d3a58067b97702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControllersParameters: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
-    type: 2}
-  GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
-  InputContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
   TempEvent: {fileID: 0}
   CheckGazeInteractions: 0
 --- !u!114 &114461717020203996

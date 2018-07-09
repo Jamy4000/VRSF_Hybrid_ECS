@@ -12,7 +12,6 @@ namespace ScriptableFramework.UI.Editor
 
         Vector2 _scrollPos = Vector2.zero;
         private List<GUILayoutOption[]> _layouts;
-        private List<GUIStyle> _styles;
         private Texture2D _oddBackground;
         private GUIStyle _oddRow;
         private GUIStyle _evenRow;

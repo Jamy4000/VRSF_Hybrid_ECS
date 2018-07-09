@@ -2,7 +2,6 @@
 using UnityEngine;
 using VRSF.Controllers.Components;
 using VRSF.Gaze;
-using VRSF.Interactions;
 using VRSF.Utils;
 
 namespace VRSF.Controllers.Systems
@@ -14,18 +13,24 @@ namespace VRSF.Controllers.Systems
             public ControllerPointerComponents ControllerPointerComp;
         }
 
+        #region PRIVATE_VARIABLES
+        // VRSF Parameters references
+        private GazeParametersVariable _gazeParameters;
+        private ControllersParametersVariable _controllersParameters;
+        #endregion PRIVATE_VARIABLES
+
         #region ComponentSystem_Methods
         // Use this for initialization
         protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
+            _controllersParameters = ControllersParametersVariable.Instance;
+            _gazeParameters = GazeParametersVariable.Instance;
+
             foreach (var e in GetEntities<Filter>())
             {
-                // Init
-                e.ControllerPointerComp.ControllersParameters = ControllersParametersVariable.Instance;
-                e.ControllerPointerComp.GazeParameters = GazeParametersVariable.Instance;
-                e.ControllerPointerComp.InteractionContainer = InteractionVariableContainer.Instance;
-
-                if (e.ControllerPointerComp.GazeParameters.UseGaze && e.ControllerPointerComp.GazeParameters.UseDifferentStates)
+                if (_gazeParameters.UseGaze && _gazeParameters.UseDifferentStates)
                 {
                     e.ControllerPointerComp.CheckGazeStates = true;
                 }
@@ -48,6 +53,7 @@ namespace VRSF.Controllers.Systems
         }
         #endregion ComponentSystem_Methods
 
+
         #region PRIVATE_METHODS
         /// <summary>
         /// Setup the VR Components thanks to the VRSF_Components static class
@@ -58,12 +64,12 @@ namespace VRSF.Controllers.Systems
             {
                 comp.CameraRigTransform = VRSF_Components.CameraRig.transform;
 
-                if (comp.ControllersParameters.UseControllers)
+                if (_controllersParameters.UseControllers)
                 {
                     SetupPointers(comp);
                 }
 
-                if (comp.GazeParameters.UseGaze)
+                if (_gazeParameters.UseGaze)
                 {
                     SetupGazeImages(comp);
                 }
@@ -82,9 +88,9 @@ namespace VRSF.Controllers.Systems
         private void SetupPointers(ControllerPointerComponents comp)
         {
             comp.RightHandPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
-            comp.RightHandPointer.enabled = comp.ControllersParameters.UsePointerRight;
+            comp.RightHandPointer.enabled = _controllersParameters.UsePointerRight;
             comp.LeftHandPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
-            comp.LeftHandPointer.enabled = comp.ControllersParameters.UsePointerLeft;
+            comp.LeftHandPointer.enabled = _controllersParameters.UsePointerLeft;
         }
 
 

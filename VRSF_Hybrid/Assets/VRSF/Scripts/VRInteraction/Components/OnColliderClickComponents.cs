@@ -6,16 +6,12 @@ using VRSF.Inputs;
 
 namespace VRSF.Interactions.Components
 {
+    /// <summary>
+    /// Contains the variables for the OnColliderClickSystems
+    /// </summary>
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class OnColliderClickComponents : MonoBehaviour
     {
-        [Tooltip("The Controllers and Gaze Parameters as ScriptableSingletons")]
-        [HideInInspector] public ControllersParametersVariable ControllersParameters;
-        [HideInInspector] public GazeParametersVariable GazeParameters;
-
-        [Tooltip("The Interactions and Input Container, as ScriptableSingletons, for the VRSF Scriptable Objects")]
-        [HideInInspector] public InputVariableContainer InputsContainer;
-        [HideInInspector] public InteractionVariableContainer InteractionsContainer;
-
         [Tooltip("Reference to the Left and Right Click Variables, meaning the Trigger")]
         [HideInInspector] public BoolVariable LeftClickBool;
         [HideInInspector] public BoolVariable RightClickBool;

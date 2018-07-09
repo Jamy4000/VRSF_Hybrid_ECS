@@ -2,6 +2,8 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers.Components;
+using VRSF.Gaze;
+using VRSF.Interactions;
 using VRSF.Utils;
 
 namespace VRSF.Controllers.Systems
@@ -13,7 +15,25 @@ namespace VRSF.Controllers.Systems
             public ControllerPointerComponents ControllerPointerComp;
         }
 
+
+        #region PRIVATE_VARIABLE
+        private GazeParametersVariable _gazeParameters;
+        private ControllersParametersVariable _controllersParameters;
+        private InteractionVariableContainer _interactionsContainer;
+        #endregion PRIVATE_VARIABLE
+
+
         #region ComponentSystem_Methods
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        protected override void OnStartRunning()
+        {
+            base.OnStartRunning();
+
+            _controllersParameters = ControllersParametersVariable.Instance;
+            _gazeParameters = GazeParametersVariable.Instance;
+            _interactionsContainer = InteractionVariableContainer.Instance;
+        }
+
         // Update is called once per frame
         protected override void OnUpdate()
         {
@@ -22,13 +42,13 @@ namespace VRSF.Controllers.Systems
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
                 if (e.ControllerPointerComp.IsSetup)
                 {
-                    if (e.ControllerPointerComp.ControllersParameters.UseControllers)
+                    if (_controllersParameters.UseControllers)
                     {
-                        SetControllerRayLength(e.ControllerPointerComp.InteractionContainer.LeftHit, VRSF_Components.LeftController, EHand.LEFT, e.ControllerPointerComp);
-                        SetControllerRayLength(e.ControllerPointerComp.InteractionContainer.RightHit, VRSF_Components.RightController, EHand.RIGHT, e.ControllerPointerComp);
+                        SetControllerRayLength(_interactionsContainer.LeftHit, VRSF_Components.LeftController, EHand.LEFT, e.ControllerPointerComp);
+                        SetControllerRayLength(_interactionsContainer.RightHit, VRSF_Components.RightController, EHand.RIGHT, e.ControllerPointerComp);
                     }
 
-                    if (e.ControllerPointerComp.GazeParameters.UseGaze && e.ControllerPointerComp.GazeScript != null)
+                    if (_gazeParameters.UseGaze && e.ControllerPointerComp.GazeScript != null)
                     {
                         CheckGazePosition(e.ControllerPointerComp);
                     }
@@ -36,6 +56,7 @@ namespace VRSF.Controllers.Systems
             }
         }
         #endregion ComponentSystem_Methods
+
 
         #region PRIVATE_METHODS
         /// <summary>
@@ -61,8 +82,8 @@ namespace VRSF.Controllers.Systems
 
                 // Checking max distance of Line renderer depending on the Hand Variable
                 var maxDistanceLr = (hand == EHand.LEFT
-                    ? comp.ControllersParameters.MaxDistancePointerLeft
-                    : comp.ControllersParameters.MaxDistancePointerRight);
+                    ? _controllersParameters.MaxDistancePointerLeft
+                    : _controllersParameters.MaxDistancePointerRight);
 
                 //put back lineRenderer to its normal length if nothing was hit
                 controller.GetComponent<LineRenderer>().SetPositions(new Vector3[]
@@ -82,10 +103,10 @@ namespace VRSF.Controllers.Systems
         /// </summary>
         private void CheckGazePosition(ControllerPointerComponents comp)
         {
-            if (!comp.InteractionContainer.GazeHit.isNull)
+            if (!_interactionsContainer.GazeHit.isNull)
             {
                 //Reduce the reticle positon to the object that was hit
-                comp.GazeScript.SetPosition(comp.InteractionContainer.GazeHit.Value);
+                comp.GazeScript.SetPosition(_interactionsContainer.GazeHit.Value);
                 return;
             }
 

@@ -5,7 +5,6 @@ using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Interactions.Components;
-using VRSF.Utils;
 
 namespace VRSF.Interactions.Systems
 {
@@ -17,23 +16,36 @@ namespace VRSF.Interactions.Systems
         }
 
 
+        #region PRIVATE_VARIABLE
+        private GazeParametersVariable _gazeParameters;
+        private ControllersParametersVariable _controllersParameters;
+        private InteractionVariableContainer _interactionsContainer;
+        #endregion PRIVATE_VARIABLE
+
+
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
+            _controllersParameters = ControllersParametersVariable.Instance;
+            _gazeParameters = GazeParametersVariable.Instance;
+            _interactionsContainer = InteractionVariableContainer.Instance;
+
             foreach (var entity in GetEntities<Filter>())
             {
-                entity.OnOverComponents.ControllersParameters = ControllersParametersVariable.Instance;
-                entity.OnOverComponents.GazeParameters = GazeParametersVariable.Instance;
-                entity.OnOverComponents.InteractionsContainer = InteractionVariableContainer.Instance;
+                _controllersParameters = ControllersParametersVariable.Instance;
+                _gazeParameters = GazeParametersVariable.Instance;
+                _interactionsContainer = InteractionVariableContainer.Instance;
 
                 // Set to true to avoid error on the first frame.
-                entity.OnOverComponents.InteractionsContainer.RightHit.isNull = true;
-                entity.OnOverComponents.InteractionsContainer.LeftHit.isNull = true;
-                entity.OnOverComponents.InteractionsContainer.GazeHit.isNull = true;
+                _interactionsContainer.RightHit.isNull = true;
+                _interactionsContainer.LeftHit.isNull = true;
+                _interactionsContainer.GazeHit.isNull = true;
 
                 // if we don't use the controllers and the gaze
-                entity.OnOverComponents.CheckRaycast = entity.OnOverComponents.ControllersParameters.UseControllers || entity.OnOverComponents.GazeParameters.UseGaze;
+                entity.OnOverComponents.CheckRaycast = _controllersParameters.UseControllers || _gazeParameters.UseGaze;
             }
         }
 
@@ -61,20 +73,15 @@ namespace VRSF.Interactions.Systems
         /// </summary>
         void CheckIsOver(OnColliderOverComponents onOverComp)
         {
-            // assigning pointerRaycast variable for a better readability
-            var interactions = onOverComp.InteractionsContainer;
-            var controllersParam = onOverComp.ControllersParameters;
-            var gazeParam = onOverComp.GazeParameters;
-
-            if (controllersParam.UseControllers)
+            if (_controllersParameters.UseControllers)
             {
-                HandleOver(interactions.IsOverSomethingRight, interactions.RightHit, interactions.RightOverObject);
-                HandleOver(interactions.IsOverSomethingLeft, interactions.LeftHit, interactions.LeftOverObject);
+                HandleOver(_interactionsContainer.IsOverSomethingRight, _interactionsContainer.RightHit, _interactionsContainer.RightOverObject);
+                HandleOver(_interactionsContainer.IsOverSomethingLeft, _interactionsContainer.LeftHit, _interactionsContainer.LeftOverObject);
             }
 
-            if (gazeParam.UseGaze)
+            if (_gazeParameters.UseGaze)
             {
-                HandleOver(interactions.IsOverSomethingGaze, interactions.GazeHit, interactions.GazeOverObject);
+                HandleOver(_interactionsContainer.IsOverSomethingGaze, _interactionsContainer.GazeHit, _interactionsContainer.GazeOverObject);
             }
         }
 

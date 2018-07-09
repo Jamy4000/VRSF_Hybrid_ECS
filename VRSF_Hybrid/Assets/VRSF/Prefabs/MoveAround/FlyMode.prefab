@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1532278929074642}
+  m_IsPrefabAsset: 1
+--- !u!1 &1532278929074642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4566885965485188}
+  - component: {fileID: 114729498285908886}
+  - component: {fileID: 114103092957932556}
+  - component: {fileID: 114495848539861036}
+  - component: {fileID: 114780445443877056}
+  m_Layer: 0
+  m_Name: FlyMode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4566885965485188
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114103092957932556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseOVR: 1
+  UseOpenVR: 1
+  UseSimulator: 1
+  RayOrigin: 2
+  InteractionType: 2
+  UseGazeButton: 0
+  ActionButton: 32
+  LeftTouchThumbPosition: 0
+  RightTouchThumbPosition: 0
+  LeftClickThumbPosition: 0
+  RightClickThumbPosition: 3
+  TouchThreshold: 0.5
+  ClickThreshold: 0.2
+  OnButtonStartTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStopTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonIsTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStartClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStopClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonIsClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CanBeUsed: 1
+  HitVar: {fileID: 0}
+  RayVar: {fileID: 0}
+  ButtonHand: 0
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingViveButton: 0
+  IsUsingWheelButton: 0
+  ThumbPos: {fileID: 0}
+  GeDown: {fileID: 0}
+  GeUp: {fileID: 0}
+  GeTouched: {fileID: 0}
+  GeUntouched: {fileID: 0}
+  GelDown: {fileID: 0}
+  GelUp: {fileID: 0}
+  GelTouched: {fileID: 0}
+  GelUntouched: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
+  GameEventsContainer: {fileID: 0}
+--- !u!114 &114495848539861036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1424377f67cc75d4dbfd955ee8f22061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LineMat: {fileID: 2100000, guid: 854b6af582c2d6f4881453e9a0bf85bd, type: 2}
+  BoundariesLinesColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &114729498285908886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a98e707674b9047a915b76d67fb115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlyingSpeed: 1
+  ChangeSpeedDependingOnHeight: 1
+  ChangeSpeedDependingOnScale: 1
+  UseHorizontalBoundaries: 1
+  MinAvatarYPosition: 0
+  MaxAvatarYPosition: 2000
+  MinAvatarPosition: {x: -100, y: -1, z: -100}
+  MaxAvatarPosition: {x: 100, y: 102, z: 100}
+  AccelerationDecelerationEffect: 1
+  AccelerationEffectFactor: 1
+  DecelerationEffectFactor: 1
+  IsSetup: 0
+  WantToFly: 0
+  FlyForward: 1
+  IsSlowingDown: 0
+  FlightDirection: 0
+  CurrentFlightVelocity: 0
+  NormalizedDir: {x: 0, y: 0, z: 0}
+  FinalDirection: {x: 0, y: 0, z: 0}
+  TimeSinceStartFlying: 0
+  SlowDownTimer: 0
+--- !u!114 &114780445443877056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

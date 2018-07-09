@@ -8,19 +8,22 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1156208657869000}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1156208657869000
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4416986517511278}
-  - component: {fileID: 114686488705640594}
+  - component: {fileID: 114485206902849738}
+  - component: {fileID: 114942462804729544}
+  - component: {fileID: 114671882391353410}
   - component: {fileID: 120132280243475242}
+  - component: {fileID: 114041122367526076}
   m_Layer: 0
   m_Name: BezierTeleport
   m_TagString: Untagged
@@ -31,9 +34,9 @@ GameObject:
 --- !u!1 &1222810584217454
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 224866845442592692}
   - component: {fileID: 223580286461426652}
@@ -50,7 +53,7 @@ GameObject:
 --- !u!4 &4416986517511278
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156208657869000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -64,7 +67,7 @@ Transform:
 --- !u!114 &114019333237300916
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222810584217454}
   m_Enabled: 1
@@ -88,10 +91,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114041122367526076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156208657869000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114347482009109608
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222810584217454}
   m_Enabled: 1
@@ -109,27 +123,77 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 15
---- !u!114 &114686488705640594
+--- !u!114 &114485206902849738
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156208657869000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb9db596df9a574b90882279a6fb4a7, type: 3}
+  m_Script: {fileID: 11500000, guid: d8c82d033a4c02d4ebd65298a1394d25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeightAboveGround: 1.8
+  BezierAngle: 45
+  BezierStrength: 10
+  ColorBezierNotHitting: {r: 1, g: 0, b: 0, a: 1}
+  ColorBezierHitting: {r: 0, g: 1, b: 0, a: 1}
+  TargetMarker: {fileID: 1222810584217454}
+  _TeleportLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _CurveOrigin: {fileID: 0}
+  _ExclusionLayer: -1
+  _ControllerPointer: {fileID: 0}
+  _MaxVertexcount: 1000
+  _VertexDelta: 0.08
+  _ArcRenderer: {fileID: 0}
+  _Velocity: {x: 0, y: 0, z: 0}
+  _GroundPos: {x: 0, y: 0, z: 0}
+  _LastNormal: {x: 0, y: 0, z: 0}
+  _GroundDetected: 0
+  _VertexList: []
+  _DisplayActive: 0
+  _LimitDetected: 0
+  _IsSetup: 0
+  _UseBoundaries: 1
+  _MinUserPosition: {x: -100, y: -5, z: -100}
+  _MaxUserPosition: {x: 100, y: 100, z: 100}
+--- !u!114 &114671882391353410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156208657869000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
+  BoundariesLinesColor: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &114942462804729544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156208657869000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UseOVR: 1
   UseOpenVR: 1
   UseSimulator: 1
-  RayOrigin: 0
+  RayOrigin: 2
   InteractionType: 2
   UseGazeButton: 0
-  ActionButton: 4
-  LeftTouchThumbPosition: -1
+  ActionButton: 8
+  LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
-  LeftClickThumbPosition: -1
+  LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
   TouchThreshold: 0.5
   ClickThreshold: 0.5
@@ -150,34 +214,12 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   OnButtonStartClicking:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114686488705640594}
-        m_MethodName: ToggleDisplay
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnButtonStopClicking:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114686488705640594}
-        m_MethodName: Teleport
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnButtonIsClicking:
@@ -185,12 +227,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  ParametersAreInvalid: 1
-  TargetMarker: {fileID: 1222810584217454}
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CanBeUsed: 1
+  HitVar: {fileID: 0}
+  RayVar: {fileID: 0}
+  ButtonHand: 0
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingViveButton: 0
+  IsUsingWheelButton: 0
+  ThumbPos: {fileID: 0}
+  GeDown: {fileID: 0}
+  GeUp: {fileID: 0}
+  GeTouched: {fileID: 0}
+  GeUntouched: {fileID: 0}
+  GelDown: {fileID: 0}
+  GelUp: {fileID: 0}
+  GelTouched: {fileID: 0}
+  GelUntouched: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
+  GameEventsContainer: {fileID: 0}
 --- !u!120 &120132280243475242
 LineRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156208657869000}
   m_Enabled: 1
@@ -200,6 +265,7 @@ LineRenderer:
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: f1d1df5b79f7fff489b3985910809961, type: 2}
   m_StaticBatchInfo:
@@ -228,12 +294,15 @@ LineRenderer:
     widthCurve:
       serializedVersion: 2
       m_Curve:
-      - serializedVersion: 2
+      - serializedVersion: 3
         time: 0
         value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -276,13 +345,14 @@ LineRenderer:
 --- !u!222 &222171117589919964
 CanvasRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222810584217454}
+  m_CullTransparentMesh: 0
 --- !u!223 &223580286461426652
 Canvas:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222810584217454}
   m_Enabled: 1
@@ -302,7 +372,7 @@ Canvas:
 --- !u!224 &224866845442592692
 RectTransform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222810584217454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
