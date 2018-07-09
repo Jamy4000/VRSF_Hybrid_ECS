@@ -20,8 +20,6 @@ namespace VRSF.MoveAround.Systems
 
 
         #region PRIVATE_VARIABLES
-        private FlyingParametersVariable _flyingParameters;
-
         private Filter _currentSetupEntity;
         #endregion PRIVATE_VARIABLES
 
@@ -32,8 +30,6 @@ namespace VRSF.MoveAround.Systems
         {
             base.OnStartRunning();
             
-            _flyingParameters = FlyingParametersVariable.Instance;
-
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
@@ -133,8 +129,8 @@ namespace VRSF.MoveAround.Systems
             {
                 if (entity.FlyComponents.TimeSinceStartFlying >= 0 && entity.FlyComponents.TimeSinceStartFlying < 1.0f)
                 {
-                    if (_flyingParameters.AccelerationDecelerationEffect)
-                        entity.FlyComponents.TimeSinceStartFlying += (Time.deltaTime / _flyingParameters.AccelerationEffectFactor);
+                    if (entity.FlyComponents.AccelerationDecelerationEffect)
+                        entity.FlyComponents.TimeSinceStartFlying += (Time.deltaTime / entity.FlyComponents.AccelerationEffectFactor);
                     else
                         entity.FlyComponents.TimeSinceStartFlying = 1.0f;
                 }
@@ -145,7 +141,7 @@ namespace VRSF.MoveAround.Systems
                     entity.FlyComponents.SlowDownTimer = 0.0f;
                 }
 
-                entity.FlyComponents.CurrentFlightVelocity = _flyingParameters.GetSpeed() * entity.FlyComponents.TimeSinceStartFlying;
+                entity.FlyComponents.CurrentFlightVelocity = GetSpeed(entity.FlyComponents) * entity.FlyComponents.TimeSinceStartFlying;
             }
 
             //If the user stop pressing/touching the flying button, we handle the deceleration
@@ -153,8 +149,8 @@ namespace VRSF.MoveAround.Systems
             {
                 if (entity.FlyComponents.SlowDownTimer > 0.0f)
                 {
-                    if (_flyingParameters.AccelerationDecelerationEffect)
-                        entity.FlyComponents.SlowDownTimer -= (Time.deltaTime / _flyingParameters.DecelerationEffectFactor);
+                    if (entity.FlyComponents.AccelerationDecelerationEffect)
+                        entity.FlyComponents.SlowDownTimer -= (Time.deltaTime / entity.FlyComponents.DecelerationEffectFactor);
                     else
                         entity.FlyComponents.SlowDownTimer = 0.0f;
                 }
@@ -166,7 +162,7 @@ namespace VRSF.MoveAround.Systems
                 }
 
                 //Sliding effect when touchpad is released
-                entity.FlyComponents.CurrentFlightVelocity = _flyingParameters.GetSpeed() * entity.FlyComponents.SlowDownTimer;
+                entity.FlyComponents.CurrentFlightVelocity = GetSpeed(entity.FlyComponents) * entity.FlyComponents.SlowDownTimer;
             }
         }
 
@@ -211,17 +207,17 @@ namespace VRSF.MoveAround.Systems
             }
             
             // We get the min and max pos in Y depending if we're using boundaries or not.
-            float minPosY = (_flyingParameters.UseBoundaries ? _flyingParameters.MinAvatarPosition.y : _flyingParameters.MinAvatarYPosition);
-            float maxPosY = (_flyingParameters.UseBoundaries ? _flyingParameters.MaxAvatarPosition.y : _flyingParameters.MaxAvatarYPosition);
+            float minPosY = (entity.FlyComponents.UseHorizontalBoundaries ? entity.FlyComponents.MinAvatarPosition.y : entity.FlyComponents.MinAvatarYPosition);
+            float maxPosY = (entity.FlyComponents.UseHorizontalBoundaries ? entity.FlyComponents.MaxAvatarPosition.y : entity.FlyComponents.MaxAvatarYPosition);
 
             // if we change the speed depending on the Height of the User
-            if (_flyingParameters.ChangeSpeedDependingOnHeight)
+            if (entity.FlyComponents.ChangeSpeedDependingOnHeight)
             {
                 entity.FlyComponents.CurrentFlightVelocity *= MapRangeClamp(cameraRigTransform.position.y, Mathf.Abs(minPosY), Mathf.Abs(maxPosY), 1.0f, maxPosY / 100);
             }
 
             // if we change the speed depending on the Scale of the User
-            if (_flyingParameters.ChangeSpeedDependingOnScale)
+            if (entity.FlyComponents.ChangeSpeedDependingOnScale)
             {
                 entity.FlyComponents.CurrentFlightVelocity /= MapRangeClamp(cameraRigTransform.lossyScale.y, Mathf.Abs(minPosY), Mathf.Abs(maxPosY), 1.0f, maxPosY / 100);
             }
@@ -253,16 +249,26 @@ namespace VRSF.MoveAround.Systems
             Vector3 newPos = GetNewPosition(entity);
 
             // If we use boundaries for the flying mode
-            if (_flyingParameters.UseBoundaries)
+            if (entity.FlyComponents.UseHorizontalBoundaries)
             {
                 // Clamp new values between min pos and max pos
-                newPos.x = Mathf.Clamp(newPos.x, _flyingParameters.MinAvatarPosition.x, _flyingParameters.MaxAvatarPosition.x);
-                newPos.y = Mathf.Clamp(newPos.y, _flyingParameters.MinAvatarPosition.y, _flyingParameters.MaxAvatarPosition.y);
-                newPos.z = Mathf.Clamp(newPos.z, _flyingParameters.MinAvatarPosition.z, _flyingParameters.MaxAvatarPosition.z);
+                newPos.x = Mathf.Clamp(newPos.x, entity.FlyComponents.MinAvatarPosition.x, entity.FlyComponents.MaxAvatarPosition.x);
+                newPos.y = Mathf.Clamp(newPos.y, entity.FlyComponents.MinAvatarPosition.y, entity.FlyComponents.MaxAvatarPosition.y);
+                newPos.z = Mathf.Clamp(newPos.z, entity.FlyComponents.MinAvatarPosition.z, entity.FlyComponents.MaxAvatarPosition.z);
             }
 
             // Set avatar position
             VRSF_Components.CameraRig.transform.position = newPos;
+        }
+
+
+        /// <summary>
+        /// Get basic vertical speed (0.3) and multiply it by the flying speed factor
+        /// </summary>
+        /// <returns>The new vertical axis speed</returns>
+        private float GetSpeed(FlyComponent flyComp)
+        {
+            return 0.3f * flyComp.FlyingSpeed;
         }
         #endregion Fly_Calculations
 

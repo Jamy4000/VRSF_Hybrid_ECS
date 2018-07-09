@@ -30,6 +30,8 @@ namespace VRSF.Utils.Editor
         // The reference to the target
         private ButtonActionChoserComponents _buttonActionChoser;
 
+        private bool _showUnityEvents = false;
+
         // The References for the UnityEvents
         private SerializedProperty _onButtonStartTouchingProperty;
         private SerializedProperty _onButtonStopTouchingProperty;
@@ -416,15 +418,22 @@ namespace VRSF.Utils.Editor
         private void DisplayInteractionEvents()
         {
             EditorGUILayout.Space();
-            if ((_buttonActionChoser.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            EditorGUILayout.Space();
+
+            _showUnityEvents = EditorGUILayout.ToggleLeft("Display UnityEvents for Click/Touch Events", _showUnityEvents);
+
+            if (_showUnityEvents)
             {
-                EditorGUILayout.Space();
-                DisplayTouchEvents();
-            }
-            if ((_buttonActionChoser.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                EditorGUILayout.Space();
-                DisplayClickEvents();
+                if ((_buttonActionChoser.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    EditorGUILayout.Space();
+                    DisplayTouchEvents();
+                }
+                if ((_buttonActionChoser.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    EditorGUILayout.Space();
+                    DisplayClickEvents();
+                }
             }
         }
 
