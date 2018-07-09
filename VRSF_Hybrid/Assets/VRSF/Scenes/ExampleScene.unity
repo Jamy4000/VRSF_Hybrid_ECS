@@ -1794,133 +1794,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 886940801}
   m_CullTransparentMesh: 0
---- !u!1 &959542217 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1658705717848424, guid: bc49bde1c2e008942bd59fd92b11985a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1932380313}
---- !u!114 &959542218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 959542217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82a98e707674b9047a915b76d67fb115, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FlyingSpeed: 1
-  ChangeSpeedDependingOnHeight: 1
-  ChangeSpeedDependingOnScale: 1
-  UseHorizontalBoundaries: 0
-  MinAvatarYPosition: 0
-  MaxAvatarYPosition: 2000
-  MinAvatarPosition: {x: -10, y: -1, z: -10}
-  MaxAvatarPosition: {x: 10, y: 10, z: 10}
-  AccelerationDecelerationEffect: 1
-  AccelerationEffectFactor: 1
-  DecelerationEffectFactor: 1
-  IsSetup: 0
-  WantToFly: 0
-  FlyForward: 1
-  IsSlowingDown: 0
-  FlightDirection: 0
-  CurrentFlightVelocity: 0
-  NormalizedDir: {x: 0, y: 0, z: 0}
-  FinalDirection: {x: 0, y: 0, z: 0}
-  TimeSinceStartFlying: 0
-  SlowDownTimer: 0
---- !u!114 &959542219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 959542217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseOVR: 1
-  UseOpenVR: 1
-  UseSimulator: 1
-  RayOrigin: 2
-  InteractionType: 2
-  UseGazeButton: 0
-  ActionButton: 32
-  LeftTouchThumbPosition: 0
-  RightTouchThumbPosition: 0
-  LeftClickThumbPosition: 0
-  RightClickThumbPosition: 3
-  TouchThreshold: 0.5
-  ClickThreshold: 0.2
-  OnButtonStartTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStartClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CanBeUsed: 1
-  HitVar: {fileID: 0}
-  RayVar: {fileID: 0}
-  ButtonHand: 0
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
---- !u!114 &959542220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 959542217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &965946037
 GameObject:
   m_ObjectHideFlags: 0
@@ -4457,48 +4330,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1610865158}
   m_CullTransparentMesh: 0
---- !u!1001 &1627611743
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1932380314}
-    m_Modifications:
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1001 &1634725394
 Prefab:
   m_ObjectHideFlags: 0
@@ -5185,11 +5016,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114015051762841454, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 2}
-      propertyPath: ScriptablesToSaveAndLoad.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4325968150092906, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5222,27 +5048,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114015051762841454, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 2}
-      propertyPath: ScriptablesToSaveAndLoad.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
-        type: 2}
-    - target: {fileID: 114015051762841454, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 2}
-      propertyPath: ScriptablesToSaveAndLoad.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
-        type: 2}
-    m_RemovedComponents:
-    - {fileID: 114526758324373678, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}
   m_IsPrefabAsset: 0
---- !u!4 &1932380314 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4574007437801686, guid: bc49bde1c2e008942bd59fd92b11985a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1932380313}
 --- !u!1 &1932742132
 GameObject:
   m_ObjectHideFlags: 0

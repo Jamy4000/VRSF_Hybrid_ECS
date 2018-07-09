@@ -57,9 +57,9 @@ namespace VRSF.MoveAround.Systems
             }
         }
         #endregion ComponentSystem_Methods
-        
 
-        #region PRIVATE_METHODS
+
+        #region PUBLIC_METHODS
 
         #region Setup_Fly
         public override void SetupListenersResponses()
@@ -92,6 +92,11 @@ namespace VRSF.MoveAround.Systems
             }
         }
         #endregion Setup_Fly
+
+        #endregion PUBLIC_METHODS
+
+
+        #region PRIVATE_METHODS
 
 
         #region Listeners_Responses
