@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using VRSF.Utils.Components;
 
 namespace VRSF.Utils.Editor
 {
@@ -39,7 +40,7 @@ namespace VRSF.Utils.Editor
         [MenuItem("VR Framework/Add SetupVR to Scene", priority = 0)]
         static void InstantiateSetupVR(MenuCommand menuCommand)
         {
-            if (GameObject.FindObjectOfType<SetupVR>() != null)
+            if (GameObject.FindObjectOfType<SetupVRComponents>() != null)
             {
                 Debug.LogError("VRSF : SetupVR is already present in the scene.\n" +
                     "If multiple instance of this object are placed in the same scene, you will encounter conflict problems.");
