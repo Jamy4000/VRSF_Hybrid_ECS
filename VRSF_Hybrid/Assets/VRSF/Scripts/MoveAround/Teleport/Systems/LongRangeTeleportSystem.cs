@@ -4,6 +4,7 @@ using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils;
 using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
@@ -13,6 +14,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         struct Filter : ITeleportFilter
         {
             public ButtonActionChoserComponents BAC_Comp;
+            public ScriptableRaycastComponent BAC_RayComp;
             public LongRangeTeleportComponent LRT_Comp;
         }
 
@@ -193,7 +195,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Color32 fillRectColor;
 
-            if (!entity.BAC_Comp.HitVar.isNull && entity.BAC_Comp.HitVar.Value.collider.gameObject.layer == entity.LRT_Comp._teleportLayer)
+            if (!entity.BAC_RayComp.RaycastHitVar.isNull && entity.BAC_RayComp.RaycastHitVar.Value.collider.gameObject.layer == entity.LRT_Comp._teleportLayer)
             {
                 entity.LRT_Comp.CanTeleport = true;
                 fillRectColor = new Color32(100, 255, 100, 255);
@@ -223,7 +225,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             if (entity.LRT_Comp.CanTeleport)
             {
-                Vector3 newPos = entity.BAC_Comp.HitVar.Value.point;
+                Vector3 newPos = entity.BAC_RayComp.RaycastHitVar.Value.point;
 
                 if (entity.LRT_Comp.AdjustHeight)
                 {

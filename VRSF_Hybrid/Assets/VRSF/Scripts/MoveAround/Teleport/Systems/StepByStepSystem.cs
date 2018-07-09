@@ -4,6 +4,7 @@ using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils;
 using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
@@ -13,6 +14,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         struct Filter : ITeleportFilter
         {
             public ButtonActionChoserComponents BAC_Comp;
+            public ScriptableRaycastComponent RayComp;
             public StepByStepComponent SBS_Comp;
         }
 
@@ -137,7 +139,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             float distanceWithScale = VRSF_Components.CameraRig.transform.localScale.x * entity.SBS_Comp.DistanceStepByStep;
 
-            switch (entity.BAC_Comp.RayOrigin)
+            switch (entity.RayComp.RayOrigin)
             {
                 case Controllers.EHand.LEFT:
                     return VRSF_Components.LeftController.transform.forward * distanceWithScale;

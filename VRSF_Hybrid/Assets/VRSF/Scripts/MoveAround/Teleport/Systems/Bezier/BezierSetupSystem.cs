@@ -6,6 +6,7 @@ using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils;
 using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
@@ -18,6 +19,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         struct Filter : ITeleportFilter
         {
             public ButtonActionChoserComponents BAC_Comp;
+            public ScriptableRaycastComponent RayComp;
             public BezierTeleportComponent BezierComp;
         }
 
@@ -144,7 +146,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             entity.BezierComp._DisplayActive = active;
 
             // Change pointer activation if the user is using it
-            if ((entity.BAC_Comp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.BAC_Comp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
+            if ((entity.RayComp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.RayComp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
                 entity.BezierComp._ControllerPointer.enabled = !active;
         }
 
@@ -185,7 +187,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void CheckHand(Filter entity)
         {
-            switch (entity.BAC_Comp.RayOrigin)
+            switch (entity.RayComp.RayOrigin)
             {
                 case (EHand.LEFT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.LeftController.transform;

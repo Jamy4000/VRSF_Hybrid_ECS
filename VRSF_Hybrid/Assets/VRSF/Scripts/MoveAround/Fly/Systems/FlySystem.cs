@@ -3,6 +3,7 @@ using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
 using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
@@ -15,6 +16,7 @@ namespace VRSF.MoveAround.Systems
         struct Filter
         {
             public FlyComponent FlyComponents;
+            public ScriptableRaycastComponent BAC_RayComp;
             public ButtonActionChoserComponents ButtonComponents;
         }
 
@@ -208,7 +210,7 @@ namespace VRSF.MoveAround.Systems
             {
                 entity.FlyComponents.FlightDirection = entity.FlyComponents.FlyForward ? 1.0f : -1.0f;
                 
-                entity.FlyComponents.NormalizedDir = Vector3.Normalize(entity.ButtonComponents.RayVar.Value.direction);
+                entity.FlyComponents.NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
             }
             
             // We get the min and max pos in Y depending if we're using boundaries or not.

@@ -1,20 +1,19 @@
-﻿using System.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Interactions;
 using VRSF.Utils.Components;
 
-namespace VRSF.Utils.Systems.ButtonActionChoser
+namespace VRSF.Utils.Systems
 {
     /// <summary>
-    /// Setup the references for the left, right or gaze Ray and RaycastHit Scriptable Variables
+    /// Setup the references for the left, right or gaze Ray and RaycastHit Scriptable Variables depending on the RayOrigin Chosed in the ButtonActionChoserComponent
     /// </summary>
-    public class BACRaycastSetupSystem : ComponentSystem
+    public class ScriptableRaycastSetupSystem : ComponentSystem
     {
         struct Filter
         {
-            public ButtonActionChoserComponents ButtonComponents;
+            public ScriptableRaycastComponent RayVarComp;
         }
 
         #region PRIVATE_VARIABLES
@@ -33,8 +32,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var entity in GetEntities<Filter>())
             {
                 // We check which hit to use for this feature with the RayOrigin
-                SetupRayAndHit(entity.ButtonComponents);
+                SetupRayAndHit(entity);
             }
+
+            this.Enabled = false;
         }
 
 
@@ -46,28 +47,23 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Check which RaycastHitVariable is used depending on the RayOrigin specified
         /// </summary>
-        private void SetupRayAndHit(ButtonActionChoserComponents comp)
+        private void SetupRayAndHit(Filter entity)
         {
-            switch (comp.RayOrigin)
+            switch (entity.RayVarComp.RayOrigin)
             {
                 case (EHand.LEFT):
-                    comp.HitVar = _interactionsContainer.LeftHit;
-                    comp.RayVar = _interactionsContainer.LeftRay;
+                    entity.RayVarComp.RaycastHitVar = _interactionsContainer.LeftHit;
+                    entity.RayVarComp.RayVar = _interactionsContainer.LeftRay;
                     break;
 
                 case (EHand.RIGHT):
-                    comp.HitVar = _interactionsContainer.RightHit;
-                    comp.RayVar = _interactionsContainer.RightRay;
+                    entity.RayVarComp.RaycastHitVar = _interactionsContainer.RightHit;
+                    entity.RayVarComp.RayVar = _interactionsContainer.RightRay;
                     break;
 
                 case (EHand.GAZE):
-                    comp.HitVar = _interactionsContainer.GazeHit;
-                    comp.RayVar = _interactionsContainer.GazeRay;
-                    break;
-
-                default:
-                    Debug.LogError("VRSF : You need to specify the RayOrigin for the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                    comp.CanBeUsed = false;
+                    entity.RayVarComp.RaycastHitVar = _interactionsContainer.GazeHit;
+                    entity.RayVarComp.RayVar = _interactionsContainer.GazeRay;
                     break;
             }
         }

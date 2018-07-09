@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4383563707627440}
   - component: {fileID: 114296947544614918}
+  - component: {fileID: 114598241307845378}
   - component: {fileID: 114886083428352990}
   - component: {fileID: 114715007791407304}
   - component: {fileID: 114283853247460836}
@@ -67,9 +68,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistanceStepByStep: 1
   MoveOnVerticalAxis: 1
-  UseBoundaries: 1
-  MinAvatarPosition: {x: -50, y: -1, z: -50}
-  MaxAvatarPosition: {x: 50, y: 50, z: 50}
+  _UseBoundaries: 1
+  _MinUserPosition: {x: -100, y: -1, z: -100}
+  _MaxUserPosition: {x: 100, y: 100, z: 100}
+--- !u!114 &114598241307845378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RayOrigin: 1
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}
 --- !u!114 &114715007791407304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,10 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseOVR: 1
-  UseOpenVR: 1
-  UseSimulator: 1
-  RayOrigin: 1
   InteractionType: 2
   UseGazeButton: 0
   ActionButton: 1
@@ -140,8 +151,6 @@ MonoBehaviour:
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
   CanBeUsed: 1
-  HitVar: {fileID: 0}
-  RayVar: {fileID: 0}
   ButtonHand: 0
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0

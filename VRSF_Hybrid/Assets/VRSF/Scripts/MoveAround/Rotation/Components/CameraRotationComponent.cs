@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Components
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(Utils.Components.ButtonActionChoserComponents))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ButtonActionChoserComponents))]
     public class CameraRotationComponent : MonoBehaviour
     {
         [Header("Camera Rotation Parameters")]

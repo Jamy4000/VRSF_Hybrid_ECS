@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using VRSF.MoveAround.Teleport.Interfaces;
+using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Components
 {
@@ -10,7 +12,7 @@ namespace VRSF.MoveAround.Teleport.Components
     /// Contains all variable necessary for the LongRangeTeleportSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(Utils.Components.ButtonActionChoserComponents))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ButtonActionChoserComponents), typeof(ScriptableRaycastComponent))]
     public class LongRangeTeleportComponent : MonoBehaviour, ITeleportComponent
     {
         [HideInInspector] public LayerMask _teleportLayer = -1;

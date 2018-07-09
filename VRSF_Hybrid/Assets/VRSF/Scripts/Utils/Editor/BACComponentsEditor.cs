@@ -1,9 +1,9 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs;
-using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Editor
 {
@@ -69,15 +69,7 @@ namespace VRSF.Utils.Editor
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Button Action Choser Parameters", EditorStyles.boldLabel);
-
-            // We display the toggles for which sdk this script is for, and if none of them is selected, we don't display the rest of the parameters.
-            if (!DisplaySDKsToggles()) return;
-
-            EditorGUILayout.Space();
-
-            // We check that the user has set a good value for the Raycast Origin. if not, we don't display the rest of the parameters.
-            if (!DisplayRaycastOriginParameters()) return;
-
+            
             EditorGUILayout.Space();
 
             // We check that the user has set a good value for the Interaction Type. if not, we don't display the rest of the parameters.
@@ -328,43 +320,6 @@ namespace VRSF.Utils.Editor
         }
 
 
-        private bool DisplaySDKsToggles()
-        {
-            GUILayoutOption[] options = { GUILayout.MaxWidth(100.0f), GUILayout.MinWidth(10.0f) };
-
-            EditorGUILayout.LabelField("Chose which SDK is using this script", EditorStyles.miniBoldLabel);
-
-            EditorGUILayout.BeginHorizontal();
-
-            _buttonActionChoser.UseOpenVR = EditorGUILayout.ToggleLeft("OpenVR", _buttonActionChoser.UseOpenVR, options);
-            _buttonActionChoser.UseOVR = EditorGUILayout.ToggleLeft("OVR", _buttonActionChoser.UseOVR, options);
-            _buttonActionChoser.UseSimulator = EditorGUILayout.ToggleLeft("Simulator", _buttonActionChoser.UseSimulator, options);
-
-            EditorGUILayout.EndHorizontal();
-
-            if (!_buttonActionChoser.UseOpenVR && !_buttonActionChoser.UseOVR && !_buttonActionChoser.UseSimulator)
-            {
-                return false;
-            }
-            return true;
-        }
-
-
-        private bool DisplayRaycastOriginParameters()
-        {
-            EditorGUILayout.LabelField("From where the Raycast should start for this feature", EditorStyles.miniBoldLabel);
-            _buttonActionChoser.RayOrigin = (EHand)EditorGUILayout.EnumPopup("Ray Origin", _buttonActionChoser.RayOrigin);
-
-            if (_buttonActionChoser.RayOrigin == EHand.NONE)
-            {
-                _buttonActionChoser.ParametersAreInvalid = true;
-                EditorGUILayout.HelpBox("The RayOrigin cannot be NONE.", MessageType.Error);
-                return false;
-            }
-            return true;
-        }
-
-
         private bool DisplayInteractionTypeParameters()
         {
             EditorGUILayout.LabelField("Type of Interaction with the Controller", EditorStyles.miniBoldLabel);
@@ -467,3 +422,4 @@ namespace VRSF.Utils.Editor
         #endregion
     }
 }
+#endif

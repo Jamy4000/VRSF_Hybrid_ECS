@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4768420924841708}
   - component: {fileID: 114773252836245178}
+  - component: {fileID: 114589644836912424}
   - component: {fileID: 114237024141291514}
   - component: {fileID: 114074741324813776}
   - component: {fileID: 114093723974906776}
@@ -149,10 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseOVR: 1
-  UseOpenVR: 1
-  UseSimulator: 1
-  RayOrigin: 1
   InteractionType: 2
   UseGazeButton: 0
   ActionButton: 4
@@ -195,8 +192,6 @@ MonoBehaviour:
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
   CanBeUsed: 1
-  HitVar: {fileID: 0}
-  RayVar: {fileID: 0}
   ButtonHand: 0
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
@@ -250,6 +245,20 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Preparing Teleport ...
+--- !u!114 &114589644836912424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355566103611140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RayOrigin: 1
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}
 --- !u!114 &114773252836245178
 MonoBehaviour:
   m_ObjectHideFlags: 1

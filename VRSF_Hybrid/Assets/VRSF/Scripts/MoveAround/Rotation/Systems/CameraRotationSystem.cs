@@ -4,6 +4,7 @@ using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
 using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems

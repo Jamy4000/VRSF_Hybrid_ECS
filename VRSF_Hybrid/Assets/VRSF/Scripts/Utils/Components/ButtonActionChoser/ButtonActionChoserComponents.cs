@@ -6,26 +6,12 @@ using UnityEngine.Events;
 using VRSF.Controllers;
 using VRSF.Inputs;
 
-namespace VRSF.Utils.Components
+namespace VRSF.Utils.Components.ButtonActionChoser
 {
     [Serializable]
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ButtonActionChoserComponents : MonoBehaviour
     {
-        /// <summary>
-        /// Delegate to pass the method to call when the ActionButton is down or touched
-        /// </summary>
-        /// <param name="t">The transform that was hit</param>
-        public delegate void OnButtonDelegate(ButtonActionChoserComponents comp);
-
-        [Header("SDKs using this script")]
-        [HideInInspector] public bool UseOVR = true;
-        [HideInInspector] public bool UseOpenVR = true;
-        [HideInInspector] public bool UseSimulator = true;
-
-        [Header("The Raycast Origin for this script")]
-        [HideInInspector] public EHand RayOrigin = EHand.NONE;
-
         [Header("The type of Interaction you want to use")]
         [HideInInspector] public EControllerInteractionType InteractionType = EControllerInteractionType.NONE;
 
@@ -58,10 +44,6 @@ namespace VRSF.Utils.Components
         [HideInInspector] public bool ActionButtonIsReady = false;
         [HideInInspector] public bool ParametersAreInvalid = false;
         [HideInInspector] public bool CanBeUsed = true;
-
-        // The RaycastHitVariable and Ray to check for this feature
-        [HideInInspector] public RaycastHitVariable HitVar;
-        [HideInInspector] public RayVariable RayVar;
 
         // The hand on which the button to use is situated
         [HideInInspector] public EHand ButtonHand = EHand.NONE;

@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
@@ -11,7 +12,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
     {
         struct Filter
         {
-            public ButtonActionChoserComponents ButtonComponents;
+            public SDKChoserComponent SDKComp;
+            public ButtonActionChoserComponents BAC_Comp;
         }
         
 
@@ -24,11 +26,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var entity in GetEntities<Filter>())
             {
                 // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-                if (!CheckUseSDKToggles(entity.ButtonComponents))
-                {
-                    entity.ButtonComponents.CanBeUsed = false;
-                }
+                entity.BAC_Comp.CanBeUsed = CheckUseSDKToggles(entity);
             }
+
+            this.Enabled = false;
         }
         
         protected override void OnUpdate() { }
@@ -40,28 +41,28 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Check if at least one of the three toggles for the SDK to Use is set at true, and if the current loaded Device is listed in those bool
         /// </summary>
         /// <returns>true if the current loaded SDK is selected in the inspector</returns>
-        private bool CheckUseSDKToggles(ButtonActionChoserComponents comp)
+        private bool CheckUseSDKToggles(Filter entity)
         {
-            if (!comp.UseOpenVR && !comp.UseOVR && !comp.UseSimulator)
+            if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseOVR && !entity.SDKComp.UseSimulator)
             {
                 Debug.LogError("VRSF : You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                comp.CanBeUsed = false;
                 return false;
             }
 
             switch (VRSF_Components.DeviceLoaded)
             {
                 case EDevice.OPENVR:
-                    return comp.UseOpenVR;
+                    return entity.SDKComp.UseOpenVR;
 
                 case EDevice.OVR:
-                    return comp.UseOVR;
+                    return entity.SDKComp.UseOVR;
 
                 case EDevice.SIMULATOR:
-                    return comp.UseSimulator;
-            }
+                    return entity.SDKComp.UseSimulator;
 
-            return true;
+                default:
+                    return false;
+            }
         }
         #endregion PRIVATES_METHODS
     }

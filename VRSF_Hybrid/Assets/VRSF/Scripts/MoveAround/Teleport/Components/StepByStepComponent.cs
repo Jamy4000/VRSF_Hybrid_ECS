@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.MoveAround.Teleport.Interfaces;
+using VRSF.Utils.Components;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Components
 {
@@ -7,7 +9,7 @@ namespace VRSF.MoveAround.Teleport.Components
     /// Contains all variable necessary for the StepByStepSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(Utils.Components.ButtonActionChoserComponents))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ButtonActionChoserComponents), typeof(ScriptableRaycastComponent))]
     public class StepByStepComponent : MonoBehaviour, ITeleportComponent
     {
         [Header("Teleport Step by Step Parameters")]

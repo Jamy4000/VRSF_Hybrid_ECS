@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4566885965485188}
   - component: {fileID: 114729498285908886}
+  - component: {fileID: 114438385980122082}
   - component: {fileID: 114103092957932556}
   - component: {fileID: 114495848539861036}
   - component: {fileID: 114780445443877056}
@@ -54,10 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseOVR: 1
-  UseOpenVR: 1
-  UseSimulator: 1
-  RayOrigin: 2
   InteractionType: 2
   UseGazeButton: 0
   ActionButton: 32
@@ -100,8 +97,6 @@ MonoBehaviour:
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
   CanBeUsed: 1
-  HitVar: {fileID: 0}
-  RayVar: {fileID: 0}
   ButtonHand: 0
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
@@ -122,6 +117,20 @@ MonoBehaviour:
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
   GameEventsContainer: {fileID: 0}
+--- !u!114 &114438385980122082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RayOrigin: 2
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}
 --- !u!114 &114495848539861036
 MonoBehaviour:
   m_ObjectHideFlags: 1
