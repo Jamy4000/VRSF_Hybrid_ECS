@@ -91,11 +91,15 @@ namespace VRSF.MoveAround.Teleport.Systems
             if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 _currentSetupEntity.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                _currentSetupEntity.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
+                _currentSetupEntity.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 _currentSetupEntity.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                _currentSetupEntity.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
+                _currentSetupEntity.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
