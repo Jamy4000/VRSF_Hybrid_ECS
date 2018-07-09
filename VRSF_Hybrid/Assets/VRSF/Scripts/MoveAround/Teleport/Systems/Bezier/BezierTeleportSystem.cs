@@ -19,11 +19,6 @@ namespace VRSF.MoveAround.Teleport.Systems
         }
 
 
-        #region PRIVATE_VARIABLES
-        private ControllersParametersVariable _controllersParameters;
-        #endregion PRIVATE_VARIABLES
-
-
         #region ComponentSystem_Methods
         protected override void OnUpdate()
         {
