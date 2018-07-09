@@ -1,30 +1,29 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
-using VRSF.MoveAround.Components;
+using VRSF.MoveAround.Teleport.Interfaces;
 
-namespace VRSF.MoveAround
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
-    /// Display lines for the Fly Boundaries in Edit Mode.
-    /// 
-    /// As it's using OnPostRender and OnDrawGizmos methods, derived from monoBehaviour, 
-    /// and it's only a UnityEditor Script, this wasn't refactored to fit the Hybrid System.
+    /// Display lines for the Teleport Boundaries in Edit Mode.
+    /// It require a script that implements the ITeleportComponent as it try to access it with GetComponent.
     /// </summary>
     [ExecuteInEditMode]
-	public class FlyBoundariesDisplayer : MonoBehaviour 
-	{
+    [RequireComponent(typeof(ITeleportComponent))]
+    public class TeleportBoundariesDisplayer : MonoBehaviour
+    {
         #region PUBLIC_VARIABLES
-        [Header("Boundaries Material & Color")]
-        [Tooltip("Choose the Unlit/Color shader in the Material Settings. You can change the color of the connecting lines through this mat.")]
+        // Choose the Unlit/Color shader in the Material Settings
+        // You can change that color, to change the color of the connecting lines
         public Material LineMat;
-        
+
         [Tooltip("The color of the Bounding box displayed in the Scene view for this FlyComponent.")]
-        public Color BoundariesLinesColor = Color.green;
+        public Color BoundariesLinesColor = Color.blue;
         #endregion
 
-        
+
         #region PRIVATE_VARIABLES
-        private FlyComponent _flyComp;
+        private ITeleportComponent _teleportScript;
         #endregion
 
 
@@ -34,9 +33,9 @@ namespace VRSF.MoveAround
         /// </summary>
         void OnDrawGizmos()
         {
-            _flyComp = GetComponent<FlyComponent>();
+            _teleportScript = GetComponent<ITeleportComponent>();
 
-            if (_flyComp != null && _flyComp.UseHorizontalBoundaries)
+            if (_teleportScript.UseBoundaries())
             {
                 DrawConnectingLines();
             }
@@ -55,17 +54,20 @@ namespace VRSF.MoveAround
         /// </summary>
         void DrawConnectingLines()
         {
+            Vector3 minPos = _teleportScript.MinPosBoundaries();
+            Vector3 maxPos = _teleportScript.MaxPosBoundaries();
+
             // List of points/vertices
             Vector3[] vertices = new Vector3[8]
             {
-                new Vector3(_flyComp.MinAvatarPosition.x, _flyComp.MinAvatarPosition.y, _flyComp.MinAvatarPosition.z),
-                new Vector3(_flyComp.MinAvatarPosition.x, _flyComp.MaxAvatarPosition.y, _flyComp.MinAvatarPosition.z),
-                new Vector3(_flyComp.MinAvatarPosition.x, _flyComp.MaxAvatarPosition.y, _flyComp.MaxAvatarPosition.z),
-                new Vector3(_flyComp.MinAvatarPosition.x, _flyComp.MinAvatarPosition.y, _flyComp.MaxAvatarPosition.z),
-                new Vector3(_flyComp.MaxAvatarPosition.x, _flyComp.MinAvatarPosition.y, _flyComp.MinAvatarPosition.z),
-                new Vector3(_flyComp.MaxAvatarPosition.x, _flyComp.MaxAvatarPosition.y, _flyComp.MinAvatarPosition.z),
-                new Vector3(_flyComp.MaxAvatarPosition.x, _flyComp.MaxAvatarPosition.y, _flyComp.MaxAvatarPosition.z),
-                new Vector3(_flyComp.MaxAvatarPosition.x, _flyComp.MinAvatarPosition.y, _flyComp.MaxAvatarPosition.z),
+                new Vector3(minPos.x, minPos.y, minPos.z),
+                new Vector3(minPos.x, maxPos.y, minPos.z),
+                new Vector3(minPos.x, maxPos.y, maxPos.z),
+                new Vector3(minPos.x, minPos.y, maxPos.z),
+                new Vector3(maxPos.x, minPos.y, minPos.z),
+                new Vector3(maxPos.x, maxPos.y, minPos.z),
+                new Vector3(maxPos.x, maxPos.y, maxPos.z),
+                new Vector3(maxPos.x, minPos.y, maxPos.z),
             };
 
             // List of indices/Vector2 between which a line must be made
@@ -86,7 +88,7 @@ namespace VRSF.MoveAround
                 new Vector2(2, 6),
                 new Vector2(3, 7),
             };
-            
+
             // Loop through each indices to connect the points together
             foreach (Vector2 i in indices)
             {
@@ -99,12 +101,12 @@ namespace VRSF.MoveAround
                 GL.End();
             }
 
-            Vector3 labelPos = new Vector3(_flyComp.MinAvatarPosition.x, _flyComp.MaxAvatarPosition.y, _flyComp.MinAvatarPosition.z);
+            Vector3 labelPos = new Vector3(minPos.x, maxPos.y, maxPos.z);
             GUIStyle style = new GUIStyle();
 
             style.normal.textColor = BoundariesLinesColor;
 
-            UnityEditor.Handles.Label(labelPos, "Flying Boundaries", style);
+            UnityEditor.Handles.Label(labelPos, _teleportScript.GetType().Name + " Boundaries", style);
         }
         #endregion
 

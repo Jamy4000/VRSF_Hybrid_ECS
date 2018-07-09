@@ -14,8 +14,6 @@ namespace VRSF.MoveAround.Teleport
         #region PRIVATE_VARIABLES
         // Scriptable Parameter for the teleport script
         private TeleportParametersVariable _teleportParameters;
-
-        private LayerMask _teleportLayer = -1;
         #endregion
 
 
@@ -24,13 +22,6 @@ namespace VRSF.MoveAround.Teleport
         public void Awake()
         {
             _teleportParameters = TeleportParametersVariable.Instance;
-
-            _teleportLayer = LayerMask.NameToLayer("Teleport");
-
-            if (_teleportLayer == -1)
-            {
-                Debug.Log("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
-            }
         }
         #endregion
 
@@ -84,6 +75,7 @@ namespace VRSF.MoveAround.Teleport
             }
         }
 
+
         /// <summary>
         /// Check the newPos for theStep by Step feature depending on the Teleport Boundaries
         /// </summary>
@@ -97,6 +89,7 @@ namespace VRSF.MoveAround.Teleport
 
             return new Vector3(newX, newY, newZ);
         }
+
 
         /// <summary>
         /// Kind of like a Clampf method, but adjust for our purpose

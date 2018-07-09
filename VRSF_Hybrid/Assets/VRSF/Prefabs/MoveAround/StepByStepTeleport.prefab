@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1122192767626482}
+  m_IsPrefabAsset: 1
+--- !u!1 &1122192767626482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4383563707627440}
+  - component: {fileID: 114296947544614918}
+  - component: {fileID: 114886083428352990}
+  - component: {fileID: 114715007791407304}
+  - component: {fileID: 114283853247460836}
+  m_Layer: 0
+  m_Name: StepByStepTeleport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4383563707627440
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114283853247460836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114296947544614918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d0408ca7129194b821634e48033825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DistanceStepByStep: 1
+  MoveOnVerticalAxis: 1
+  UseBoundaries: 1
+  MinAvatarPosition: {x: -50, y: -1, z: -50}
+  MaxAvatarPosition: {x: 50, y: 50, z: 50}
+--- !u!114 &114715007791407304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
+  BoundariesLinesColor: {r: 0, g: 0.14357352, b: 1, a: 1}
+--- !u!114 &114886083428352990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseOVR: 1
+  UseOpenVR: 1
+  UseSimulator: 1
+  RayOrigin: 1
+  InteractionType: 2
+  UseGazeButton: 0
+  ActionButton: 1
+  LeftTouchThumbPosition: 0
+  RightTouchThumbPosition: 0
+  LeftClickThumbPosition: 0
+  RightClickThumbPosition: 0
+  TouchThreshold: 0.5
+  ClickThreshold: 0.5
+  OnButtonStartTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStopTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonIsTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStartClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStopClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonIsClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CanBeUsed: 1
+  HitVar: {fileID: 0}
+  RayVar: {fileID: 0}
+  ButtonHand: 0
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingViveButton: 0
+  IsUsingWheelButton: 0
+  ThumbPos: {fileID: 0}
+  GeDown: {fileID: 0}
+  GeUp: {fileID: 0}
+  GeTouched: {fileID: 0}
+  GeUntouched: {fileID: 0}
+  GelDown: {fileID: 0}
+  GelUp: {fileID: 0}
+  GelTouched: {fileID: 0}
+  GelUntouched: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
+  GameEventsContainer: {fileID: 0}
