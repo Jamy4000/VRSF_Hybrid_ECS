@@ -33,17 +33,13 @@ namespace VRSF.Interactions.Systems
             _gazeParameters = GazeParametersVariable.Instance;
             _interactionsContainer = InteractionVariableContainer.Instance;
 
+            // Set to true to avoid error on the first frame.
+            _interactionsContainer.RightHit.isNull = true;
+            _interactionsContainer.LeftHit.isNull = true;
+            _interactionsContainer.GazeHit.isNull = true;
+            
             foreach (var entity in GetEntities<Filter>())
             {
-                _controllersParameters = ControllersParametersVariable.Instance;
-                _gazeParameters = GazeParametersVariable.Instance;
-                _interactionsContainer = InteractionVariableContainer.Instance;
-
-                // Set to true to avoid error on the first frame.
-                _interactionsContainer.RightHit.isNull = true;
-                _interactionsContainer.LeftHit.isNull = true;
-                _interactionsContainer.GazeHit.isNull = true;
-
                 // if we don't use the controllers and the gaze
                 entity.OnOverComponents.CheckRaycast = _controllersParameters.UseControllers || _gazeParameters.UseGaze;
             }
@@ -60,12 +56,7 @@ namespace VRSF.Interactions.Systems
             }
         }
         #endregion
-
-
-        //EMPTY
-        #region PUBLIC_METHODS
-        #endregion PUBLIC_METHODS
-
+        
 
         #region PRIVATE_METHODS
         /// <summary>

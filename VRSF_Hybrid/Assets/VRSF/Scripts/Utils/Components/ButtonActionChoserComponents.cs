@@ -44,8 +44,7 @@ namespace VRSF.Utils.Components
         [Header("The Thresholds for the Thumb on the Controller")]
         [HideInInspector] public float TouchThreshold = 0.5f;
         [HideInInspector] public float ClickThreshold = 0.5f;
-
-
+        
         [Header("The UnityEvents called when the user is Touching")]
         [HideInInspector] [SerializeField] public UnityEvent OnButtonStartTouching;
         [HideInInspector] [SerializeField] public UnityEvent OnButtonStopTouching;

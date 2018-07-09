@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using VRSF.Controllers;
-using VRSF.Gaze;
 
 namespace VRSF.Interactions.Components
 {

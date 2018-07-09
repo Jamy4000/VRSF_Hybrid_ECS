@@ -1,7 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using UnityEngine.UI;
-using VRSF.Controllers;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils;

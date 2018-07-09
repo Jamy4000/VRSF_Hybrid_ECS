@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;

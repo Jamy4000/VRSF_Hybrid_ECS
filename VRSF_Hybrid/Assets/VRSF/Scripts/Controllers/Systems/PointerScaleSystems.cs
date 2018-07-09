@@ -29,7 +29,7 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.ControllerPointerComp.IsSetup && _controllersParameters.UseControllers)
+                if (e.ControllerPointerComp._IsSetup && _controllersParameters.UseControllers)
                 {
                     CheckPointersScale(e.ControllerPointerComp);
                 }
@@ -44,11 +44,11 @@ namespace VRSF.Controllers.Systems
         /// </summary>
         private void CheckPointersScale(ControllerPointerComponents comp)
         {
-            comp.RightHandPointer.startWidth = comp.CameraRigTransform.lossyScale.x / 100;
-            comp.RightHandPointer.endWidth = comp.CameraRigTransform.lossyScale.x / 100;
+            comp._RightHandPointer.startWidth = comp._CameraRigTransform.lossyScale.x / 100;
+            comp._RightHandPointer.endWidth = comp._CameraRigTransform.lossyScale.x / 100;
 
-            comp.LeftHandPointer.startWidth = comp.CameraRigTransform.lossyScale.x / 100;
-            comp.LeftHandPointer.endWidth = comp.CameraRigTransform.lossyScale.x / 100;
+            comp._LeftHandPointer.startWidth = comp._CameraRigTransform.lossyScale.x / 100;
+            comp._LeftHandPointer.endWidth = comp._CameraRigTransform.lossyScale.x / 100;
         }
     }
 }

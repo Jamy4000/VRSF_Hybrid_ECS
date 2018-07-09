@@ -2,7 +2,6 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers.Components;
-using VRSF.Gaze;
 using VRSF.Interactions;
 
 namespace VRSF.Controllers.Systems
@@ -16,7 +15,6 @@ namespace VRSF.Controllers.Systems
 
 
         #region PRIVATE_VARIABLE
-        private GazeParametersVariable _gazeParameters;
         private ControllersParametersVariable _controllersParameters;
         private InteractionVariableContainer _interactionsContainer;
         #endregion PRIVATE_VARIABLE
@@ -29,32 +27,25 @@ namespace VRSF.Controllers.Systems
             base.OnStartRunning();
 
             _controllersParameters = ControllersParametersVariable.Instance;
-            _gazeParameters = GazeParametersVariable.Instance;
             _interactionsContainer = InteractionVariableContainer.Instance;
         }
 
         // Update is called once per frame
         protected override void OnUpdate()
         {
-            foreach (var e in GetEntities<Filter>())
+            // If we use the controllers, we check their PointerStates
+            if (_controllersParameters.UseControllers)
             {
-                // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.ControllerPointerComp.IsSetup)
+                foreach (var e in GetEntities<Filter>())
                 {
-                    // If we use the controllers, we check their PointerStates
-                    if (_controllersParameters.UseControllers)
+                    // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
+                    if (e.ControllerPointerComp._IsSetup)
                     {
                         _controllersParameters.RightPointerState =
-                            CheckPointerState(_interactionsContainer.IsOverSomethingRight, _controllersParameters.RightPointerState, e.ControllerPointerComp.RightHandPointer, EHand.RIGHT);
+                            CheckPointerState(_interactionsContainer.IsOverSomethingRight, _controllersParameters.RightPointerState, e.ControllerPointerComp._RightHandPointer, EHand.RIGHT);
 
                         _controllersParameters.LeftPointerState =
-                            CheckPointerState(_interactionsContainer.IsOverSomethingLeft, _controllersParameters.LeftPointerState, e.ControllerPointerComp.LeftHandPointer, EHand.LEFT);
-                    }
-
-                    // If we use the Gaze, we check its PointerState
-                    if (_gazeParameters.UseGaze)
-                    {
-                        CheckGazeState(e.ControllerPointerComp);
+                            CheckPointerState(_interactionsContainer.IsOverSomethingLeft, _controllersParameters.LeftPointerState, e.ControllerPointerComp._LeftHandPointer, EHand.LEFT);
                     }
                 }
             }
@@ -132,63 +123,6 @@ namespace VRSF.Controllers.Systems
                 default:
                     Debug.LogError("The hand wasn't specified, setting pointer color to white.");
                     break;
-            }
-        }
-
-        /// <summary>
-        /// Check the color of the gaze depending on the checkGazeStates bool
-        /// </summary>
-        private void CheckGazeState(ControllerPointerComponents comp)
-        {
-            // If we use different type of states
-            if (comp.CheckGazeStates)
-            {
-                SetGazeColorState(comp);
-            }
-            else
-            {
-                if (comp.GazeBackground != null)
-                    comp.GazeBackground.color = _gazeParameters.ReticleColor;
-                if (comp.GazeBackground != null)
-                    comp.GazeTarget.color = _gazeParameters.ReticleTargetColor;
-            }
-        }
-
-        /// <summary>
-        /// Set the color of the gaze depending on its state
-        /// </summary>
-        private void SetGazeColorState(ControllerPointerComponents comp)
-        {
-            // If the Gaze is supposed to be off
-            if (_gazeParameters.GazePointerState == EPointerState.OFF)
-            {
-                if (comp.GazeBackground != null)
-                    comp.GazeBackground.color = _gazeParameters.ColorOffReticleBackgroud;
-
-                if (comp.GazeTarget != null)
-                    comp.GazeTarget.color = _gazeParameters.ColorOffReticleTarget;
-            }
-            // If the Gaze is not over something and it's state is not On
-            else if (!_interactionsContainer.IsOverSomethingGaze.Value && _gazeParameters.GazePointerState != EPointerState.ON)
-            {
-                if (comp.GazeBackground)
-                    comp.GazeBackground.color = _gazeParameters.ColorOnReticleBackgroud;
-
-                if (comp.GazeTarget != null)
-                    comp.GazeTarget.color = _gazeParameters.ColorOnReticleTarget;
-
-                _gazeParameters.GazePointerState = EPointerState.ON;
-            }
-            // If the Gaze is over something and it's state is not at Selectable
-            else if (_interactionsContainer.IsOverSomethingGaze.Value && _gazeParameters.GazePointerState != EPointerState.SELECTABLE)
-            {
-                if (comp.GazeBackground != null)
-                    comp.GazeBackground.color = _gazeParameters.ColorSelectableReticleBackgroud;
-
-                if (comp.GazeTarget != null)
-                    comp.GazeTarget.color = _gazeParameters.ColorSelectableReticleTarget;
-
-                _gazeParameters.GazePointerState = EPointerState.SELECTABLE;
             }
         }
         #endregion PRIVATE_METHODS

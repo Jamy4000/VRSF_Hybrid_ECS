@@ -7,7 +7,6 @@ using UnityEngine.Events;
 using VRSF.Controllers;
 using VRSF.Inputs;
 using VRSF.Utils.Components;
-using static VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
@@ -22,7 +21,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         }
 
         #region PRIVATE_VARIBALES
-        private OnButtonDelegate buttonActionDelegate;
+        private delegate void OnButtonDelegate();
         private InputVariableContainer _inputsContainer;
         #endregion PRIVATE_VARIABLES
 
@@ -234,6 +233,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             // We wait until the GEL were created, if necessary
             yield return new WaitForEndOfFrame();
+
+            OnButtonDelegate buttonActionDelegate;
 
             // CLICK
             if (comp.GeDown != null)

@@ -17,7 +17,6 @@ namespace VRSF.Controllers.Systems
 
 
         #region PRIVATE_VARIABLE
-        private GazeParametersVariable _gazeParameters;
         private ControllersParametersVariable _controllersParameters;
         private InteractionVariableContainer _interactionsContainer;
         #endregion PRIVATE_VARIABLE
@@ -30,7 +29,6 @@ namespace VRSF.Controllers.Systems
             base.OnStartRunning();
 
             _controllersParameters = ControllersParametersVariable.Instance;
-            _gazeParameters = GazeParametersVariable.Instance;
             _interactionsContainer = InteractionVariableContainer.Instance;
         }
 
@@ -40,17 +38,12 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.ControllerPointerComp.IsSetup)
+                if (e.ControllerPointerComp._IsSetup)
                 {
                     if (_controllersParameters.UseControllers)
                     {
                         SetControllerRayLength(_interactionsContainer.LeftHit, VRSF_Components.LeftController, EHand.LEFT, e.ControllerPointerComp);
                         SetControllerRayLength(_interactionsContainer.RightHit, VRSF_Components.RightController, EHand.RIGHT, e.ControllerPointerComp);
-                    }
-
-                    if (_gazeParameters.UseGaze && e.ControllerPointerComp.GazeScript != null)
-                    {
-                        CheckGazePosition(e.ControllerPointerComp);
                     }
                 }
             }
@@ -74,8 +67,8 @@ namespace VRSF.Controllers.Systems
                     //Reduce lineRenderer from the controllers position to the object that was hit
                     controller.GetComponent<LineRenderer>().SetPositions(new Vector3[]
                     {
-                            new Vector3(0.0f, 0.0f, 0.03f),
-                            controller.transform.InverseTransformPoint(hit.Value.point),
+                        new Vector3(0.0f, 0.0f, 0.03f),
+                        controller.transform.InverseTransformPoint(hit.Value.point),
                     });
                     return;
                 }
@@ -96,22 +89,6 @@ namespace VRSF.Controllers.Systems
             {
                 Debug.Log("VRSF : VR Components not setup yet, waiting for next frame.\n" + e);
             }
-        }
-
-        /// <summary>
-        /// Check if the Gaze ray has hit something on the way
-        /// </summary>
-        private void CheckGazePosition(ControllerPointerComponents comp)
-        {
-            if (!_interactionsContainer.GazeHit.isNull)
-            {
-                //Reduce the reticle positon to the object that was hit
-                comp.GazeScript.SetPosition(_interactionsContainer.GazeHit.Value);
-                return;
-            }
-
-            //put back the reticle positon to its normal distance if nothing was hit
-            comp.GazeScript.SetPositionToNormal();
         }
         #endregion PRIVATE_METHODS
     }

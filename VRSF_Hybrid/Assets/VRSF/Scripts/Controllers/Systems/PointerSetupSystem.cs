@@ -15,7 +15,6 @@ namespace VRSF.Controllers.Systems
 
         #region PRIVATE_VARIABLES
         // VRSF Parameters references
-        private GazeParametersVariable _gazeParameters;
         private ControllersParametersVariable _controllersParameters;
         #endregion PRIVATE_VARIABLES
 
@@ -26,15 +25,9 @@ namespace VRSF.Controllers.Systems
             base.OnStartRunning();
 
             _controllersParameters = ControllersParametersVariable.Instance;
-            _gazeParameters = GazeParametersVariable.Instance;
 
             foreach (var e in GetEntities<Filter>())
             {
-                if (_gazeParameters.UseGaze && _gazeParameters.UseDifferentStates)
-                {
-                    e.ControllerPointerComp.CheckGazeStates = true;
-                }
-
                 SetupVRComponents(e.ControllerPointerComp);
             }
         }
@@ -45,7 +38,7 @@ namespace VRSF.Controllers.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (!e.ControllerPointerComp.IsSetup)
+                if (!e.ControllerPointerComp._IsSetup)
                 {
                     SetupVRComponents(e.ControllerPointerComp);
                 }
@@ -62,19 +55,14 @@ namespace VRSF.Controllers.Systems
         {
             try
             {
-                comp.CameraRigTransform = VRSF_Components.CameraRig.transform;
+                comp._CameraRigTransform = VRSF_Components.CameraRig.transform;
 
                 if (_controllersParameters.UseControllers)
                 {
                     SetupPointers(comp);
                 }
 
-                if (_gazeParameters.UseGaze)
-                {
-                    SetupGazeImages(comp);
-                }
-
-                comp.IsSetup = true;
+                comp._IsSetup = true;
             }
             catch (System.Exception e)
             {
@@ -87,32 +75,10 @@ namespace VRSF.Controllers.Systems
         /// </summary>
         private void SetupPointers(ControllerPointerComponents comp)
         {
-            comp.RightHandPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
-            comp.RightHandPointer.enabled = _controllersParameters.UsePointerRight;
-            comp.LeftHandPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
-            comp.LeftHandPointer.enabled = _controllersParameters.UsePointerLeft;
-        }
-
-
-        /// <summary>
-        /// Try to get the background and target images of the Gaze based on the Gaze script.
-        /// </summary>
-        private void SetupGazeImages(ControllerPointerComponents comp)
-        {
-            try
-            {
-                    comp.GazeScript = GameObject.FindObjectOfType<Gaze.Gaze>();
-
-                    if (!comp.GazeBackground)
-                        comp.GazeBackground = comp.GazeScript.ReticleBackground;
-
-                    if (!comp.GazeTarget)
-                        comp.GazeTarget = comp.GazeScript.ReticleTarget;
-            }
-            catch (System.Exception e)
-            {
-                Debug.Log("Couldn't find the Gaze script, cannot get the images for the ColorPointer script.\n" + e.ToString());
-            }
+            comp._RightHandPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
+            comp._RightHandPointer.enabled = _controllersParameters.UsePointerRight;
+            comp._LeftHandPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
+            comp._LeftHandPointer.enabled = _controllersParameters.UsePointerLeft;
         }
         #endregion PRIVATE_METHODS
     }
