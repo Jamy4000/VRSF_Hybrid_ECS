@@ -26,8 +26,8 @@ namespace VRSF.MoveAround.Teleport.Editor
 
             if (_sbsComp._UseBoundaries)
             {
-                _sbsComp._MinAvatarPosition = EditorGUILayout.Vector3Field("Minimum Position in Scene", _sbsComp._MinAvatarPosition);
-                _sbsComp._MaxAvatarPosition = EditorGUILayout.Vector3Field("Maximum Position in Scene", _sbsComp._MaxAvatarPosition);
+                _sbsComp._MinUserPosition = EditorGUILayout.Vector3Field("Minimum Position in Scene", _sbsComp._MinUserPosition);
+                _sbsComp._MaxUserPosition = EditorGUILayout.Vector3Field("Maximum Position in Scene", _sbsComp._MaxUserPosition);
             }
 
             EditorGUILayout.Space();

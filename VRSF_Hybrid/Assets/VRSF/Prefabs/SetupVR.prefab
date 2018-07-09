@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 114674006622435158}
   - component: {fileID: 114956965750407208}
   - component: {fileID: 114572354867394086}
-  - component: {fileID: 114227215284595176}
   - component: {fileID: 114080766574852394}
   m_Layer: 0
   m_Name: VRInteractionScripts
@@ -206,9 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScriptablesToSaveAndLoad:
-  - {fileID: 11400000, guid: fa379892e3ab894469d632591b239a36, type: 2}
-  - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
   - {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
+  - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
   LoadOnAppStart: 0
   LoadOnUnityEditorLaunch: 1
   SaveOnAppQuit: 0
@@ -236,18 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114227215284595176
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
 --- !u!114 &114261721487393040
 MonoBehaviour:
   m_ObjectHideFlags: 1

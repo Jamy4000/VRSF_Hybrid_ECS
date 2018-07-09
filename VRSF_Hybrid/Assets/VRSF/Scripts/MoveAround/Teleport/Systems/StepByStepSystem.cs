@@ -114,32 +114,14 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            Vector3 avatarNewPos = VRSF_Components.CameraRig.transform.position + posToCheck;
+            Vector3 minPos = entity.SBS_Comp._MinUserPosition;
+            Vector3 maxPos = entity.SBS_Comp._MaxUserPosition;
 
-            float newX = CheckAxisValue(posToCheck.x, avatarNewPos.x, entity.SBS_Comp._MinAvatarPosition.x, entity.SBS_Comp._MaxAvatarPosition.x);
-            float newY = CheckAxisValue(posToCheck.y, avatarNewPos.y, entity.SBS_Comp._MinAvatarPosition.y, entity.SBS_Comp._MaxAvatarPosition.y);
-            float newZ = CheckAxisValue(posToCheck.z, avatarNewPos.z, entity.SBS_Comp._MinAvatarPosition.z, entity.SBS_Comp._MaxAvatarPosition.z);
-
-            return new Vector3(newX, newY, newZ);
-        }
-
-
-        /// <summary>
-        /// Kind of like a Clampf method, but adjust for our purpose
-        /// </summary>
-        /// <param name="baseValue">The position to check</param>
-        /// <param name="avatarAxisPos">The new position of the avatar after adding the position to check to it</param>
-        /// <param name="minVal">the minimum value in the scene</param>
-        /// <param name="maxVal">The maximum value for teleporting in the scene</param>
-        /// <returns>the new position in scene for the avatar, on one axis</returns>
-        public float CheckAxisValue(float baseValue, float avatarAxisPos, float minVal, float maxVal)
-        {
-            if (avatarAxisPos > maxVal)
-                return maxVal - avatarAxisPos;
-            else if (avatarAxisPos < minVal)
-                return minVal - avatarAxisPos;
-            else
-                return baseValue;
+            posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
+            posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
+            posToCheck.z = Mathf.Clamp(posToCheck.z, minPos.z, maxPos.z);
+            
+            return posToCheck;
         }
         #endregion
 

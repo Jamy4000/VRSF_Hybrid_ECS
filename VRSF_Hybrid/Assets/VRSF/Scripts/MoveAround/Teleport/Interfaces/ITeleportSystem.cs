@@ -10,7 +10,5 @@ namespace VRSF.MoveAround.Teleport.Interfaces
         void TeleportUser(ITeleportFilter teleportFilter);
 
         Vector3 CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, Vector3 PosToCheck);
-
-        float CheckAxisValue(float baseValue, float avatarAxisPos, float minVal, float maxVal);
     }
 }

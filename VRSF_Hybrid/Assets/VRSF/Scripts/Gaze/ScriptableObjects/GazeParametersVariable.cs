@@ -123,7 +123,7 @@ namespace VRSF.Gaze
         /// Give the Exclusion Layer(s) depending on the IgnoreOnlyExclusionLayerGaze and the specified exclusion layers
         /// </summary>
         /// <returns>the exclusion layers as an int</returns>
-        public int GetGazeExclusionsLayer()
+        public LayerMask GetGazeExclusionsLayer()
         {
             return ~GazeExclusionLayer;
         }
