@@ -31,9 +31,9 @@ MonoBehaviour:
   UseNormal: 1
   DefaultDistance: 200
   ReticleSize: {x: 1, y: 1, z: 1}
-  ReticleSprite: {fileID: 21300000, guid: 112755491ecfe934385689b67162826c, type: 3}
-  ReticleTargetSprite: {fileID: 21300000, guid: 099b47fd3d429e843b292bbd5ce7c365,
+  ReticleSprite: {fileID: 102900000, guid: 8f286639b8194b14dba9004b2536a9c5, type: 3}
+  ReticleTargetSprite: {fileID: 102900000, guid: 127501ed38d9403f99fe6899c4781082,
     type: 3}
   GazeButtonOVR: 0
-  GazeButtonOpenVR: 0
-  GazeButtonSimulator: 0
+  GazeButtonOpenVR: 16384
+  GazeButtonSimulator: 2048

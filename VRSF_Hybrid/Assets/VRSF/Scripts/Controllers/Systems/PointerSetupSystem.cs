@@ -1,7 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers.Components;
-using VRSF.Gaze;
 using VRSF.Utils;
 
 namespace VRSF.Controllers.Systems
@@ -17,6 +16,7 @@ namespace VRSF.Controllers.Systems
         // VRSF Parameters references
         private ControllersParametersVariable _controllersParameters;
         #endregion PRIVATE_VARIABLES
+
 
         #region ComponentSystem_Methods
         // Use this for initialization

@@ -1,13 +1,11 @@
 fileFormatVersion: 2
-guid: 6bcf36ba8557ae14fac6c655931c6110
-timeCreated: 1527525122
-licenseType: Pro
+guid: dc077936898ab604b902799cd550c8f1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
   - ScriptableToSave: {fileID: 11400000, guid: 4edb998035098274593530d86f71436f, type: 2}
-  - SingletonToSave: {fileID: 11400000, guid: e85721f7ea6831b4d9f18c14b2679f11, type: 2}
+  - ScriptableToLoad: {fileID: 11400000, guid: 0204502ad7143fa4da9956f7a21f28b0, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

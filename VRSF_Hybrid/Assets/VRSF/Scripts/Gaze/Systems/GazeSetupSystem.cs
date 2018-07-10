@@ -36,18 +36,24 @@ namespace VRSF.Gaze.Systems
 
         protected override void OnUpdate()
         {
+            if (GetEntities<Filter>().Length == 0)
+            {
+                this.Enabled = false;
+            }
+
             if (_gazeParameters.UseGaze)
             {
-                // We will only use one gaze.
-                var e = GetEntities<Filter>()[0];
-
-                if (!e.GazeComp._IsSetup)
+                foreach (var e in GetEntities<Filter>())
                 {
-                    GeneralGazeSetup(e.GazeComp);
-                }
-                else
-                {
-                    this.Enabled = false;
+                    if (!e.GazeComp._IsSetup)
+                    {
+                        GeneralGazeSetup(e.GazeComp);
+                    }
+                    else
+                    {
+                        // AS there is only one gaze, we disable this system when it's setup.
+                        this.Enabled = false;
+                    }
                 }
             }
         }
