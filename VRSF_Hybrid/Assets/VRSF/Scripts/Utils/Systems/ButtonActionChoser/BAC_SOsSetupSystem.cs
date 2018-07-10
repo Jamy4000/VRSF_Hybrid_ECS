@@ -52,7 +52,18 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             
         }
 
-        protected override void OnUpdate() {}
+        protected override void OnUpdate()
+        {
+            bool StillSettingUp = false;
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (!e.ButtonComponents.IsSetup)
+                {
+                    StillSettingUp = true;
+                }
+            }
+            this.Enabled = StillSettingUp;
+        }
         #endregion
 
 
@@ -62,12 +73,24 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         private void CheckInitSOs(ButtonActionChoserComponents comp)
         {
+            // We check that the interaction type is correct
+            if (comp.InteractionType == EControllerInteractionType.NONE)
+            {
+                Debug.LogError("VRSF : Please specify a correct InteractionType for the " + this.GetType().Name + " script.\n" +
+                    "Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                comp.CanBeUsed = false;
+            }
+
             // We init the Scriptable Object references and how they work
             if (!InitSOsReferences(comp))
             {
                 Debug.LogError("VRSF : An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
                     "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 comp.CanBeUsed = false;
+            }
+            else
+            {
+                comp.IsSetup = true;
             }
         }
 
@@ -126,10 +149,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             // If we use the Mouse Wheel Button
             else if (comp.IsUsingWheelButton)
             {
-                if (comp.InteractionType == EControllerInteractionType.NONE || comp.InteractionType == EControllerInteractionType.TOUCH)
-                {
-                    return false;
-                }
                 comp.GeDown = _inputsContainer.WheelClickDown;
                 comp.GeUp = _inputsContainer.WheelClickUp;
                 comp.IsClicking = _inputsContainer.WheelIsClicking;
@@ -148,10 +167,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <returns>true if everything was setup correctly</returns>
         private bool SetupGazeInteraction(ButtonActionChoserComponents comp)
         {
-            if (comp.InteractionType == EControllerInteractionType.NONE)
-            {
-                return false;
-            }
             if ((comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 comp.GeDown = _inputsContainer.GazeClickDown;
@@ -174,14 +189,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <returns>true if everything was setup correctly</returns>
         private bool SetupNormalButton(ButtonActionChoserComponents comp)
         {
-            // If the Interaction Type is set at NONE
-            if (comp.InteractionType == EControllerInteractionType.NONE)
-            {
-                Debug.LogError("Please chose a valid Interaction type in the Inspector. Disabling " + comp.name + " script.");
-                comp.CanBeUsed = false;
-                return false;
-            }
-
             // If the Interaction Type contains at least CLICK
             if ((comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {

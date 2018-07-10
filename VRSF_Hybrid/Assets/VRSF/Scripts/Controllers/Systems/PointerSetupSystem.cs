@@ -35,14 +35,17 @@ namespace VRSF.Controllers.Systems
         // Update is called once per frame
         protected override void OnUpdate()
         {
+            bool controllersSettingUp = false;
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
                 if (!e.ControllerPointerComp._IsSetup)
                 {
+                    controllersSettingUp = true;
                     SetupVRComponents(e.ControllerPointerComp);
                 }
             }
+            this.Enabled = controllersSettingUp;
         }
         #endregion ComponentSystem_Methods
 

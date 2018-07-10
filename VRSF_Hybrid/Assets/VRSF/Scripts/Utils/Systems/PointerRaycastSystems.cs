@@ -60,11 +60,6 @@ namespace VRSF.Utils.Systems
         #endregion
 
 
-        //EMPTY
-        #region PUBLIC_METHODS
-        #endregion PUBLIC_METHODS
-
-
         #region PRIVATE_METHODS
         /// <summary>
         /// Check the Rays from the two controllers

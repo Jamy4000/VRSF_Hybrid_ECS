@@ -8,7 +8,6 @@ using VRSF.Inputs;
 
 namespace VRSF.Utils.Components.ButtonActionChoser
 {
-    [Serializable]
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ButtonActionChoserComponents : MonoBehaviour
     {
@@ -32,17 +31,18 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         [HideInInspector] public float ClickThreshold = 0.5f;
         
         [Header("The UnityEvents called when the user is Touching")]
-        [HideInInspector] [SerializeField] public UnityEvent OnButtonStartTouching;
-        [HideInInspector] [SerializeField] public UnityEvent OnButtonStopTouching;
-        [HideInInspector] [SerializeField] public UnityEvent OnButtonIsTouching;
+        [HideInInspector] public UnityEvent OnButtonStartTouching;
+        [HideInInspector] public UnityEvent OnButtonStopTouching;
+        [HideInInspector] public UnityEvent OnButtonIsTouching;
 
         [Header("The UnityEvents called when the user is Clicking")]
-        [HideInInspector] [SerializeField] public UnityEvent OnButtonStartClicking;
-        [HideInInspector] [SerializeField] public UnityEvent OnButtonStopClicking;
-        [HideInInspector] [SerializeField] public UnityEvent OnButtonIsClicking;
+        [HideInInspector] public UnityEvent OnButtonStartClicking;
+        [HideInInspector] public UnityEvent OnButtonStopClicking;
+        [HideInInspector] public UnityEvent OnButtonIsClicking;
         
         [HideInInspector] public bool ActionButtonIsReady = false;
         [HideInInspector] public bool ParametersAreInvalid = false;
+        [HideInInspector] public bool IsSetup = false;
         [HideInInspector] public bool CanBeUsed = true;
 
         // The hand on which the button to use is situated

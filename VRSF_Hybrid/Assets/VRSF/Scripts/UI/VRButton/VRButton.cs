@@ -94,11 +94,6 @@ namespace VRSF.UI
         #endregion MONOBEHAVIOUR_METHODS
 
 
-        // EMPTY
-        #region PUBLIC_METHODS
-        #endregion PUBLIC_METHODS
-
-
         #region PRIVATE_METHODS
         private void MakeBasicSetup()
         {

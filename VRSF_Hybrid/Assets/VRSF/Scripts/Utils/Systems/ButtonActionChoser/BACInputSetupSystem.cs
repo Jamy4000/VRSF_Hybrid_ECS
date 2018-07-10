@@ -4,7 +4,6 @@ using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs;
-using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser

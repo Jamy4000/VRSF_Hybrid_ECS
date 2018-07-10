@@ -38,10 +38,9 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                InitializeValues(e);
-
                 _currentSetupEntity = e;
                 SetupListenersResponses();
+                InitializeValues(e);
             }
         }
 
@@ -49,19 +48,24 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             base.OnUpdate();
 
+            // Check if the entities are all setup. 
+            bool entitiesNotSetup = false;
+
             foreach (var e in GetEntities<Filter>())
             {
                 if (!e.BezierComp._IsSetup)
                 {
+                    entitiesNotSetup = true;
                     InitializeValues(e);
-                    return;
                 }
             }
+            // If all the entities were setup, the bool stay at false, and the current system don't need to run anymore
+            this.Enabled = entitiesNotSetup;
         }
 
-        protected override void OnStopRunning()
+        protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
 
             foreach (var e in GetEntities<Filter>())
             {

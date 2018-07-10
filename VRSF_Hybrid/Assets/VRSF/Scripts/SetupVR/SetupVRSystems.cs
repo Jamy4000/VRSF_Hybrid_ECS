@@ -29,30 +29,23 @@ namespace VRSF.Utils.Systems
             base.OnStartRunning();
 
             _controllersParameters = ControllersParametersVariable.Instance;
-
-            foreach (var entity in GetEntities<Filter>())
-            {
-                SetupVRInScene(entity.SetupVR);
-            }
+            SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
         }
 
         protected override void OnUpdate()
         {
-            foreach (var entity in GetEntities<Filter>())
+            var e = GetEntities<Filter>()[0];
+            if (!e.SetupVR.IsReady)
             {
-                if (!entity.SetupVR.IsReady)
-                {
-                    SetupVRInScene(entity.SetupVR);
-                }
+                SetupVRInScene(e.SetupVR);
+            }
+            else
+            {
+                this.Enabled = false;
             }
         }
         #endregion
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
-        #endregion
-
+        
 
         #region PRIVATE_METHODS
         /// <summary>
