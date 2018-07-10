@@ -11,12 +11,12 @@ namespace VRSF.Interactions
         [Multiline(10)]
         public string DeveloperDescription = "";
 
-        [Header("The RayVariable for the Controlelrs and Gaze.")]
+        [Header("The RayVariable for the Controllers and Gaze.")]
         public RayVariable RightRay;
         public RayVariable LeftRay;
         public RayVariable GazeRay;
 
-        [Header("The RaycastHitVariable for the Controlelrs and Gaze.")]
+        [Header("The RaycastHitVariable for the Controllers and Gaze.")]
         public RaycastHitVariable RightHit;
         public RaycastHitVariable LeftHit;
         public RaycastHitVariable GazeHit;
@@ -40,18 +40,6 @@ namespace VRSF.Interactions
         public BoolVariable IsOverSomethingRight;
         public BoolVariable IsOverSomethingLeft;
         public BoolVariable IsOverSomethingGaze;
-        #endregion
-
-
-        // EMPTY
-        #region PRIVATE_VARIABLES
-
-        #endregion
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
-
         #endregion
     }
 }

@@ -9,11 +9,6 @@ namespace VRSF.Controllers
     /// </summary>
     public class ControllersParametersVariable : ScriptableSingleton<ControllersParametersVariable>
     {
-        // EMPTY
-        #region PRIVATE_VARIABLE
-        #endregion
-
-
         #region PUBLIC_VARIABLE
         [Multiline(10)]
         public string DeveloperDescription = "";
@@ -67,7 +62,6 @@ namespace VRSF.Controllers
 
         [Tooltip("Themaximum distance at which the right pointer is going.")]
         public float MaxDistancePointerRight = 1000f;
-
         #endregion PUBLIC_VARIABLE
 
 

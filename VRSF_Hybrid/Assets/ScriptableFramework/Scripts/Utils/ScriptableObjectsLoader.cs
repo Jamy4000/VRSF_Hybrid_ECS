@@ -20,7 +20,7 @@ namespace ScriptableFramework.Util
         public bool LoadOnAppStart = true;
 
         [Tooltip("If you want to load the Parameters for the ScriptablesToSave when Unity Editor Start.")]
-        public bool LoadOnUnityEditorLaunch = true;
+        public bool LoadOnUnityEditorLaunch = true;     // Used in OnEditorLaunch script
 
         [Tooltip("If you want to save the Parameters for the ScriptablesToSave when the App Stop.")]
         public bool SaveOnAppQuit = true;
@@ -54,18 +54,18 @@ namespace ScriptableFramework.Util
                 Load();
             }
         }
-        
+
+#if UNITY_EDITOR
         void OnValidate()
         {
             CheckJSONFiles();
 
-#if UNITY_EDITOR
             if (Application.isPlaying)
             {
                 StartCoroutine(RefreshAssets());
             }
-#endif
         }
+#endif
 
         private void OnApplicationQuit()
         {

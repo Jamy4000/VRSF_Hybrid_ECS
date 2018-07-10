@@ -53,11 +53,6 @@ namespace VRSF.Controllers.Systems
         #endregion ComponentSystem_Methods
 
 
-        //EMPTY
-        #region PUBLIC_METHODS
-        #endregion
-
-
         #region PRIVATE_METHODS
         /// <summary>
         /// Check if the pointer is touching the UI
@@ -105,23 +100,25 @@ namespace VRSF.Controllers.Systems
         /// <param name="selectable">The color for the Selectable State</param>
         private void GetControllerColor(EHand hand, ref Color on, ref Color off, ref Color selectable)
         {
-            var controllersParam = ControllersParametersVariable.Instance;
             switch (hand)
             {
                 case (EHand.RIGHT):
-                    on = controllersParam.ColorMatOnRight;
-                    off = controllersParam.ColorMatOffRight;
-                    selectable = controllersParam.ColorMatSelectableRight;
+                    on = _controllersParameters.ColorMatOnRight;
+                    off = _controllersParameters.ColorMatOffRight;
+                    selectable = _controllersParameters.ColorMatSelectableRight;
                     break;
 
                 case (EHand.LEFT):
-                    on = controllersParam.ColorMatOnLeft;
-                    off = controllersParam.ColorMatOffLeft;
-                    selectable = controllersParam.ColorMatSelectableLeft;
+                    on = _controllersParameters.ColorMatOnLeft;
+                    off = _controllersParameters.ColorMatOffLeft;
+                    selectable = _controllersParameters.ColorMatSelectableLeft;
                     break;
 
                 default:
-                    Debug.LogError("The hand wasn't specified, setting pointer color to white.");
+                    Debug.LogError("The hand wasn't specified, setting pointer color to RGB Colors.");
+                    on = Color.blue;
+                    off = Color.red;
+                    selectable = Color.green;
                     break;
             }
         }

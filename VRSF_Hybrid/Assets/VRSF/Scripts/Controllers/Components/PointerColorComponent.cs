@@ -6,7 +6,7 @@ namespace VRSF.Controllers.Components
     /// Contains all the variable for the ControllerPointer Systems
     /// </summary>
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
-    public class ControllerPointerComponents : MonoBehaviour
+    public class PointerColorComponent : MonoBehaviour
     {
         // LineRenderer attached to the right and left controllers
         [HideInInspector] public LineRenderer _RightHandPointer;
