@@ -9,7 +9,7 @@ namespace ScriptableFramework.Util.Systems
     {
         struct Filter
         {
-            public ScriptableObjectSaveAndLoadComponent ScriptableSaverLoaderComp;
+            public ScriptableObjectLoadComponent ScriptableLoaderComp;
         }
 
         protected override void OnStartRunning()
@@ -18,9 +18,10 @@ namespace ScriptableFramework.Util.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ScriptableSaverLoaderComp.LoadScriptableFromJSONOnAppStart)
+                if (e.ScriptableLoaderComp.LoadScriptableFromJSONOnAppStart)
                 {
-                    Load(e.ScriptableSaverLoaderComp);
+                    Debug.Log("Hello");
+                    Load(e.ScriptableLoaderComp);
                 }
             }
 
@@ -32,10 +33,8 @@ namespace ScriptableFramework.Util.Systems
         /// <summary>
         /// Load the JsonFiles and overwrite the scriptable objects in the public list.
         /// </summary>
-        private void Load(ScriptableObjectSaveAndLoadComponent comp)
+        private void Load(ScriptableObjectLoadComponent comp)
         {
-            JsonFileChecker.CheckJSONFiles(comp);
-
             for (int i = 0; i < comp.ScriptableToLoad.Items.Count; i++)
             {
                 if (comp.ScriptableToLoad.Items[i] != null)

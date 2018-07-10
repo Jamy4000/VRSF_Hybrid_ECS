@@ -14,7 +14,7 @@ MonoBehaviour:
   DeveloperDescription: "General Parameters for the Gaze.\nThose can either be edited
     in the\nScriptable Object, or in the \ndedicated Window \n(Window/VRSF/VR Interaction
     Parameters)."
-  UseGaze: 1
+  UseGaze: 0
   GazeExclusionLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -31,9 +31,8 @@ MonoBehaviour:
   UseNormal: 1
   DefaultDistance: 200
   ReticleSize: {x: 1, y: 1, z: 1}
-  ReticleSprite: {fileID: 102900000, guid: 8f286639b8194b14dba9004b2536a9c5, type: 3}
-  ReticleTargetSprite: {fileID: 102900000, guid: 127501ed38d9403f99fe6899c4781082,
-    type: 3}
+  ReticleSprite: {fileID: 102900000, guid: 37e623e4c1af0b9438a788f3933ec0b8, type: 3}
+  ReticleTargetSprite: {fileID: 2800000, guid: 5e7c9ab97e5884e4eaa5967e9024f39d, type: 3}
   GazeButtonOVR: 0
   GazeButtonOpenVR: 16384
   GazeButtonSimulator: 2048

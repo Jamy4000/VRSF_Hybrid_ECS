@@ -69,8 +69,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4014324676546320}
   - component: {fileID: 114845008837313072}
-  - component: {fileID: 114735863965474716}
   - component: {fileID: 114534456078256912}
+  - component: {fileID: 114113482233076910}
   m_Layer: 0
   m_Name: SimulatorCameraRig
   m_TagString: CameraRig
@@ -173,6 +173,19 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &114113482233076910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1972975401033530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74515c706227a3b42a68b602f410e3c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TempEvent: {fileID: 0}
+  CheckGazeInteractions: 0
 --- !u!114 &114534456078256912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,23 +198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1
---- !u!114 &114735863965474716
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1972975401033530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3f47ad96e62d5408d3a58067b97702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ControllersParameters: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
-    type: 2}
-  GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
-  InputContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
-  TempEvent: {fileID: 0}
-  CheckGazeInteractions: 0
 --- !u!114 &114845008837313072
 MonoBehaviour:
   m_ObjectHideFlags: 1

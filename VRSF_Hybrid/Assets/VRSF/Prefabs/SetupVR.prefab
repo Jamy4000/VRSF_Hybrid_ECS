@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 114468450047122696}
   - component: {fileID: 114806137930654248}
   - component: {fileID: 114758562381228898}
+  - component: {fileID: 114080542636605684}
   - component: {fileID: 114045286402161142}
   m_Layer: 0
   m_Name: SetupVR
@@ -204,6 +205,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114080542636605684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1147815568228318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c5f1e2128c3ed4a8da44fa37f3ca7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptablesToSave:
+  - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
+  - {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
+  SaveScriptableInJSONOnAppQuit: 1
+  RemoveUnusedJSONFiles: 1
+  ScriptableToSave: {fileID: 11400000, guid: 4edb998035098274593530d86f71436f, type: 2}
 --- !u!114 &114080766574852394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -291,16 +309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc077936898ab604b902799cd550c8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScriptablesToSave:
-  - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
-  - {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
   ScriptablesToLoad:
   - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
   - {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
-  LoadScriptableFromJSONOnAppStart: 1
-  SaveScriptableInJSONOnAppQuit: 1
+  LoadScriptableFromJSONOnAppStart: 0
   RemoveUnusedJSONFiles: 1
-  ScriptableToSave: {fileID: 11400000, guid: 4edb998035098274593530d86f71436f, type: 2}
   ScriptableToLoad: {fileID: 11400000, guid: 0204502ad7143fa4da9956f7a21f28b0, type: 2}
 --- !u!114 &114806137930654248
 MonoBehaviour:
