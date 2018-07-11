@@ -9,7 +9,7 @@ namespace VRSF.MoveAround.Systems
     /// <summary>
     /// System Allowing the user to fly with the thumbstick / touchpad. 
     /// </summary>
-    public class FlySystem : BACUpdateSystem
+    public class FlySetupSystem : BACUpdateSystem
     {
         struct Filter
         {
@@ -27,6 +27,12 @@ namespace VRSF.MoveAround.Systems
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
+            if (GetEntities<Filter>().Length == 0)
+            {
+                this.Enabled = false;
+                return;
+            }
+
             base.OnStartRunning();
             
             foreach (var e in GetEntities<Filter>())

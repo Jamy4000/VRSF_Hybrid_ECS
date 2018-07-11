@@ -26,6 +26,12 @@ namespace VRSF.MoveAround.Systems
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
+            if (GetEntities<Filter>().Length == 0)
+            {
+                this.Enabled = false;
+                return;
+            }
+
             base.OnStartRunning();
 
             foreach (var e in GetEntities<Filter>())
