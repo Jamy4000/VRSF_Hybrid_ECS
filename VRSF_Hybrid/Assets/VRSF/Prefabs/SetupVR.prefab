@@ -54,13 +54,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4510786243131436}
-  - component: {fileID: 114261721487393040}
-  - component: {fileID: 114674006622435158}
-  - component: {fileID: 114956965750407208}
-  - component: {fileID: 114572354867394086}
-  - component: {fileID: 114080766574852394}
+  - component: {fileID: 114798082786486556}
+  - component: {fileID: 114679067687120936}
+  - component: {fileID: 114804604738889166}
+  - component: {fileID: 114827412036025474}
+  - component: {fileID: 114188522560837668}
   m_Layer: 0
-  m_Name: VRInteractionScripts
+  m_Name: VRInteractionComponents
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   SaveScriptableInJSONOnAppQuit: 1
   RemoveUnusedJSONFiles: 1
   ScriptableToSave: {fileID: 11400000, guid: 4edb998035098274593530d86f71436f, type: 2}
---- !u!114 &114080766574852394
+--- !u!114 &114188522560837668
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,21 +230,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1169340077094496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Script: {fileID: 11500000, guid: 1302670a1c5225548a4ba535eb0a8cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114261721487393040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1543867edeb586a438d512744ab84885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CheckRaycast: 1
+  LeftClickBool: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
+  RightClickBool: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
 --- !u!114 &114468450047122696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -269,7 +259,7 @@ MonoBehaviour:
   SDKHasBeenInstantiated: 0
   Loaded: 0
   IsReady: 0
---- !u!114 &114572354867394086
+--- !u!114 &114679067687120936
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,20 +274,6 @@ MonoBehaviour:
   _LeftHandPointer: {fileID: 0}
   _CameraRigTransform: {fileID: 0}
   _IsSetup: 0
---- !u!114 &114674006622435158
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1169340077094496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1302670a1c5225548a4ba535eb0a8cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LeftClickBool: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
-  RightClickBool: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
-  CheckRaycast: 1
 --- !u!114 &114758562381228898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,8 +289,34 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
   - {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
   LoadScriptableFromJSONOnAppStart: 0
-  RemoveUnusedJSONFiles: 1
   ScriptableToLoad: {fileID: 11400000, guid: 0204502ad7143fa4da9956f7a21f28b0, type: 2}
+--- !u!114 &114798082786486556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169340077094496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114804604738889166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1169340077094496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4270c1b981de842a0c454818397a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GazeParameters: {fileID: 0}
+  ControllersParameters: {fileID: 0}
+  InteractionsContainer: {fileID: 0}
+  InputsContainer: {fileID: 0}
+  IsSetup: 0
 --- !u!114 &114806137930654248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -326,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec19f0f501fc07408f2e9a4fd74313e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114956965750407208
+--- !u!114 &114827412036025474
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
