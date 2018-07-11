@@ -15,7 +15,7 @@ MonoBehaviour:
     more info,\r check the tooltips\nfor each parameters."
   UseControllers: 1
   UsePointerLeft: 1
-  LeftPointerState: 1
+  LeftPointerState: 0
   LeftExclusionLayer:
     serializedVersion: 2
     m_Bits: 0

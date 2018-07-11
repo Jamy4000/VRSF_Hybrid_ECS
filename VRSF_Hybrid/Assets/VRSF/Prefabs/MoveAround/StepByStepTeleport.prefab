@@ -150,6 +150,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
+  IsSetup: 0
   CanBeUsed: 1
   ButtonHand: 0
   ClickActionBeyondThreshold: 0

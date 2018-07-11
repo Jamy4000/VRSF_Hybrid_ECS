@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using VRSF.Controllers;
+using VRSF.Gaze;
 
 namespace VRSF.Interactions.Components
 {
@@ -10,5 +12,11 @@ namespace VRSF.Interactions.Components
     {
         [Tooltip("Wheter we check if the Raycast is over the objects, set at runtime by checking if we use the controllers or the gaze")]
         [HideInInspector] public bool CheckRaycast = true;
+
+        [HideInInspector] public bool IsSetup = false;
+
+        [HideInInspector] public GazeParametersVariable GazeParameters;
+        [HideInInspector] public ControllersParametersVariable ControllersParameters;
+        [HideInInspector] public InteractionVariableContainer InteractionsContainer;
     }
 }
