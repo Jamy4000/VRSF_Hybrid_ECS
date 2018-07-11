@@ -21,8 +21,12 @@ GameObject:
   - component: {fileID: 4566885965485188}
   - component: {fileID: 114729498285908886}
   - component: {fileID: 114438385980122082}
+  - component: {fileID: 114620667244401994}
+  - component: {fileID: 114910324435587616}
   - component: {fileID: 114103092957932556}
   - component: {fileID: 114495848539861036}
+  - component: {fileID: 114968962681791368}
+  - component: {fileID: 114769733856062240}
   - component: {fileID: 114780445443877056}
   m_Layer: 0
   m_Name: FlyMode
@@ -63,7 +67,7 @@ MonoBehaviour:
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 3
   TouchThreshold: 0.5
-  ClickThreshold: 0.2
+  ClickThreshold: 0
   OnButtonStartTouching:
     m_PersistentCalls:
       m_Calls: []
@@ -145,6 +149,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LineMat: {fileID: 2100000, guid: 854b6af582c2d6f4881453e9a0bf85bd, type: 2}
   BoundariesLinesColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &114620667244401994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4454539f17089364188ca985a54c684d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseHorizontalBoundaries: 0
+  MinAvatarYPosition: 0
+  MaxAvatarYPosition: 2000
+  MinAvatarPosition: {x: -10, y: -1, z: -10}
+  MaxAvatarPosition: {x: 10, y: 10, z: 10}
 --- !u!114 &114729498285908886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,24 +179,26 @@ MonoBehaviour:
   FlyingSpeed: 1
   ChangeSpeedDependingOnHeight: 1
   ChangeSpeedDependingOnScale: 1
-  UseHorizontalBoundaries: 1
-  MinAvatarYPosition: 0
-  MaxAvatarYPosition: 2000
-  MinAvatarPosition: {x: -100, y: -1, z: -100}
-  MaxAvatarPosition: {x: 100, y: 102, z: 100}
-  AccelerationDecelerationEffect: 1
-  AccelerationEffectFactor: 1
-  DecelerationEffectFactor: 1
-  IsSetup: 0
+  IsInteracting: 0
   WantToFly: 0
   FlyForward: 1
   IsSlowingDown: 0
-  FlightDirection: 0
-  CurrentFlightVelocity: 0
-  NormalizedDir: {x: 0, y: 0, z: 0}
-  FinalDirection: {x: 0, y: 0, z: 0}
   TimeSinceStartFlying: 0
   SlowDownTimer: 0
+--- !u!114 &114769733856062240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e31f7983b18ed4596513e349683a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlightDirection: 0
+  NormalizedDir: {x: 0, y: 0, z: 0}
+  FinalDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &114780445443877056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,3 +210,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114910324435587616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e87711b3b9660449431978a6c21d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AccelerationDecelerationEffect: 1
+  AccelerationEffectFactor: 1
+  DecelerationEffectFactor: 1
+--- !u!114 &114968962681791368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6da6c7e5ec0b24b825f4ed5263bd10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentFlightVelocity: 0

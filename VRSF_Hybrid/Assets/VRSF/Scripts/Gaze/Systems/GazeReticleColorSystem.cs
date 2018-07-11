@@ -46,7 +46,7 @@ namespace VRSF.Gaze.Systems
         #endregion ComponentSystem_Methods
 
 
-        #region PUBLIC_METHODS
+        #region PRIVATE_METHODS
         /// <summary>
         /// Set the color of the gaze depending on its state
         /// </summary>
@@ -84,6 +84,6 @@ namespace VRSF.Gaze.Systems
                 _gazeParameters.GazePointerState = EPointerState.SELECTABLE;
             }
         }
-        #endregion PUBLIC_METHODS
+        #endregion PRIVATE_METHODS
     }
 }

@@ -11,6 +11,7 @@ namespace VRSF.MoveAround
     /// and it's only a UnityEditor Script, this wasn't refactored to fit the Hybrid System.
     /// </summary>
     [ExecuteInEditMode]
+    [RequireComponent(typeof(FlyBoundariesComponent))]
 	public class FlyBoundariesDisplayer : MonoBehaviour 
 	{
         #region PUBLIC_VARIABLES
@@ -24,7 +25,7 @@ namespace VRSF.MoveAround
 
         
         #region PRIVATE_VARIABLES
-        private FlyComponent _flyComp;
+        private FlyBoundariesComponent _flyComp;
         #endregion
 
 
@@ -34,7 +35,7 @@ namespace VRSF.MoveAround
         /// </summary>
         void OnDrawGizmos()
         {
-            _flyComp = GetComponent<FlyComponent>();
+            _flyComp = GetComponent<FlyBoundariesComponent>();
 
             if (_flyComp != null && _flyComp.UseHorizontalBoundaries)
             {
