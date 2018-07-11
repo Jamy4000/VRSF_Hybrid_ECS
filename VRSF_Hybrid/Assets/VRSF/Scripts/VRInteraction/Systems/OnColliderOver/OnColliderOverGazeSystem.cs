@@ -47,15 +47,13 @@ namespace VRSF.Interactions.Systems
             {
                 comp.InteractionsContainer.IsOverSomethingGaze.SetValue(false);
             }
-            else
+            //If something is hit, we check that the collider is still "alive"
+            else if (comp.InteractionsContainer.GazeHit.Value.collider != null)
             {
-                if (comp.InteractionsContainer.GazeHit.Value.collider != null)
-                {
-                    var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
-                    comp.InteractionsContainer.GazeOverObject.Raise(hitTransform);
+                var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
+                comp.InteractionsContainer.GazeOverObject.Raise(hitTransform);
 
-                    comp.InteractionsContainer.IsOverSomethingGaze.SetValue(true);
-                }
+                comp.InteractionsContainer.IsOverSomethingGaze.SetValue(true);
             }
         }
         #endregion PRIVATE_METHODS
