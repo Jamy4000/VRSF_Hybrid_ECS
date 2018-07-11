@@ -1,15 +1,13 @@
-﻿using ScriptableFramework.Util;
-using UnityEngine;
+﻿using UnityEngine;
 using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
-using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationSystem : BACUpdateSystem
+    public class CameraRotationSetupSystem : BACUpdateSystem
     {
 
         struct Filter
