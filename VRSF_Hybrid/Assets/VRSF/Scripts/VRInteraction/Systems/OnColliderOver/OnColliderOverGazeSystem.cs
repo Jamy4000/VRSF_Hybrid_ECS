@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Interactions.Components;
+using VRSF.Utils.Components;
 
 namespace VRSF.Interactions.Systems
 {
@@ -8,7 +8,8 @@ namespace VRSF.Interactions.Systems
     {
         struct Filter
         {
-            public OnColliderOverComponents OnOverComponents;
+            public PointerRaycastComponent PointerRaycast;
+            public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
 
@@ -23,9 +24,9 @@ namespace VRSF.Interactions.Systems
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.OnOverComponents.IsSetup && entity.OnOverComponents.GazeParameters.UseGaze && entity.OnOverComponents.CheckRaycast)
+                if (entity.ScriptableSingletons.IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze && entity.PointerRaycast.CheckRaycast)
                 {
-                    HandleOver(entity.OnOverComponents);
+                    HandleOver(entity.ScriptableSingletons);
                 }
             }
         }
@@ -39,7 +40,7 @@ namespace VRSF.Interactions.Systems
         /// <param name="isOver">the BoolVariable to set if something got hit</param>
         /// <param name="hit">The Hit Point where the raycast collide</param>
         /// <param name="objectOver">The GameEvent to raise with the transform of the hit</param>
-        private void HandleOver(OnColliderOverComponents comp)
+        private void HandleOver(ScriptableSingletonsComponent comp)
         {
             //If nothing is hit, we set the isOver value to false
             if (comp.InteractionsContainer.GazeHit.isNull)

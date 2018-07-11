@@ -17,7 +17,7 @@ namespace VRSF.Utils.Systems
     {
         struct Filter
         {
-            public PointerRaycastComponents RaycastComponents;
+            public PointerRaycastComponent RaycastComponents;
         }
 
         #region PRIVATE_VARIABLE
@@ -64,7 +64,7 @@ namespace VRSF.Utils.Systems
         /// <summary>
         /// Check the Rays from the two controllers
         /// </summary>
-        private void CheckVRRays(PointerRaycastComponents pointerRaycast)
+        private void CheckVRRays(PointerRaycastComponent pointerRaycast)
         {
             // Handle raycasting for both controllers
             if (_controllersParameters.UseControllers)
@@ -119,7 +119,7 @@ namespace VRSF.Utils.Systems
         /// <summary>
         /// Check the Ray from the Mouse. We use the normal camera for the three raycast hit, meaning that they are all equals.
         /// </summary>
-        private void CheckMouseRays(PointerRaycastComponents pointerRaycast)
+        private void CheckMouseRays(PointerRaycastComponent pointerRaycast)
         {
             if (_controllersParameters.UseControllers)
             {
