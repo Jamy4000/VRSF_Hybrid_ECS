@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
@@ -10,8 +9,8 @@ namespace VRSF.MoveAround.Teleport.Components
     /// Contains all variable necessary for the BezierTeleportSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ButtonActionChoserComponents), typeof(ScriptableRaycastComponent))]
-    public class BezierTeleportComponent : MonoBehaviour, ITeleportComponent
+    [RequireComponent(typeof(TeleportGeneralComponent), typeof(ButtonActionChoserComponents), typeof(ScriptableRaycastComponent))]
+    public class BezierTeleportComponent : MonoBehaviour
     {
         #region For_User_Variable
         [Header("Bezier Curve Parameters")]
@@ -40,8 +39,8 @@ namespace VRSF.MoveAround.Teleport.Components
 
         #region Not_For_User_Variable
         [HideInInspector] public LayerMask _TeleportLayer = -1;             // The Layer for the Ground
-        [HideInInspector] public Transform _CurveOrigin;
         [HideInInspector] public int _ExclusionLayer = -1;
+        [HideInInspector] public Transform _CurveOrigin;
         [HideInInspector] public LineRenderer _ControllerPointer;
 
         // Bezier calculation Parameters
@@ -67,35 +66,5 @@ namespace VRSF.MoveAround.Teleport.Components
 
         [HideInInspector] public bool _IsSetup = false;
         #endregion Not_For_User_Variable
-
-
-        #region Boundaries
-        [Tooltip("Wheter you wanna use boundaries for the flying mode or not.")]
-        [HideInInspector] public bool _UseBoundaries = false;
-
-        [Tooltip("The minimun position at which the user can go if UseHorizontalBoundaries is at true.")]
-        [HideInInspector] public Vector3 _MinUserPosition = new Vector3(-100.0f, -1.0f, -100.0f);
-
-        [Tooltip("The maximum position at which the user can go if UseHorizontalBoundaries is at true.")]
-        [HideInInspector] public Vector3 _MaxUserPosition = new Vector3(100.0f, 100.0f, 100.0f);
-        #endregion Boundaries
-
-
-        #region Getters_ITeleportComponent
-        public bool UseBoundaries()
-        {
-            return _UseBoundaries;
-        }
-
-        public Vector3 MaxPosBoundaries()
-        {
-            return _MaxUserPosition;
-        }
-
-        public Vector3 MinPosBoundaries()
-        {
-            return _MinUserPosition;
-        }
-        #endregion Getters_ITeleportComponent
     }
 }

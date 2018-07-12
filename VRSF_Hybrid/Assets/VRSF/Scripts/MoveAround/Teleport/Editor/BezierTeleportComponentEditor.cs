@@ -6,14 +6,14 @@ namespace VRSF.MoveAround.Teleport.Editor
     /// <summary>
     /// Just add a message to the user to let him know where the parameters are set.
     /// </summary>
-    [CustomEditor(typeof(BezierTeleportComponent))]
-    public class BezierTeleportComponentEditor : UnityEditor.Editor
+    [CustomEditor(typeof(TeleportBoundariesComponent))]
+    public class TeleportBoundariesComponentEditor : UnityEditor.Editor
     {
-        private BezierTeleportComponent bezierComp;
+        private TeleportBoundariesComponent bezierComp;
 
         private void OnEnable()
         {
-            bezierComp = (BezierTeleportComponent)target;
+            bezierComp = (TeleportBoundariesComponent)target;
         }
 
         public override void OnInspectorGUI()
