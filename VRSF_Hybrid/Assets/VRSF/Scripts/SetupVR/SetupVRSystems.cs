@@ -231,7 +231,7 @@ namespace VRSF.Utils.Systems
             bool containsGazeComp = VRSF_Components.CameraRig.GetComponent<OVRGazeInputCaptureComponent>() ||
                 VRSF_Components.CameraRig.GetComponent<ViveGazeInputCaptureComponent>() || VRSF_Components.CameraRig.GetComponent<SimulatorGazeInputCaptureComponent>();
 
-            if (GameObject.FindObjectsOfType<GazeComponent>().Length == 0)
+            if (GameObject.FindObjectsOfType<GazeParametersComponent>().Length == 0)
             {
                 Debug.LogError("VRSF : If you want to use the Gaze feature, please add a GazeComponent on a GameObject, or place the Gaze Prefab in the scene." +
                     "(Assets/VRSF/Prefabs/UI/ReticleCanvas.prefab).\n Setting UseGaze in GazeParameters to false.");

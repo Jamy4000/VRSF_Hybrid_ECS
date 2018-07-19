@@ -12,7 +12,8 @@ namespace VRSF.Gaze.Systems
     {
         struct Filter
         {
-            public GazeComponent GazeComp;
+            public GazeParametersComponent GazeParameters;
+            public GazeCalculationsComponent GazeCalculations;
         }
 
 
@@ -36,9 +37,9 @@ namespace VRSF.Gaze.Systems
             {
                 foreach (var e in GetEntities<Filter>())
                 {
-                    if (e.GazeComp._IsSetup)
+                    if (e.GazeCalculations._IsSetup)
                     {
-                        SetGazeColorState(e.GazeComp);
+                        SetGazeColorState(e.GazeParameters);
                     }
                 }
             }
@@ -50,7 +51,7 @@ namespace VRSF.Gaze.Systems
         /// <summary>
         /// Set the color of the gaze depending on its state
         /// </summary>
-        private void SetGazeColorState(GazeComponent comp)
+        private void SetGazeColorState(GazeParametersComponent comp)
         {
             // If the Gaze is supposed to be off
             if (_gazeParameters.GazePointerState == EPointerState.OFF)

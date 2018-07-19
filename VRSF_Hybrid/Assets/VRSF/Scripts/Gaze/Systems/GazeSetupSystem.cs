@@ -9,7 +9,8 @@ namespace VRSF.Gaze.Systems
     {
         struct Filter
         {
-            public GazeComponent GazeComp;
+            public GazeParametersComponent GazeParameters;
+            public GazeCalculationsComponent GazeCalculations;
         }
 
 
@@ -29,7 +30,7 @@ namespace VRSF.Gaze.Systems
             {
                 foreach (var e in GetEntities<Filter>())
                 {
-                    GeneralGazeSetup(e.GazeComp);
+                    GeneralGazeSetup(e);
                 }
             }
         }
@@ -45,9 +46,9 @@ namespace VRSF.Gaze.Systems
             {
                 foreach (var e in GetEntities<Filter>())
                 {
-                    if (!e.GazeComp._IsSetup)
+                    if (!e.GazeCalculations._IsSetup)
                     {
-                        GeneralGazeSetup(e.GazeComp);
+                        GeneralGazeSetup(e);
                     }
                     else
                     {
@@ -64,27 +65,27 @@ namespace VRSF.Gaze.Systems
         /// <summary>
         /// Setup the Gaze Parameters based on the ScriptableSingleton, set in the VRSF Interaction Parameters Window
         /// </summary>
-        private void GeneralGazeSetup(GazeComponent comp)
+        private void GeneralGazeSetup(Filter entity)
         {
             try
             {
                 if (_gazeParameters.ReticleSprite != null)
                 {
-                    comp.ReticleBackground.sprite = _gazeParameters.ReticleSprite;
+                    entity.GazeParameters.ReticleBackground.sprite = _gazeParameters.ReticleSprite;
                 }
 
                 if (_gazeParameters.ReticleTargetSprite != null)
                 {
-                    comp.ReticleTarget.sprite = _gazeParameters.ReticleTargetSprite;
+                    entity.GazeParameters.ReticleTarget.sprite = _gazeParameters.ReticleTargetSprite;
                 }
 
-                comp.transform.localScale = _gazeParameters.ReticleSize;
+                entity.GazeParameters.transform.localScale = _gazeParameters.ReticleSize;
 
                 // Store the original scale and rotation.
-                comp._OriginalScale = comp.ReticleTransform.localScale;
-                comp._OriginalRotation = comp.ReticleTransform.localRotation;
-                comp._VRCamera = VRSF_Components.VRCamera.transform;
-                comp._IsSetup = true;
+                entity.GazeCalculations._OriginalScale = entity.GazeParameters.ReticleTransform.localScale;
+                entity.GazeCalculations._OriginalRotation = entity.GazeParameters.ReticleTransform.localRotation;
+                entity.GazeCalculations._VRCamera = VRSF_Components.VRCamera.transform;
+                entity.GazeCalculations._IsSetup = true;
             }
             catch (System.Exception e)
             {

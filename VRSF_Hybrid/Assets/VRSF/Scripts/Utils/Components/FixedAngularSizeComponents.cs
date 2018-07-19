@@ -2,6 +2,7 @@
 
 namespace VRSF.Utils.Hybrid
 {
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class FixedAngularSizeComponents : MonoBehaviour
     {
         [Header("Off sets the scale ratio so that text does not scale down too much")]
