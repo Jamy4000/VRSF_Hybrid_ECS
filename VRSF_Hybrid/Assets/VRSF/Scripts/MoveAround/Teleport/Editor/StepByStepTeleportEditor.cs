@@ -21,19 +21,9 @@ namespace VRSF.MoveAround.Teleport.Editor
             base.OnInspectorGUI();
 
             EditorGUILayout.Space();
-
-            _sbsComp._UseBoundaries = EditorGUILayout.ToggleLeft("Use Boundaries for Teleport", _sbsComp._UseBoundaries);
-
-            if (_sbsComp._UseBoundaries)
-            {
-                _sbsComp._MinUserPosition = EditorGUILayout.Vector3Field("Minimum Position in Scene", _sbsComp._MinUserPosition);
-                _sbsComp._MaxUserPosition = EditorGUILayout.Vector3Field("Maximum Position in Scene", _sbsComp._MaxUserPosition);
-            }
-
-            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            EditorGUILayout.HelpBox("You only need to set the parameters for the StepByStepComponent and the buttonActionChoserComponents to be able to use the feature.\n" +
+            EditorGUILayout.HelpBox("You only need to set the parameters for Component on this entity to use the Step by Step feature.\n" +
                 "The response to the button is automatically handled in the scripts.", MessageType.Info);
         }
     }

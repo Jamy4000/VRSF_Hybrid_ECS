@@ -16,6 +16,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             public ButtonActionChoserComponents BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public StepByStepComponent SBS_Comp;
+            public TeleportBoundariesComponent TeleportBoundaries;
         }
 
 
@@ -107,7 +108,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 newPos = new Vector3(newPos.x, 0.0f, newPos.z);
 
             // If we use boundaries, we check if the user is not going to far away
-            if (entity.SBS_Comp._UseBoundaries)
+            if (entity.TeleportBoundaries._UseBoundaries)
                 newPos = CheckNewPosWithBoundaries(entity, newPos);
 
             // We set the cameraRig position
@@ -122,8 +123,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            Vector3 minPos = entity.SBS_Comp._MinUserPosition;
-            Vector3 maxPos = entity.SBS_Comp._MaxUserPosition;
+            Vector3 minPos = entity.TeleportBoundaries._MinUserPosition;
+            Vector3 maxPos = entity.TeleportBoundaries._MaxUserPosition;
 
             posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
             posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
