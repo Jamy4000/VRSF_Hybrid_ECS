@@ -16,6 +16,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             public ButtonActionChoserComponents BAC_Comp;
             public ScriptableRaycastComponent BAC_RayComp;
             public LongRangeTeleportComponent LRT_Comp;
+            public TeleportBoundariesComponent TeleportBoundaries;
+            public TeleportGeneralComponent GeneralTeleport;
         }
 
 
@@ -39,8 +41,9 @@ namespace VRSF.MoveAround.Teleport.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // Setting up teleport layer
-                e.LRT_Comp._teleportLayer = LayerMask.NameToLayer("Teleport");
-                if (e.LRT_Comp._teleportLayer == -1)
+                e.GeneralTeleport.TeleportLayer = LayerMask.NameToLayer("Teleport");
+
+                if (e.GeneralTeleport.TeleportLayer == -1)
                 {
                     Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
@@ -132,8 +135,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            Vector3 minPos = entity.LRT_Comp._MinUserPosition;
-            Vector3 maxPos = entity.LRT_Comp._MaxUserPosition;
+            Vector3 minPos = entity.TeleportBoundaries._MinUserPosition;
+            Vector3 maxPos = entity.TeleportBoundaries._MaxUserPosition;
 
             posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
             posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
@@ -182,7 +185,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 {
                     entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.TimerBeforeTeleport;
                 }
-                else if (entity.LRT_Comp.TeleportText != null && !entity.LRT_Comp.CanTeleport)
+                else if (entity.LRT_Comp.TeleportText != null && !entity.GeneralTeleport.CanTeleport)
                 {
                     entity.LRT_Comp.TeleportText.text = "Waiting for ground ...";
                 }
@@ -195,41 +198,11 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         /// <summary>
-        /// Check if the Teleport ray is on a Teleport Layer, and set the _canTeleport bool and the color of the Loading Slider accordingly.
-        /// </summary>
-        private void CheckTeleport(Filter entity)
-        {
-            Color32 fillRectColor;
-
-            if (!entity.BAC_RayComp.RaycastHitVar.isNull && entity.BAC_RayComp.RaycastHitVar.Value.collider.gameObject.layer == entity.LRT_Comp._teleportLayer)
-            {
-                entity.LRT_Comp.CanTeleport = true;
-                fillRectColor = new Color32(100, 255, 100, 255);
-            }
-            else
-            {
-                entity.LRT_Comp.CanTeleport = false;
-                fillRectColor = new Color32(0, 180, 255, 255);
-            }
-
-            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
-            {
-                entity.LRT_Comp.FillRect.color = fillRectColor;
-            }
-
-            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.TeleportText != null)
-            {
-                entity.LRT_Comp.TeleportText.color = fillRectColor;
-            }
-        }
-
-
-        /// <summary>
         /// Handle the Teleport when the user is releasing the button.
         /// </summary>
         private void Teleport(Filter entity)
         {
-            if (entity.LRT_Comp.CanTeleport)
+            if (entity.GeneralTeleport.CanTeleport)
             {
                 Vector3 newPos = entity.BAC_RayComp.RaycastHitVar.Value.point;
 
@@ -243,7 +216,37 @@ namespace VRSF.MoveAround.Teleport.Systems
                 }
 
                 // If we use the boundaires, we check the newPos, if not, we set the position of the user directly
-                VRSF_Components.CameraRig.transform.position = entity.LRT_Comp._UseBoundaries ? CheckNewPosWithBoundaries(entity, newPos) : newPos;
+                VRSF_Components.CameraRig.transform.position = entity.TeleportBoundaries._UseBoundaries ? CheckNewPosWithBoundaries(entity, newPos) : newPos;
+            }
+        }
+
+
+        /// <summary>
+        /// Check if the Teleport ray is on a Teleport Layer, and set the _canTeleport bool and the color of the Loading Slider accordingly.
+        /// </summary>
+        private void CheckTeleport(Filter entity)
+        {
+            Color32 fillRectColor;
+
+            if (!entity.BAC_RayComp.RaycastHitVar.isNull && entity.BAC_RayComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
+            {
+                entity.GeneralTeleport.CanTeleport = true;
+                fillRectColor = new Color32(100, 255, 100, 255);
+            }
+            else
+            {
+                entity.GeneralTeleport.CanTeleport = false;
+                fillRectColor = new Color32(0, 180, 255, 255);
+            }
+
+            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
+            {
+                entity.LRT_Comp.FillRect.color = fillRectColor;
+            }
+
+            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.TeleportText != null)
+            {
+                entity.LRT_Comp.TeleportText.color = fillRectColor;
             }
         }
 

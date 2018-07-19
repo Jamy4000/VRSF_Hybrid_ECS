@@ -134,10 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _TeleportLayer:
+  TeleportLayer:
     serializedVersion: 2
     m_Bits: 4294967295
-  _ExclusionLayer: -1
+  ExclusionLayer: -1
+  CanTeleport: 0
 --- !u!114 &114347482009109608
 MonoBehaviour:
   m_ObjectHideFlags: 1

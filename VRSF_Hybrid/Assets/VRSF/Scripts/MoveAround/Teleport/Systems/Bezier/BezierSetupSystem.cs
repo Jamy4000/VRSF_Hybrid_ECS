@@ -174,9 +174,9 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 CheckHand(entity);
 
-                entity.GeneralComp._TeleportLayer = LayerMask.NameToLayer("Teleport");
+                entity.GeneralComp.TeleportLayer = LayerMask.NameToLayer("Teleport");
 
-                if (entity.GeneralComp._TeleportLayer == -1)
+                if (entity.GeneralComp.TeleportLayer == -1)
                 {
                     Debug.Log("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
@@ -203,7 +203,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 case (EHand.LEFT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.LeftController.transform;
-                    entity.GeneralComp._ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.LEFT);
+                    entity.GeneralComp.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.LEFT);
 
                     if (_controllersParameters.UsePointerLeft)
                         entity.BezierComp._ControllerPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
@@ -211,7 +211,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 case (EHand.RIGHT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.RightController.transform;
-                    entity.GeneralComp._ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
+                    entity.GeneralComp.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
 
                     if (_controllersParameters.UsePointerRight)
                         entity.BezierComp._ControllerPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
@@ -219,7 +219,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 case (EHand.GAZE):
                     entity.BezierComp._CurveOrigin = VRSF_Components.VRCamera.transform;
-                    entity.GeneralComp._ExclusionLayer = GazeParametersVariable.Instance.GetGazeExclusionsLayer();
+                    entity.GeneralComp.ExclusionLayer = GazeParametersVariable.Instance.GetGazeExclusionsLayer();
                     break;
 
                 default:

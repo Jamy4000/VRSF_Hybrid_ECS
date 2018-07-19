@@ -80,7 +80,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 entity.BezierCalculations._VertexList.Add(boundedPos);
 
                 // if linecast between last vertex and current vertex hit something
-                if (Physics.Linecast(pos, boundedPos, out hit, entity.GeneralTeleport._ExclusionLayer))
+                if (Physics.Linecast(pos, boundedPos, out hit, entity.GeneralTeleport.ExclusionLayer))
                 {
                     entity.BezierCalculations._GroundDetected = true;
                     entity.BezierCalculations._GroundPos = hit.point;

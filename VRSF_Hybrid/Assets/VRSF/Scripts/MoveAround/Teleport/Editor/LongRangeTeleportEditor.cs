@@ -37,18 +37,7 @@ namespace VRSF.MoveAround.Teleport.Editor
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            _lrtComp._UseBoundaries = EditorGUILayout.ToggleLeft("Use Boundaries for Teleport", _lrtComp._UseBoundaries);
-
-            if (_lrtComp._UseBoundaries)
-            {
-                _lrtComp._MinUserPosition = EditorGUILayout.Vector3Field("Minimum Position in Scene", _lrtComp._MinUserPosition);
-                _lrtComp._MaxUserPosition = EditorGUILayout.Vector3Field("Maximum Position in Scene", _lrtComp._MaxUserPosition);
-            }
-
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-
-            EditorGUILayout.HelpBox("You only need to set the parameters for the LongRangeTeleportComponent and the ButtonActionChoserComponents to be able to use this feature.\n" +
+            EditorGUILayout.HelpBox("You only need to set the parameters for the different component on this Entity.\n" +
                 "The Slider will start loading when StartClicking, and the user will be teleported when releasing the button if the ray is hitting the Teleport layer and the timer is exceeding the TimerBeforeTeleport variable.", MessageType.Info);
         }
     }

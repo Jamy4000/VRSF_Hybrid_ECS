@@ -106,7 +106,7 @@ namespace VRSF.MoveAround.Teleport
 
             style.normal.textColor = BoundariesLinesColor;
 
-            UnityEditor.Handles.Label(labelPos, _teleportScript.GetType().Name + " Boundaries", style);
+            UnityEditor.Handles.Label(labelPos, transform.name + " Teleport Boundaries", style);
         }
         #endregion
 
