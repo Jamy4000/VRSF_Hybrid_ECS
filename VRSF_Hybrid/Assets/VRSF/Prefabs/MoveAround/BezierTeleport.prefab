@@ -19,11 +19,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4416986517511278}
-  - component: {fileID: 114485206902849738}
+  - component: {fileID: 114026517858911200}
   - component: {fileID: 114600346742736060}
   - component: {fileID: 114942462804729544}
+  - component: {fileID: 114803417565217368}
   - component: {fileID: 114671882391353410}
   - component: {fileID: 120132280243475242}
+  - component: {fileID: 114485206902849738}
+  - component: {fileID: 114281903135585164}
   - component: {fileID: 114041122367526076}
   m_Layer: 0
   m_Name: BezierTeleport
@@ -92,6 +95,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114026517858911200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156208657869000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c2c2be79beb464da93667551711b82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeightAboveGround: 1.8
+  BezierAngle: 45
+  BezierStrength: 10
+  ColorBezierNotHitting: {r: 1, g: 0, b: 0, a: 1}
+  ColorBezierHitting: {r: 0, g: 1, b: 0, a: 1}
+  TargetMarker: {fileID: 1222810584217454}
 --- !u!114 &114041122367526076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +123,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114281903135585164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156208657869000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _TeleportLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _ExclusionLayer: -1
 --- !u!114 &114347482009109608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,17 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c82d033a4c02d4ebd65298a1394d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeightAboveGround: 1.8
-  BezierAngle: 45
-  BezierStrength: 10
-  ColorBezierNotHitting: {r: 1, g: 0, b: 0, a: 1}
-  ColorBezierHitting: {r: 0, g: 1, b: 0, a: 1}
-  TargetMarker: {fileID: 1222810584217454}
-  _TeleportLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
   _CurveOrigin: {fileID: 0}
-  _ExclusionLayer: -1
   _ControllerPointer: {fileID: 0}
   _MaxVertexcount: 1000
   _VertexDelta: 0.08
@@ -158,9 +183,6 @@ MonoBehaviour:
   _DisplayActive: 0
   _LimitDetected: 0
   _IsSetup: 0
-  _UseBoundaries: 1
-  _MinUserPosition: {x: -100, y: -5, z: -100}
-  _MaxUserPosition: {x: 100, y: 100, z: 100}
 --- !u!114 &114600346742736060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,6 +210,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
   BoundariesLinesColor: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &114803417565217368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156208657869000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ce249d2c6f20e49b6e80ea9a00df5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UseBoundaries: 0
+  _MinUserPosition: {x: -100, y: -1, z: -100}
+  _MaxUserPosition: {x: 100, y: 100, z: 100}
 --- !u!114 &114942462804729544
 MonoBehaviour:
   m_ObjectHideFlags: 1
