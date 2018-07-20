@@ -11,7 +11,7 @@ namespace VRSF.MoveAround.Systems
     /// </summary>
     public class FlySetupSystem : BACUpdateSystem
     {
-        struct Filter
+        public struct Filter
         {
             public FlyParametersComponent FlyComponent;
             public ButtonActionChoserComponents ButtonComponents;
@@ -95,15 +95,10 @@ namespace VRSF.MoveAround.Systems
             }
         }
 
-        #endregion PUBLIC_METHODS
-
-
-        #region PRIVATE_METHODS
-
         /// <summary>
         /// Called from OnButtonStopClicking or OnButtonStopTouching event
         /// </summary>
-        private void ButtonStopInteracting(Filter entity)
+        public void ButtonStopInteracting(Filter entity)
         {
             entity.FlyComponent.SlowDownTimer = entity.FlyComponent.TimeSinceStartFlying;
             entity.FlyComponent.IsSlowingDown = true;
@@ -114,11 +109,10 @@ namespace VRSF.MoveAround.Systems
         /// <summary>
         /// Called from OnButtonIsTouching or OnButtonIsClickingevent
         /// </summary>
-        private void ButtonIsInteracting(Filter entity)
+        public void ButtonIsInteracting(Filter entity)
         {
             entity.FlyComponent.IsInteracting = true;
         }
-
-        #endregion PRIVATE_METHODS
+        #endregion PUBLIC_METHODS
     }
 }

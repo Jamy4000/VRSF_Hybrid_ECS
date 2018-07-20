@@ -22,17 +22,20 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             foreach (var e in GetEntities<Filter>())
             {
-                _currentComp = e.ButtonComponents;
-                
-                // If we use the touch event and the user is touching on the button
-                if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
+                if (e.ButtonComponents.CanBeUsed)
                 {
-                    StartActionIsTouching();
-                }
-                // If we use the click event and the user is clicking on the button
-                if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value && !e.ButtonComponents.UnclickEventWasRaised)
-                {
-                    StartActionIsClicking();
+                    _currentComp = e.ButtonComponents;
+
+                    // If we use the touch event and the user is touching on the button
+                    if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
+                    {
+                        StartActionIsTouching();
+                    }
+                    // If we use the click event and the user is clicking on the button
+                    if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value && !e.ButtonComponents.UnclickEventWasRaised)
+                    {
+                        StartActionIsClicking();
+                    }
                 }
             }
         }

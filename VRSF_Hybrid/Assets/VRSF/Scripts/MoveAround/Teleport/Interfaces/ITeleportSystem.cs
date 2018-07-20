@@ -9,6 +9,6 @@ namespace VRSF.MoveAround.Teleport.Interfaces
     {
         void TeleportUser(ITeleportFilter teleportFilter);
 
-        Vector3 CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, Vector3 PosToCheck);
+        void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 PosToCheck);
     }
 }

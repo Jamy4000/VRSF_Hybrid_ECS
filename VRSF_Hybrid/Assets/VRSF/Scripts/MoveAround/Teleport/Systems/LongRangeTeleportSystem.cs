@@ -13,9 +13,9 @@ namespace VRSF.MoveAround.Teleport.Systems
     {
         struct Filter : ITeleportFilter
         {
-            public ButtonActionChoserComponents BAC_Comp;
-            public ScriptableRaycastComponent BAC_RayComp;
             public LongRangeTeleportComponent LRT_Comp;
+            public ButtonActionChoserComponents BAC_Comp;
+            public ScriptableRaycastComponent RaycastComp;
             public TeleportBoundariesComponent TeleportBoundaries;
             public TeleportGeneralComponent GeneralTeleport;
         }
@@ -131,7 +131,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// Check the newPos for theStep by Step feature depending on the Teleport Boundaries
         /// </summary>
         /// <returns>The new position of the user after checking the boundaries</returns>
-        public Vector3 CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, Vector3 posToCheck)
+        public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
         {
             Filter entity = (Filter)teleportFilter;
 
@@ -141,8 +141,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
             posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
             posToCheck.z = Mathf.Clamp(posToCheck.z, minPos.z, maxPos.z);
-            
-            return posToCheck;
         }
         #endregion
 
@@ -181,7 +179,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             if (entity.LRT_Comp.UseLoadingSlider)
             {
-                if (entity.LRT_Comp.FillRect != null && entity.LRT_Comp.FillRect.fillAmount < 1.0f)
+                if (entity.LRT_Comp.FillRect != null && entity.LRT_Comp.FillRect.fillAmount < entity.LRT_Comp.TimerBeforeTeleport)
                 {
                     entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.TimerBeforeTeleport;
                 }
@@ -202,9 +200,9 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void Teleport(Filter entity)
         {
-            if (entity.GeneralTeleport.CanTeleport)
+            if (entity.GeneralTeleport.CanTeleport && entity.LRT_Comp.FillRect.fillAmount >= entity.LRT_Comp.TimerBeforeTeleport)
             {
-                Vector3 newPos = entity.BAC_RayComp.RaycastHitVar.Value.point;
+                Vector3 newPos = entity.RaycastComp.RaycastHitVar.Value.point;
 
                 if (entity.LRT_Comp.AdjustHeight)
                 {
@@ -215,8 +213,13 @@ namespace VRSF.MoveAround.Teleport.Systems
                     newPos.y = VRSF_Components.CameraRig.transform.position.y;
                 }
 
-                // If we use the boundaires, we check the newPos, if not, we set the position of the user directly
-                VRSF_Components.CameraRig.transform.position = entity.TeleportBoundaries._UseBoundaries ? CheckNewPosWithBoundaries(entity, newPos) : newPos;
+                // If we use the boundaries, we check the newPos, if not, we set the position of the user directly
+                if (entity.TeleportBoundaries._UseBoundaries)
+                {
+                    CheckNewPosWithBoundaries(entity, ref newPos);
+                }
+
+                VRSF_Components.CameraRig.transform.position = newPos;
             }
         }
 
@@ -228,7 +231,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Color32 fillRectColor;
 
-            if (!entity.BAC_RayComp.RaycastHitVar.isNull && entity.BAC_RayComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
+            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
             {
                 entity.GeneralTeleport.CanTeleport = true;
                 fillRectColor = new Color32(100, 255, 100, 255);

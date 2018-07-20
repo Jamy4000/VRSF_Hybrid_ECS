@@ -135,12 +135,9 @@ namespace VRSF.MoveAround.Teleport.Systems
 
         /// <summary>
         /// Check the newPos for theStep by Step feature depending on the Teleport Boundaries
+        /// HANDLE IN THE BEZIER Update System
         /// </summary>
-        public Vector3 CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, Vector3 posToCheck)
-        {
-            // HANDLE IN BezierTeleportSystem
-            return Vector3.zero;
-        }
+        public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck) { }
         #endregion
 
         #endregion

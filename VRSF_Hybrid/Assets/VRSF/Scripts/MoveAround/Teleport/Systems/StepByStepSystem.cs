@@ -100,37 +100,45 @@ namespace VRSF.MoveAround.Teleport.Systems
             Vector3 newPos = CheckHandForward(entity);
 
             // If the new pos returned is null, an error as occured, so we stop the method
-            if (newPos == Vector3.zero)
-                return;
+            if (newPos != Vector3.zero)
+            {
+                // If we want to stay on the same vertical axis, we set the y in newPos to 0
+                if (!entity.SBS_Comp.MoveOnVerticalAxis)
+                {
+                    newPos = new Vector3(newPos.x, 0.0f, newPos.z);
+                }
 
-            // If we want to stay on the same vertical axis, we set the y in newPos to 0
-            if (!entity.SBS_Comp.MoveOnVerticalAxis)
-                newPos = new Vector3(newPos.x, 0.0f, newPos.z);
+                // If we use boundaries, we check if the user is not going to far away
+                if (entity.TeleportBoundaries._UseBoundaries)
+                {
+                    newPos += VRSF_Components.CameraRig.transform.position;
+                    CheckNewPosWithBoundaries(entity, ref newPos);
 
-            // If we use boundaries, we check if the user is not going to far away
-            if (entity.TeleportBoundaries._UseBoundaries)
-                newPos = CheckNewPosWithBoundaries(entity, newPos);
-
-            // We set the cameraRig position
-            VRSF_Components.CameraRig.transform.position += newPos;
+                    // We set the cameraRig position
+                    VRSF_Components.CameraRig.transform.position = newPos;
+                }
+                else
+                {
+                    // We set the cameraRig position
+                    VRSF_Components.CameraRig.transform.position += newPos;
+                }
+            }
         }
 
 
         /// <summary>
         /// Check the newPos for theStep by Step feature depending on the Teleport Boundaries
         /// </summary>
-        public Vector3 CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, Vector3 posToCheck)
+        public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
         {
             Filter entity = (Filter)teleportFilter;
 
             Vector3 minPos = entity.TeleportBoundaries._MinUserPosition;
             Vector3 maxPos = entity.TeleportBoundaries._MaxUserPosition;
-
+            
             posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
             posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
             posToCheck.z = Mathf.Clamp(posToCheck.z, minPos.z, maxPos.z);
-            
-            return posToCheck;
         }
         #endregion
 
