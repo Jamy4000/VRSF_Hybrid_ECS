@@ -9,5 +9,7 @@ namespace VRSF.Utils.Components
         [HideInInspector] public bool UseOVR = true;
         [HideInInspector] public bool UseOpenVR = true;
         [HideInInspector] public bool UseSimulator = true;
+
+        [HideInInspector] public bool IsSetup = false;
     }
 }

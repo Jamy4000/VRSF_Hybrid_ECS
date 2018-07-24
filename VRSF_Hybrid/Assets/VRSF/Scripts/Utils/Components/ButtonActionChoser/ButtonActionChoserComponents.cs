@@ -42,6 +42,7 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         
         [HideInInspector] public bool ActionButtonIsReady = false;
         [HideInInspector] public bool ParametersAreInvalid = false;
+        [HideInInspector] public bool CorrectSDK = true;
         [HideInInspector] public bool IsSetup = false;
         [HideInInspector] public bool CanBeUsed = true;
 

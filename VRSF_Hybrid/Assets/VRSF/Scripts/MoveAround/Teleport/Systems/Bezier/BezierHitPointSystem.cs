@@ -9,6 +9,7 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Handle the Jobs to check if the bezier curve is hitting the floor.
     /// </summary>
+    [UpdateAfter(typeof(BezierArcDisplayerSystem))]
     public class BezierHitPointSystem : ComponentSystem
     {
         struct Filter : ITeleportFilter

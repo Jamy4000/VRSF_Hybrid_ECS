@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Inputs;
+using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
@@ -34,6 +35,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             base.OnStartRunning();
 
             _inputsContainer = InputVariableContainer.Instance;
+            
             SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var entity in GetEntities<Filter>())
@@ -89,10 +91,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 comp.CanBeUsed = false;
             }
-            else
-            {
-                comp.IsSetup = true;
-            }
+            
+            comp.IsSetup = true;
         }
 
 
@@ -339,7 +339,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 yield return new WaitForEndOfFrame();
             }
-            CheckInitSOs(comp);
+
+            var sdkChoser = comp.GetComponent<SDKChoserComponent>();
+
+            if (sdkChoser == null || (sdkChoser != null && comp.CorrectSDK))
+            {
+                CheckInitSOs(comp);
+            }
+            else
+            {
+                comp.IsSetup = true;
+            }
         }
 
 
@@ -351,21 +361,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
             this.Enabled = true;
-
-            foreach (var entity in GetEntities<Filter>())
-            {
-                // We init the Scriptable Objects References
-                InitGelAndGe(entity.ButtonComponents);
-
-                if (entity.ButtonComponents.ActionButtonIsReady)
-                {
-                    CheckInitSOs(entity.ButtonComponents);
-                }
-                else
-                {
-                    entity.ButtonComponents.StartCoroutine(WaitForActionButton(entity.ButtonComponents));
-                }
-            }
         }
 
 

@@ -45,10 +45,7 @@ namespace VRSF.UI
 
         Transform _MinPosBar;
         Transform _MaxPosBar;
-
-        float _MinValue;
-        float _MaxValue;
-
+        
         EHand _HandHoldingHandle = EHand.NONE;
 
         GameObject _GameEventListenersContainer;

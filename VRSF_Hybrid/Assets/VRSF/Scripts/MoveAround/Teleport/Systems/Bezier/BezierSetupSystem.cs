@@ -231,13 +231,6 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
             this.Enabled = true;
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                _currentSetupEntity = e;
-                SetupListenersResponses();
-                InitializeValues(e);
-            }
         }
         #endregion PRIVATE_METHODS
     }

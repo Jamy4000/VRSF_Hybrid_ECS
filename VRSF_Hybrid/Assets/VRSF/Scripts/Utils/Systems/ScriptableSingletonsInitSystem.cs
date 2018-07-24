@@ -46,15 +46,7 @@ namespace VRSF.Utils.Systems
         /// <param name="newScene">The new scene after switching</param>
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            foreach (var entity in GetEntities<Filter>())
-            {
-                entity.ScriptableSingletons.GazeParameters = GazeParametersVariable.Instance;
-                entity.ScriptableSingletons.ControllersParameters = ControllersParametersVariable.Instance;
-                entity.ScriptableSingletons.InteractionsContainer = InteractionVariableContainer.Instance;
-                entity.ScriptableSingletons.InputsContainer = InputVariableContainer.Instance;
-
-                entity.ScriptableSingletons.IsSetup = true;
-            }
+            this.Enabled = true;
         }
     }
 }

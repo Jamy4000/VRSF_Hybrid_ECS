@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs;
+using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
@@ -42,25 +43,63 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             foreach (var entity in GetEntities<Filter>())
             {
-                _currentEntitiy = entity;
-                
-                // We check on which hand is set the Action Button selected
-                CheckButtonHand();
-
-                // We check that all the parameters are set correctly
-                if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
+                if (entity.ButtonComponents.GetComponent<SDKChoserComponent>() == null)
                 {
-                    Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
-                        "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                    entity.ButtonComponents.CanBeUsed = false;
+                    _currentEntitiy = entity;
+
+                    // We check on which hand is set the Action Button selected
+                    CheckButtonHand();
+
+                    // We check that all the parameters are set correctly
+                    if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
+                    {
+                        Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.ButtonComponents.transform.name + " object are invalid.\n" +
+                            "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                        entity.ButtonComponents.CanBeUsed = false;
+                    }
                 }
             }
-
-            this.Enabled = false;
         }
 
 
-        protected override void OnUpdate() { }
+        protected override void OnUpdate()
+        {
+            bool systemStillRunning = false;
+
+            foreach (var entity in GetEntities<Filter>())
+            {
+                var sdkChoser = entity.ButtonComponents.GetComponent<SDKChoserComponent>();
+
+                if (sdkChoser != null)
+                {
+                    if (!sdkChoser.IsSetup)
+                    {
+                        systemStillRunning = true;
+                    }
+                    else if (sdkChoser.IsSetup && entity.ButtonComponents.CorrectSDK)
+                    {
+                        _currentEntitiy = entity;
+
+                        // We check on which hand is set the Action Button selected
+                        CheckButtonHand();
+
+                        // We check that all the parameters are set correctly
+                        if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
+                        {
+                            Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.ButtonComponents.transform.name + " object are invalid.\n" +
+                                "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                            entity.ButtonComponents.CanBeUsed = false;
+                        }
+                    }
+                    else
+                    {
+                        entity.ButtonComponents.ActionButtonIsReady = true;
+                    }
+                }
+            }
+
+            this.Enabled = systemStillRunning;
+        }
         #endregion
 
 
@@ -219,14 +258,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         private bool CheckActionButton()
         {
             // If we are using an Oculus Touch Specific Button but the device loaded is not the Oculus
-            if (_currentEntitiy.ButtonComponents.IsUsingOculusButton && (VRSF_Components.DeviceLoaded != EDevice.OVR && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR))
+            if (_currentEntitiy.ButtonComponents.IsUsingOculusButton && VRSF_Components.DeviceLoaded == EDevice.OPENVR)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Oculus. Disabling the script.");
                 return false;
             }
             // If we are using an OpenVR Specific Button but the device loaded is not the OpenVR
-            else if (_currentEntitiy.ButtonComponents.IsUsingViveButton && (VRSF_Components.DeviceLoaded != EDevice.OPENVR && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR))
+            else if (_currentEntitiy.ButtonComponents.IsUsingViveButton && VRSF_Components.DeviceLoaded == EDevice.OVR)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Vive. Disabling the script.");
@@ -253,21 +292,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <param name="newScene">The new scene after switching</param>
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            foreach (var entity in GetEntities<Filter>())
-            {
-                _currentEntitiy = entity;
-
-                // We check on which hand is set the Action Button selected
-                CheckButtonHand();
-
-                // We check that all the parameters are set correctly
-                if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
-                {
-                    Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
-                        "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                    entity.ButtonComponents.CanBeUsed = false;
-                }
-            }
+            this.Enabled = true;
         }
         #endregion PRIVATES_METHODS
     }

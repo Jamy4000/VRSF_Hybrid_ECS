@@ -29,7 +29,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var entity in GetEntities<Filter>())
             {
                 // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-                entity.BAC_Comp.CanBeUsed = CheckUseSDKToggles(entity);
+                entity.BAC_Comp.CorrectSDK = CheckUseSDKToggles(entity);
+                entity.SDKComp.IsSetup = true;
             }
 
             this.Enabled = false;
@@ -76,11 +77,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <param name="newScene">The new scene after switching</param>
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            foreach (var entity in GetEntities<Filter>())
-            {
-                // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-                entity.BAC_Comp.CanBeUsed = CheckUseSDKToggles(entity);
-            }
+            this.Enabled = true;
         }
         #endregion PRIVATES_METHODS
     }

@@ -78,11 +78,7 @@ namespace VRSF.Utils.Systems
         /// <param name="newScene">The new scene after switching</param>
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            foreach (var entity in GetEntities<Filter>())
-            {
-                // We check which hit to use for this feature with the RayOrigin
-                SetupRayAndHit(entity);
-            }
+            this.Enabled = true;
         }
         #endregion PRIVATES_METHODS
     }

@@ -311,8 +311,6 @@ namespace VRSF.Utils.Systems
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
             this.Enabled = true;
-
-            SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
         }
         #endregion
 

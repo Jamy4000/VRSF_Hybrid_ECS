@@ -8,6 +8,7 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Handle the Jobs to display the arc of the Bezier Curve
     /// </summary>
+    [UpdateAfter(typeof(BezierTeleportSystem))]
     public class BezierArcDisplayerSystem : ComponentSystem
     {
         struct Filter : ITeleportFilter

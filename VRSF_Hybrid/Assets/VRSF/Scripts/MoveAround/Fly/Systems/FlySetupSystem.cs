@@ -120,17 +120,7 @@ namespace VRSF.MoveAround.Systems
         /// <param name="newScene">The new scene after switching</param>
         private void OnSceneChanged(Scene oldScene, Scene newScene)
         {
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
-                {
-                    Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
-                    e.ButtonComponents.CanBeUsed = false;
-                }
-
-                _currentSetupEntity = e;
-                SetupListenersResponses();
-            }
+            this.Enabled = true;
         }
         #endregion PRIVATE_METHODS
     }
