@@ -14,12 +14,6 @@ namespace VRSF.Interactions.Systems
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-        }
-
         protected override void OnUpdate()
         {
             foreach (var entity in GetEntities<Filter>())

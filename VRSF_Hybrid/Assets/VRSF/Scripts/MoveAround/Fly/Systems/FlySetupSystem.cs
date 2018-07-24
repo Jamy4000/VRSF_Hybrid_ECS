@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
@@ -27,14 +28,10 @@ namespace VRSF.MoveAround.Systems
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
-            if (GetEntities<Filter>().Length == 0)
-            {
-                this.Enabled = false;
-                return;
-            }
-
             base.OnStartRunning();
-            
+
+            SceneManager.activeSceneChanged += OnSceneChanged;
+
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
@@ -45,8 +42,6 @@ namespace VRSF.MoveAround.Systems
 
                 _currentSetupEntity = e;
                 SetupListenersResponses();
-                
-                this.Enabled = false;
             }
         }
 
@@ -94,11 +89,14 @@ namespace VRSF.MoveAround.Systems
                 _currentSetupEntity.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
             }
         }
+        #endregion PUBLIC_METHODS
 
+
+        #region PRIVATE_METHODS
         /// <summary>
         /// Called from OnButtonStopClicking or OnButtonStopTouching event
         /// </summary>
-        public void ButtonStopInteracting(Filter entity)
+        private void ButtonStopInteracting(Filter entity)
         {
             entity.FlyComponent.SlowDownTimer = entity.FlyComponent.TimeSinceStartFlying;
             entity.FlyComponent.IsSlowingDown = true;
@@ -109,10 +107,31 @@ namespace VRSF.MoveAround.Systems
         /// <summary>
         /// Called from OnButtonIsTouching or OnButtonIsClickingevent
         /// </summary>
-        public void ButtonIsInteracting(Filter entity)
+        private void ButtonIsInteracting(Filter entity)
         {
             entity.FlyComponent.IsInteracting = true;
         }
-        #endregion PUBLIC_METHODS
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
+                {
+                    Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
+                    e.ButtonComponents.CanBeUsed = false;
+                }
+
+                _currentSetupEntity = e;
+                SetupListenersResponses();
+            }
+        }
+        #endregion PRIVATE_METHODS
     }
 }

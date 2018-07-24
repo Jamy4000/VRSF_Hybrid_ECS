@@ -26,11 +26,11 @@ namespace VRSF.Utils.Hybrid
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private void Start()
+        protected override void OnStartRunning()
         {
             foreach (var comp in GetEntities<Components>())
             {
-                CameraRig = VRSF.Utils.VRSF_Components.CameraRig;
+                CameraRig = VRSF_Components.CameraRig;
                 // Calculate the XYZ ratios for the transform's localScale over its initial distance from the camera.
 
                 startingDistance = Vector3.Distance(CameraRig.transform.position, comp.transform.position);

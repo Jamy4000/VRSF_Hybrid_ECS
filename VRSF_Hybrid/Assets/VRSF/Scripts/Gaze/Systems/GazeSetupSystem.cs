@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Gaze.Components;
 using VRSF.Utils;
 
@@ -25,6 +26,7 @@ namespace VRSF.Gaze.Systems
             base.OnStartRunning();
 
             _gazeParameters = GazeParametersVariable.Instance;
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             if (_gazeParameters.UseGaze)
             {
@@ -33,15 +35,14 @@ namespace VRSF.Gaze.Systems
                     GeneralGazeSetup(e);
                 }
             }
+            else
+            {
+                this.Enabled = false;
+            }
         }
 
         protected override void OnUpdate()
         {
-            if (GetEntities<Filter>().Length == 0)
-            {
-                this.Enabled = false;
-            }
-
             if (_gazeParameters.UseGaze)
             {
                 foreach (var e in GetEntities<Filter>())
@@ -56,6 +57,10 @@ namespace VRSF.Gaze.Systems
                         this.Enabled = false;
                     }
                 }
+            }
+            else
+            {
+                this.Enabled = false;
             }
         }
         #endregion ComponentSystem_Methods
@@ -91,6 +96,17 @@ namespace VRSF.Gaze.Systems
             {
                 Debug.Log("VRSF : The VR Components are not set in the scene yet, waiting for next frame.\n" + e);
             }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            this.Enabled = true;
         }
         #endregion PRIVATE_METHODS
     }

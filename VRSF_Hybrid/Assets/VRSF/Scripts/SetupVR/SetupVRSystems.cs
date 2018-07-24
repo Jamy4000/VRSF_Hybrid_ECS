@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using VRSF.Controllers;
 using VRSF.Gaze;
@@ -33,6 +34,7 @@ namespace VRSF.Utils.Systems
 
             _controllersParameters = ControllersParametersVariable.Instance;
             _gazeParameters = GazeParametersVariable.Instance;
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
         }
@@ -299,7 +301,20 @@ namespace VRSF.Utils.Systems
                 return false;
             }
         }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            this.Enabled = true;
+
+            SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
+        }
         #endregion
-        
+
     }
 }

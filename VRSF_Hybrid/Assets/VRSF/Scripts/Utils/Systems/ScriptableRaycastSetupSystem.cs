@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Interactions;
 using VRSF.Utils.Components;
@@ -28,6 +29,7 @@ namespace VRSF.Utils.Systems
             base.OnStartRunning();
 
             _interactionsContainer = InteractionVariableContainer.Instance;
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -65,6 +67,21 @@ namespace VRSF.Utils.Systems
                     entity.RayVarComp.RaycastHitVar = _interactionsContainer.GazeHit;
                     entity.RayVarComp.RayVar = _interactionsContainer.GazeRay;
                     break;
+            }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            foreach (var entity in GetEntities<Filter>())
+            {
+                // We check which hit to use for this feature with the RayOrigin
+                SetupRayAndHit(entity);
             }
         }
         #endregion PRIVATES_METHODS

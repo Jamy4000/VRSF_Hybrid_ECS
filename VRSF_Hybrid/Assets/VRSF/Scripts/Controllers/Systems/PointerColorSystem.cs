@@ -6,7 +6,10 @@ using VRSF.Interactions;
 
 namespace VRSF.Controllers.Systems
 {
-    public class PointerColorSystems : ComponentSystem
+    /// <summary>
+    /// Handle the color of the controllers pointer
+    /// </summary>
+    public class PointerColorSystem : ComponentSystem
     {
         struct Filter
         {

@@ -1,6 +1,4 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers;
-using VRSF.Gaze;
 using VRSF.Interactions.Components;
 using VRSF.Utils.Components;
 
@@ -14,24 +12,21 @@ namespace VRSF.Interactions.Systems
             public PointerRaycastComponent PointerRaycast;
             public ScriptableSingletonsComponent ScriptableSingletons;
         }
-
+        
 
         #region ComponentSystem_Methods
         protected override void OnUpdate()
         {
-            // If we doesn't use the controllers, we don't check for the inputs.
-            if (GazeParametersVariable.Instance.UseGaze)
+            foreach (var entity in GetEntities<Filter>())
             {
-                foreach (var entity in GetEntities<Filter>())
+                if (entity.ScriptableSingletons.GazeParameters.UseGaze &&
+                    entity.ScriptableSingletons.IsSetup && entity.PointerRaycast.CheckRaycast)
                 {
-                    if (entity.ScriptableSingletons.IsSetup && entity.PointerRaycast.CheckRaycast)
-                    {
-                        CheckResetClick(entity);
+                    CheckResetClick(entity);
 
-                        if (entity.ScriptableSingletons.GazeParameters.UseGaze && !entity.ScriptableSingletons.InputsContainer.GazeIsCliking.Value && entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.Value)
-                        {
-                            HandleClick(entity);
-                        }
+                    if (entity.ScriptableSingletons.GazeParameters.UseGaze && !entity.ScriptableSingletons.InputsContainer.GazeIsCliking.Value && entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.Value)
+                    {
+                        HandleClick(entity);
                     }
                 }
             }

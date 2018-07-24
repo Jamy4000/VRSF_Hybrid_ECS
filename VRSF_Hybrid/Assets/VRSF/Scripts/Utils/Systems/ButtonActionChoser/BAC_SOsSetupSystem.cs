@@ -4,9 +4,9 @@ using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Inputs;
-using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
@@ -34,6 +34,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             base.OnStartRunning();
 
             _inputsContainer = InputVariableContainer.Instance;
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -339,6 +340,32 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 yield return new WaitForEndOfFrame();
             }
             CheckInitSOs(comp);
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            this.Enabled = true;
+
+            foreach (var entity in GetEntities<Filter>())
+            {
+                // We init the Scriptable Objects References
+                InitGelAndGe(entity.ButtonComponents);
+
+                if (entity.ButtonComponents.ActionButtonIsReady)
+                {
+                    CheckInitSOs(entity.ButtonComponents);
+                }
+                else
+                {
+                    entity.ButtonComponents.StartCoroutine(WaitForActionButton(entity.ButtonComponents));
+                }
+            }
         }
 
 

@@ -2,13 +2,15 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers.Components;
-using VRSF.Gaze;
 using VRSF.Interactions;
 using VRSF.Utils;
 
 namespace VRSF.Controllers.Systems
 {
-    public class PointerLengthSystems : ComponentSystem
+    /// <summary>
+    /// Handle the Length of the Pointer depending on if the raycast is hitting something
+    /// </summary>
+    public class PointerLengthSystem : ComponentSystem
     {
         struct Filter
         {

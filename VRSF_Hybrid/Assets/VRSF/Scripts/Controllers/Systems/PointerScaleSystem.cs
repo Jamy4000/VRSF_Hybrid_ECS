@@ -4,7 +4,10 @@ using VRSF.Controllers.Components;
 
 namespace VRSF.Controllers.Systems
 {
-    public class PointerScaleSystems : ComponentSystem
+    /// <summary>
+    /// Handle the Scale of the pointer depending on the user's scale.
+    /// </summary>
+    public class PointerScaleSystem : ComponentSystem
     {
         struct Filter
         {

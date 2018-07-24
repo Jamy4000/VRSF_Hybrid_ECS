@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs;
@@ -36,6 +37,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             _gazeParameters = GazeParametersVariable.Instance;
             _controllersParameters = ControllersParametersVariable.Instance;
             _inputsContainer = InputVariableContainer.Instance;
+
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -239,6 +242,31 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             else
             {
                 return true;
+            }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            foreach (var entity in GetEntities<Filter>())
+            {
+                _currentEntitiy = entity;
+
+                // We check on which hand is set the Action Button selected
+                CheckButtonHand();
+
+                // We check that all the parameters are set correctly
+                if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
+                {
+                    Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                        "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                    entity.ButtonComponents.CanBeUsed = false;
+                }
             }
         }
         #endregion PRIVATES_METHODS

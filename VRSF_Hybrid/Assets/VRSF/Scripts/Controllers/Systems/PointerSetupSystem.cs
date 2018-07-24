@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Controllers.Components;
 using VRSF.Utils;
 
@@ -25,6 +26,8 @@ namespace VRSF.Controllers.Systems
             base.OnStartRunning();
 
             _controllersParameters = ControllersParametersVariable.Instance;
+
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -82,6 +85,17 @@ namespace VRSF.Controllers.Systems
             comp._RightHandPointer.enabled = _controllersParameters.UsePointerRight;
             comp._LeftHandPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
             comp._LeftHandPointer.enabled = _controllersParameters.UsePointerLeft;
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            this.Enabled = true;
         }
         #endregion PRIVATE_METHODS
     }

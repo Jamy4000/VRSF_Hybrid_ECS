@@ -1,5 +1,4 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers;
 using VRSF.Interactions.Components;
 using VRSF.Utils.Components;
 
@@ -18,19 +17,16 @@ namespace VRSF.Interactions.Systems
         #region ComponentSystem_Methods
         protected override void OnUpdate()
         {
-            // If we doesn't use the controllers, we don't check for the inputs.
-            if (ControllersParametersVariable.Instance.UseControllers)
+            foreach (var entity in GetEntities<Filter>())
             {
-                foreach (var entity in GetEntities<Filter>())
+                if (entity.ScriptableSingletons.ControllersParameters.UseControllers &&
+                    entity.ScriptableSingletons.IsSetup && entity.PointerRaycast.CheckRaycast)
                 {
-                    if (entity.ScriptableSingletons.IsSetup && entity.PointerRaycast.CheckRaycast)
-                    {
-                        CheckResetClick(entity);
+                    CheckResetClick(entity);
 
-                        if (entity.OnClickComp.RightClickBool.Value && !entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.Value)
-                        {
-                            HandleClick(entity);
-                        }
+                    if (entity.OnClickComp.RightClickBool.Value && !entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.Value)
+                    {
+                        HandleClick(entity);
                     }
                 }
             }

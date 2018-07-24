@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs;
@@ -36,13 +37,9 @@ namespace VRSF.MoveAround.Teleport.Systems
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
-            if (GetEntities<Filter>().Length == 0)
-            {
-                this.Enabled = false;
-                return;
-            }
-
             base.OnStartRunning();
+
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -222,6 +219,24 @@ namespace VRSF.MoveAround.Teleport.Systems
                 default:
                     Debug.LogError("Please specify a valid hand in the BezierTeleport script. The Gaze cannot be used.");
                     break;
+            }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            this.Enabled = true;
+
+            foreach (var e in GetEntities<Filter>())
+            {
+                _currentSetupEntity = e;
+                SetupListenersResponses();
+                InitializeValues(e);
             }
         }
         #endregion PRIVATE_METHODS

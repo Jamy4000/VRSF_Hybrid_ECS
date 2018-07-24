@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
@@ -22,6 +23,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+
+            SceneManager.activeSceneChanged += OnSceneChanged;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -62,6 +65,21 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
                 default:
                     return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        /// <param name="newScene">The new scene after switching</param>
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            foreach (var entity in GetEntities<Filter>())
+            {
+                // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
+                entity.BAC_Comp.CanBeUsed = CheckUseSDKToggles(entity);
             }
         }
         #endregion PRIVATES_METHODS
