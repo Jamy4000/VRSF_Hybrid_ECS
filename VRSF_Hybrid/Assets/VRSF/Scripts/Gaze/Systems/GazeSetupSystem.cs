@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Gaze.Components;
+using VRSF.Inputs.Components;
 using VRSF.Utils;
 
 namespace VRSF.Gaze.Systems
@@ -21,6 +22,7 @@ namespace VRSF.Gaze.Systems
 
 
         #region ComponentSystem_Methods
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
@@ -32,7 +34,11 @@ namespace VRSF.Gaze.Systems
             {
                 foreach (var e in GetEntities<Filter>())
                 {
-                    GeneralGazeSetup(e);
+                    if (VRSF_Components.CameraRig != null)
+                    {
+                        CheckGazeParameters();
+                        GeneralGazeSetup(e);
+                    }
                 }
             }
             else
@@ -41,14 +47,16 @@ namespace VRSF.Gaze.Systems
             }
         }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnUpdate()
         {
-            if (_gazeParameters.UseGaze)
+            if (VRSF_Components.CameraRig != null)
             {
                 foreach (var e in GetEntities<Filter>())
                 {
                     if (!e.GazeCalculations._IsSetup)
                     {
+                        CheckGazeParameters();
                         GeneralGazeSetup(e);
                     }
                     else
@@ -58,15 +66,58 @@ namespace VRSF.Gaze.Systems
                     }
                 }
             }
-            else
-            {
-                this.Enabled = false;
-            }
         }
         #endregion ComponentSystem_Methods
 
 
         #region PRIVATE_METHODS
+        private bool CheckGazeParameters()
+        {
+            // If we don't use the gaze, no need to check the rest of the Objects
+            if (!_gazeParameters.UseGaze)
+                return true;
+
+            if (GameObject.FindObjectsOfType<GazeParametersComponent>().Length == 0)
+            {
+                Debug.LogError("VRSF : If you want to use the Gaze feature, please add a GazeParametersComponent on a GameObject, or place the Gaze Prefab in the scene." +
+                    "(Assets/VRSF/Prefabs/UI/ReticleCanvas.prefab).\n Setting UseGaze in GazeParameters to false.");
+                _gazeParameters.UseGaze = false;
+                return false;
+            }
+
+            CheckGazeInputComponent();
+
+            return true;
+        }
+
+
+        private void CheckGazeInputComponent()
+        {
+            switch (VRSF_Components.DeviceLoaded)
+            {
+                case EDevice.OPENVR:
+                    if (VRSF_Components.CameraRig.GetComponent<ViveGazeInputCaptureComponent>() == null)
+                    {
+                        VRSF_Components.CameraRig.AddComponent<ViveGazeInputCaptureComponent>();
+                    }
+                    break;
+
+                case EDevice.OVR:
+                    if (VRSF_Components.CameraRig.GetComponent<OVRGazeInputCaptureComponent>() == null)
+                    {
+                        VRSF_Components.CameraRig.AddComponent<OVRGazeInputCaptureComponent>();
+                    }
+                    break;
+                case EDevice.SIMULATOR:
+                    if (VRSF_Components.CameraRig.GetComponent<SimulatorGazeInputCaptureComponent>() == null)
+                    {
+                        VRSF_Components.CameraRig.AddComponent<SimulatorGazeInputCaptureComponent>();
+                    }
+                    break;
+            }
+        }
+
+
         /// <summary>
         /// Setup the Gaze Parameters based on the ScriptableSingleton, set in the VRSF Interaction Parameters Window
         /// </summary>

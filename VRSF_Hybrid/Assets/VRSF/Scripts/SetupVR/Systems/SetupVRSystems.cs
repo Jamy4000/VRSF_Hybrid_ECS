@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using VRSF.Controllers;
-using VRSF.Gaze;
-using VRSF.Gaze.Components;
 using VRSF.Inputs.Components;
 using VRSF.Inputs.Components.Vive;
 using VRSF.Utils.Components;
@@ -23,7 +21,6 @@ namespace VRSF.Utils.Systems
         }
 
         private ControllersParametersVariable _controllersParameters;
-        private GazeParametersVariable _gazeParameters;
 
 
         #region ComponentSystem_Methods
@@ -33,7 +30,6 @@ namespace VRSF.Utils.Systems
             base.OnStartRunning();
 
             _controllersParameters = ControllersParametersVariable.Instance;
-            _gazeParameters = GazeParametersVariable.Instance;
             SceneManager.activeSceneChanged += OnSceneChanged;
 
             SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
@@ -84,9 +80,6 @@ namespace VRSF.Utils.Systems
 
             // We set the references to the VRCamera
             if (!CheckCameraReference())
-                return;
-
-            if (!CheckGazeParameters())
                 return;
 
             // We copy the transform of the Scripts Container and add them as children of the corresponding SDKs objects
@@ -220,49 +213,6 @@ namespace VRSF.Utils.Systems
             {
                 Debug.LogError("VRSF : Can't setup the VRCamera. Waiting for next frame.\n" + e);
                 return false;
-            }
-        }
-
-
-        private bool CheckGazeParameters()
-        {
-            // If we don't use the gaze, no need to check the rest of the Objects
-            if (!_gazeParameters.UseGaze)
-                return true;
-
-            bool containsGazeComp = VRSF_Components.CameraRig.GetComponent<OVRGazeInputCaptureComponent>() ||
-                VRSF_Components.CameraRig.GetComponent<ViveGazeInputCaptureComponent>() || VRSF_Components.CameraRig.GetComponent<SimulatorGazeInputCaptureComponent>();
-
-            if (GameObject.FindObjectsOfType<GazeParametersComponent>().Length == 0)
-            {
-                Debug.LogError("VRSF : If you want to use the Gaze feature, please add a GazeComponent on a GameObject, or place the Gaze Prefab in the scene." +
-                    "(Assets/VRSF/Prefabs/UI/ReticleCanvas.prefab).\n Setting UseGaze in GazeParameters to false.");
-                _gazeParameters.UseGaze = false;
-                return false;
-            }
-
-            if (!containsGazeComp)
-            {
-                AddGazeComponent();
-            }
-
-            return true;
-        }
-
-
-        private void AddGazeComponent()
-        {
-            switch (VRSF_Components.DeviceLoaded)
-            {
-                case EDevice.OPENVR:
-                    VRSF_Components.CameraRig.AddComponent<ViveGazeInputCaptureComponent>();
-                    break;
-                case EDevice.OVR:
-                    VRSF_Components.CameraRig.AddComponent<OVRGazeInputCaptureComponent>();
-                    break;
-                case EDevice.SIMULATOR:
-                    VRSF_Components.CameraRig.AddComponent<SimulatorGazeInputCaptureComponent>();
-                    break;
             }
         }
 
