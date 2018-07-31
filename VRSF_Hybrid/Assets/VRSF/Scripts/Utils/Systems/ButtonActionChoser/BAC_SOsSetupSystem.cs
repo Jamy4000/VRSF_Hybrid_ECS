@@ -36,7 +36,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             _inputsContainer = InputVariableContainer.Instance;
             
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -52,7 +52,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     entity.ButtonComponents.StartCoroutine(WaitForActionButton(entity.ButtonComponents));
                 }
             }
-            
         }
 
         protected override void OnUpdate()
@@ -66,6 +65,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 }
             }
             this.Enabled = StillSettingUp;
+        }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion
 
@@ -241,10 +246,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         private IEnumerator CreateGELInContainer(ButtonActionChoserComponents comp)
         {
             // We wait until the GEL were created, if necessary
-            yield return new WaitForEndOfFrame();
+            while (comp.GeDown == null && comp.GeTouched == null)
+            {
+                yield return new WaitForEndOfFrame();
+            }
 
             OnButtonDelegate buttonActionDelegate;
-
+            
             // CLICK
             if (comp.GeDown != null)
             {
@@ -357,8 +365,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

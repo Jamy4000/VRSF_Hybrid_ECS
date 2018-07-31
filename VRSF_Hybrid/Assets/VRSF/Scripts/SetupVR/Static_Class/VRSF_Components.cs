@@ -20,6 +20,9 @@ namespace VRSF.Utils
 
         [Header("The name of the SDK that has been loaded. Not necessary if you're using a Starting Screen.")]
         public static EDevice DeviceLoaded = EDevice.NULL;
+
+
+        [HideInInspector] public static bool SetupVRIsReady = false;
         #endregion
 
 

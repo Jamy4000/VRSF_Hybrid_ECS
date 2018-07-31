@@ -39,7 +39,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             base.OnStartRunning();
 
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -77,6 +77,8 @@ namespace VRSF.MoveAround.Teleport.Systems
                 _currentSetupEntity = e;
                 RemoveListenersOnEndApp();
             }
+            
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -227,8 +229,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

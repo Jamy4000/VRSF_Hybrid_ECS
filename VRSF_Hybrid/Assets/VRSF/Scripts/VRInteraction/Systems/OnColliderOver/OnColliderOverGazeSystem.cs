@@ -37,15 +37,20 @@ namespace VRSF.Interactions.Systems
         private void HandleOver(ScriptableSingletonsComponent comp)
         {
             //If nothing is hit, we set the isOver value to false
-            if (comp.InteractionsContainer.GazeHit.isNull)
+            if (comp.InteractionsContainer.IsOverSomethingGaze.Value && comp.InteractionsContainer.GazeHit.isNull)
             {
                 comp.InteractionsContainer.IsOverSomethingGaze.SetValue(false);
+                comp.InteractionsContainer.GazeOverObject.Raise(null);
+                comp.InteractionsContainer.PreviousGazeHit = null;
             }
-            //If something is hit, we check that the collider is still "alive"
-            else if (comp.InteractionsContainer.GazeHit.Value.collider != null)
+            //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
+            else if (comp.InteractionsContainer.GazeHit.Value.collider != null &&
+                    comp.InteractionsContainer.GazeHit.Value.transform != comp.InteractionsContainer.PreviousGazeHit)
             {
                 var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
                 comp.InteractionsContainer.GazeOverObject.Raise(hitTransform);
+
+                comp.InteractionsContainer.PreviousGazeHit = hitTransform;
 
                 comp.InteractionsContainer.IsOverSomethingGaze.SetValue(true);
             }

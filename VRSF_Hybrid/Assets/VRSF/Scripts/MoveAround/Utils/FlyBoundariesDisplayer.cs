@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
 using VRSF.MoveAround.Components;
 
 namespace VRSF.MoveAround
@@ -30,6 +29,7 @@ namespace VRSF.MoveAround
 
 
         #region MONOBEHAVIOUR_METHODS
+#if UNITY_EDITOR
         /// <summary>
         /// To show the lines in the editor
         /// </summary>
@@ -42,6 +42,7 @@ namespace VRSF.MoveAround
                 DrawConnectingLines();
             }
         }
+#endif
         #endregion
 
 
@@ -51,6 +52,7 @@ namespace VRSF.MoveAround
 
 
         #region PRIVATE_METHODS
+#if UNITY_EDITOR
         /// <summary>
         /// Connect all the points together by getting there coordinates from the FlyingParamertersVariable
         /// </summary>
@@ -107,7 +109,8 @@ namespace VRSF.MoveAround
 
             UnityEditor.Handles.Label(labelPos, "Flying Boundaries", style);
         }
-        #endregion
+#endif
+    #endregion
 
 
         // EMPTY
@@ -116,4 +119,3 @@ namespace VRSF.MoveAround
         #endregion
     }
 }
-#endif

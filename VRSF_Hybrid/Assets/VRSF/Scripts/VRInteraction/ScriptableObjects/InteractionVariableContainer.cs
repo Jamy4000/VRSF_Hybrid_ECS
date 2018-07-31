@@ -40,6 +40,12 @@ namespace VRSF.Interactions
         public BoolVariable IsOverSomethingRight;
         public BoolVariable IsOverSomethingLeft;
         public BoolVariable IsOverSomethingGaze;
+
+
+        [Header("The previous RaycastHitVariable for the Controllers and Gaze.")]
+        [HideInInspector] public Transform PreviousRightHit;
+        [HideInInspector] public Transform PreviousLeftHit;
+        [HideInInspector] public Transform PreviousGazeHit;
         #endregion
     }
 }

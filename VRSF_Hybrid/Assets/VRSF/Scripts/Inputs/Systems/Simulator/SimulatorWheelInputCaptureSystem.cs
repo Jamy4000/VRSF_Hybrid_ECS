@@ -5,7 +5,6 @@ using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs.Components;
-using VRSF.Inputs.Gaze;
 
 namespace VRSF.Inputs
 {

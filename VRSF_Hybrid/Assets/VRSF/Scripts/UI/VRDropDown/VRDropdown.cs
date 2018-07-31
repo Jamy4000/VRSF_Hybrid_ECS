@@ -48,6 +48,7 @@ namespace VRSF.UI
 
 
         #region MONOBEHAVIOUR_METHODS
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
@@ -69,6 +70,7 @@ namespace VRSF.UI
             if (!_ClickOnlySetup.CheckGameEventListenerChild(ref _GameEventListenersContainer, ref _ListenersDictionary, transform))
                 _UISetup.CreateGameEventListenerChild(ref _GameEventListenersContainer, transform);
         }
+#endif
 
         protected override void Start()
         {

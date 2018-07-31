@@ -32,17 +32,20 @@ namespace VRSF.UI
         {
             foreach (GameEventListenerTransform l in gameEventListenersContainer.GetComponents<GameEventListenerTransform>())
             {
-                if (l.GetEvent().name.ToLower().Contains("right"))
-                    ListenersDictionary["Right"] = l;
+                if (l.GetEvent().name.ToLower().Contains("click"))
+                {
+                    if (l.GetEvent().name.ToLower().Contains("right"))
+                        ListenersDictionary["Right"] = l;
 
-                else if (l.GetEvent().name.ToLower().Contains("left"))
-                    ListenersDictionary["Left"] = l;
+                    else if (l.GetEvent().name.ToLower().Contains("left"))
+                        ListenersDictionary["Left"] = l;
 
-                else if (l.GetEvent().name.ToLower().Contains("gaze"))
-                    ListenersDictionary["Gaze"] = l;
+                    else if (l.GetEvent().name.ToLower().Contains("gaze"))
+                        ListenersDictionary["Gaze"] = l;
 
-                else
-                    Debug.LogError("Couldn't find the GameEventListenerTransform that correspond");
+                    else
+                        Debug.LogError("Couldn't find the GameEventListenerTransform that correspond");
+                }
             }
             return ListenersDictionary;
         }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
@@ -27,6 +28,8 @@ namespace VRSF.MoveAround.Systems
         {
             base.OnStartRunning();
 
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
             foreach (var e in GetEntities<Filter>())
             {
                 _currentSetupEntity = e;
@@ -34,9 +37,11 @@ namespace VRSF.MoveAround.Systems
             }
         }
 
-        protected override void OnStopRunning()
+        protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
+
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -105,6 +110,20 @@ namespace VRSF.MoveAround.Systems
         private void StopRotating(CameraRotationComponent comp)
         {
             comp.IsRotating = false;
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        private void OnSceneUnloaded(Scene oldScene)
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                _currentSetupEntity = e;
+                SetupListenersResponses();
+            }
         }
         #endregion
     }

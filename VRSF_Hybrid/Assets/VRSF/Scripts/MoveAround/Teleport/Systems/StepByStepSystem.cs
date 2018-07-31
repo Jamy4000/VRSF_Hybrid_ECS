@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
@@ -31,23 +32,29 @@ namespace VRSF.MoveAround.Teleport.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            
+
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
             foreach (var e in GetEntities<Filter>())
             {
                 _currentSetupEntity = e;
                 SetupListenersResponses();
             }
-        }
 
-        protected override void OnStopRunning()
+            this.Enabled = false;
+        }
+        
+        protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
 
             foreach (var e in GetEntities<Filter>())
             {
                 _currentSetupEntity = e;
                 RemoveListenersOnEndApp();
             }
+
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -190,6 +197,16 @@ namespace VRSF.MoveAround.Teleport.Systems
                     Debug.LogError("Please specify a valid RayOrigin in the Inspector to be able to use the Teleport StepByStep feature.");
                     return Vector3.zero;
             }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        private void OnSceneUnloaded(Scene oldScene)
+        {
+            this.Enabled = true;
         }
         #endregion
     }

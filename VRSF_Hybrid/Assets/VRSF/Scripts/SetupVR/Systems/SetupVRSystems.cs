@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,23 +23,24 @@ namespace VRSF.Utils.Systems
 
         private ControllersParametersVariable _controllersParameters;
 
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
+            
             _controllersParameters = ControllersParametersVariable.Instance;
-            SceneManager.activeSceneChanged += OnSceneChanged;
 
             SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
+            
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         protected override void OnUpdate()
         {
             var e = GetEntities<Filter>()[0];
-            if (!e.SetupVR.IsReady)
+
+            if (!VRSF_Components.SetupVRIsReady)
             {
                 SetupVRInScene(e.SetupVR);
             }
@@ -47,8 +49,15 @@ namespace VRSF.Utils.Systems
                 this.Enabled = false;
             }
         }
+
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
         #endregion
-        
+
 
         #region PRIVATE_METHODS
         /// <summary>
@@ -93,7 +102,7 @@ namespace VRSF.Utils.Systems
             }
 
             setupVR.SDKHasBeenInstantiated = true;
-            setupVR.IsReady = true;
+            VRSF_Components.SetupVRIsReady = true;
         }
 
         /// <summary>
@@ -257,8 +266,7 @@ namespace VRSF.Utils.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

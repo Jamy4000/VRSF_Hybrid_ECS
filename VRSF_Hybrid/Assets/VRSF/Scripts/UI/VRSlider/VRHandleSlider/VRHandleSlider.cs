@@ -61,11 +61,13 @@ namespace VRSF.UI
 
 
         #region MONOBEHAVIOUR_METHODS
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
             MakeBasicSetup();
         }
+#endif
 
         protected override void Start()
         {

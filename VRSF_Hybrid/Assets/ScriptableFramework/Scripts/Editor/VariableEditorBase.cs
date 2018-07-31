@@ -106,7 +106,7 @@ namespace ScriptableFramework.UI.Editor
             return null;
         }
     }
-
+    
     [CustomEditor(typeof(TransformVariable))]
     public class VariableTransformEditor : VariableEditorBase
     {
@@ -149,4 +149,5 @@ namespace ScriptableFramework.UI.Editor
             return null;
         }
     }
+
 }

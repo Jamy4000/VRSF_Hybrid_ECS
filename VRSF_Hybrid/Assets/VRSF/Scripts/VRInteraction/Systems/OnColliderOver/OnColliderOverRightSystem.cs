@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using UnityEngine;
 using VRSF.Utils.Components;
 
 namespace VRSF.Interactions.Systems
@@ -36,16 +37,21 @@ namespace VRSF.Interactions.Systems
         private void HandleOver(ScriptableSingletonsComponent comp)
         {
             //If nothing is hit, we set the isOver value to false
-            if (comp.InteractionsContainer.RightHit.isNull)
+            if (comp.InteractionsContainer.IsOverSomethingRight.Value && comp.InteractionsContainer.RightHit.isNull)
             {
                 comp.InteractionsContainer.IsOverSomethingRight.SetValue(false);
+                comp.InteractionsContainer.RightOverObject.Raise(null);
+                comp.InteractionsContainer.PreviousRightHit = null;
             }
-            //If something is hit, we check that the collider is still "alive"
-            else if (comp.InteractionsContainer.RightHit.Value.collider != null)
+            //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
+            else if (!comp.InteractionsContainer.RightHit.isNull && comp.InteractionsContainer.RightHit.Value.collider != null &&
+                    comp.InteractionsContainer.RightHit.Value.collider.transform != comp.InteractionsContainer.PreviousRightHit)
             {
                 var hitTransform = comp.InteractionsContainer.RightHit.Value.collider.transform;
                 comp.InteractionsContainer.RightOverObject.Raise(hitTransform);
 
+                comp.InteractionsContainer.PreviousRightHit = hitTransform;
+                
                 comp.InteractionsContainer.IsOverSomethingRight.SetValue(true);
             }
         }

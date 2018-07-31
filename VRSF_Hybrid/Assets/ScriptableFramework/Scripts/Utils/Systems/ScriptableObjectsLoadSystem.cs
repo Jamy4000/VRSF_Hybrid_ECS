@@ -2,6 +2,7 @@
 using System.IO;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ScriptableFramework.Util.Systems
 {
@@ -16,6 +17,8 @@ namespace ScriptableFramework.Util.Systems
         {
             base.OnStartRunning();
 
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.ScriptableLoaderComp.LoadScriptableFromJSONOnAppStart)
@@ -29,6 +32,13 @@ namespace ScriptableFramework.Util.Systems
         }
 
         protected override void OnUpdate() {}
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
 
         /// <summary>
         /// Load the JsonFiles and overwrite the scriptable objects in the public list.
@@ -56,6 +66,16 @@ namespace ScriptableFramework.Util.Systems
             }
 
             Debug.Log("Scriptable Files loaded correctly.");
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        private void OnSceneUnloaded(Scene oldScene)
+        {
+            this.Enabled = true;
         }
     }
 }

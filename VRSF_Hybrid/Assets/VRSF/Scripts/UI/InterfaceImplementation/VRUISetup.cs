@@ -93,7 +93,7 @@ namespace VRSF.UI
         public Dictionary<string, GameEventListenerTransform> CheckGameEventListenersPresence(GameObject gameEventListenersContainer, Dictionary<string, GameEventListenerTransform> listenersDictionary, int amoutListener = 3)
         {
             // If the GameEventListenerContainer does not contain the listeners
-            if (gameEventListenersContainer.GetComponents<GameEventListenerTransform>().Length != amoutListener)
+            if (gameEventListenersContainer.GetComponents<GameEventListenerTransform>().Length < amoutListener)
             {
                 listenersDictionary["Right"] = gameEventListenersContainer.AddComponent<GameEventListenerTransform>();
                 listenersDictionary["Left"] = gameEventListenersContainer.AddComponent<GameEventListenerTransform>();
