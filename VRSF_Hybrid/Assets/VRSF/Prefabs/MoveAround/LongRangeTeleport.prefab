@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114237024141291514}
   - component: {fileID: 114154512620818030}
   - component: {fileID: 114074741324813776}
+  - component: {fileID: 114106979821398556}
   - component: {fileID: 114093723974906776}
   m_Layer: 0
   m_Name: LongRangeTeleport
@@ -140,6 +141,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114106979821398556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355566103611140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeleportLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  ExclusionLayer: -1
+  CanTeleport: 0
 --- !u!114 &114154512620818030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,8 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UseBoundaries: 0
-  _MinUserPosition: {x: -100, y: -1, z: -100}
-  _MaxUserPosition: {x: 100, y: 100, z: 100}
+  _Boundaries: []
 --- !u!114 &114237024141291514
 MonoBehaviour:
   m_ObjectHideFlags: 1

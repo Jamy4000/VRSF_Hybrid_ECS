@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
@@ -129,12 +130,41 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            Vector3 minPos = entity.TeleportBoundaries._MinUserPosition;
-            Vector3 maxPos = entity.TeleportBoundaries._MaxUserPosition;
+            bool _isInBoundaries = false;
+            List<Vector3> closestDists = new List<Vector3>();
 
-            posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
-            posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
-            posToCheck.z = Mathf.Clamp(posToCheck.z, minPos.z, maxPos.z);
+            foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
+            {
+                if (bound.Contains(posToCheck))
+                {
+                    _isInBoundaries = true;
+                    break;
+                }
+                else
+                {
+                    closestDists.Add(bound.ClosestPoint(posToCheck));
+                }
+            }
+
+            // if the posToCheck is not in the boundaries, we check what's the closest point from it
+            if (!_isInBoundaries)
+            {
+                float closestDist = float.PositiveInfinity;
+                Vector3 closestPoint = Vector3.positiveInfinity;
+
+                foreach (var point in closestDists)
+                {
+                    var distance = (posToCheck - point).magnitude;
+
+                    if (distance < closestDist)
+                    {
+                        closestDist = distance;
+                        closestPoint = point;
+                    }
+                }
+
+                posToCheck = closestPoint;
+            }
         }
         #endregion
 
@@ -208,7 +238,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 }
 
                 // If we use the boundaries, we check the newPos, if not, we set the position of the user directly
-                if (entity.TeleportBoundaries._UseBoundaries)
+                if (entity.TeleportBoundaries.UseBoundaries())
                 {
                     CheckNewPosWithBoundaries(entity, ref newPos);
                 }

@@ -37,7 +37,10 @@ namespace VRSF.MoveAround.Teleport
 
             if (_teleportScript.UseBoundaries())
             {
-                DrawConnectingLines();
+                foreach(Bounds b in _teleportScript.Boundaries())
+                {
+                    DrawConnectingLines(b);
+                }
             }
         }
         #endregion
@@ -52,10 +55,10 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Connect all the points together by getting there coordinates from the FlyingParamertersVariable
         /// </summary>
-        void DrawConnectingLines()
+        void DrawConnectingLines(Bounds bound)
         {
-            Vector3 minPos = _teleportScript.MinPosBoundaries();
-            Vector3 maxPos = _teleportScript.MaxPosBoundaries();
+            Vector3 minPos = bound.min;
+            Vector3 maxPos = bound.max;
 
             // List of points/vertices
             Vector3[] vertices = new Vector3[8]

@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 

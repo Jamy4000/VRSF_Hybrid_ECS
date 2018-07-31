@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
@@ -103,7 +104,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 }
 
                 // If we use boundaries, we check if the user is not going to far away
-                if (entity.TeleportBoundaries._UseBoundaries)
+                if (entity.TeleportBoundaries.UseBoundaries())
                 {
                     newPos += VRSF_Components.CameraRig.transform.position;
                     CheckNewPosWithBoundaries(entity, ref newPos);
@@ -126,13 +127,42 @@ namespace VRSF.MoveAround.Teleport.Systems
         public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
         {
             Filter entity = (Filter)teleportFilter;
-
-            Vector3 minPos = entity.TeleportBoundaries._MinUserPosition;
-            Vector3 maxPos = entity.TeleportBoundaries._MaxUserPosition;
             
-            posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
-            posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
-            posToCheck.z = Mathf.Clamp(posToCheck.z, minPos.z, maxPos.z);
+            bool _isInBoundaries = false;
+            List<Vector3> closestDists = new List<Vector3>();
+
+            foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
+            {
+                if (bound.Contains(posToCheck))
+                {
+                    _isInBoundaries = true;
+                    break;
+                }
+                else
+                {
+                    closestDists.Add(bound.ClosestPoint(posToCheck));
+                }
+            }
+
+            // if the posToCheck is not in the boundaries, we check what's the closest point from it
+            if (!_isInBoundaries)
+            {
+                float closestDist = float.PositiveInfinity;
+                Vector3 closestPoint = Vector3.positiveInfinity;
+
+                foreach (var point in closestDists)
+                {
+                    var distance = (posToCheck - point).magnitude;
+
+                    if (distance < closestDist)
+                    {
+                        closestDist = distance;
+                        closestPoint = point;
+                    }
+                }
+
+                posToCheck = closestPoint;
+            }
         }
         #endregion
 
