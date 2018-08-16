@@ -22,7 +22,7 @@ namespace VRSF.MoveAround.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ParametersComponent.IsInteracting || e.VelocityComponent.CurrentFlightVelocity > 0.0f)
+                if (e.ParametersComponent._IsInteracting || e.VelocityComponent.CurrentFlightVelocity > 0.0f)
                 {
                     CheckFlyingMode(e);
                 }
@@ -38,42 +38,42 @@ namespace VRSF.MoveAround.Systems
         private void CheckFlyingMode(Filter entity)
         {
             //If the user is pressing/touching the flying button, we handle the acceleration
-            if (entity.ParametersComponent.WantToFly)
+            if (entity.ParametersComponent._WantToFly)
             {
-                if (entity.ParametersComponent.TimeSinceStartFlying >= 0 && entity.ParametersComponent.TimeSinceStartFlying < 1.0f)
+                if (entity.ParametersComponent._TimeSinceStartFlying >= 0 && entity.ParametersComponent._TimeSinceStartFlying < 1.0f)
                 {
                     if (entity.AccelerationComponent.AccelerationDecelerationEffect)
-                        entity.ParametersComponent.TimeSinceStartFlying += (Time.deltaTime / entity.AccelerationComponent.AccelerationEffectFactor);
+                        entity.ParametersComponent._TimeSinceStartFlying += (Time.deltaTime / entity.AccelerationComponent.AccelerationEffectFactor);
                     else
-                        entity.ParametersComponent.TimeSinceStartFlying = 1.0f;
+                        entity.ParametersComponent._TimeSinceStartFlying = 1.0f;
                 }
 
-                if (entity.ParametersComponent.SlowDownTimer > 0.0f)
+                if (entity.ParametersComponent._SlowDownTimer > 0.0f)
                 {
-                    entity.ParametersComponent.TimeSinceStartFlying = entity.ParametersComponent.SlowDownTimer;
-                    entity.ParametersComponent.SlowDownTimer = 0.0f;
+                    entity.ParametersComponent._TimeSinceStartFlying = entity.ParametersComponent._SlowDownTimer;
+                    entity.ParametersComponent._SlowDownTimer = 0.0f;
                 }
 
-                entity.VelocityComponent.CurrentFlightVelocity = GetSpeed(entity.ParametersComponent) * entity.ParametersComponent.TimeSinceStartFlying;
+                entity.VelocityComponent.CurrentFlightVelocity = GetSpeed(entity.ParametersComponent) * entity.ParametersComponent._TimeSinceStartFlying;
             }
 
             //If the user stop pressing/touching the flying button, we handle the deceleration
             else
             {
-                if (entity.ParametersComponent.SlowDownTimer > 0.0f)
+                if (entity.ParametersComponent._SlowDownTimer > 0.0f)
                 {
                     if (entity.AccelerationComponent.AccelerationDecelerationEffect)
-                        entity.ParametersComponent.SlowDownTimer -= (Time.deltaTime / entity.AccelerationComponent.DecelerationEffectFactor);
+                        entity.ParametersComponent._SlowDownTimer -= (Time.deltaTime / entity.AccelerationComponent.DecelerationEffectFactor);
                     else
-                        entity.ParametersComponent.SlowDownTimer = 0.0f;
+                        entity.ParametersComponent._SlowDownTimer = 0.0f;
                 }
 
                 //Sliding effect when touchpad is released
-                entity.VelocityComponent.CurrentFlightVelocity = GetSpeed(entity.ParametersComponent) * entity.ParametersComponent.SlowDownTimer;
+                entity.VelocityComponent.CurrentFlightVelocity = GetSpeed(entity.ParametersComponent) * entity.ParametersComponent._SlowDownTimer;
 
                 if (entity.VelocityComponent.CurrentFlightVelocity <= 0.0f)
                 {
-                    entity.ParametersComponent.IsSlowingDown = false;
+                    entity.ParametersComponent._IsSlowingDown = false;
                 }
             }
         }

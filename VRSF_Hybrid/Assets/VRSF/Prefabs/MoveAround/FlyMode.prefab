@@ -100,6 +100,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
+  CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
   ButtonHand: 0
@@ -179,12 +180,12 @@ MonoBehaviour:
   FlyingSpeed: 1
   ChangeSpeedDependingOnHeight: 1
   ChangeSpeedDependingOnScale: 1
-  IsInteracting: 0
-  WantToFly: 0
-  FlyForward: 1
-  IsSlowingDown: 0
-  TimeSinceStartFlying: 0
-  SlowDownTimer: 0
+  _IsInteracting: 0
+  _WantToFly: 0
+  _FlyForward: 1
+  _IsSlowingDown: 0
+  _TimeSinceStartFlying: 0
+  _SlowDownTimer: 0
 --- !u!114 &114769733856062240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,9 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e31f7983b18ed4596513e349683a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FlightDirection: 0
-  NormalizedDir: {x: 0, y: 0, z: 0}
-  FinalDirection: {x: 0, y: 0, z: 0}
+  _FlightDirection: 0
+  _NormalizedDir: {x: 0, y: 0, z: 0}
+  _FinalDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &114780445443877056
 MonoBehaviour:
   m_ObjectHideFlags: 1

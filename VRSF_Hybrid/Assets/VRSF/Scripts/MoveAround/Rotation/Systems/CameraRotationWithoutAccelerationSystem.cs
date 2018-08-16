@@ -21,9 +21,10 @@ namespace VRSF.MoveAround.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (!e.RotationComp.UseAccelerationEffect && e.RotationComp.IsRotating)
+                if (!e.RotationComp.UseAccelerationEffect && !e.RotationComp._HasRotated && e.RotationComp._IsRotating)
                 {
                     HandleRotationWithoutAcceleration(e);
+                    e.RotationComp._HasRotated = true;
                 }
             }
         }
@@ -33,11 +34,19 @@ namespace VRSF.MoveAround.Systems
         #region PRIVATE_METHODS
         private void HandleRotationWithoutAcceleration(Filter entity)
         {
-            Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
+            var cameraRigTransform = VRSF_Components.VRCamera.transform;
+            Vector3 eyesPosition = cameraRigTransform.parent.position;
             Vector3 rotationAxis = new Vector3(0, entity.ButtonComponents.ThumbPos.Value.x, 0);
-            float rotationAngle = Time.deltaTime * entity.RotationComp.MaxSpeed;
 
-            VRSF_Components.CameraRig.transform.RotateAround(eyesPosition, rotationAxis, rotationAngle);
+            cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
+
+            // We check if the rotation value is not above 180 or below -180. if so, we substract/add 360 degrees to it.
+            var newRot = cameraRigTransform.rotation;
+
+            newRot.y = (newRot.y > 180.0f) ? (newRot.y - 360.0f) : newRot.y;
+            newRot.y = (newRot.y < -180.0f) ? (newRot.y + 360.0f) : newRot.y;
+
+            cameraRigTransform.rotation = newRot;
         }
         #endregion
     }

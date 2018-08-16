@@ -47,11 +47,13 @@ namespace VRSF.Controllers.Systems
         /// </summary>
         private void CheckPointersScale(ControllerPointerComponents comp)
         {
-            comp._RightHandPointer.startWidth = comp._CameraRigTransform.lossyScale.x / 100;
-            comp._RightHandPointer.endWidth = comp._CameraRigTransform.lossyScale.x / 100;
+            var cameraRigScale = Utils.VRSF_Components.CameraRig.transform.lossyScale;
 
-            comp._LeftHandPointer.startWidth = comp._CameraRigTransform.lossyScale.x / 100;
-            comp._LeftHandPointer.endWidth = comp._CameraRigTransform.lossyScale.x / 100;
+            comp._RightHandPointer.startWidth = cameraRigScale.x / 100;
+            comp._RightHandPointer.endWidth = cameraRigScale.x / 100;
+
+            comp._LeftHandPointer.startWidth = cameraRigScale.x / 100;
+            comp._LeftHandPointer.endWidth = cameraRigScale.x / 100;
         }
     }
 }

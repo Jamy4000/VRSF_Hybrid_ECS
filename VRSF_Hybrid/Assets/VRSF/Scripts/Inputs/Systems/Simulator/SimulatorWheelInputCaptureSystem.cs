@@ -1,9 +1,6 @@
-﻿using ScriptableFramework.Events;
-using ScriptableFramework.Variables;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
-using VRSF.Gaze;
 using VRSF.Inputs.Components;
 
 namespace VRSF.Inputs

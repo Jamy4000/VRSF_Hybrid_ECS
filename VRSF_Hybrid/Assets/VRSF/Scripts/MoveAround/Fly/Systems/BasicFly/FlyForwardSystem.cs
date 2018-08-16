@@ -21,7 +21,7 @@ namespace VRSF.MoveAround.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.FlyComponents.IsInteracting)
+                if (e.FlyComponents._IsInteracting)
                 {
                     CalculateFlyForward(e);
                 }
@@ -36,13 +36,13 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void CalculateFlyForward(Filter entity)
         {
-            entity.FlyComponents.FlyForward = (entity.ButtonComponents.ThumbPos.Value.y >= 0.0f) ? true : false;
+            entity.FlyComponents._FlyForward = (entity.ButtonComponents.ThumbPos.Value.y >= 0.0f) ? true : false;
 
             // If user just started to press/touch the thumbstick
-            if (!entity.FlyComponents.WantToFly)
+            if (!entity.FlyComponents._WantToFly)
             {
-                entity.FlyComponents.TimeSinceStartFlying = 0.0f;
-                entity.FlyComponents.WantToFly = true;
+                entity.FlyComponents._TimeSinceStartFlying = 0.0f;
+                entity.FlyComponents._WantToFly = true;
             }
         }
         #endregion PRIVATE_METHODS

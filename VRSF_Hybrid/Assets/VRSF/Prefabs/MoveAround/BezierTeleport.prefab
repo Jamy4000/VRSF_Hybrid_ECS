@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 114600346742736060}
   - component: {fileID: 114942462804729544}
   - component: {fileID: 114803417565217368}
-  - component: {fileID: 114671882391353410}
   - component: {fileID: 120132280243475242}
   - component: {fileID: 114485206902849738}
   - component: {fileID: 114281903135585164}
@@ -198,19 +197,6 @@ MonoBehaviour:
   RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
---- !u!114 &114671882391353410
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1156208657869000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
-  BoundariesLinesColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &114803417565217368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,8 +209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UseBoundaries: 0
-  _MinUserPosition: {x: -100, y: -1, z: -100}
-  _MaxUserPosition: {x: 100, y: 100, z: 100}
+  _Boundaries: []
+  _BoundariesColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &114942462804729544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,6 +263,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
+  CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
   ButtonHand: 0

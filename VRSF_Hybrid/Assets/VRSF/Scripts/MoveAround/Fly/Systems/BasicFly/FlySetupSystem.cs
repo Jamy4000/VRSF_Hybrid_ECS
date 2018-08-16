@@ -98,10 +98,10 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         public void ButtonStopInteracting(Filter entity)
         {
-            entity.FlyComponent.SlowDownTimer = entity.FlyComponent.TimeSinceStartFlying;
-            entity.FlyComponent.IsSlowingDown = true;
-            entity.FlyComponent.WantToFly = false;
-            entity.FlyComponent.IsInteracting = false;
+            entity.FlyComponent._SlowDownTimer = entity.FlyComponent._TimeSinceStartFlying;
+            entity.FlyComponent._IsSlowingDown = true;
+            entity.FlyComponent._WantToFly = false;
+            entity.FlyComponent._IsInteracting = false;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         public void ButtonIsInteracting(Filter entity)
         {
-            entity.FlyComponent.IsInteracting = true;
+            entity.FlyComponent._IsInteracting = true;
         }
         #endregion PUBLIC_METHODS
 

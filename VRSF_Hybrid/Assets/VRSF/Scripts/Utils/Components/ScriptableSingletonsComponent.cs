@@ -13,6 +13,6 @@ namespace VRSF.Utils.Components
         [HideInInspector] public InteractionVariableContainer InteractionsContainer;
         [HideInInspector] public InputVariableContainer InputsContainer;
 
-        [HideInInspector] public bool IsSetup;
+        [HideInInspector] public bool _IsSetup;
     }
 }

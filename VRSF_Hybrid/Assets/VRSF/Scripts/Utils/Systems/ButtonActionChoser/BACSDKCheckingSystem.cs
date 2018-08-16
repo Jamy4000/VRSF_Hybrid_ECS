@@ -56,6 +56,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseOVR && !entity.SDKComp.UseSimulator)
             {
                 Debug.LogError("VRSF : You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                entity.SDKComp.gameObject.SetActive(false);
                 return false;
             }
 

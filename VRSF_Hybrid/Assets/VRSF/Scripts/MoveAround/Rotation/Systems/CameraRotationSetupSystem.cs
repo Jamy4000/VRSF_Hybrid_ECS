@@ -101,7 +101,7 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StartRotating(CameraRotationComponent comp)
         {
-            comp.IsRotating = true;
+            comp._IsRotating = true;
         }
 
         /// <summary>
@@ -109,7 +109,8 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StopRotating(CameraRotationComponent comp)
         {
-            comp.IsRotating = false;
+            comp._IsRotating = false;
+            comp._HasRotated = false;
         }
 
 

@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 114589644836912424}
   - component: {fileID: 114237024141291514}
   - component: {fileID: 114154512620818030}
-  - component: {fileID: 114074741324813776}
   - component: {fileID: 114106979821398556}
   - component: {fileID: 114093723974906776}
   m_Layer: 0
@@ -117,19 +116,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114074741324813776
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1355566103611140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
-  BoundariesLinesColor: {r: 0, g: 0.7130656, b: 1, a: 1}
 --- !u!114 &114093723974906776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,6 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _UseBoundaries: 0
   _Boundaries: []
+  _BoundariesColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &114237024141291514
 MonoBehaviour:
   m_ObjectHideFlags: 1

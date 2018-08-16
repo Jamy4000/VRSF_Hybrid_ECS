@@ -11,7 +11,7 @@ namespace ScriptableFramework.Util
     {
         static int go_count = 0, components_count = 0, missing_count = 0;
 
-        [MenuItem("Window/FindMissingScriptsRecursively")]
+        [MenuItem("Window/Find Missing Scripts Recursively")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(FindMissingScriptsRecursively));

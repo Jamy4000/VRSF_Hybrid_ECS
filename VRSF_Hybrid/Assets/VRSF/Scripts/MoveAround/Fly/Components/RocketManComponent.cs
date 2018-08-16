@@ -6,11 +6,12 @@ namespace HPA_Boat.VR.Component
     [RequireComponent(typeof(FlyParametersComponent))]
     public class RocketManComponent : MonoBehaviour
     {
-        [HideInInspector] public bool SpeedHasBeenSet = false;
-        [HideInInspector] public bool RocketSlowingDown = false;
+        [HideInInspector] public bool _SpeedHasBeenSet = false;
+        [HideInInspector] public bool _RocketSlowingDown = false;
+        [HideInInspector] public bool _IsSetup = false;
 
-        [HideInInspector] public float BaseSpeedValue = 1.0f;
+        [HideInInspector] public float _BaseSpeedValue = 1.0f;
 
-        [HideInInspector] public float MaxRocketSpeed = 50.0f;
+        public float MaxRocketManSpeed = 30.0f;
     }
 }

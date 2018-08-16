@@ -268,6 +268,7 @@ namespace VRSF.Utils.Systems
         /// <param name="oldScene">The previous scene before switching</param>
         private void OnSceneUnloaded(Scene oldScene)
         {
+            VRSF_Components.SetupVRIsReady = false;
             this.Enabled = true;
         }
         #endregion

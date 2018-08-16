@@ -16,6 +16,7 @@ namespace VRSF.MoveAround.Teleport.Components
 
         [Tooltip("The minimun position at which the user can go if UseHorizontalBoundaries is at true.")]
         [HideInInspector] [SerializeField] public List<Bounds> _Boundaries = new List<Bounds>();
+        [HideInInspector] [SerializeField] public Color _BoundariesColor = Color.cyan;
 
 
         #region Getters_ITeleportComponent

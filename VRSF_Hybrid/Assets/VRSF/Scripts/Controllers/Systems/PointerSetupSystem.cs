@@ -67,8 +67,6 @@ namespace VRSF.Controllers.Systems
         {
             try
             {
-                comp._CameraRigTransform = VRSF_Components.CameraRig.transform;
-
                 if (_controllersParameters.UseControllers)
                 {
                     SetupPointers(comp);

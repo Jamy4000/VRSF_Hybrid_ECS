@@ -1,5 +1,4 @@
 ﻿using Unity.Entities;
-using UnityEngine;
 using VRSF.Utils.Components;
 
 namespace VRSF.Interactions.Systems
@@ -18,7 +17,7 @@ namespace VRSF.Interactions.Systems
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons.IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze && entity.PointerRaycast.CheckRaycast)
+                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze && entity.PointerRaycast.CheckRaycast)
                 {
                     HandleOver(entity.ScriptableSingletons);
                 }

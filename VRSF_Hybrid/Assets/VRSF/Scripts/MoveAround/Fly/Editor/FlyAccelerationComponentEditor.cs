@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using VRSF.MoveAround.Components;
-using VRSF.Utils.Editor;
 
 namespace VRSF.MoveAround.Editor
 {

@@ -26,7 +26,7 @@ namespace VRSF.MoveAround.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ParametersComponent.IsInteracting || e.VelocityComponent.CurrentFlightVelocity > 0.0f)
+                if (e.ParametersComponent._IsInteracting || e.VelocityComponent.CurrentFlightVelocity > 0.0f)
                 {
                     FlyAway(e);
                 }
@@ -65,11 +65,11 @@ namespace VRSF.MoveAround.Systems
         {
             Transform cameraRigTransform = VRSF_Components.CameraRig.transform;
 
-            if (entity.ParametersComponent.WantToFly)
+            if (entity.ParametersComponent._WantToFly)
             {
-                entity.DirectionComponent.FlightDirection = entity.ParametersComponent.FlyForward ? 1.0f : -1.0f;
+                entity.DirectionComponent._FlightDirection = entity.ParametersComponent._FlyForward ? 1.0f : -1.0f;
 
-                entity.DirectionComponent.NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
+                entity.DirectionComponent._NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
             }
 
             // We get the min and max pos in Y depending if we're using boundaries or not.
@@ -88,9 +88,9 @@ namespace VRSF.MoveAround.Systems
                 entity.VelocityComponent.CurrentFlightVelocity /= MapRangeClamp(cameraRigTransform.lossyScale.y, Mathf.Abs(minPosY), Mathf.Abs(maxPosY), 1.0f, maxPosY / 100);
             }
 
-            entity.DirectionComponent.FinalDirection = entity.DirectionComponent.NormalizedDir * entity.VelocityComponent.CurrentFlightVelocity * entity.DirectionComponent.FlightDirection;
+            entity.DirectionComponent._FinalDirection = entity.DirectionComponent._NormalizedDir * entity.VelocityComponent.CurrentFlightVelocity * entity.DirectionComponent._FlightDirection;
 
-            return (cameraRigTransform.position + entity.DirectionComponent.FinalDirection);
+            return (cameraRigTransform.position + entity.DirectionComponent._FinalDirection);
         }
 
         /// <summary>

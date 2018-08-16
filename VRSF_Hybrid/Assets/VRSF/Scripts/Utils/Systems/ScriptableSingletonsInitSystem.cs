@@ -28,7 +28,7 @@ namespace VRSF.Utils.Systems
                 entity.ScriptableSingletons.InteractionsContainer = InteractionVariableContainer.Instance;
                 entity.ScriptableSingletons.InputsContainer = InputVariableContainer.Instance;
 
-                entity.ScriptableSingletons.IsSetup = true;
+                entity.ScriptableSingletons._IsSetup = true;
             }
 
             this.Enabled = false;

@@ -30,13 +30,9 @@ namespace VRSF.MoveAround.Systems
             {
                 _currentSetupEntity = e;
                 SetupListenersResponses();
+                e.RocketManComp._BaseSpeedValue = e.FlyParameters.FlyingSpeed;
 
                 this.Enabled = false;
-            }
-            
-            foreach (var e in GetEntities<RocketManFilter>())
-            {
-                e.RocketManComp.BaseSpeedValue = e.FlyParameters.FlyingSpeed;
             }
         }
 
@@ -78,15 +74,15 @@ namespace VRSF.MoveAround.Systems
 
         public void ButtonIsClicking(RocketManFilter rocketManEntity, Filter flyEntitiy)
         {
-            if (!rocketManEntity.RocketManComp.SpeedHasBeenSet)
+            if (!rocketManEntity.RocketManComp._SpeedHasBeenSet)
             {
-                if (rocketManEntity.FlyParameters.FlyingSpeed < 50)
+                if (rocketManEntity.FlyParameters.FlyingSpeed < rocketManEntity.RocketManComp.MaxRocketManSpeed)
                 {
                     rocketManEntity.FlyParameters.FlyingSpeed += (Time.deltaTime * rocketManEntity.FlyAcceleration.AccelerationEffectFactor * 10);
                 }
                 else
                 {
-                    rocketManEntity.FlyParameters.FlyingSpeed = 50;
+                    rocketManEntity.FlyParameters.FlyingSpeed = rocketManEntity.RocketManComp.MaxRocketManSpeed;
                 }
             }
 
@@ -95,11 +91,11 @@ namespace VRSF.MoveAround.Systems
 
         public void ButtonStopClicking(RocketManFilter entity)
         {
-            entity.RocketManComp.RocketSlowingDown = true;
+            entity.RocketManComp._RocketSlowingDown = true;
         }
         #endregion
 
-        
+
         #region PRIVATE_METHODS
         /// <summary>
         /// Reactivate the System when switching to another Scene.
@@ -107,7 +103,12 @@ namespace VRSF.MoveAround.Systems
         /// <param name="oldScene">The previous scene before switching</param>
         private void OnSceneUnloaded(Scene oldScene)
         {
-            this.Enabled = true;
+            foreach (var e in GetEntities<RocketManFilter>())
+            {
+                _currentSetupEntity = e;
+                SetupListenersResponses();
+                e.RocketManComp._BaseSpeedValue = e.FlyParameters.FlyingSpeed;
+            }
         }
         #endregion
     }

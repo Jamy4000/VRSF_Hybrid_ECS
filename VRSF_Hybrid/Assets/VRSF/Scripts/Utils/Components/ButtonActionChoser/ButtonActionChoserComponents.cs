@@ -1,6 +1,5 @@
 ﻿using ScriptableFramework.Events;
 using ScriptableFramework.Variables;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Controllers;

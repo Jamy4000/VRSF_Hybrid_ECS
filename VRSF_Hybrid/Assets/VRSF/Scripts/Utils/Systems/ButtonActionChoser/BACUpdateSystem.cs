@@ -27,12 +27,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     _currentComp = e.ButtonComponents;
 
                     // If we use the touch event and the user is touching on the button
-                    if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
+                    if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value)
                     {
                         StartActionIsTouching();
                     }
                     // If we use the click event and the user is clicking on the button
-                    if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value && !e.ButtonComponents.UnclickEventWasRaised)
+                    if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value)
                     {
                         StartActionIsClicking();
                     }
@@ -54,8 +54,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         private void StartActionIsClicking()
         {
-            _currentComp.UnclickEventWasRaised = false;
-
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (_currentComp.ThumbPos != null)
             {
@@ -71,10 +69,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                         break;
                 }
 
-                if (oldState && !_currentComp.ClickActionBeyondThreshold)
+                if (oldState && !_currentComp.ClickActionBeyondThreshold && !_currentComp.UnclickEventWasRaised)
                 {
                     _currentComp.OnButtonStopClicking.Invoke();
                     _currentComp.UnclickEventWasRaised = true;
+                }
+                else
+                {
+                    _currentComp.UnclickEventWasRaised = false;
                 }
             }
             else
@@ -89,8 +91,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         private void StartActionIsTouching()
         {
-            _currentComp.UntouchedEventWasRaised = false;
-
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (_currentComp.ThumbPos != null)
             {
@@ -107,10 +107,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 }
 
                 // If the user was above the threshold, but moved his finger, we invoke the StopTouching Event
-                if (oldState && !_currentComp.TouchActionBeyondThreshold)
+                if (oldState && !_currentComp.TouchActionBeyondThreshold && !_currentComp.UntouchedEventWasRaised)
                 {
                     _currentComp.OnButtonStopTouching.Invoke();
                     _currentComp.UntouchedEventWasRaised = true;
+                }
+                else
+                {
+                    _currentComp.UntouchedEventWasRaised = false;
                 }
             }
             else

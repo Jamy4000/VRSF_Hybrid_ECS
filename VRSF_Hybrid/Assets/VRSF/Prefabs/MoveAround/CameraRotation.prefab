@@ -55,10 +55,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 1
+  DegreesToTurn: 30
   UseAccelerationEffect: 1
-  IsRotating: 0
-  CurrentSpeed: 0
-  LastThumbPos: 0
+  _IsRotating: 0
+  _HasRotated: 0
+  _CurrentSpeed: 0
+  _LastThumbPos: 0
 --- !u!114 &114191175806869512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,6 +113,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
+  CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
   ButtonHand: 0
@@ -147,6 +150,7 @@ MonoBehaviour:
   UseOVR: 1
   UseOpenVR: 0
   UseSimulator: 1
+  IsSetup: 0
 --- !u!114 &114414848692732200
 MonoBehaviour:
   m_ObjectHideFlags: 1

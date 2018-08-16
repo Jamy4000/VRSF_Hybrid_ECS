@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VRSF.Controllers;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
@@ -20,6 +21,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             public ScriptableRaycastComponent RaycastComp;
             public TeleportBoundariesComponent TeleportBoundaries;
             public TeleportGeneralComponent GeneralTeleport;
+            public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
 
@@ -85,14 +87,14 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteracting(_currentSetupEntity.LRT_Comp); });
+                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteracting(_currentSetupEntity); });
                 _currentSetupEntity.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteracting(_currentSetupEntity); });
                 _currentSetupEntity.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(_currentSetupEntity); });
             }
 
             if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteracting(_currentSetupEntity.LRT_Comp); });
+                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteracting(_currentSetupEntity); });
                 _currentSetupEntity.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteracting(_currentSetupEntity); });
                 _currentSetupEntity.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(_currentSetupEntity); });
             }
@@ -127,6 +129,9 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             Teleport(entity);
             DeactivateTeleportSlider(entity.LRT_Comp);
+
+            entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
+            entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
         }
 
 
@@ -183,20 +188,23 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <summary>
         /// Method to call from the StartTouching or StartClicking Method, set the Loading Slider values if used.
         /// </summary>
-        private void OnStartInteracting(LongRangeTeleportComponent lrtComp)
+        private void OnStartInteracting(Filter entity)
         {
-            if (lrtComp.UseLoadingSlider)
+            entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+            entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+
+            if (entity.LRT_Comp.UseLoadingSlider)
             {
-                if (lrtComp.FillRect != null)
+                if (entity.LRT_Comp.FillRect != null)
                 {
-                    lrtComp.FillRect.gameObject.SetActive(true);
-                    lrtComp.FillRect.fillAmount = 0.0f;
+                    entity.LRT_Comp.FillRect.gameObject.SetActive(true);
+                    entity.LRT_Comp.FillRect.fillAmount = 0.0f;
                 }
 
-                if (lrtComp.TeleportText != null)
+                if (entity.LRT_Comp.TeleportText != null)
                 {
-                    lrtComp.TeleportText.gameObject.SetActive(true);
-                    lrtComp.TeleportText.text = "Preparing Teleport ...";
+                    entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
+                    entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
                 }
             }
         }
@@ -211,7 +219,8 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             if (entity.LRT_Comp.UseLoadingSlider)
             {
-                if (entity.LRT_Comp.FillRect != null && entity.LRT_Comp.FillRect.fillAmount < entity.LRT_Comp.TimerBeforeTeleport)
+                var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
+                if (entity.LRT_Comp.FillRect != null && currentFillAmount < entity.LRT_Comp.TimerBeforeTeleport)
                 {
                     entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.TimerBeforeTeleport;
                 }
@@ -232,7 +241,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void Teleport(Filter entity)
         {
-            if (entity.GeneralTeleport.CanTeleport && entity.LRT_Comp.FillRect.fillAmount >= entity.LRT_Comp.TimerBeforeTeleport)
+            var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
+            if (entity.GeneralTeleport.CanTeleport && currentFillAmount >= entity.LRT_Comp.TimerBeforeTeleport)
             {
                 Vector3 newPos = entity.RaycastComp.RaycastHitVar.Value.point;
 

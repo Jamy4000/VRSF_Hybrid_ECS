@@ -1,11 +1,7 @@
 ﻿using HPA_Boat.VR.Component;
-using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.MoveAround.Components;
-using VRSF.MoveAround.Systems;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace HPA_Boat.VR
 {
@@ -25,17 +21,17 @@ namespace HPA_Boat.VR
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.RocketManComp.RocketSlowingDown)
+                if (e.RocketManComp._RocketSlowingDown)
                 {
-                    if (e.FlyParameters.FlyingSpeed > e.RocketManComp.BaseSpeedValue)
+                    if (e.FlyParameters.FlyingSpeed > e.RocketManComp._BaseSpeedValue)
                     {
                         e.FlyParameters.FlyingSpeed -= (Time.deltaTime * e.FlyAcceleration.DecelerationEffectFactor * 10);
-                        e.RocketManComp.SpeedHasBeenSet = false;
+                        e.RocketManComp._SpeedHasBeenSet = false;
                     }
                     else
                     {
-                        e.FlyParameters.FlyingSpeed = e.RocketManComp.BaseSpeedValue;
-                        e.RocketManComp.RocketSlowingDown = false;
+                        e.FlyParameters.FlyingSpeed = e.RocketManComp._BaseSpeedValue;
+                        e.RocketManComp._RocketSlowingDown = false;
                     }
                 }
             }

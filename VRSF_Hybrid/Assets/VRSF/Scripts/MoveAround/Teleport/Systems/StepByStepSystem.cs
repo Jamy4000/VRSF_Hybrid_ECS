@@ -43,7 +43,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             this.Enabled = false;
         }
-        
+
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
@@ -98,31 +98,34 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            // We check where the user should be when teleported one meter away.
-            Vector3 newPos = CheckHandForward(entity);
-
-            // If the new pos returned is null, an error as occured, so we stop the method
-            if (newPos != Vector3.zero)
+            if (entity.RayComp.RaycastHitVar.isNull || entity.RayComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
             {
-                // If we want to stay on the same vertical axis, we set the y in newPos to 0
-                if (!entity.SBS_Comp.MoveOnVerticalAxis)
-                {
-                    newPos = new Vector3(newPos.x, 0.0f, newPos.z);
-                }
+                // We check where the user should be when teleported one meter away.
+                Vector3 newPos = CheckHandForward(entity);
 
-                // If we use boundaries, we check if the user is not going to far away
-                if (entity.TeleportBoundaries.UseBoundaries())
+                // If the new pos returned is null, an error as occured, so we stop the method
+                if (newPos != Vector3.zero)
                 {
-                    newPos += VRSF_Components.CameraRig.transform.position;
-                    CheckNewPosWithBoundaries(entity, ref newPos);
+                    // If we want to stay on the same vertical axis, we set the y in newPos to 0
+                    if (!entity.SBS_Comp.MoveOnVerticalAxis)
+                    {
+                        newPos = new Vector3(newPos.x, 0.0f, newPos.z);
+                    }
 
-                    // We set the cameraRig position
-                    VRSF_Components.CameraRig.transform.position = newPos;
-                }
-                else
-                {
-                    // We set the cameraRig position
-                    VRSF_Components.CameraRig.transform.position += newPos;
+                    // If we use boundaries, we check if the user is not going to far away
+                    if (entity.TeleportBoundaries.UseBoundaries())
+                    {
+                        newPos += VRSF_Components.CameraRig.transform.position;
+                        CheckNewPosWithBoundaries(entity, ref newPos);
+
+                        // We set the cameraRig position
+                        VRSF_Components.CameraRig.transform.position = newPos;
+                    }
+                    else
+                    {
+                        // We set the cameraRig position
+                        VRSF_Components.CameraRig.transform.position += newPos;
+                    }
                 }
             }
         }
@@ -134,7 +137,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
         {
             Filter entity = (Filter)teleportFilter;
-            
+
             bool _isInBoundaries = false;
             List<Vector3> closestDists = new List<Vector3>();
 
