@@ -40,7 +40,7 @@ namespace VRSF.Utils.Editor
             EditorGUILayout.BeginHorizontal();
 
             _component.UseOpenVR = EditorGUILayout.ToggleLeft("OpenVR", _component.UseOpenVR, options);
-            _component.UseOVR = EditorGUILayout.ToggleLeft("OVR", _component.UseOVR, options);
+            _component.UseRift = EditorGUILayout.ToggleLeft("OVR", _component.UseRift, options);
             _component.UseSimulator = EditorGUILayout.ToggleLeft("Simulator", _component.UseSimulator, options);
 
             EditorGUILayout.EndHorizontal();

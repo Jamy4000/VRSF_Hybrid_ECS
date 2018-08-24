@@ -6,7 +6,7 @@ namespace VRSF.Utils.Components
     public class SDKChoserComponent : MonoBehaviour
     {
         [Header("SDKs using this ButtonActionChoserComponent")]
-        [HideInInspector] public bool UseOVR = true;
+        [HideInInspector] public bool UseRift = true;
         [HideInInspector] public bool UseOpenVR = true;
         [HideInInspector] public bool UseSimulator = true;
 

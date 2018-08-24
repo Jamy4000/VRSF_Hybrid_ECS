@@ -109,10 +109,10 @@ namespace VRSF.Gaze.Systems
                     }
                     break;
 
-                case EDevice.OVR:
-                    if (VRSF_Components.CameraRig.GetComponent<OVRGazeInputCaptureComponent>() == null)
+                case EDevice.OCULUS_RIFT:
+                    if (VRSF_Components.CameraRig.GetComponent<RiftGazeInputCaptureComponent>() == null)
                     {
-                        VRSF_Components.CameraRig.AddComponent<OVRGazeInputCaptureComponent>();
+                        VRSF_Components.CameraRig.AddComponent<RiftGazeInputCaptureComponent>();
                     }
                     break;
                 case EDevice.SIMULATOR:

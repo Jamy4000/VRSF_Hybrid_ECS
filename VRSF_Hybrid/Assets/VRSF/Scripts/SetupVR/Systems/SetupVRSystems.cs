@@ -115,11 +115,11 @@ namespace VRSF.Utils.Systems
 
             switch (setupVR.DeviceToLoad)
             {
-                case (EDevice.OVR):
+                case (EDevice.OCULUS_RIFT):
                     XRSettings.enabled = true;
-                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OVR_SDK);
-                    VRSF_Components.CameraRig.transform.name = setupVR.OVR_SDK.name;
-                    VRSF_Components.DeviceLoaded = EDevice.OVR;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.Rift_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.Rift_SDK.name;
+                    VRSF_Components.DeviceLoaded = EDevice.OCULUS_RIFT;
                     break;
 
                 case (EDevice.OPENVR):
@@ -165,7 +165,7 @@ namespace VRSF.Utils.Systems
                 }
                 else if (detectedHmd.ToLower().Contains("oculus"))
                 {
-                    return EDevice.OVR;
+                    return EDevice.OCULUS_RIFT;
                 }
                 else
                 {
@@ -240,9 +240,9 @@ namespace VRSF.Utils.Systems
                         VRSF_Components.CameraRig.GetComponent<ViveControllersInputCaptureComponent>().enabled = false;
                         VRSF_Components.CameraRig.GetComponent<SteamVR_ControllerManager>().enabled = false;
                         break;
-                    case (EDevice.OVR):
+                    case (EDevice.OCULUS_RIFT):
                     case (EDevice.SIMULATOR):
-                        VRSF_Components.CameraRig.GetComponent<OVRControllersInputCaptureComponent>().enabled = false;
+                        VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
                         break;
                     default:
                         Debug.LogError("VRSF : Device Loaded is not set to a valid value : " + VRSF_Components.DeviceLoaded);

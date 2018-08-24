@@ -185,8 +185,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 case EDevice.OPENVR:
                     return _gazeParameters.GazeButtonOpenVR;
-                case EDevice.OVR:
-                    return _gazeParameters.GazeButtonOVR;
+                case EDevice.OCULUS_RIFT:
+                    return _gazeParameters.GazeButtonRift;
                 default:
                     return _gazeParameters.GazeButtonSimulator;
             }
@@ -271,7 +271,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 return false;
             }
             // If we are using an OpenVR Specific Button but the device loaded is not the OpenVR
-            else if (_currentEntitiy.ButtonComponents.IsUsingViveButton && VRSF_Components.DeviceLoaded == EDevice.OVR)
+            else if (_currentEntitiy.ButtonComponents.IsUsingViveButton && VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Vive. Disabling the script.");
