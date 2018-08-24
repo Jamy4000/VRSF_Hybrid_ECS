@@ -132,19 +132,19 @@ namespace VRSF.Inputs.Systems
             #endregion THUMBSTICK
 
             #region BACK
-            tempClick = _inputContainer.LeftClickBoolean.Get("GripIsDown");
+            tempClick = _inputContainer.LeftClickBoolean.Get("BackButtonIsDown");
 
             // Checking Click event 
             if (!tempClick.Value && OVRInput.Get(OVRInput.Button.Back))
             {
                 tempClick.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("GripDown");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("BackButtonDown");
                 vrInputCapture.TempEvent.Raise();
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.Back))
             {
                 tempClick.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("GripUp");
+                vrInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("BackButtonUp");
                 vrInputCapture.TempEvent.Raise();
             }
             // Touch Event not existing on BACK

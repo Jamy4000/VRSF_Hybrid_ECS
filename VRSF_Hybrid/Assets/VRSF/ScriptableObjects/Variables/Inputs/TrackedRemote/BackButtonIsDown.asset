@@ -8,6 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb1cc3484168ab64a8d64edaf9023702, type: 3}
-  m_Name: LeftBackDown
+  m_Script: {fileID: 11500000, guid: 1cca53b0764a02f43b9163ea1d82022d, type: 3}
+  m_Name: BackButtonIsDown
   m_EditorClassIdentifier: 
+  DeveloperDescription: 
+  Value: 0
