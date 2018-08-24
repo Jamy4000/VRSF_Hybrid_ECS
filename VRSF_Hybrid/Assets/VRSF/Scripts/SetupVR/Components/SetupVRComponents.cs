@@ -19,6 +19,14 @@ namespace VRSF.Utils.Components
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
+        [HideInInspector] public GameObject GearVR_SDK;
+
+        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
+            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
+        [HideInInspector] public GameObject OculusGo_SDK;
+
+        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
+            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
         [HideInInspector] public GameObject Simulator_SDK;
         #endregion SDKS_PREFABS
 

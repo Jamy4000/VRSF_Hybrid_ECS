@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 4809244935464592}
   - component: {fileID: 114461717020203996}
   - component: {fileID: 114118098267962478}
-  - component: {fileID: 114310046356330390}
   - component: {fileID: 114533925968930356}
   m_Layer: 0
   m_Name: OculusGoCameraRig 1
@@ -417,7 +416,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6c0b208d35ece4a459821be19df69561, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -443,7 +442,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103931811259308}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: e0f1914fdbfd3764faeff5474c0cbe1e, type: 3}
 --- !u!114 &114118098267962478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -492,18 +491,6 @@ MonoBehaviour:
   useIPDInPositionTracking: 1
   resetTrackerOnLoad: 0
   AllowRecenter: 1
---- !u!114 &114310046356330390
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1197328801160216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3f47ad96e62d5408d3a58067b97702, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TempEvent: {fileID: 0}
 --- !u!114 &114461717020203996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -628,7 +615,7 @@ LineRenderer:
   m_GameObject: {fileID: 1722969996242906}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 0
   m_LightProbeUsage: 0
@@ -666,7 +653,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
