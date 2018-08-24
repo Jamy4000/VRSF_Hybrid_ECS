@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -122,6 +121,20 @@ namespace VRSF.Utils.Systems
                     VRSF_Components.DeviceLoaded = EDevice.OCULUS_RIFT;
                     break;
 
+                case (EDevice.OCULUS_GO):
+                    XRSettings.enabled = true;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OculusGo_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.OculusGo_SDK.name;
+                    VRSF_Components.DeviceLoaded = EDevice.OCULUS_GO;
+                    break;
+
+                case (EDevice.GEAR_VR):
+                    XRSettings.enabled = true;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.GearVR_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.GearVR_SDK.name;
+                    VRSF_Components.DeviceLoaded = EDevice.GEAR_VR;
+                    break;
+
                 case (EDevice.OPENVR):
                     XRSettings.enabled = true;
                     VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OpenVR_SDK);
@@ -163,9 +176,17 @@ namespace VRSF.Utils.Systems
                 {
                     return EDevice.OPENVR;
                 }
-                else if (detectedHmd.ToLower().Contains("oculus"))
+                else if (detectedHmd.ToLower().Contains("rift"))
                 {
                     return EDevice.OCULUS_RIFT;
+                }
+                else if (detectedHmd.ToLower().Contains("go"))
+                {
+                    return EDevice.OCULUS_GO;
+                }
+                else if (detectedHmd.ToLower().Contains("gear"))
+                {
+                    return EDevice.GEAR_VR;
                 }
                 else
                 {
@@ -193,11 +214,11 @@ namespace VRSF.Utils.Systems
                     VRSF_Components.LeftController = GameObject.FindGameObjectWithTag("LeftController");
                     VRSF_Components.RightController = GameObject.FindGameObjectWithTag("RightController");
 
-                    return (VRSF_Components.LeftController != null && VRSF_Components.RightController != null);
+                    return VRSF_Components.LeftController != null && VRSF_Components.RightController != null;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("VRSF : Can't setup Left and Right Controllers. Waiting for next frame.\n" + e);
+                    Debug.LogError("VRSF : Can't setup Left or Right Controllers. Waiting for next frame.\n" + e);
                     return false;
                 }
             }
@@ -241,16 +262,18 @@ namespace VRSF.Utils.Systems
                         VRSF_Components.CameraRig.GetComponent<SteamVR_ControllerManager>().enabled = false;
                         break;
                     case (EDevice.OCULUS_RIFT):
-                    case (EDevice.SIMULATOR):
                         VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
+                        break;
+                    case (EDevice.SIMULATOR):
+                        VRSF_Components.CameraRig.GetComponent<SimulatorControllersInputCaptureComponent>().enabled = false;
                         break;
                     default:
                         Debug.LogError("VRSF : Device Loaded is not set to a valid value : " + VRSF_Components.DeviceLoaded);
                         return false;
                 }
 
-                GameObject.FindGameObjectWithTag("LeftController").SetActive(false);
-                GameObject.FindGameObjectWithTag("RightController").SetActive(false);
+                VRSF_Components.LeftController.SetActive(false);
+                VRSF_Components.RightController.SetActive(false);
 
                 return true;
             }
