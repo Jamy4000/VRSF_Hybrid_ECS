@@ -18,7 +18,7 @@
         // VIVE PARTICULARITY
         RIGHT_MENU = 1 << 7,
 
-        // OCULUS PARTICULARITIES
+        // OCULUS RIFT PARTICULARITIES
         A_BUTTON = 1 << 8,
         B_BUTTON = 1 << 9,
         X_BUTTON = 1 << 10,
@@ -27,7 +27,10 @@
         RIGHT_THUMBREST = 1 << 13,
 
         // SIMULATOR PARTICULARITY
-        WHEEL_BUTTON = 1 << 14
+        WHEEL_BUTTON = 1 << 14,
+
+        // OCULUS GO AND GEAR VR PARTICULARITY
+        BACK_BUTTON = 1 << 15
     }
 
 }

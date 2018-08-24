@@ -3958,52 +3958,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1459544402}
   m_CullTransparentMesh: 0
---- !u!1001 &1518197433
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809244935464592, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1197328801160216, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-      propertyPath: m_Name
-      value: PortableOVRCameraRig
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c6dfd8b628d7a57468a0a866c2141995, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1538843971
 GameObject:
   m_ObjectHideFlags: 0

@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 114534910879657044}
   - component: {fileID: 114533925968930356}
   m_Layer: 0
-  m_Name: GearVRCameraRig
+  m_Name: PortableOVRCameraRig
   m_TagString: CameraRig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

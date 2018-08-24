@@ -14,7 +14,7 @@ namespace VRSF.Utils.Systems
     {
         struct Filter
         {
-            public PortableOVRControllerInputCaptureComponent PortableVRInputs;
+            public PortableOVRRemoteInputCaptureComponent PortableVRInputs;
         }
 
         protected override void OnStartRunning()

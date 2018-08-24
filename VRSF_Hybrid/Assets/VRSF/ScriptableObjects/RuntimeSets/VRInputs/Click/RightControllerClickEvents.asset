@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -24,6 +24,8 @@ MonoBehaviour:
   - AButtonUp
   - BButtonDown
   - BButtonUp
+  - BackButtonDown
+  - BackButtonUp
   ValueList:
   - {fileID: 11400000, guid: cabbb325cbc11974cabf81052c5f93b1, type: 2}
   - {fileID: 11400000, guid: 3f677c82b81966a4b9e2adab3a8f9592, type: 2}
@@ -37,3 +39,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7f485ec07811e064eb9bada630273889, type: 2}
   - {fileID: 11400000, guid: 56b1bee864338594c87c0196ca82d021, type: 2}
   - {fileID: 11400000, guid: 4c00eef112ee2c14994e71d69e838017, type: 2}
+  - {fileID: 11400000, guid: 42e7425924c2ceb4d9baabf1d8105d6c, type: 2}
+  - {fileID: 11400000, guid: b0a50ddd746d05d489c339d6b8463d92, type: 2}
