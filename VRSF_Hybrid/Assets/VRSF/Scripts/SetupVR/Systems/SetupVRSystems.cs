@@ -120,19 +120,12 @@ namespace VRSF.Utils.Systems
                     VRSF_Components.CameraRig.transform.name = setupVR.Rift_SDK.name;
                     VRSF_Components.DeviceLoaded = EDevice.OCULUS_RIFT;
                     break;
-
-                case (EDevice.OCULUS_GO):
+                    
+                case (EDevice.PORTABLE_OVR):
                     XRSettings.enabled = true;
-                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OculusGo_SDK);
-                    VRSF_Components.CameraRig.transform.name = setupVR.OculusGo_SDK.name;
-                    VRSF_Components.DeviceLoaded = EDevice.OCULUS_GO;
-                    break;
-
-                case (EDevice.GEAR_VR):
-                    XRSettings.enabled = true;
-                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.GearVR_SDK);
-                    VRSF_Components.CameraRig.transform.name = setupVR.GearVR_SDK.name;
-                    VRSF_Components.DeviceLoaded = EDevice.GEAR_VR;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.PortableOVR_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.PortableOVR_SDK.name;
+                    VRSF_Components.DeviceLoaded = EDevice.PORTABLE_OVR;
                     break;
 
                 case (EDevice.OPENVR):
@@ -170,6 +163,7 @@ namespace VRSF.Utils.Systems
             if (XRDevice.isPresent)
             {
                 string detectedHmd = XRDevice.model;
+
                 Debug.Log("VRSF : " + detectedHmd + " is connected");
 
                 if (detectedHmd.ToLower().Contains("vive"))
@@ -180,13 +174,9 @@ namespace VRSF.Utils.Systems
                 {
                     return EDevice.OCULUS_RIFT;
                 }
-                else if (detectedHmd.ToLower().Contains("go"))
+                else if (detectedHmd.ToLower().Contains("gear") || detectedHmd.ToLower().Contains("oculus go"))
                 {
-                    return EDevice.OCULUS_GO;
-                }
-                else if (detectedHmd.ToLower().Contains("gear"))
-                {
-                    return EDevice.GEAR_VR;
+                    return EDevice.PORTABLE_OVR;
                 }
                 else
                 {

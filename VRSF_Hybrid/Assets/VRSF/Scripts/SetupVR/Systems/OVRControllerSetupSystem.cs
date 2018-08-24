@@ -12,14 +12,9 @@ namespace VRSF.Utils.Systems
     /// </summary>
     public class OVRControllerSetupSystem : ComponentSystem
     {
-        struct GearVRFilter
+        struct Filter
         {
-            public GearVRControllersInputCaptureComponent GearVRInputs;
-        }
-
-        struct OculusGOFilter
-        {
-            public OculusGoControllersInputCaptureComponent OculusGoInputs;
+            public PortableOVRControllerInputCaptureComponent PortableVRInputs;
         }
 
         protected override void OnStartRunning()
@@ -34,14 +29,9 @@ namespace VRSF.Utils.Systems
             {
                 Transform controller = null;
 
-                foreach (var entity in GetEntities<GearVRFilter>())
+                foreach (var entity in GetEntities<Filter>())
                 {
-                    controller = VRSF_Components.RightController.transform.Find("GearVrController");
-                }
-
-                foreach (var entity in GetEntities<OculusGOFilter>())
-                {
-                    controller = VRSF_Components.RightController.transform.Find("OculusGoController");
+                    controller = VRSF_Components.RightController.transform.Find("TrackedRemote");
                 }
 
                 if (controller != null && OVRInput.IsControllerConnected(OVRInput.Controller.LTrackedRemote))
@@ -71,27 +61,15 @@ namespace VRSF.Utils.Systems
             base.OnDestroyManager();
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
 
-            foreach (var entity in GetEntities<GearVRFilter>())
+            foreach (var entity in GetEntities<Filter>())
             {
                 if (OVRInput.IsControllerConnected(OVRInput.Controller.LTrackedRemote))
                 {
-                    ControllersParametersVariable.Instance.UsePointerRight = entity.GearVRInputs._UsingOtherHandPointer;
+                    ControllersParametersVariable.Instance.UsePointerRight = entity.PortableVRInputs._UsingOtherHandPointer;
                 }
                 else
                 {
-                    ControllersParametersVariable.Instance.UsePointerLeft = entity.GearVRInputs._UsingOtherHandPointer;
-                }
-            }
-
-            foreach (var entity in GetEntities<OculusGOFilter>())
-            {
-                if (OVRInput.IsControllerConnected(OVRInput.Controller.LTrackedRemote))
-                {
-                    ControllersParametersVariable.Instance.UsePointerRight = entity.OculusGoInputs._UsingOtherHandPointer;
-                }
-                else
-                {
-                    ControllersParametersVariable.Instance.UsePointerLeft = entity.OculusGoInputs._UsingOtherHandPointer;
+                    ControllersParametersVariable.Instance.UsePointerLeft = entity.PortableVRInputs._UsingOtherHandPointer;
                 }
             }
         }

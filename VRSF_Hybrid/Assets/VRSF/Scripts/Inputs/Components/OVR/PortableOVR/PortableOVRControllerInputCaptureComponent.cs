@@ -4,7 +4,7 @@ using UnityEngine;
 namespace VRSF.Inputs.Components
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
-    public class OculusGoControllersInputCaptureComponent : MonoBehaviour
+    public class PortableOVRControllerInputCaptureComponent : MonoBehaviour
     {
         // A Temp GameEvent to raise in the InputCaptureSystems
         [HideInInspector] public GameEvent TempEvent;

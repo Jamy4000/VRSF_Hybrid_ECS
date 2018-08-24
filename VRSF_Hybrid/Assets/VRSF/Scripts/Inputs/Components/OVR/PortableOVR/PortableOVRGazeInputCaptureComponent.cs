@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GearVRGazeInputCaptureComponent : MonoBehaviour
+public class PortableOVRGazeInputCaptureComponent : MonoBehaviour
 {
     // Wheter we check the Gaze Button or not
     [HideInInspector] public bool CheckGazeInteractions;
