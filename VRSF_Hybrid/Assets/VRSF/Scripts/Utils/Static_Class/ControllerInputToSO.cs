@@ -32,6 +32,9 @@ public static class ControllerInputToSO
             case (EControllersInput.Y_BUTTON):
                 return "YButtonDown";
 
+            case (EControllersInput.BACK_BUTTON):
+                return "BackButtonDown";
+
             default:
                 Debug.LogError("The EControllersInput provided is null.");
                 return null;
@@ -66,6 +69,9 @@ public static class ControllerInputToSO
                 return "XButtonUp";
             case (EControllersInput.Y_BUTTON):
                 return "YButtonUp";
+
+            case (EControllersInput.BACK_BUTTON):
+                return "BackButtonUp";
 
             default:
                 Debug.LogError("The EControllersInput provided is null.");
@@ -102,6 +108,9 @@ public static class ControllerInputToSO
                 return "XButtonIsDown";
             case (EControllersInput.Y_BUTTON):
                 return "YButtonIsDown";
+
+            case (EControllersInput.BACK_BUTTON):
+                return "BackButtonIsDown";
 
             default:
                 Debug.LogError("The EControllersInput provided is null.");

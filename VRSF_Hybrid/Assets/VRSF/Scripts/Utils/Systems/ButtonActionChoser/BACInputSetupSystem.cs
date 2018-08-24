@@ -163,6 +163,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
             }
 
+            // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.BACK_BUTTON)
+            {
+                _currentEntitiy.ButtonComponents.IsUsingPortableOVRButton = true;
+                _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
+            }
+
             // If non of the previous solution was chosen, we just check if the button is on the right or left controller
             else if (_currentEntitiy.ButtonComponents.ActionButton.ToString().Contains("RIGHT"))
             {
@@ -187,6 +194,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     return _gazeParameters.GazeButtonOpenVR;
                 case EDevice.OCULUS_RIFT:
                     return _gazeParameters.GazeButtonRift;
+                case EDevice.PORTABLE_OVR:
+                    return _gazeParameters.GazeButtonPortableOVR;
                 default:
                     return _gazeParameters.GazeButtonSimulator;
             }
@@ -282,6 +291,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Simulator. Disabling the script.");
+                return false;
+            }
+            // If we are using a Simulator Specific Button but the device loaded is not the Simulator
+            else if (_currentEntitiy.ButtonComponents.IsUsingPortableOVRButton && VRSF_Components.DeviceLoaded != EDevice.PORTABLE_OVR)
+            {
+                Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                    "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the GearVR or Oculus Go. Disabling the script.");
                 return false;
             }
             else

@@ -254,6 +254,9 @@ namespace VRSF.Utils.Systems
                     case (EDevice.OCULUS_RIFT):
                         VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
                         break;
+                    case (EDevice.PORTABLE_OVR):
+                        VRSF_Components.CameraRig.GetComponent<PortableOVRRemoteInputCaptureComponent>().enabled = false;
+                        break;
                     case (EDevice.SIMULATOR):
                         VRSF_Components.CameraRig.GetComponent<SimulatorControllersInputCaptureComponent>().enabled = false;
                         break;

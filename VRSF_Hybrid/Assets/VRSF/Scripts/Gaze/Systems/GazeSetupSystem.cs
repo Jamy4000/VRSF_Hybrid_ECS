@@ -115,6 +115,14 @@ namespace VRSF.Gaze.Systems
                         VRSF_Components.CameraRig.AddComponent<RiftGazeInputCaptureComponent>();
                     }
                     break;
+
+                case EDevice.PORTABLE_OVR:
+                    if (VRSF_Components.CameraRig.GetComponent<PortableOVRGazeInputCaptureComponent>() == null)
+                    {
+                        VRSF_Components.CameraRig.AddComponent<PortableOVRGazeInputCaptureComponent>();
+                    }
+                    break;
+
                 case EDevice.SIMULATOR:
                     if (VRSF_Components.CameraRig.GetComponent<SimulatorGazeInputCaptureComponent>() == null)
                     {

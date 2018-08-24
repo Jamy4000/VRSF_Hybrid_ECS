@@ -7,6 +7,7 @@ namespace VRSF.Utils.Components
     {
         [Header("SDKs using this ButtonActionChoserComponent")]
         [HideInInspector] public bool UseRift = true;
+        [HideInInspector] public bool UsePortableOVR = true;
         [HideInInspector] public bool UseOpenVR = true;
         [HideInInspector] public bool UseSimulator = true;
 

@@ -68,6 +68,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 case EDevice.OCULUS_RIFT:
                     return entity.SDKComp.UseRift;
 
+                case EDevice.PORTABLE_OVR:
+                    return entity.SDKComp.UsePortableOVR;
+
                 case EDevice.SIMULATOR:
                     return entity.SDKComp.UseSimulator;
 
