@@ -5303,13 +5303,17 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
         type: 2}
-      propertyPath: DeviceToLoad
-      value: 4
+      propertyPath: CheckDeviceAtRuntime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
         type: 2}
-      propertyPath: CheckDeviceAtRuntime
-      value: 0
+      propertyPath: DeviceToLoad
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -23.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}

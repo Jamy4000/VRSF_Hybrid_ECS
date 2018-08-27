@@ -122,6 +122,7 @@ MonoBehaviour:
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
@@ -147,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6debe04fb34301044a0679a421506dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseOVR: 1
+  UseRift: 1
+  UsePortableOVR: 1
   UseOpenVR: 0
   UseSimulator: 1
   IsSetup: 0

@@ -6,6 +6,9 @@ namespace VRSF.Inputs.Components
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class PortableOVRRemoteInputCaptureComponent : MonoBehaviour
     {
+        [Header("The Remote Tracker Script")]
+        public OVRTrackedRemote RemoteTracker;
+
         // A Temp GameEvent to raise in the InputCaptureSystems
         [HideInInspector] public GameEvent TempEvent;
 

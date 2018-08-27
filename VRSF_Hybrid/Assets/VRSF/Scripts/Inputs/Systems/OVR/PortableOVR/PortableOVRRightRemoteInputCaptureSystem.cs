@@ -1,9 +1,11 @@
 ﻿using ScriptableFramework.Events;
 using ScriptableFramework.Variables;
+using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs.Components;
+using VRSF.Utils;
 
 namespace VRSF.Inputs.Systems
 {
@@ -31,25 +33,24 @@ namespace VRSF.Inputs.Systems
         {
             base.OnStartRunning();
 
-            if (OVRInput.IsControllerConnected(OVRInput.Controller.LTrackedRemote))
-            {
-                this.Enabled = false;
-                return;
-            }
-
-            _inputContainer = InputVariableContainer.Instance;
-            _controllersParameters = ControllersParametersVariable.Instance;
+            var setupVR = GameObject.FindObjectOfType<Utils.Components.SetupVRComponents>();
+            setupVR.StartCoroutine(Init());
         }
 
         protected override void OnUpdate()
         {
+            Debug.Log("this.Enabled right : " + this.Enabled);
             // If we doesn't use the controllers, we don't check for the inputs.
-            if (_controllersParameters.UseControllers)
+            if (_controllersParameters != null && _controllersParameters.UseControllers)
             {
                 foreach (var entity in GetEntities<Filter>())
                 {
                     CheckRemoteInput(entity.VRInputCapture);
                 }
+            }
+            else
+            {
+                Debug.Log("Controller null " + _controllersParameters);
             }
         }
         #endregion
@@ -149,6 +150,34 @@ namespace VRSF.Inputs.Systems
             }
             // Touch Event not existing on BACK
             #endregion BACK
+        }
+
+        private IEnumerator Init()
+        {
+            while (!VRSF_Components.SetupVRIsReady)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            foreach (var entity in GetEntities<Filter>())
+            {
+                if (!OVRInput.IsControllerConnected(OVRInput.Controller.RTrackedRemote))
+                {
+                    VRSF_Components.RightController.SetActive(false);
+                    this.Enabled = false;
+                }
+                else
+                {
+                    Debug.Log("Boup boup");
+                    entity.VRInputCapture.RemoteTracker.m_controller = OVRInput.Controller.RTrackedRemote;
+                    entity.VRInputCapture.RemoteTracker.transform.SetParent(VRSF_Components.RightController.transform);
+
+                    _inputContainer = InputVariableContainer.Instance;
+                    _controllersParameters = ControllersParametersVariable.Instance;
+                }
+            }
+
+            Debug.Log("end setup, right system running : " + this.Enabled);
         }
         #endregion
     }

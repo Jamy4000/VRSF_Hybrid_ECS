@@ -111,7 +111,7 @@ namespace VRSF.Utils.Systems
         {
             if (setupVR.CheckDeviceAtRuntime)
                 setupVR.DeviceToLoad = CheckDeviceConnected();
-
+            
             switch (setupVR.DeviceToLoad)
             {
                 case (EDevice.OCULUS_RIFT):

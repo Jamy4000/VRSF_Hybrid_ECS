@@ -48,27 +48,13 @@ namespace VRSF.UI
 
 
         #region MONOBEHAVIOUR_METHODS
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
-
-            // We initialize the _ListenersDictionary
-            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
-            {
-                { "Right", null },
-                { "Left", null },
-                { "Gaze", null },
-            };
-
-            // We create new object to setup the button references; listeners and GameEventListeners
-            CheckObject = CheckInputFieldClick;
-            _UISetup = new VRUISetup(CheckObject);
-            ClickOnlySetup = new VRInputFieldSetup();
-
-            // Check if the Listeners GameObject is set correctly. If not, create the child
-            if (!ClickOnlySetup.CheckGameEventListenerChild(ref gameEventListenersContainer, ref _ListenersDictionary, transform))
-                _UISetup.CreateGameEventListenerChild(ref gameEventListenersContainer, transform);
+            BasicSetup();
         }
+#endif
 
         protected override void Start()
         {
@@ -76,15 +62,16 @@ namespace VRSF.UI
 
             if (Application.isPlaying)
             {
+                BasicSetup();
                 SetupUIElement();
             }
         }
 
         private void Update()
         {
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
+            if (!_boxColliderSetup && Application.isPlaying)
             {
-                StartCoroutine(SetupBoxCollider());
+                SetupBoxCollider();
                 return;
             }
         }
@@ -122,11 +109,30 @@ namespace VRSF.UI
 
 
         #region PRIVATE_METHODS
+        private void BasicSetup()
+        {
+            // We initialize the _ListenersDictionary
+            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
+            {
+                { "Right", null },
+                { "Left", null },
+                { "Gaze", null },
+            };
+
+            // We create new object to setup the button references; listeners and GameEventListeners
+            CheckObject = CheckInputFieldClick;
+            _UISetup = new VRUISetup(CheckObject);
+            ClickOnlySetup = new VRInputFieldSetup();
+
+            // Check if the Listeners GameObject is set correctly. If not, create the child
+            if (!ClickOnlySetup.CheckGameEventListenerChild(ref gameEventListenersContainer, ref _ListenersDictionary, transform))
+                _UISetup.CreateGameEventListenerChild(ref gameEventListenersContainer, transform);
+        }
+
         private void SetupUIElement()
         {
             _controllersParameter = ControllersParametersVariable.Instance;
             _gazeParameter = GazeParametersVariable.Instance;
-
             _interactionContainer = InteractionVariableContainer.Instance;
 
             // If the controllers are not used, we cannot click on a InputField
@@ -145,9 +151,9 @@ namespace VRSF.UI
             };
 
             // We setup the BoxCollider size and center
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
+            if (!_boxColliderSetup && Application.isPlaying)
             {
-                StartCoroutine(SetupBoxCollider());
+                SetupBoxCollider();
             }
 
             // We setup the ListenersDictionary
@@ -216,10 +222,8 @@ namespace VRSF.UI
         /// We use a coroutine and wait for the end of the first frame as the element cannot be correctly setup on the first frame
         /// </summary>
         /// <returns></returns>
-        IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
+        void SetupBoxCollider()
         {
-            yield return new WaitForEndOfFrame();
-
             if (SetColliderAuto)
             {
                 BoxCollider box = GetComponent<BoxCollider>();

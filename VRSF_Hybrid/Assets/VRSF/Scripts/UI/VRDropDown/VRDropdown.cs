@@ -52,41 +52,25 @@ namespace VRSF.UI
         protected override void OnValidate()
         {
             base.OnValidate();
-
-            // We initialize the _ListenersDictionary
-            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
-            {
-                { "Right", null },
-                { "Left", null },
-                { "Gaze", null },
-            };
-
-            // We create new object to setup the button references; listeners and GameEventListeners
-            _CheckObject = CheckObjectClicked;
-            _UISetup = new VRUISetup(_CheckObject);
-            _ClickOnlySetup = new VRDropdownSetup();
-
-            // Check if the Listeners GameObject is set correctly. If not, create the child
-            if (!_ClickOnlySetup.CheckGameEventListenerChild(ref _GameEventListenersContainer, ref _ListenersDictionary, transform))
-                _UISetup.CreateGameEventListenerChild(ref _GameEventListenersContainer, transform);
+            BasicSetup();
         }
 #endif
 
         protected override void Start()
         {
             base.Start();
-            if (Application.isPlaying && gameObject.activeInHierarchy)
+            if (Application.isPlaying)
             {
+                BasicSetup();
                 SetupUIElement();
             }
         }
 
         private void Update()
         {
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
+            if (!_boxColliderSetup && Application.isPlaying)
             {
-                StartCoroutine(SetupBoxCollider());
-                return;
+                SetupBoxCollider();
             }
         }
 
@@ -127,11 +111,31 @@ namespace VRSF.UI
 
 
         #region PRIVATE_METHODS
+        private void BasicSetup()
+        {
+            // We initialize the _ListenersDictionary
+            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
+            {
+                { "Right", null },
+                { "Left", null },
+                { "Gaze", null },
+            };
+
+            // We create new object to setup the button references; listeners and GameEventListeners
+            _CheckObject = CheckObjectClicked;
+            _UISetup = new VRUISetup(_CheckObject);
+            _ClickOnlySetup = new VRDropdownSetup();
+
+            // Check if the Listeners GameObject is set correctly. If not, create the child
+            if (!_ClickOnlySetup.CheckGameEventListenerChild(ref _GameEventListenersContainer, ref _ListenersDictionary, transform))
+                _UISetup.CreateGameEventListenerChild(ref _GameEventListenersContainer, transform);
+        }
+
+
         private void SetupUIElement()
         {
             _controllersParameter = ControllersParametersVariable.Instance;
             _gazeParameter = GazeParametersVariable.Instance;
-
             _interactionContainer = InteractionVariableContainer.Instance;
 
             // If the controllers are not used, we cannot click on a Dropdown
@@ -152,9 +156,9 @@ namespace VRSF.UI
             };
 
             // We setup the BoxCollider size and center
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
+            if (!_boxColliderSetup && Application.isPlaying)
             {
-                StartCoroutine(SetupBoxCollider());
+                SetupBoxCollider();
             }
 
             // We setup the ListenersDictionary
@@ -201,10 +205,8 @@ namespace VRSF.UI
         /// We use a coroutine and wait for the end of the first frame as the element cannot be correctly setup on the first frame
         /// </summary>
         /// <returns></returns>
-        IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
+        void SetupBoxCollider()
         {
-            yield return new WaitForEndOfFrame();
-
             if (SetColliderAuto)
             {
                 BoxCollider box = GetComponent<BoxCollider>();
