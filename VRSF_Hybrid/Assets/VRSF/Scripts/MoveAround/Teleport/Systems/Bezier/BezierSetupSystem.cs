@@ -169,19 +169,27 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="active"></param>
         private void ToggleDisplay(Filter entity, bool active)
         {
-            if (active)
+            // If the user is aiming to the UI, we don't activate the system
+            if (!entity.RayComp.RaycastHitVar.isNull && entity.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
             {
-                entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
-                entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
+                return;
             }
+            else
+            {
+                if (active)
+                {
+                    entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
+                    entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
+                }
 
-            entity.BezierComp._ArcRenderer.enabled = active;
-            entity.BezierParameters.TargetMarker.SetActive(active);
-            entity.BezierComp._DisplayActive = active;
+                entity.BezierComp._ArcRenderer.enabled = active;
+                entity.BezierParameters.TargetMarker.SetActive(active);
+                entity.BezierComp._DisplayActive = active;
 
-            // Change pointer activation if the user is using it
-            if ((entity.RayComp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.RayComp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
-                entity.BezierComp._ControllerPointer.enabled = !active;
+                // Change pointer activation if the user is using it
+                if ((entity.RayComp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.RayComp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
+                    entity.BezierComp._ControllerPointer.enabled = !active;
+            }
         }
 
 

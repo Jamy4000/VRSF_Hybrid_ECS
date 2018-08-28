@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114014392373344070}
   - component: {fileID: 114369969015623460}
   - component: {fileID: 114191175806869512}
+  - component: {fileID: 114672114606473476}
   - component: {fileID: 114414848692732200}
   m_Layer: 0
   m_Name: CameraRotation
@@ -57,10 +58,10 @@ MonoBehaviour:
   MaxSpeed: 1
   DegreesToTurn: 30
   UseAccelerationEffect: 0
-  _IsRotating: 0
-  _HasRotated: 0
-  _CurrentSpeed: 0
-  _LastThumbPos: 0
+  IsRotating: 0
+  HasRotated: 0
+  CurrentSpeed: 0
+  LastThumbPos: 0
 --- !u!114 &114191175806869512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,3 +165,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114672114606473476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224792925748134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RayOrigin: 2
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}

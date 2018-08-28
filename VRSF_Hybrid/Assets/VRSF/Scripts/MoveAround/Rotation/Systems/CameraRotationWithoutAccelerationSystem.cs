@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
+using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -14,6 +15,7 @@ namespace VRSF.MoveAround.Systems
         {
             public CameraRotationComponent RotationComp;
             public ButtonActionChoserComponents ButtonComponents;
+            public ScriptableRaycastComponent RaycastComp;
         }
         
         #region ComponentSystem_Methods
@@ -88,24 +90,32 @@ namespace VRSF.MoveAround.Systems
         #region PRIVATE_METHODS
         private void HandleRotationWithoutAcceleration(Filter entity)
         {
-            if (!entity.RotationComp.HasRotated)
+            // If the user is aiming to the UI, we don't activate the system
+            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
             {
-                var cameraRigTransform = VRSF_Components.CameraRig.transform;
+                return;
+            }
+            else
+            {
+                if (!entity.RotationComp.HasRotated)
+                {
+                    var cameraRigTransform = VRSF_Components.CameraRig.transform;
 
-                Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
-                Vector3 rotationAxis = new Vector3(0, entity.ButtonComponents.ThumbPos.Value.x, 0);
+                    Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
+                    Vector3 rotationAxis = new Vector3(0, entity.ButtonComponents.ThumbPos.Value.x, 0);
 
-                cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
+                    cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
 
-                // We check if the rotation value is not above 180 or below -180. if so, we substract/add 360 degrees to it.
-                var newRot = cameraRigTransform.rotation;
+                    // We check if the rotation value is not above 180 or below -180. if so, we substract/add 360 degrees to it.
+                    var newRot = cameraRigTransform.rotation;
 
-                newRot.y = (newRot.y > 180.0f) ? (newRot.y - 360.0f) : newRot.y;
-                newRot.y = (newRot.y < -180.0f) ? (newRot.y + 360.0f) : newRot.y;
+                    newRot.y = (newRot.y > 180.0f) ? (newRot.y - 360.0f) : newRot.y;
+                    newRot.y = (newRot.y < -180.0f) ? (newRot.y + 360.0f) : newRot.y;
 
-                cameraRigTransform.rotation = newRot;
+                    cameraRigTransform.rotation = newRot;
 
-                entity.RotationComp.HasRotated = true;
+                    entity.RotationComp.HasRotated = true;
+                }
             }
         }
 

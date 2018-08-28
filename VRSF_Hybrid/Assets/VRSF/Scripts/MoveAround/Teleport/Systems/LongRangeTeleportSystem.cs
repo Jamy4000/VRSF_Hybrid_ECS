@@ -187,21 +187,29 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void OnStartInteracting(Filter entity)
         {
-            entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-            entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-            
-            if (entity.LRT_Comp.UseLoadingSlider)
+            // If the user is aiming to the UI, we don't activate the system
+            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
             {
-                if (entity.LRT_Comp.FillRect != null)
-                {
-                    entity.LRT_Comp.FillRect.gameObject.SetActive(true);
-                    entity.LRT_Comp.FillRect.fillAmount = 0.0f;
-                }
+                return;
+            }
+            else
+            {
+                entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+                entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
 
-                if (entity.LRT_Comp.TeleportText != null)
+                if (entity.LRT_Comp.UseLoadingSlider)
                 {
-                    entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
-                    entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
+                    if (entity.LRT_Comp.FillRect != null)
+                    {
+                        entity.LRT_Comp.FillRect.gameObject.SetActive(true);
+                        entity.LRT_Comp.FillRect.fillAmount = 0.0f;
+                    }
+
+                    if (entity.LRT_Comp.TeleportText != null)
+                    {
+                        entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
+                        entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
+                    }
                 }
             }
         }

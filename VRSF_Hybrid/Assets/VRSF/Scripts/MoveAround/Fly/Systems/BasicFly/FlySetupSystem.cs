@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
+using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -18,6 +19,7 @@ namespace VRSF.MoveAround.Systems
         {
             public FlyParametersComponent FlyComponent;
             public ButtonActionChoserComponents ButtonComponents;
+            public ScriptableRaycastComponent RaycastComp;
         }
 
 
@@ -107,7 +109,15 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         public void ButtonIsInteracting(Filter entity)
         {
-            entity.FlyComponent._IsInteracting = true;
+            // If the user is aiming to the UI, we don't activate the system
+            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return;
+            }
+            else
+            {
+                entity.FlyComponent._IsInteracting = true;
+            }
         }
         #endregion PUBLIC_METHODS
 

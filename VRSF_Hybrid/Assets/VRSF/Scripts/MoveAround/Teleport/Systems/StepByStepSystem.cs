@@ -93,7 +93,12 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            if (entity.RayComp.RaycastHitVar.isNull || entity.RayComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
+            // If the user is aiming to the UI, we don't activate the system
+            if (!entity.RayComp.RaycastHitVar.isNull && entity.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return;
+            }
+            else
             {
                 // We check where the user should be when teleported one meter away.
                 Vector3 newPos = CheckHandForward(entity);
