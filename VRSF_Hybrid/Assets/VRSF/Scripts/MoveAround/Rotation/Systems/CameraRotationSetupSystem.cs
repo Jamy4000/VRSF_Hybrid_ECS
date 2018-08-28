@@ -9,17 +9,11 @@ namespace VRSF.MoveAround.Systems
 {
     public class CameraRotationSetupSystem : BACUpdateSystem
     {
-
         struct Filter
         {
             public CameraRotationComponent RotationComp;
             public ButtonActionChoserComponents ButtonComponents;
         }
-
-
-        #region PRIVATE_VARIABLES
-        private Filter _currentSetupEntity;
-        #endregion PRIVATE_VARIABLES
 
 
         #region ComponentSystem_Methods
@@ -32,8 +26,7 @@ namespace VRSF.MoveAround.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                SetupListenersResponses(e);
             }
         }
 
@@ -45,8 +38,7 @@ namespace VRSF.MoveAround.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                RemoveListenersOnEndApp();
+                RemoveListenersOnEndApp(e);
             }
         }
         #endregion
@@ -55,39 +47,43 @@ namespace VRSF.MoveAround.Systems
         #region PUBLIC_METHODS
 
         #region Setup_Listeners_Responses
-        public override void SetupListenersResponses()
+        public override void SetupListenersResponses(object entity)
         {
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                _currentSetupEntity.ButtonComponents.OnButtonStartClicking.AddListener(delegate { StartRotating(_currentSetupEntity.RotationComp); });
-                _currentSetupEntity.ButtonComponents.OnButtonIsClicking.AddListener(delegate { StartRotating(_currentSetupEntity.RotationComp); });
+            var e = (Filter)entity;
 
-                _currentSetupEntity.ButtonComponents.OnButtonStopClicking.AddListener(delegate { StopRotating(_currentSetupEntity.RotationComp); });
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            {
+                e.ButtonComponents.OnButtonStartClicking.AddListener(delegate { StartRotating(e.RotationComp); });
+                e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { StartRotating(e.RotationComp); });
+
+                e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { StopRotating(e.RotationComp); });
             }
 
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonStartTouching.AddListener(delegate { StartRotating(_currentSetupEntity.RotationComp); });
-                _currentSetupEntity.ButtonComponents.OnButtonIsTouching.AddListener(delegate { StartRotating(_currentSetupEntity.RotationComp); });
+                e.ButtonComponents.OnButtonStartTouching.AddListener(delegate { StartRotating(e.RotationComp); });
+                e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { StartRotating(e.RotationComp); });
 
-                _currentSetupEntity.ButtonComponents.OnButtonStopTouching.AddListener(delegate { StopRotating(_currentSetupEntity.RotationComp); });
+                e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { StopRotating(e.RotationComp); });
             }
         }
 
-        public override void RemoveListenersOnEndApp()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonStartClicking.RemoveAllListeners();
-                _currentSetupEntity.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
-                _currentSetupEntity.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStartClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
             }
 
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonStartTouching.RemoveAllListeners();
-                _currentSetupEntity.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
-                _currentSetupEntity.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStartTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
             }
         }
         #endregion Setup_Listeners_Responses
@@ -101,7 +97,7 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StartRotating(CameraRotationComponent comp)
         {
-            comp._IsRotating = true;
+            comp.IsRotating = true;
         }
 
         /// <summary>
@@ -109,8 +105,8 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StopRotating(CameraRotationComponent comp)
         {
-            comp._IsRotating = false;
-            comp._HasRotated = false;
+            comp.IsRotating = false;
+            comp.HasRotated = false;
         }
 
 
@@ -122,8 +118,7 @@ namespace VRSF.MoveAround.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                SetupListenersResponses(e);
             }
         }
         #endregion

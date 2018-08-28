@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using ScriptableFramework.Util;
+using Unity.Entities;
 using UnityEngine;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
@@ -34,32 +35,32 @@ namespace VRSF.MoveAround.Systems
         private void HandleRotationWithAcceleration(Filter entity)
         {
             // isAccelerating : The user is Rotating (touching/clicking the thumbstick) and the currentSpeed is < (maxSpeed / 5)
-            bool isAccelerating = entity.RotationComp._IsRotating && entity.RotationComp._CurrentSpeed < (entity.RotationComp.MaxSpeed / 20);
+            bool isAccelerating = entity.RotationComp.IsRotating && entity.RotationComp.CurrentSpeed < (entity.RotationComp.MaxSpeed / 20);
 
             // isDecelerating : The user is not Rotating (not touching/clicking the thumbstick) and the currentSpeed is > 0
-            bool isDecelerating = !entity.RotationComp._IsRotating && entity.RotationComp._CurrentSpeed > 0.0f;
+            bool isDecelerating = !entity.RotationComp.IsRotating && entity.RotationComp.CurrentSpeed > 0.0f;
 
             // maxSpeedTimeDeltaTime : To calculate the current speed according to deltaTime and Max Speed
             float maxSpeedTimeDeltaTime = Time.deltaTime * (entity.RotationComp.MaxSpeed / 50);
 
             // LastThumbPos : The last thumbPos of the user when rotating (touching/clicking the thumbstick) only 
-            entity.RotationComp._LastThumbPos = entity.RotationComp._IsRotating ? entity.ButtonComponents.ThumbPos.Value.x : entity.RotationComp._LastThumbPos;
+            entity.RotationComp.LastThumbPos = entity.RotationComp.IsRotating ? entity.ButtonComponents.ThumbPos.Value.x : entity.RotationComp.LastThumbPos;
 
             if (isAccelerating)
             {
-                entity.RotationComp._CurrentSpeed += maxSpeedTimeDeltaTime;
+                entity.RotationComp.CurrentSpeed += maxSpeedTimeDeltaTime;
             }
             else if (isDecelerating)
             {
-                entity.RotationComp._CurrentSpeed -= maxSpeedTimeDeltaTime;
+                entity.RotationComp.CurrentSpeed -= maxSpeedTimeDeltaTime;
             }
 
-            if (entity.RotationComp._CurrentSpeed > 0.0f)
+            if (entity.RotationComp.CurrentSpeed > 0.0f)
             {
                 Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
-                Vector3 rotationAxis = new Vector3(0, entity.RotationComp._LastThumbPos, 0);
+                Vector3 rotationAxis = new Vector3(0, entity.RotationComp.LastThumbPos, 0);
 
-                VRSF_Components.CameraRig.transform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp._CurrentSpeed);
+                VRSF_Components.CameraRig.transform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.CurrentSpeed);
             }
         }
         #endregion

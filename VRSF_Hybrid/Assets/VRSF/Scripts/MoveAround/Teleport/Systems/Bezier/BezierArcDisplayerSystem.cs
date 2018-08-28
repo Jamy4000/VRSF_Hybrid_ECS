@@ -90,6 +90,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void DisplayArc(Filter entity)
         {
             // Init
+            entity.BezierCalculations._GroundDetected = false;
+            entity.BezierCalculations._LimitDetected = false;
             RaycastHit hit = new RaycastHit();
             Vector3 pos = entity.BezierCalculations._CurveOrigin.position; // take off position
             entity.BezierCalculations._VertexList.Add(pos);
@@ -99,8 +101,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 Vector3 newPos = pos + entity.BezierCalculations._Velocity * entity.BezierCalculations._VertexDelta
                     + 0.5f * Physics.gravity * entity.BezierCalculations._VertexDelta * entity.BezierCalculations._VertexDelta;
-
-                Vector3 boundedPos = CheckNewPosWithBoundaries(entity, newPos);
+                
+                Vector3 boundedPos = entity.TeleportBoundaries._UseBoundaries ? CheckNewPosWithBoundaries(entity, newPos) : newPos;
 
                 entity.BezierCalculations._Velocity += Physics.gravity * entity.BezierCalculations._VertexDelta;
 
@@ -108,7 +110,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 entity.BezierCalculations._VertexList.Add(boundedPos);
 
                 // if linecast between last vertex and current vertex hit something
-                if (Physics.Linecast(pos, boundedPos, out hit, entity.GeneralTeleport.ExclusionLayer))
+                if (Physics.Linecast(pos, boundedPos, out hit) && hit.transform.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
                 {
                     entity.BezierCalculations._GroundDetected = true;
                     entity.BezierCalculations._GroundPos = hit.point;

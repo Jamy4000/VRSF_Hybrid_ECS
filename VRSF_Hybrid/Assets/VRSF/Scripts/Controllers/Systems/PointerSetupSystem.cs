@@ -87,8 +87,13 @@ namespace VRSF.Controllers.Systems
         {
             comp._RightHandPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
             comp._RightHandPointer.enabled = _controllersParameters.UsePointerRight;
+            comp._RightHandPointer.material.color = _controllersParameters.RightPointerState != EPointerState.OFF ?
+                _controllersParameters.ColorMatOnRight : _controllersParameters.ColorMatOffRight;
+
             comp._LeftHandPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
             comp._LeftHandPointer.enabled = _controllersParameters.UsePointerLeft;
+            comp._LeftHandPointer.material.color = _controllersParameters.LeftPointerState != EPointerState.OFF ?
+                _controllersParameters.ColorMatOnLeft : _controllersParameters.ColorMatOffLeft;
         }
 
 

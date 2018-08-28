@@ -56,7 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSpeed: 1
   DegreesToTurn: 30
-  UseAccelerationEffect: 1
+  UseAccelerationEffect: 0
   _IsRotating: 0
   _HasRotated: 0
   _CurrentSpeed: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   RightTouchThumbPosition: 12
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
-  TouchThreshold: 0
+  TouchThreshold: 0.8
   ClickThreshold: 0.5
   OnButtonStartTouching:
     m_PersistentCalls:

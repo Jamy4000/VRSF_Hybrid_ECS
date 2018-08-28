@@ -14,9 +14,9 @@ namespace VRSF.MoveAround.Components
         [HideInInspector] public float MaxAvatarYPosition = 2000.0f;
 
         [Tooltip("The minimun local position at which the user can go if UseHorizontalBoundaries is at true.")]
-        [HideInInspector] public Vector3 MinAvatarPosition = new Vector3(-100.0f, -1.0f, -100.0f);
+        [HideInInspector] public Vector3 MinAvatarPosition = new Vector3(-10.0f, -1.0f, -10.0f);
 
         [Tooltip("The maximum local position at which the user can go if UseHorizontalBoundaries is at true.")]
-        [HideInInspector] public Vector3 MaxAvatarPosition = new Vector3(100.0f, 100.0f, 100.0f);
+        [HideInInspector] public Vector3 MaxAvatarPosition = new Vector3(10.0f, 10.0f, 10.0f);
     }
 }

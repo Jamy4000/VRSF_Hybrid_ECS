@@ -67,9 +67,9 @@ namespace VRSF.MoveAround.Systems
 
             if (entity.ParametersComponent._WantToFly)
             {
-                entity.DirectionComponent._FlightDirection = entity.ParametersComponent._FlyForward ? 1.0f : -1.0f;
+                entity.DirectionComponent.FlightDirection = entity.ParametersComponent._FlyForward ? 1.0f : -1.0f;
 
-                entity.DirectionComponent._NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
+                entity.DirectionComponent.NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
             }
 
             // We get the min and max pos in Y depending if we're using boundaries or not.
@@ -88,9 +88,9 @@ namespace VRSF.MoveAround.Systems
                 entity.VelocityComponent.CurrentFlightVelocity /= MapRangeClamp(cameraRigTransform.lossyScale.y, Mathf.Abs(minPosY), Mathf.Abs(maxPosY), 1.0f, maxPosY / 100);
             }
 
-            entity.DirectionComponent._FinalDirection = entity.DirectionComponent._NormalizedDir * entity.VelocityComponent.CurrentFlightVelocity * entity.DirectionComponent._FlightDirection;
+            entity.DirectionComponent.FinalDirection = entity.DirectionComponent.NormalizedDir * entity.VelocityComponent.CurrentFlightVelocity * entity.DirectionComponent.FlightDirection;
 
-            return (cameraRigTransform.position + entity.DirectionComponent._FinalDirection);
+            return (cameraRigTransform.position + entity.DirectionComponent.FinalDirection);
         }
 
         /// <summary>

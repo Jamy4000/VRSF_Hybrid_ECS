@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 1
+  RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
 --- !u!114 &114804183571195726
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractionType: 2
   UseGazeButton: 0
-  ActionButton: 1
+  ActionButton: 32768
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
@@ -157,6 +157,7 @@ MonoBehaviour:
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}

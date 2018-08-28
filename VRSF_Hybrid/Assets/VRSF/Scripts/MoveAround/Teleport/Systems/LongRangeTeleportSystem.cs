@@ -25,11 +25,6 @@ namespace VRSF.MoveAround.Teleport.Systems
         }
 
 
-        #region PRIVATE_VARIABLES
-        private Filter _currentSetupEntity;
-        #endregion PRIVATE_VARIABLES
-
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
@@ -56,9 +51,8 @@ namespace VRSF.MoveAround.Teleport.Systems
                     if (e.LRT_Comp.TeleportText != null)
                         e.LRT_Comp.TeleportText.gameObject.SetActive(false);
                 }
-
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                
+                SetupListenersResponses(e);
             }
 
             this.Enabled = false;
@@ -71,8 +65,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                RemoveListenersOnEndApp();
+                RemoveListenersOnEndApp(e);
             }
 
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
@@ -83,37 +76,41 @@ namespace VRSF.MoveAround.Teleport.Systems
         #region PUBLIC_METHODS
 
         #region Listeners_Setup
-        public override void SetupListenersResponses()
+        public override void SetupListenersResponses(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteracting(_currentSetupEntity); });
-                _currentSetupEntity.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteracting(_currentSetupEntity); });
-                _currentSetupEntity.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteracting(e); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteracting(e); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(e); });
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteracting(_currentSetupEntity); });
-                _currentSetupEntity.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteracting(_currentSetupEntity); });
-                _currentSetupEntity.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteracting(e); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteracting(e); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(e); });
             }
         }
 
-        public override void RemoveListenersOnEndApp()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
-                _currentSetupEntity.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
-                _currentSetupEntity.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
-                _currentSetupEntity.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
-                _currentSetupEntity.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
@@ -192,7 +189,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
             entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-
+            
             if (entity.LRT_Comp.UseLoadingSlider)
             {
                 if (entity.LRT_Comp.FillRect != null)
@@ -272,7 +269,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void CheckTeleport(Filter entity)
         {
             Color32 fillRectColor;
-
+            
             if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
             {
                 entity.GeneralTeleport.CanTeleport = true;

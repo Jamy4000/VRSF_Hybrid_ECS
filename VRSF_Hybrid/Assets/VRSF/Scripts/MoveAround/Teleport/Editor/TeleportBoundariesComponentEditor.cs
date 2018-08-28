@@ -62,7 +62,7 @@ namespace VRSF.MoveAround.Teleport.Editor
                 {
                     EditorGUILayout.LabelField("Bound " + (i + 1) + " Parameters", EditorStyles.boldLabel);
                     _boundsComp._Boundaries[i] = EditorGUILayout.BoundsField("", _boundsComp._Boundaries[i]);
-
+                    
                     EditorGUILayout.Space();
                 }
 

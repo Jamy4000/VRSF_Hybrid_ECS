@@ -15,19 +15,19 @@ MonoBehaviour:
     more info,\r check the tooltips\nfor each parameters."
   UseControllers: 1
   UsePointerLeft: 1
-  LeftPointerState: 2
+  LeftPointerState: 0
   LeftExclusionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 260
   ColorMatOnLeft: {r: 0, g: 0, b: 1, a: 1}
   ColorMatOffLeft: {r: 1, g: 0, b: 0, a: 1}
   ColorMatSelectableLeft: {r: 0, g: 1, b: 0, a: 1}
   MaxDistancePointerLeft: 1000
   UsePointerRight: 1
-  RightPointerState: 2
+  RightPointerState: 0
   RightExclusionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 260
   ColorMatOnRight: {r: 0, g: 0, b: 1, a: 1}
   ColorMatOffRight: {r: 1, g: 0, b: 0, a: 1}
   ColorMatSelectableRight: {r: 0, g: 1, b: 0, a: 1}

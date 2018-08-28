@@ -22,11 +22,6 @@ namespace VRSF.MoveAround.Teleport.Systems
         }
 
 
-        #region PRIVATE_VARIABLES
-        private Filter _currentSetupEntity;
-        #endregion PRIVATE_VARIABLES
-
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
@@ -37,21 +32,19 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                SetupListenersResponses(e);
             }
 
             this.Enabled = false;
         }
-
+        
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                RemoveListenersOnEndApp();
+                RemoveListenersOnEndApp(e);
             }
 
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
@@ -62,29 +55,31 @@ namespace VRSF.MoveAround.Teleport.Systems
         #region PUBLIC_METHODS
 
         #region Listeners_Setup
-        public override void SetupListenersResponses()
+        public override void SetupListenersResponses(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { TeleportUser(e); });
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { TeleportUser(e); });
             }
         }
 
-        public override void RemoveListenersOnEndApp()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
@@ -115,11 +110,12 @@ namespace VRSF.MoveAround.Teleport.Systems
                     // If we use boundaries, we check if the user is not going to far away
                     if (entity.TeleportBoundaries.UseBoundaries())
                     {
-                        newPos += VRSF_Components.CameraRig.transform.position;
+                        newPos += VRSF_Components.VRCamera.transform.position;
+
                         CheckNewPosWithBoundaries(entity, ref newPos);
 
                         // We set the cameraRig position
-                        VRSF_Components.CameraRig.transform.position = newPos;
+                        VRSF_Components.CameraRig.transform.position += (newPos - VRSF_Components.VRCamera.transform.position);
                     }
                     else
                     {
@@ -137,15 +133,15 @@ namespace VRSF.MoveAround.Teleport.Systems
         public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
         {
             Filter entity = (Filter)teleportFilter;
-
-            bool _isInBoundaries = false;
+            
+            bool isInBoundaries = false;
             List<Vector3> closestDists = new List<Vector3>();
 
             foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
             {
                 if (bound.Contains(posToCheck))
                 {
-                    _isInBoundaries = true;
+                    isInBoundaries = true;
                     break;
                 }
                 else
@@ -155,7 +151,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             }
 
             // if the posToCheck is not in the boundaries, we check what's the closest point from it
-            if (!_isInBoundaries)
+            if (!isInBoundaries)
             {
                 float closestDist = float.PositiveInfinity;
                 Vector3 closestPoint = Vector3.positiveInfinity;

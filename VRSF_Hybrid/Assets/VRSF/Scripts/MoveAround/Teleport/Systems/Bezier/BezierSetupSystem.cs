@@ -21,6 +21,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             public ButtonActionChoserComponents BAC_Comp;
             public ScriptableRaycastComponent RayComp;
+            public ScriptableSingletonsComponent ScriptableSingletons;
             public BezierTeleportCalculationComponent BezierComp;
             public TeleportGeneralComponent GeneralComp;
             public BezierTeleportParametersComponent BezierParameters;
@@ -28,7 +29,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         #region PRIVATE_VARIABLES
-        private Filter _currentSetupEntity;
+        private Filter e;
         private ControllersParametersVariable _controllersParameters;
         #endregion PRIVATE_VARIABLES
 
@@ -43,8 +44,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                SetupListenersResponses(e);
                 InitializeValues(e);
             }
         }
@@ -74,8 +74,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                RemoveListenersOnEndApp();
+                RemoveListenersOnEndApp(e);
             }
             
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
@@ -86,31 +85,33 @@ namespace VRSF.MoveAround.Teleport.Systems
         #region PUBLIC_METHODS
 
         #region Listeners_Setup
-        public override void SetupListenersResponses()
+        public override void SetupListenersResponses(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.AddListener(delegate { ToggleDisplay(_currentSetupEntity, true); });
-                _currentSetupEntity.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { ToggleDisplay(e, true); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(e); });
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.AddListener(delegate { ToggleDisplay(_currentSetupEntity, true); });
-                _currentSetupEntity.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { ToggleDisplay(e, true); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(e); });
             }
         }
 
-        public override void RemoveListenersOnEndApp()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
@@ -126,9 +127,28 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             if (entity.BezierComp._GroundDetected || entity.BezierComp._LimitDetected)
             {
-                VRSF_Components.CameraRig.transform.position = entity.BezierComp._GroundPos + new Vector3(0, entity.BezierParameters.HeightAboveGround + VRSF_Components.CameraRig.transform.localScale.x, 0) + entity.BezierComp._LastNormal * 0.1f;
+                var newPos = entity.BezierComp._GroundPos;
+                switch (VRSF_Components.DeviceLoaded)
+                {
+                    case EDevice.OPENVR:
+                        VRSF_Components.CameraRig.transform.position = entity.BezierComp._GroundPos;
+                        break;
+                    case EDevice.OCULUS_RIFT:
+                        newPos.y += VRSF_Components.VRCamera.transform.localPosition.y;
+                        VRSF_Components.CameraRig.transform.position = newPos;
+                        break;
+                    default:
+                        newPos = entity.BezierComp._GroundPos;
+                        newPos.y += 1.8f;
+                        VRSF_Components.CameraRig.transform.position = newPos;
+                        break;
+                }
             }
+
             ToggleDisplay(entity, false);
+
+            entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.AddToMask(entity.GeneralComp.TeleportLayer);
+            entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.AddToMask(entity.GeneralComp.TeleportLayer);
         }
 
 
@@ -149,6 +169,12 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="active"></param>
         private void ToggleDisplay(Filter entity, bool active)
         {
+            if (active)
+            {
+                entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
+                entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
+            }
+
             entity.BezierComp._ArcRenderer.enabled = active;
             entity.BezierParameters.TargetMarker.SetActive(active);
             entity.BezierComp._DisplayActive = active;

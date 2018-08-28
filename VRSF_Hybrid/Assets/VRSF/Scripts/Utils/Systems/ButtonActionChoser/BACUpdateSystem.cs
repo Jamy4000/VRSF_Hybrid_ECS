@@ -43,8 +43,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
 
         #region PUBLIC_METHODS
-        public abstract void SetupListenersResponses();
-        public abstract void RemoveListenersOnEndApp();
+        public abstract void SetupListenersResponses(object entity);
+        public abstract void RemoveListenersOnEndApp(object entity);
         #endregion PUBLIC_METHODS
 
 

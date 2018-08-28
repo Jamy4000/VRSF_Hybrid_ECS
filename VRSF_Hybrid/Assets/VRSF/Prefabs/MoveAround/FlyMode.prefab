@@ -109,6 +109,7 @@ MonoBehaviour:
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseHorizontalBoundaries: 0
-  MinAvatarYPosition: 0
+  MinAvatarYPosition: -1
   MaxAvatarYPosition: 2000
   MinAvatarPosition: {x: -10, y: -1, z: -10}
   MaxAvatarPosition: {x: 10, y: 10, z: 10}
@@ -197,9 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61e31f7983b18ed4596513e349683a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _FlightDirection: 0
-  _NormalizedDir: {x: 0, y: 0, z: 0}
-  _FinalDirection: {x: 0, y: 0, z: 0}
+  FlightDirection: 0
+  NormalizedDir: {x: 0, y: 0, z: 0}
+  FinalDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &114780445443877056
 MonoBehaviour:
   m_ObjectHideFlags: 1

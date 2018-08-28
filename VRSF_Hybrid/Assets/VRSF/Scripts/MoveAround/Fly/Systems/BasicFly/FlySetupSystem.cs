@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Components;
+using VRSF.Utils;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -19,19 +21,14 @@ namespace VRSF.MoveAround.Systems
         }
 
 
-        #region PRIVATE_VARIABLES
-        private Filter _currentSetupEntity;     // Allow us to pass the entity in the overrided method from BACUpdateSystem
-        #endregion PRIVATE_VARIABLES
-
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-
+            SceneManager.sceneLoaded += OnSceneUnloaded;
+            
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
@@ -39,56 +36,57 @@ namespace VRSF.MoveAround.Systems
                     Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
                     e.ButtonComponents.CanBeUsed = false;
                 }
-
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                    
+                e.FlyComponent.StartCoroutine(SetupListernersCoroutine(e));
             }
         }
 
+
         protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                RemoveListenersOnEndApp();
+                RemoveListenersOnEndApp(e);
             }
 
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
 
 
         #region PUBLIC_METHODS
-
-        public override void SetupListenersResponses()
+        public override void SetupListenersResponses(object entity)
         {
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonIsClicking.AddListener(delegate { ButtonIsInteracting(_currentSetupEntity); });
-                _currentSetupEntity.ButtonComponents.OnButtonStopClicking.AddListener(delegate { ButtonStopInteracting(_currentSetupEntity); });
+                e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { ButtonIsInteracting(e); });
+                e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { ButtonStopInteracting(e); });
             }
 
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonIsTouching.AddListener(delegate { ButtonIsInteracting(_currentSetupEntity); });
-                _currentSetupEntity.ButtonComponents.OnButtonStopTouching.AddListener(delegate { ButtonStopInteracting(_currentSetupEntity); });
+                e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { ButtonIsInteracting(e); });
+                e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { ButtonStopInteracting(e); });
             }
         }
 
-        public override void RemoveListenersOnEndApp()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
-                _currentSetupEntity.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
             }
 
-            if ((_currentSetupEntity.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
-                _currentSetupEntity.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
             }
         }
 
@@ -115,23 +113,23 @@ namespace VRSF.MoveAround.Systems
 
 
         #region PRIVATE_METHODS
+        private IEnumerator SetupListernersCoroutine(Filter entity)
+        {
+            while (!VRSF_Components.SetupVRIsReady && entity.ButtonComponents.ActionButtonIsReady && entity.ButtonComponents.IsSetup)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            SetupListenersResponses(entity);
+        }
+
         /// <summary>
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneUnloaded(Scene newScene, LoadSceneMode sceneMode)
         {
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
-                {
-                    Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
-                    e.ButtonComponents.CanBeUsed = false;
-                }
-
-                _currentSetupEntity = e;
-                SetupListenersResponses();
-            }
+            OnStartRunning();
         }
         #endregion PRIVATE_METHODS
     }

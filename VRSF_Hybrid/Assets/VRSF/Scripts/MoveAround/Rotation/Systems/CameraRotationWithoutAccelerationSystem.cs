@@ -1,52 +1,122 @@
-﻿using Unity.Entities;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using VRSF.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Utils;
 using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationWithoutAccelerationSystem : ComponentSystem
+    public class CameraRotationWithoutAccelerationSystem : BACUpdateSystem
     {
-
         struct Filter
         {
             public CameraRotationComponent RotationComp;
             public ButtonActionChoserComponents ButtonComponents;
         }
-
-
+        
         #region ComponentSystem_Methods
-        protected override void OnUpdate()
+        protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
             foreach (var e in GetEntities<Filter>())
             {
-                if (!e.RotationComp.UseAccelerationEffect && !e.RotationComp._HasRotated && e.RotationComp._IsRotating)
+                if (!e.RotationComp.UseAccelerationEffect)
                 {
-                    HandleRotationWithoutAcceleration(e);
-                    e.RotationComp._HasRotated = true;
+                    SetupListenersResponses(e);
                 }
             }
+
+            this.Enabled = false;
+        }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+
+            foreach (var e in GetEntities<Filter>())
+            {
+                RemoveListenersOnEndApp(e);
+            }
+
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion
+
+
+        #region PUBLIC_METHODS
+        public override void SetupListenersResponses(object entity)
+        {
+            var e = (Filter)entity;
+
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            {
+                e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { HandleStopInteracting(e); });
+            }
+
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            {
+                e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { HandleStopInteracting(e); });
+            }
+        }
+
+        public override void RemoveListenersOnEndApp(object entity)
+        {
+            var e = (Filter)entity;
+
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            {
+                e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
+            }
+
+            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            {
+                e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
+            }
+        }
+        #endregion PUBLIC_METHODS
 
 
         #region PRIVATE_METHODS
         private void HandleRotationWithoutAcceleration(Filter entity)
         {
-            var cameraRigTransform = VRSF_Components.VRCamera.transform;
-            Vector3 eyesPosition = cameraRigTransform.parent.position;
-            Vector3 rotationAxis = new Vector3(0, entity.ButtonComponents.ThumbPos.Value.x, 0);
+            if (!entity.RotationComp.HasRotated)
+            {
+                var cameraRigTransform = VRSF_Components.CameraRig.transform;
 
-            cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
+                Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
+                Vector3 rotationAxis = new Vector3(0, entity.ButtonComponents.ThumbPos.Value.x, 0);
 
-            // We check if the rotation value is not above 180 or below -180. if so, we substract/add 360 degrees to it.
-            var newRot = cameraRigTransform.rotation;
+                cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
 
-            newRot.y = (newRot.y > 180.0f) ? (newRot.y - 360.0f) : newRot.y;
-            newRot.y = (newRot.y < -180.0f) ? (newRot.y + 360.0f) : newRot.y;
+                // We check if the rotation value is not above 180 or below -180. if so, we substract/add 360 degrees to it.
+                var newRot = cameraRigTransform.rotation;
 
-            cameraRigTransform.rotation = newRot;
+                newRot.y = (newRot.y > 180.0f) ? (newRot.y - 360.0f) : newRot.y;
+                newRot.y = (newRot.y < -180.0f) ? (newRot.y + 360.0f) : newRot.y;
+
+                cameraRigTransform.rotation = newRot;
+
+                entity.RotationComp.HasRotated = true;
+            }
+        }
+
+        private void HandleStopInteracting(Filter entity)
+        {
+            entity.RotationComp.HasRotated = false;
+        }
+
+        private void OnSceneUnloaded(Scene oldScene)
+        {
+            this.Enabled = true;
         }
         #endregion
     }
