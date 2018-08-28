@@ -232,7 +232,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1138117132}
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
@@ -361,7 +372,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 149845317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1350993757}
@@ -1294,7 +1305,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 504484454}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1412154305}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: You're amazing
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   SetColliderAuto: 1
@@ -1682,7 +1704,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4712604753299526, guid: 79776326346a9d348bcf49e5e86b9da0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4712604753299526, guid: 79776326346a9d348bcf49e5e86b9da0, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2400,6 +2422,11 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224649392309033500, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.10545349
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114295518048564522, guid: 5b18356a7aab25f48b7af3a507ce7408, type: 2}
@@ -3280,7 +3307,7 @@ Prefab:
     - target: {fileID: 224188959391042854, guid: a9ca5f874748c6a488fd727da57d246c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00006810822
+      value: 0.00006866455
       objectReference: {fileID: 0}
     - target: {fileID: 114770481346084190, guid: a9ca5f874748c6a488fd727da57d246c,
         type: 2}
@@ -3341,6 +3368,11 @@ Prefab:
         type: 2}
       propertyPath: m_Size.z
       value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 224188959391042854, guid: a9ca5f874748c6a488fd727da57d246c,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -480
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9ca5f874748c6a488fd727da57d246c, type: 2}
@@ -5300,20 +5332,6 @@ Prefab:
     - target: {fileID: 4325968150092906, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 2}
-      propertyPath: CheckDeviceAtRuntime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 2}
-      propertyPath: DeviceToLoad
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -23.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc49bde1c2e008942bd59fd92b11985a, type: 2}

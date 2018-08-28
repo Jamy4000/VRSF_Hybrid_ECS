@@ -39,18 +39,15 @@ namespace VRSF.Inputs.Systems
 
         protected override void OnUpdate()
         {
-            Debug.Log("this.Enabled right : " + this.Enabled);
             // If we doesn't use the controllers, we don't check for the inputs.
             if (_controllersParameters != null && _controllersParameters.UseControllers)
             {
+                VRSF_Components.RightController.SetActive(OVRInput.IsControllerConnected(OVRInput.Controller.RTrackedRemote));
+
                 foreach (var entity in GetEntities<Filter>())
                 {
                     CheckRemoteInput(entity.VRInputCapture);
                 }
-            }
-            else
-            {
-                Debug.Log("Controller null " + _controllersParameters);
             }
         }
         #endregion
@@ -154,11 +151,20 @@ namespace VRSF.Inputs.Systems
 
         private IEnumerator Init()
         {
+            // We wait until VRSF instantiate the prefab and load everything
             while (!VRSF_Components.SetupVRIsReady)
             {
                 yield return new WaitForEndOfFrame();
             }
 
+            // We wait until one of the LTrackedConnected and RTrackedConnected controller is on and the other is off
+            while ((OVRInput.IsControllerConnected(OVRInput.Controller.RTrackedRemote) && OVRInput.IsControllerConnected(OVRInput.Controller.LTrackedRemote))
+                || (!OVRInput.IsControllerConnected(OVRInput.Controller.RTrackedRemote) && !OVRInput.IsControllerConnected(OVRInput.Controller.LTrackedRemote)))
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            // We setup everything
             foreach (var entity in GetEntities<Filter>())
             {
                 if (!OVRInput.IsControllerConnected(OVRInput.Controller.RTrackedRemote))
@@ -168,16 +174,13 @@ namespace VRSF.Inputs.Systems
                 }
                 else
                 {
-                    Debug.Log("Boup boup");
                     entity.VRInputCapture.RemoteTracker.m_controller = OVRInput.Controller.RTrackedRemote;
                     entity.VRInputCapture.RemoteTracker.transform.SetParent(VRSF_Components.RightController.transform);
-
-                    _inputContainer = InputVariableContainer.Instance;
-                    _controllersParameters = ControllersParametersVariable.Instance;
                 }
             }
 
-            Debug.Log("end setup, right system running : " + this.Enabled);
+            _inputContainer = InputVariableContainer.Instance;
+            _controllersParameters = ControllersParametersVariable.Instance;
         }
         #endregion
     }

@@ -185,7 +185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1341392395639404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -23.3, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4069715111207404}
@@ -252,7 +252,7 @@ MonoBehaviour:
     type: 2}
   Simulator_SDK: {fileID: 1972975401033530, guid: 1530362e0fb285449b6aef1d50bb8a7f,
     type: 2}
-  DeviceToLoad: 3
+  DeviceToLoad: 2
   CheckDeviceAtRuntime: 1
   CameraRigScripts: {fileID: 1341392395639404}
   LeftControllerScripts: {fileID: 1059445186956032}
