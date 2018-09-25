@@ -43,8 +43,8 @@ namespace VRSF.Interactions.Systems
                 comp.InteractionsContainer.PreviousLeftHit = null;
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
-            else if (comp.InteractionsContainer.LeftHit.Value.collider != null &&
-                    comp.InteractionsContainer.LeftHit.Value.transform != comp.InteractionsContainer.PreviousLeftHit)
+            else if (!comp.InteractionsContainer.LeftHit.isNull && comp.InteractionsContainer.LeftHit.Value.collider != null &&
+                    comp.InteractionsContainer.LeftHit.Value.collider.transform != comp.InteractionsContainer.PreviousLeftHit)
             {
                 var hitTransform = comp.InteractionsContainer.LeftHit.Value.collider.transform;
                 comp.InteractionsContainer.LeftOverObject.Raise(hitTransform);
@@ -52,8 +52,6 @@ namespace VRSF.Interactions.Systems
                 comp.InteractionsContainer.PreviousLeftHit = hitTransform;
 
                 comp.InteractionsContainer.IsOverSomethingLeft.SetValue(true);
-
-
             }
         }
         #endregion PRIVATE_METHODS

@@ -21,9 +21,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             public ButtonActionChoserComponents BAC_Comp;
             public ScriptableRaycastComponent RayComp;
-            public ScriptableSingletonsComponent ScriptableSingletons;
             public BezierTeleportCalculationComponent BezierComp;
-            public TeleportGeneralComponent GeneralComp;
+            public TeleportGeneralComponent GeneralTeleport;
             public BezierTeleportParametersComponent BezierParameters;
         }
 
@@ -133,12 +132,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                     case EDevice.OPENVR:
                         VRSF_Components.CameraRig.transform.position = entity.BezierComp._GroundPos;
                         break;
-                    case EDevice.OCULUS_RIFT:
-                        newPos.y += VRSF_Components.VRCamera.transform.localPosition.y;
-                        VRSF_Components.CameraRig.transform.position = newPos;
-                        break;
                     default:
-                        newPos = entity.BezierComp._GroundPos;
                         newPos.y += 1.8f;
                         VRSF_Components.CameraRig.transform.position = newPos;
                         break;
@@ -146,9 +140,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             }
 
             ToggleDisplay(entity, false);
-
-            entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.AddToMask(entity.GeneralComp.TeleportLayer);
-            entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.AddToMask(entity.GeneralComp.TeleportLayer);
         }
 
 
@@ -176,11 +167,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             }
             else
             {
-                if (active)
-                {
-                    entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
-                    entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralComp.TeleportLayer);
-                }
+                HandleExclusionLayer(entity.GeneralTeleport, active);
 
                 entity.BezierComp._ArcRenderer.enabled = active;
                 entity.BezierParameters.TargetMarker.SetActive(active);
@@ -189,6 +176,21 @@ namespace VRSF.MoveAround.Teleport.Systems
                 // Change pointer activation if the user is using it
                 if ((entity.RayComp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.RayComp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
                     entity.BezierComp._ControllerPointer.enabled = !active;
+            }
+        }
+
+
+        private void HandleExclusionLayer(TeleportGeneralComponent generalTeleport, bool active)
+        {
+            if (active)
+            {
+                _controllersParameters.RightExclusionLayer = _controllersParameters.RightExclusionLayer.RemoveFromMask(generalTeleport.TeleportLayer);
+                _controllersParameters.LeftExclusionLayer = _controllersParameters.LeftExclusionLayer.RemoveFromMask(generalTeleport.TeleportLayer);
+            }
+            else
+            {
+                _controllersParameters.RightExclusionLayer = _controllersParameters.RightExclusionLayer.AddToMask(generalTeleport.TeleportLayer);
+                _controllersParameters.LeftExclusionLayer = _controllersParameters.LeftExclusionLayer.AddToMask(generalTeleport.TeleportLayer);
             }
         }
 
@@ -204,9 +206,9 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 CheckHand(entity);
 
-                entity.GeneralComp.TeleportLayer = LayerMask.NameToLayer("Teleport");
+                entity.GeneralTeleport.TeleportLayer = LayerMask.NameToLayer("Teleport");
 
-                if (entity.GeneralComp.TeleportLayer == -1)
+                if (entity.GeneralTeleport.TeleportLayer == -1)
                 {
                     Debug.Log("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
@@ -233,7 +235,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 case (EHand.LEFT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.LeftController.transform;
-                    entity.GeneralComp.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.LEFT);
+                    entity.GeneralTeleport.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.LEFT);
 
                     if (_controllersParameters.UsePointerLeft)
                         entity.BezierComp._ControllerPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
@@ -241,7 +243,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 case (EHand.RIGHT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.RightController.transform;
-                    entity.GeneralComp.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
+                    entity.GeneralTeleport.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
 
                     if (_controllersParameters.UsePointerRight)
                         entity.BezierComp._ControllerPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
@@ -249,7 +251,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 case (EHand.GAZE):
                     entity.BezierComp._CurveOrigin = VRSF_Components.VRCamera.transform;
-                    entity.GeneralComp.ExclusionLayer = GazeParametersVariable.Instance.GetGazeExclusionsLayer();
+                    entity.GeneralTeleport.ExclusionLayer = GazeParametersVariable.Instance.GetGazeExclusionsLayer();
                     break;
 
                 default:

@@ -43,8 +43,8 @@ namespace VRSF.Interactions.Systems
                 comp.InteractionsContainer.PreviousGazeHit = null;
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
-            else if (comp.InteractionsContainer.GazeHit.Value.collider != null &&
-                    comp.InteractionsContainer.GazeHit.Value.transform != comp.InteractionsContainer.PreviousGazeHit)
+            else if (!comp.InteractionsContainer.GazeHit.isNull && comp.InteractionsContainer.GazeHit.Value.collider != null &&
+                    comp.InteractionsContainer.GazeHit.Value.collider.transform != comp.InteractionsContainer.PreviousGazeHit)
             {
                 var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
                 comp.InteractionsContainer.GazeOverObject.Raise(hitTransform);
