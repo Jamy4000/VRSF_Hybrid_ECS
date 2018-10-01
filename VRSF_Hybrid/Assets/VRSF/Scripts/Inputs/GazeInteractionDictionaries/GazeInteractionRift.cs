@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using VRSF.Controllers;
+using VRSF.Utils;
 
 namespace VRSF.Inputs.Gaze
 {
@@ -8,53 +10,53 @@ namespace VRSF.Inputs.Gaze
     public static class GazeInteractionRift
     {
         // The dictionary with references to the Rift Buttons
-        public static Dictionary<EControllersInput, OVRInput.Button> ClickDictionnary = new Dictionary<EControllersInput, OVRInput.Button>()
+        public static Dictionary<STuples<EControllersInput, EHand>, OVRInput.Button> ClickDictionnary = new Dictionary<STuples<EControllersInput, EHand>, OVRInput.Button>()
         {
-            { EControllersInput.NONE, OVRInput.Button.None },
+            { new STuples<EControllersInput, EHand>(EControllersInput.NONE, EHand.NONE), OVRInput.Button.None },
 
-            { EControllersInput.LEFT_TRIGGER, OVRInput.Button.PrimaryIndexTrigger },
-            { EControllersInput.RIGHT_TRIGGER, OVRInput.Button.SecondaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.LEFT), OVRInput.Button.PrimaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.RIGHT), OVRInput.Button.SecondaryIndexTrigger },
 
-            { EControllersInput.LEFT_GRIP, OVRInput.Button.PrimaryHandTrigger },
-            { EControllersInput.RIGHT_GRIP, OVRInput.Button.SecondaryHandTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.GRIP, EHand.LEFT), OVRInput.Button.PrimaryHandTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.GRIP, EHand.RIGHT), OVRInput.Button.SecondaryHandTrigger },
 
-            { EControllersInput.LEFT_THUMBSTICK, OVRInput.Button.PrimaryThumbstick },
-            { EControllersInput.RIGHT_THUMBSTICK, OVRInput.Button.SecondaryThumbstick },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.LEFT), OVRInput.Button.PrimaryThumbstick },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.RIGHT), OVRInput.Button.SecondaryThumbstick },
 
-            { EControllersInput.LEFT_MENU, OVRInput.Button.Start },
+            { new STuples<EControllersInput, EHand>(EControllersInput.MENU, EHand.LEFT), OVRInput.Button.Start },
 
-            { EControllersInput.A_BUTTON, OVRInput.Button.One },
-            { EControllersInput.B_BUTTON, OVRInput.Button.Two },
+            { new STuples<EControllersInput, EHand>(EControllersInput.A_BUTTON, EHand.RIGHT), OVRInput.Button.One },
+            { new STuples<EControllersInput, EHand>(EControllersInput.B_BUTTON, EHand.RIGHT), OVRInput.Button.Two },
 
-            { EControllersInput.X_BUTTON, OVRInput.Button.Three },
-            { EControllersInput.Y_BUTTON, OVRInput.Button.Four }
+            { new STuples<EControllersInput, EHand>(EControllersInput.X_BUTTON, EHand.LEFT), OVRInput.Button.Three },
+            { new STuples<EControllersInput, EHand>(EControllersInput.Y_BUTTON, EHand.LEFT), OVRInput.Button.Four }
         };
 
 
         // The dictionary with references to the OVR Touch
-        public static Dictionary<EControllersInput, OVRInput.Touch> TouchDictionnary = new Dictionary<EControllersInput, OVRInput.Touch>()
+        public static Dictionary<STuples<EControllersInput, EHand>, OVRInput.Touch> TouchDictionnary = new Dictionary<STuples<EControllersInput, EHand>, OVRInput.Touch>()
         {
-            { EControllersInput.NONE, OVRInput.Touch.None },
+            { new STuples<EControllersInput, EHand>(EControllersInput.NONE, EHand.NONE), OVRInput.Touch.None },
 
-            { EControllersInput.LEFT_TRIGGER, OVRInput.Touch.PrimaryIndexTrigger },
-            { EControllersInput.RIGHT_TRIGGER, OVRInput.Touch.SecondaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.LEFT), OVRInput.Touch.PrimaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.RIGHT), OVRInput.Touch.SecondaryIndexTrigger },
             
             // The Grip (HandTrigger) is not checking for touch with Oculus
-
-            { EControllersInput.LEFT_THUMBSTICK, OVRInput.Touch.PrimaryThumbstick },
-            { EControllersInput.RIGHT_THUMBSTICK, OVRInput.Touch.SecondaryThumbstick },
+            
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.LEFT), OVRInput.Touch.PrimaryThumbstick },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.RIGHT), OVRInput.Touch.SecondaryThumbstick },
 
             // Start is not checking for touch with Oculus
+            
+            { new STuples<EControllersInput, EHand>(EControllersInput.A_BUTTON, EHand.RIGHT), OVRInput.Touch.One },
+            { new STuples<EControllersInput, EHand>(EControllersInput.B_BUTTON, EHand.RIGHT), OVRInput.Touch.Two },
 
-            { EControllersInput.A_BUTTON, OVRInput.Touch.One },
-            { EControllersInput.B_BUTTON, OVRInput.Touch.Two },
-
-            { EControllersInput.X_BUTTON, OVRInput.Touch.Three },
-            { EControllersInput.Y_BUTTON, OVRInput.Touch.Four },
+            { new STuples<EControllersInput, EHand>(EControllersInput.X_BUTTON, EHand.LEFT), OVRInput.Touch.Three },
+            { new STuples<EControllersInput, EHand>(EControllersInput.Y_BUTTON, EHand.LEFT), OVRInput.Touch.Four },
             
             // The Oculus has a ThumbRest touch feature
-            { EControllersInput.LEFT_THUMBREST, OVRInput.Touch.PrimaryThumbRest },
-            { EControllersInput.RIGHT_THUMBREST, OVRInput.Touch.SecondaryThumbRest }
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBREST, EHand.LEFT), OVRInput.Touch.PrimaryThumbRest },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBREST, EHand.RIGHT), OVRInput.Touch.SecondaryThumbRest },
         };
     }
 }

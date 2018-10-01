@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using VRSF.Controllers;
+using VRSF.Utils;
 
 namespace VRSF.Inputs.Gaze
 {
@@ -8,30 +10,31 @@ namespace VRSF.Inputs.Gaze
     public static class GazeInteractionPortableOVR
     {
         // The dictionary with references to the Rift Buttons
-        public static Dictionary<EControllersInput, OVRInput.Button> ClickDictionnary = new Dictionary<EControllersInput, OVRInput.Button>()
+        public static Dictionary<STuples<EControllersInput, EHand>, OVRInput.Button> ClickDictionnary = new Dictionary<STuples<EControllersInput, EHand>, OVRInput.Button>()
         {
-            { EControllersInput.NONE, OVRInput.Button.None },
+            { new STuples<EControllersInput, EHand>(EControllersInput.NONE, EHand.NONE), OVRInput.Button.None },
 
-            { EControllersInput.LEFT_TRIGGER, OVRInput.Button.PrimaryIndexTrigger },
-            { EControllersInput.RIGHT_TRIGGER, OVRInput.Button.PrimaryIndexTrigger },
-            
-            { EControllersInput.LEFT_THUMBSTICK, OVRInput.Button.PrimaryTouchpad },
-            { EControllersInput.RIGHT_THUMBSTICK, OVRInput.Button.PrimaryTouchpad },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.LEFT), OVRInput.Button.PrimaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.RIGHT), OVRInput.Button.SecondaryIndexTrigger },
 
-            { EControllersInput.BACK_BUTTON, OVRInput.Button.Back },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.LEFT), OVRInput.Button.PrimaryThumbstick },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.RIGHT), OVRInput.Button.SecondaryThumbstick },
+
+            { new STuples<EControllersInput, EHand>(EControllersInput.BACK_BUTTON, EHand.LEFT), OVRInput.Button.Back },
+            { new STuples<EControllersInput, EHand>(EControllersInput.BACK_BUTTON, EHand.RIGHT), OVRInput.Button.Back },
         };
 
 
         // The dictionary with references to the OVR Touch
-        public static Dictionary<EControllersInput, OVRInput.Touch> TouchDictionnary = new Dictionary<EControllersInput, OVRInput.Touch>()
+        public static Dictionary<STuples<EControllersInput, EHand>, OVRInput.Touch> TouchDictionnary = new Dictionary<STuples<EControllersInput, EHand>, OVRInput.Touch>()
         {
-            { EControllersInput.NONE, OVRInput.Touch.None },
+            { new STuples<EControllersInput, EHand>(EControllersInput.NONE, EHand.NONE), OVRInput.Touch.None },
 
-            { EControllersInput.LEFT_TRIGGER, OVRInput.Touch.PrimaryIndexTrigger },
-            { EControllersInput.RIGHT_TRIGGER, OVRInput.Touch.PrimaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.LEFT), OVRInput.Touch.PrimaryIndexTrigger },
+            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.RIGHT), OVRInput.Touch.SecondaryIndexTrigger },
 
-            { EControllersInput.LEFT_THUMBSTICK, OVRInput.Touch.PrimaryTouchpad },
-            { EControllersInput.RIGHT_THUMBSTICK, OVRInput.Touch.PrimaryTouchpad },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.LEFT), OVRInput.Touch.PrimaryThumbstick },
+            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.RIGHT), OVRInput.Touch.SecondaryThumbstick },
 
             // No touch for the back button
         };

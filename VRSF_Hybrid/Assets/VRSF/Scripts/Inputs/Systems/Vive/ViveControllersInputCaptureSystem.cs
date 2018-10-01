@@ -174,8 +174,6 @@ namespace VRSF.Inputs.Systems.Vive
             viveInputCapture.LeftParameters = new ViveInputParameters
             {
                 Hand = EHand.LEFT,
-                ClickEvents = _inputContainer.LeftClickEvents,
-                TouchEvents = _inputContainer.LeftTouchEvents,
                 ClickBools = _inputContainer.LeftClickBoolean,
                 TouchBools = _inputContainer.LeftTouchBoolean,
                 Controller = viveInputCapture.LeftController,
@@ -185,8 +183,6 @@ namespace VRSF.Inputs.Systems.Vive
             viveInputCapture.RightParameters = new ViveInputParameters
             {
                 Hand = EHand.RIGHT,
-                ClickEvents = _inputContainer.RightClickEvents,
-                TouchEvents = _inputContainer.RightTouchEvents,
                 ClickBools = _inputContainer.RightClickBoolean,
                 TouchBools = _inputContainer.RightTouchBoolean,
                 Controller = viveInputCapture.RightController,

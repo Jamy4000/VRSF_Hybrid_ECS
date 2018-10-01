@@ -1,5 +1,7 @@
 ﻿using Unity.Entities;
+using VRSF.Controllers;
 using VRSF.Utils.Components;
+using VRSF.Utils.Events;
 
 namespace VRSF.Interactions.Systems
 {
@@ -39,7 +41,7 @@ namespace VRSF.Interactions.Systems
             if (comp.InteractionsContainer.IsOverSomethingGaze.Value && comp.InteractionsContainer.GazeHit.isNull)
             {
                 comp.InteractionsContainer.IsOverSomethingGaze.SetValue(false);
-                comp.InteractionsContainer.GazeOverObject.Raise(null);
+                new ObjectWasHoveredEvent(EHand.GAZE, null);
                 comp.InteractionsContainer.PreviousGazeHit = null;
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
@@ -47,7 +49,7 @@ namespace VRSF.Interactions.Systems
                     comp.InteractionsContainer.GazeHit.Value.collider.transform != comp.InteractionsContainer.PreviousGazeHit)
             {
                 var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
-                comp.InteractionsContainer.GazeOverObject.Raise(hitTransform);
+                new ObjectWasHoveredEvent(EHand.GAZE, hitTransform);
 
                 comp.InteractionsContainer.PreviousGazeHit = hitTransform;
 

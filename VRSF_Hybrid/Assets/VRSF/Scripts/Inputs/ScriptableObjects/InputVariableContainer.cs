@@ -14,22 +14,6 @@ namespace VRSF.Inputs
         [Multiline(10)]
         public string DeveloperDescription = "";
 
-        [Header("Runtime Dictionnary to get the GameEvents (Touch and Click) for each button")]
-        public VRInputsEvents RightClickEvents;
-        public VRInputsEvents LeftClickEvents;
-        public VRInputsEvents RightTouchEvents;
-        public VRInputsEvents LeftTouchEvents;
-
-        [Header("GameEvents (Touch and Click) for The Gaze Button if used")]
-        public GameEvent GazeClickDown;
-        public GameEvent GazeClickUp;
-        public GameEvent GazeStartTouching;
-        public GameEvent GazeStopTouching;
-
-        [Header("Click GameEvents for The Wheel Button")]
-        public GameEvent WheelClickDown;
-        public GameEvent WheelClickUp;
-
         [Header("Runtime Dictionnary to get the BoolVariable (Touch and Click) for each button")]
         public VRInputsBoolean RightClickBoolean;
         public VRInputsBoolean LeftClickBoolean;

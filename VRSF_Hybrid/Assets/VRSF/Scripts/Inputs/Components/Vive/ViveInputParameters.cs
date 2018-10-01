@@ -10,8 +10,6 @@ namespace VRSF.Inputs.Components.Vive
     public struct ViveInputParameters
     {
         public EHand Hand;
-        public VRInputsEvents ClickEvents;
-        public VRInputsEvents TouchEvents;
         public VRInputsBoolean ClickBools;
         public VRInputsBoolean TouchBools;
         public SteamVR_Controller.Device Controller;

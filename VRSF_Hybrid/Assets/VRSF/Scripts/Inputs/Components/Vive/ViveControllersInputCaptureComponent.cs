@@ -17,9 +17,6 @@ namespace VRSF.Inputs.Components.Vive
         [HideInInspector] public ViveInputParameters RightParameters;
         [HideInInspector] public ViveInputParameters LeftParameters;
         
-        // A Temp GameEvent to raise in the InputCaptureSystems
-        [HideInInspector] public GameEvent TempEvent;
-        
         public SteamVR_Controller.Device LeftController
         {
             get { return SteamVR_Controller.Input((int)LeftTrackedObject.index); }

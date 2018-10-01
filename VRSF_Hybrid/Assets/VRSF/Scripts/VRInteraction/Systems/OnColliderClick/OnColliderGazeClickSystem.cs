@@ -1,6 +1,8 @@
 ﻿using Unity.Entities;
+using VRSF.Controllers;
 using VRSF.Interactions.Components;
 using VRSF.Utils.Components;
+using VRSF.Utils.Events;
 
 namespace VRSF.Interactions.Systems
 {
@@ -64,7 +66,7 @@ namespace VRSF.Interactions.Systems
                     entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(true);
 
                     var objectClicked = entity.ScriptableSingletons.InteractionsContainer.GazeHit.Value.collider.transform;
-                    entity.ScriptableSingletons.InteractionsContainer.GazeObjectWasClicked.Raise(objectClicked);
+                    new ObjectWasClickedEvent(EHand.GAZE, objectClicked);
                 }
             }
         }

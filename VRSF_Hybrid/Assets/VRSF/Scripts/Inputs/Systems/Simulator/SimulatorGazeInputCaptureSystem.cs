@@ -5,6 +5,7 @@ using VRSF.Gaze;
 using VRSF.Inputs.Components;
 using VRSF.Inputs.Events;
 using VRSF.Inputs.Gaze;
+using VRSF.Utils;
 
 namespace VRSF.Inputs
 {
@@ -72,7 +73,7 @@ namespace VRSF.Inputs
         {
             // If the gaze boolVariable is at false but the gaze button is clicking
             if (!_inputContainer.GazeIsCliking.Value && 
-                Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[_gazeParameters.GazeButtonSimulator]))
+                Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonSimulator, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(true);
                 _inputContainer.GazeIsTouching.SetValue(true);
@@ -81,7 +82,7 @@ namespace VRSF.Inputs
             }
             // If the gaze boolVariable is at true but the gaze button is not clicking
             else if (_inputContainer.GazeIsCliking.Value && 
-                Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[_gazeParameters.GazeButtonSimulator]))
+                Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonSimulator, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(false);
                 _inputContainer.GazeIsTouching.SetValue(false);

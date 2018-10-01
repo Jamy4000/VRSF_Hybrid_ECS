@@ -201,14 +201,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 switch (comp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        comp.GeDown = _inputsContainer.RightClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.GeUp = _inputsContainer.RightClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.IsClicking = _inputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(comp.ActionButton)];
+                        comp.GeDown = _inputsContainer.RightClickEvents.Items[ControllerInputToVariable.GetDownGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.GeUp = _inputsContainer.RightClickEvents.Items[ControllerInputToVariable.GetUpGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.IsClicking = _inputsContainer.RightClickBoolean.Items[ControllerInputToVariable.GetClickVariableFor(comp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        comp.GeDown = _inputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetDownGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.GeUp = _inputsContainer.LeftClickEvents.Items[ControllerInputToSO.GetUpGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.IsClicking = _inputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(comp.ActionButton)];
+                        comp.GeDown = _inputsContainer.LeftClickEvents.Items[ControllerInputToVariable.GetDownGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.GeUp = _inputsContainer.LeftClickEvents.Items[ControllerInputToVariable.GetUpGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.IsClicking = _inputsContainer.LeftClickBoolean.Items[ControllerInputToVariable.GetClickVariableFor(comp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -222,14 +222,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 switch (comp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        comp.GeTouched = _inputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.GeUntouched = _inputsContainer.RightTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.IsTouching = _inputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(comp.ActionButton)];
+                        comp.GeTouched = _inputsContainer.RightTouchEvents.Items[ControllerInputToVariable.GetTouchGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.GeUntouched = _inputsContainer.RightTouchEvents.Items[ControllerInputToVariable.GetReleasedGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.IsTouching = _inputsContainer.RightTouchBoolean.Items[ControllerInputToVariable.GetTouchVariableFor(comp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        comp.GeTouched = _inputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetTouchGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.GeUntouched = _inputsContainer.LeftTouchEvents.Items[ControllerInputToSO.GetReleasedGameEventFor(comp.ActionButton)] as GameEvent;
-                        comp.IsTouching = _inputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(comp.ActionButton)];
+                        comp.GeTouched = _inputsContainer.LeftTouchEvents.Items[ControllerInputToVariable.GetTouchGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.GeUntouched = _inputsContainer.LeftTouchEvents.Items[ControllerInputToVariable.GetReleasedGameEventFor(comp.ActionButton)] as GameEvent;
+                        comp.IsTouching = _inputsContainer.LeftTouchBoolean.Items[ControllerInputToVariable.GetTouchVariableFor(comp.ActionButton)];
                         break;
                     default:
                         return false;

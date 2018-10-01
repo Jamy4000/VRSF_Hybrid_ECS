@@ -26,16 +26,6 @@ namespace VRSF.Interactions
         public BoolVariable HasClickSomethingLeft;
         public BoolVariable HasClickSomethingGaze;
 
-        [Header("The GameEventTransforms to raise when an object is hit")]
-        public GameEventTransform RightObjectWasClicked;
-        public GameEventTransform LeftObjectWasClicked;
-        public GameEventTransform GazeObjectWasClicked;
-
-        [Header("The GameEventTransforms to raise when an object is hit")]
-        public GameEventTransform RightOverObject;
-        public GameEventTransform LeftOverObject;
-        public GameEventTransform GazeOverObject;
-
         [Header("BoolVariable to verify if something is Hit")]
         public BoolVariable IsOverSomethingRight;
         public BoolVariable IsOverSomethingLeft;

@@ -1,9 +1,7 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace VRSF.Utils.Components
 {
-    [RequireComponent(typeof(EventInspectorStandIn))]
     public class SetupVRComponents : MonoBehaviour
     {
         #region SDKS_PREFABS

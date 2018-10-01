@@ -4,6 +4,7 @@ using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs.Components;
+using VRSF.Inputs.Events;
 
 namespace VRSF.Inputs.Systems
 {
@@ -66,27 +67,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("TriggerDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
             {
                 tempClick.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("TriggerUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.UP);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && OVRInput.Get(OVRInput.Touch.SecondaryIndexTrigger))
             {
                 tempTouch.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("TriggerStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
             }
             else if (!tempClick.Value && tempTouch.Value && !OVRInput.Get(OVRInput.Touch.SecondaryIndexTrigger))
             {
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("TriggerStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.UP);
             }
             #endregion TRIGGER
 
@@ -101,27 +98,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
             {
                 tempClick.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && (OVRInput.Get(OVRInput.Touch.SecondaryThumbstick) || _inputContainer.RightThumbPosition.Value != Vector2.zero))
             {
                 tempTouch.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
             }
             else if (tempTouch.Value && (!OVRInput.Get(OVRInput.Touch.SecondaryThumbstick) && _inputContainer.RightThumbPosition.Value == Vector2.zero))
             {
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
             }
             #endregion THUMBSTICK
 
@@ -131,14 +124,12 @@ namespace VRSF.Inputs.Systems
             if (!tempClick.Value && OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
             {
                 tempClick.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("GripDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.GRIP, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
             {
                 tempClick.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("GripUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.GRIP, EFingerMovement.UP);
             }
             // Touch Event not existing on Grip 
             #endregion GRIP
@@ -154,27 +145,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("AButtonDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.One))
             {
                 tempClick.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("AButtonUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.UP);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && OVRInput.Get(OVRInput.Touch.One))
             {
                 tempTouch.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("AButtonStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.DOWN);
             }
             else if (tempTouch.Value && !OVRInput.Get(OVRInput.Touch.One))
             {
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("AButtonStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.UP);
             }
             #endregion
 
@@ -187,27 +174,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("BButtonDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.Two))
             {
                 tempClick.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("BButtonUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.UP);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && OVRInput.Get(OVRInput.Touch.Two))
             {
                 tempTouch.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("BButtonStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.DOWN);
             }
             else if (!tempClick.Value && tempTouch.Value && !OVRInput.Get(OVRInput.Touch.Two))
             {
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("BButtonStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.UP);
             }
             #endregion
 
@@ -218,14 +201,12 @@ namespace VRSF.Inputs.Systems
             if (!tempTouch.Value && OVRInput.Get(OVRInput.Touch.SecondaryThumbRest))
             {
                 tempTouch.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbrestStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBREST, EFingerMovement.DOWN);
             }
             else if (tempTouch.Value && !OVRInput.Get(OVRInput.Touch.SecondaryThumbRest))
             {
                 tempTouch.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbrestStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBREST, EFingerMovement.UP);
             }
             #endregion
         }

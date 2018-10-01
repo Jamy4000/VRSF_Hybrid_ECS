@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using VRSF.Utils.Components;
+using VRSF.Utils.Events;
 
 namespace VRSF.Interactions.Systems
 {
@@ -39,7 +40,7 @@ namespace VRSF.Interactions.Systems
             if (comp.InteractionsContainer.IsOverSomethingRight.Value && comp.InteractionsContainer.RightHit.isNull)
             {
                 comp.InteractionsContainer.IsOverSomethingRight.SetValue(false);
-                comp.InteractionsContainer.RightOverObject.Raise(null);
+                new ObjectWasHoveredEvent(Controllers.EHand.RIGHT, null);
                 comp.InteractionsContainer.PreviousRightHit = null;
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
@@ -47,7 +48,7 @@ namespace VRSF.Interactions.Systems
                     comp.InteractionsContainer.RightHit.Value.collider.transform != comp.InteractionsContainer.PreviousRightHit)
             {
                 var hitTransform = comp.InteractionsContainer.RightHit.Value.collider.transform;
-                comp.InteractionsContainer.RightOverObject.Raise(hitTransform);
+                new ObjectWasHoveredEvent(Controllers.EHand.RIGHT, hitTransform);
 
                 comp.InteractionsContainer.PreviousRightHit = hitTransform;
                 
