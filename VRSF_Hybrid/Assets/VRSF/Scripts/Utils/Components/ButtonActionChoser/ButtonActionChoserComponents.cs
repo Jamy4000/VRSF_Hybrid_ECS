@@ -1,4 +1,4 @@
-﻿using ScriptableFramework.Events;
+﻿
 using ScriptableFramework.Variables;
 using UnityEngine;
 using UnityEngine.Events;

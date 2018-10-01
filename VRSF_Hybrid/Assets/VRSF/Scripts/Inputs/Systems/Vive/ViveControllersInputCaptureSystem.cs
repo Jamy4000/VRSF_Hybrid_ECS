@@ -1,9 +1,9 @@
-﻿using ScriptableFramework.Events;
-using ScriptableFramework.Variables;
+﻿using ScriptableFramework.Variables;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs.Components.Vive;
+using VRSF.Inputs.Events;
 
 namespace VRSF.Inputs.Systems.Vive
 {
@@ -81,27 +81,23 @@ namespace VRSF.Inputs.Systems.Vive
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("TriggerDown");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.TRIGGER, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && controllerParameters.Controller.GetHairTriggerUp())
             {
                 tempClick.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("TriggerUp");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.TRIGGER, EFingerMovement.UP);
             }
             // Check Touch Events if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && controllerParameters.Controller.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
             {
                 tempTouch.SetValue(true);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.TouchEvents.Get("TriggerStartTouching");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, controllerParameters.Hand, EControllersInput.TRIGGER, EFingerMovement.DOWN);
             }
             else if (tempTouch.Value && controllerParameters.Controller.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
             {
                 tempTouch.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.TouchEvents.Get("TriggerStopTouching");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, controllerParameters.Hand, EControllersInput.TRIGGER, EFingerMovement.UP);
             }
             #endregion TRIGGER
 
@@ -116,27 +112,23 @@ namespace VRSF.Inputs.Systems.Vive
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("ThumbDown");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
             {
                 tempClick.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("ThumbUp");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.THUMBSTICK, EFingerMovement.UP);
             }
             // Check Touch Events if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && controllerParameters.Controller.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad))
             {
                 tempTouch.SetValue(true);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.TouchEvents.Get("ThumbStartTouching");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, controllerParameters.Hand, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
             }
             else if (tempTouch.Value && controllerParameters.Controller.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad))
             {
                 tempTouch.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.TouchEvents.Get("ThumbStopTouching");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, controllerParameters.Hand, EControllersInput.THUMBSTICK, EFingerMovement.UP);
             }
             #endregion TOUCHPAD
 
@@ -147,14 +139,12 @@ namespace VRSF.Inputs.Systems.Vive
             if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
             {
                 tempClick.SetValue(true);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("GripDown");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.GRIP, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
             {
                 tempClick.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("GripUp");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.GRIP, EFingerMovement.UP);
             }
             #endregion GRIP
 
@@ -165,14 +155,12 @@ namespace VRSF.Inputs.Systems.Vive
             if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
             {
                 tempClick.SetValue(true);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("MenuDown");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.MENU, EFingerMovement.DOWN);
             }
             else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
             {
                 tempClick.SetValue(false);
-                viveInputComponent.TempEvent = (GameEvent)controllerParameters.ClickEvents.Get("MenuUp");
-                viveInputComponent.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, controllerParameters.Hand, EControllersInput.MENU, EFingerMovement.UP);
             }
             #endregion MENU
         }
@@ -185,6 +173,7 @@ namespace VRSF.Inputs.Systems.Vive
         {
             viveInputCapture.LeftParameters = new ViveInputParameters
             {
+                Hand = EHand.LEFT,
                 ClickEvents = _inputContainer.LeftClickEvents,
                 TouchEvents = _inputContainer.LeftTouchEvents,
                 ClickBools = _inputContainer.LeftClickBoolean,
@@ -195,6 +184,7 @@ namespace VRSF.Inputs.Systems.Vive
 
             viveInputCapture.RightParameters = new ViveInputParameters
             {
+                Hand = EHand.RIGHT,
                 ClickEvents = _inputContainer.RightClickEvents,
                 TouchEvents = _inputContainer.RightTouchEvents,
                 ClickBools = _inputContainer.RightClickBoolean,

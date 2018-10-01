@@ -1,9 +1,9 @@
-﻿using ScriptableFramework.Events;
-using ScriptableFramework.Variables;
+﻿using ScriptableFramework.Variables;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs.Components;
+using VRSF.Inputs.Events;
 
 namespace VRSF.Inputs
 {
@@ -69,14 +69,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetMouseButtonDown(1))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("TriggerDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetMouseButtonUp(1))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("TriggerUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.UP);
             }
             #endregion TRIGGER
         
@@ -91,12 +89,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.up);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.UpArrow))
@@ -104,12 +100,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -119,12 +113,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.down);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.DownArrow))
@@ -132,12 +124,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -147,12 +137,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.right);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.RightArrow))
@@ -160,12 +148,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -175,12 +161,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.left);
                 temp.SetValue(true);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStartTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.LeftArrow))
@@ -188,12 +172,10 @@ namespace VRSF.Inputs
                 _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
                 temp.SetValue(false);
 
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("ThumbUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightTouchEvents.Get("ThumbStopTouching");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
             #endregion THUMB
@@ -206,14 +188,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.RightShift))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("GripDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.GRIP, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.RightShift))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("GripUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.GRIP, EFingerMovement.UP);
             }
             #endregion GRIP
 
@@ -227,14 +207,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.RightControl))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("MenuDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.MENU, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.RightControl))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("MenuUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.MENU, EFingerMovement.UP);
             }
             #endregion MENU
 
@@ -250,14 +228,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.L))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("AButtonDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.L))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("AButtonUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.UP);
             }
             #endregion A BUTTON
 
@@ -268,14 +244,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.O))
             {
                 temp.SetValue(true);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("BButtonDown");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.O))
             {
                 temp.SetValue(false);
-                vrInputCapture.TempEvent = (GameEvent)_inputContainer.RightClickEvents.Get("BButtonUp");
-                vrInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.UP);
             }
             #endregion B BUTTON
 

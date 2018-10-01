@@ -3,6 +3,7 @@ using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
 using VRSF.Inputs.Components;
+using VRSF.Inputs.Events;
 using VRSF.Inputs.Gaze;
 
 namespace VRSF.Inputs
@@ -75,8 +76,8 @@ namespace VRSF.Inputs
             {
                 _inputContainer.GazeIsCliking.SetValue(true);
                 _inputContainer.GazeIsTouching.SetValue(true);
-                _inputContainer.GazeClickDown.Raise();
-                _inputContainer.GazeStartTouching.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.DOWN);
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.DOWN);
             }
             // If the gaze boolVariable is at true but the gaze button is not clicking
             else if (_inputContainer.GazeIsCliking.Value && 
@@ -84,8 +85,8 @@ namespace VRSF.Inputs
             {
                 _inputContainer.GazeIsCliking.SetValue(false);
                 _inputContainer.GazeIsTouching.SetValue(false);
-                _inputContainer.GazeClickUp.Raise();
-                _inputContainer.GazeStopTouching.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.UP);
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.UP);
             }
         }
 

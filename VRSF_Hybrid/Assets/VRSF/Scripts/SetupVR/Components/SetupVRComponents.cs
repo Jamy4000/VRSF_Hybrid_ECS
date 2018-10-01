@@ -1,4 +1,4 @@
-﻿using ScriptableFramework.Events;
+﻿
 using UnityEngine;
 
 namespace VRSF.Utils.Components

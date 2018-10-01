@@ -7,30 +7,23 @@
     public enum EControllersInput
     {
         NONE = 0,
-        LEFT_TRIGGER = 1 << 0,
-        RIGHT_TRIGGER = 1 << 1,
-        LEFT_GRIP = 1 << 2,
-        RIGHT_GRIP = 1 << 3,
-        LEFT_THUMBSTICK = 1 << 4,
-        RIGHT_THUMBSTICK = 1 << 5,
-        LEFT_MENU = 1 << 6,
-
-        // VIVE PARTICULARITY
-        RIGHT_MENU = 1 << 7,
-
+        TRIGGER = 1 << 0,
+        GRIP = 1 << 1,
+        THUMBSTICK = 1 << 2,
+        MENU = 1 << 3,
+        
         // OCULUS RIFT PARTICULARITIES
-        A_BUTTON = 1 << 8,
-        B_BUTTON = 1 << 9,
-        X_BUTTON = 1 << 10,
-        Y_BUTTON = 1 << 11,
-        LEFT_THUMBREST = 1 << 12,
-        RIGHT_THUMBREST = 1 << 13,
-
+        A_BUTTON = 1 << 4,
+        B_BUTTON = 1 << 5,
+        X_BUTTON = 1 << 6,
+        Y_BUTTON = 1 << 7,
+        THUMBREST = 1 << 8,
+        
         // SIMULATOR PARTICULARITY
-        WHEEL_BUTTON = 1 << 14,
+        WHEEL_BUTTON = 1 << 9,
 
         // OCULUS GO AND GEAR VR PARTICULARITY
-        BACK_BUTTON = 1 << 15
+        BACK_BUTTON = 1 << 10
     }
 
 }

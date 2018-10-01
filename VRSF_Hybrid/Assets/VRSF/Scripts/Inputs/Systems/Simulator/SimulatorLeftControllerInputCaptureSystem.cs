@@ -1,9 +1,9 @@
-﻿using ScriptableFramework.Events;
-using ScriptableFramework.Variables;
+﻿using ScriptableFramework.Variables;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs.Components;
+using VRSF.Inputs.Events;
 
 namespace VRSF.Inputs
 {
@@ -68,14 +68,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetMouseButtonDown(0))
             {
                 temp.SetValue(true);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("TriggerDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetMouseButtonUp(0))
             {
                 temp.SetValue(false);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("TriggerUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.TRIGGER, EFingerMovement.UP);
             }
             #endregion TRIGGERa
 
@@ -90,24 +88,21 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.up);
 
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.W))
             {
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
-                controllerInputCapture.TempEvent.Raise();
+
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -117,24 +112,21 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.down);
 
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.S))
             {
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
-                controllerInputCapture.TempEvent.Raise();
+
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -144,24 +136,20 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.right);
 
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.D))
             {
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -171,24 +159,20 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.left);
 
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStartTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.A))
             {
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("ThumbUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
 
                 // Touching event raise as well
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftTouchEvents.Get("ThumbStopTouching");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
             #endregion THUMB
@@ -201,14 +185,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 temp.SetValue(true);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("GripDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.GRIP, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.LeftShift))
             {
                 temp.SetValue(false);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("GripUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.GRIP, EFingerMovement.UP);
             }
             #endregion GRIP
 
@@ -220,14 +202,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftControl))
             {
                 temp.SetValue(true);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("MenuDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.MENU, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.LeftControl))
             {
                 temp.SetValue(false);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("MenuUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.MENU, EFingerMovement.UP);
             }
             #endregion MENU
 
@@ -241,14 +221,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.F))
             {
                 temp.SetValue(true);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("XButtonDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.X_BUTTON, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.F))
             {
                 temp.SetValue(false);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("XButtonUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.X_BUTTON, EFingerMovement.UP);
             }
             #endregion X BUTTON
 
@@ -260,14 +238,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.R))
             {
                 temp.SetValue(true);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("YButtonDown");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.Y_BUTTON, EFingerMovement.DOWN);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.R))
             {
                 temp.SetValue(false);
-                controllerInputCapture.TempEvent = (GameEvent)_inputContainer.LeftClickEvents.Get("YButtonUp");
-                controllerInputCapture.TempEvent.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.Y_BUTTON, EFingerMovement.UP);
             }
             #endregion Y BUTTON
 

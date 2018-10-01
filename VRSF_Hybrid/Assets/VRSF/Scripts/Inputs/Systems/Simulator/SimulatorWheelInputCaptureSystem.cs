@@ -2,6 +2,7 @@
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs.Components;
+using VRSF.Inputs.Events;
 
 namespace VRSF.Inputs
 {
@@ -58,13 +59,13 @@ namespace VRSF.Inputs
             if (!_inputContainer.WheelIsClicking.Value && Input.GetKeyDown(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(true);
-                _inputContainer.WheelClickDown.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.WHEEL_BUTTON, EFingerMovement.DOWN);
             }
             // If the boolVariable for the wheel is clicking is at true but the user is not pressing it
             else if (_inputContainer.WheelIsClicking.Value && Input.GetKeyUp(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(false);
-                _inputContainer.WheelClickUp.Raise();
+                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.WHEEL_BUTTON, EFingerMovement.UP);
             }
         }
         #endregion

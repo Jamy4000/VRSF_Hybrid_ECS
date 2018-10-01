@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ScriptableFramework.Events;
+
 using ScriptableFramework.Util;
 using ScriptableFramework.Variables;
 using VRSF.Controllers;

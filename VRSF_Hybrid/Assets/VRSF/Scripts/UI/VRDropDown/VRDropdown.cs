@@ -1,4 +1,4 @@
-﻿using ScriptableFramework.Events;
+﻿
 using ScriptableFramework.Util;
 using VRSF.Controllers;
 using VRSF.Gaze;
