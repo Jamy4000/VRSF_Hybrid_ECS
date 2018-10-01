@@ -33,7 +33,7 @@ namespace VRSF.MoveAround.Systems
             
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ButtonComponents.ActionButton != EControllersInput.LEFT_THUMBSTICK && e.ButtonComponents.ActionButton != EControllersInput.RIGHT_THUMBSTICK)
+                if (e.ButtonComponents.ActionButton != EControllersInput.THUMBSTICK)
                 {
                     Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
                     e.ButtonComponents.CanBeUsed = false;

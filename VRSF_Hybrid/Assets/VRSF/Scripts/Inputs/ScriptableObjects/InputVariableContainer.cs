@@ -1,5 +1,4 @@
-﻿
-using ScriptableFramework.RuntimeSet;
+﻿using ScriptableFramework.RuntimeSet;
 using ScriptableFramework.Util;
 using ScriptableFramework.Variables;
 using UnityEngine;

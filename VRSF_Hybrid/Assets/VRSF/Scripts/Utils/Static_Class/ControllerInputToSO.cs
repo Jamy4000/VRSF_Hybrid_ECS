@@ -1,7 +1,7 @@
 ﻿using VRSF.Inputs;
 using UnityEngine;
 
-public static class ControllerInputToVariable
+public static class ControllerInputToSO
 {
     public static string GetClickVariableFor(EControllersInput input)
     {

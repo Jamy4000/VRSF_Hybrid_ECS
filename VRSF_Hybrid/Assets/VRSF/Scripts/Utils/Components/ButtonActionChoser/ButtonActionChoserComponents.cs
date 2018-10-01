@@ -63,23 +63,8 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         // Thumb Parameters
         [HideInInspector] public Vector2Variable ThumbPos = null;
 
-        // All GameEvents
-        [HideInInspector] public GameEvent GeDown = null;
-        [HideInInspector] public GameEvent GeUp = null;
-        [HideInInspector] public GameEvent GeTouched = null;
-        [HideInInspector] public GameEvent GeUntouched = null;
-
-        // All GameEventListeners
-        [HideInInspector] public GameEventListener GelDown = null;
-        [HideInInspector] public GameEventListener GelUp = null;
-        [HideInInspector] public GameEventListener GelTouched = null;
-        [HideInInspector] public GameEventListener GelUntouched = null;
-
         // BoolVariable to check
         [HideInInspector] public BoolVariable IsTouching = null;
         [HideInInspector] public BoolVariable IsClicking = null;
-
-        // GameObject containing the GameEventListeners
-        [HideInInspector] public GameObject GameEventsContainer = null;
     }
 }
