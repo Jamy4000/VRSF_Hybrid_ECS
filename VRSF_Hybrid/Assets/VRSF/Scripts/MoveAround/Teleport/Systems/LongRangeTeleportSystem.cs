@@ -21,9 +21,9 @@ namespace VRSF.MoveAround.Teleport.Systems
             public ScriptableRaycastComponent RaycastComp;
             public TeleportBoundariesComponent TeleportBoundaries;
             public TeleportGeneralComponent GeneralTeleport;
-            public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
+        private ControllersParametersVariable _controllersVariable;
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -32,6 +32,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             base.OnStartRunning();
 
             SceneManager.sceneUnloaded += OnSceneUnloaded;
+
+            _controllersVariable = ControllersParametersVariable.Instance;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -42,17 +44,9 @@ namespace VRSF.MoveAround.Teleport.Systems
                 {
                     Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
-
-                if (e.LRT_Comp.UseLoadingSlider)
-                {
-                    if (e.LRT_Comp.FillRect != null)
-                        e.LRT_Comp.FillRect.gameObject.SetActive(false);
-
-                    if (e.LRT_Comp.TeleportText != null)
-                        e.LRT_Comp.TeleportText.gameObject.SetActive(false);
-                }
                 
                 SetupListenersResponses(e);
+                DeactivateTeleportSlider(e.LRT_Comp);
             }
 
             this.Enabled = false;
@@ -127,8 +121,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             Teleport(entity);
             DeactivateTeleportSlider(entity.LRT_Comp);
 
-            entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
-            entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
+            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
+            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
         }
 
 
@@ -194,8 +188,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             }
             else
             {
-                entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer = entity.ScriptableSingletons.ControllersParameters.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-                entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer = entity.ScriptableSingletons.ControllersParameters.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+                _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+                _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
 
                 if (entity.LRT_Comp.UseLoadingSlider)
                 {

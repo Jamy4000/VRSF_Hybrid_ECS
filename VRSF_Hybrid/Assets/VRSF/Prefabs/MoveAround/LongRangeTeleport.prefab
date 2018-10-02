@@ -138,9 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeleportLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  TeleportLayer: -1
   ExclusionLayer: -1
   CanTeleport: 0
 --- !u!114 &114154512620818030
@@ -170,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractionType: 2
   UseGazeButton: 0
-  ActionButton: 4
+  ActionButton: 2
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
@@ -212,26 +210,18 @@ MonoBehaviour:
   CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
-  ButtonHand: 0
+  ButtonHand: 2
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
 --- !u!114 &114339787960555156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 1
+  RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
 --- !u!114 &114773252836245178

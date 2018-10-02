@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 2
+  RayOrigin: 1
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
 --- !u!114 &114803417565217368
@@ -280,7 +280,7 @@ MonoBehaviour:
   CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
-  ButtonHand: 0
+  ButtonHand: 1
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
   UntouchedEventWasRaised: 0
@@ -290,17 +290,8 @@ MonoBehaviour:
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
 --- !u!120 &120132280243475242
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -2123,26 +2123,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114589644836912424, guid: 74808ea55b8828f4b823022e1f44f905,
-        type: 2}
-      propertyPath: RayOrigin
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237024141291514, guid: 74808ea55b8828f4b823022e1f44f905,
-        type: 2}
-      propertyPath: ParametersAreInvalid
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237024141291514, guid: 74808ea55b8828f4b823022e1f44f905,
-        type: 2}
-      propertyPath: ButtonHand
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114237024141291514, guid: 74808ea55b8828f4b823022e1f44f905,
-        type: 2}
-      propertyPath: ActionButton
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74808ea55b8828f4b823022e1f44f905, type: 2}
   m_IsPrefabAsset: 0
@@ -3721,16 +3701,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4383563707627440, guid: 0fefc2dbb76f05748a8b3ec1d6dfa5ab, type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114886083428352990, guid: 0fefc2dbb76f05748a8b3ec1d6dfa5ab,
-        type: 2}
-      propertyPath: ButtonHand
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114886083428352990, guid: 0fefc2dbb76f05748a8b3ec1d6dfa5ab,
-        type: 2}
-      propertyPath: ActionButton
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -9570,16 +9540,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114600346742736060, guid: f24420c84e04f6c4ebed746558ef8da5,
-        type: 2}
-      propertyPath: RayOrigin
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114942462804729544, guid: f24420c84e04f6c4ebed746558ef8da5,
-        type: 2}
-      propertyPath: ButtonHand
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f24420c84e04f6c4ebed746558ef8da5, type: 2}
   m_IsPrefabAsset: 0
@@ -13323,31 +13283,6 @@ Prefab:
     - target: {fileID: 4566885965485188, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114103092957932556, guid: c1476dbd04b0c6a46a5025b06fb1403c,
-        type: 2}
-      propertyPath: ButtonHand
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114103092957932556, guid: c1476dbd04b0c6a46a5025b06fb1403c,
-        type: 2}
-      propertyPath: ActionButton
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114103092957932556, guid: c1476dbd04b0c6a46a5025b06fb1403c,
-        type: 2}
-      propertyPath: InteractionType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114103092957932556, guid: c1476dbd04b0c6a46a5025b06fb1403c,
-        type: 2}
-      propertyPath: ParametersAreInvalid
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114103092957932556, guid: c1476dbd04b0c6a46a5025b06fb1403c,
-        type: 2}
-      propertyPath: RightTouchThumbPosition
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1476dbd04b0c6a46a5025b06fb1403c, type: 2}

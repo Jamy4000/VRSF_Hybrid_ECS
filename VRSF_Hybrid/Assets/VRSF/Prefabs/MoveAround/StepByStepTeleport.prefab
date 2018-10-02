@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InteractionType: 2
   UseGazeButton: 0
-  ActionButton: 32768
+  ActionButton: 1
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
-  ButtonHand: 0
+  ButtonHand: 2
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
   UntouchedEventWasRaised: 0
@@ -161,14 +161,5 @@ MonoBehaviour:
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
