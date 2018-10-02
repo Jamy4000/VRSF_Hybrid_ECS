@@ -25,8 +25,8 @@ namespace VRSF.UI
         #region MONOBEHAVIOUR_METHODS
         private void Start()
         {
-            Button[] buttons = GetComponentsInChildren<Button>();
-            foreach (Button button in buttons)
+            VRButton[] buttons = GetComponentsInChildren<VRButton>();
+            foreach (VRButton button in buttons)
             {
                 button.onClick.AddListener(delegate { ClickKey(button.name); });
             }
