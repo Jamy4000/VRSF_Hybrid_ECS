@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Utils.Components.ButtonActionChoser;
 
@@ -26,6 +27,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 {
                     _currentComp = e.ButtonComponents;
 
+                    Debug.Log("e.ButtonComponents.IsClicking " + e.ButtonComponents.IsClicking + " of type " + GetType());
+                    Debug.Log("e.ButtonComponents.IsTouching " + e.ButtonComponents.IsTouching + " of type " + GetType());
+
                     // If we use the touch event and the user is touching on the button
                     if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value)
                     {
@@ -34,6 +38,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     // If we use the click event and the user is clicking on the button
                     if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value)
                     {
+                        Debug.Log("StartActionIsClicking");
                         StartActionIsClicking();
                     }
                 }

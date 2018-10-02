@@ -1504,6 +1504,36 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 224749194821053876, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224749194821053876, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224749194821053876, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224749194821053876, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224749194821053876, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224749194821053876, guid: 5b18356a7aab25f48b7af3a507ce7408,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b18356a7aab25f48b7af3a507ce7408, type: 2}
   m_IsPrefabAsset: 0
@@ -4519,6 +4549,11 @@ Prefab:
         type: 2}
       propertyPath: LeftTouchThumbPosition
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114014392373344070, guid: 052c1ddb692c5ea40a598fe3cae4e668,
+        type: 2}
+      propertyPath: UseAccelerationEffect
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 052c1ddb692c5ea40a598fe3cae4e668, type: 2}

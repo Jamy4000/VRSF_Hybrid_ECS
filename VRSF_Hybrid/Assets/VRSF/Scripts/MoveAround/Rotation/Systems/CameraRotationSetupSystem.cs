@@ -34,7 +34,7 @@ namespace VRSF.MoveAround.Systems
         {
             base.OnDestroyManager();
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -53,17 +53,13 @@ namespace VRSF.MoveAround.Systems
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonStartClicking.AddListener(delegate { StartRotating(e.RotationComp); });
                 e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { StartRotating(e.RotationComp); });
-
                 e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { StopRotating(e.RotationComp); });
             }
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonStartTouching.AddListener(delegate { StartRotating(e.RotationComp); });
                 e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { StartRotating(e.RotationComp); });
-
                 e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { StopRotating(e.RotationComp); });
             }
         }
@@ -74,14 +70,12 @@ namespace VRSF.MoveAround.Systems
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonStartClicking.RemoveAllListeners();
                 e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
                 e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonStartTouching.RemoveAllListeners();
                 e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
                 e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
             }
@@ -97,6 +91,7 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StartRotating(CameraRotationComponent comp)
         {
+            Debug.Log("StartRotating");
             comp.IsRotating = true;
         }
 
@@ -105,6 +100,7 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StopRotating(CameraRotationComponent comp)
         {
+            Debug.Log("StopRotating");
             comp.IsRotating = false;
             comp.HasRotated = false;
         }
