@@ -1,13 +1,12 @@
-﻿
-using ScriptableFramework.Util;
+﻿using ScriptableFramework.Util;
 using ScriptableFramework.Variables;
 using VRSF.Controllers;
-using VRSF.Gaze;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using VRSF.Interactions;
 using VRSF.Inputs;
+using VRSF.Utils.Events;
 
 namespace VRSF.UI
 {
@@ -18,9 +17,6 @@ namespace VRSF.UI
     public class VRScrollRect : ScrollRect
     {
         #region PUBLIC_VARIABLES
-        [Header("The GameObject containing the Game Event Listeners, set at runtime")]
-        [HideInInspector] public GameObject GameEventListenersContainer;
-
         [Header("The Direction of this ScrollRect.")]
         [Tooltip("Will be override by the Scrollbar direction if there's at least one.")]
         [SerializeField] public EUIDirection Direction = EUIDirection.TopToBottom;
@@ -31,13 +27,6 @@ namespace VRSF.UI
 
 
         #region PRIVATE_VARIABLES
-        // The Parameters Containers for the COntrollers and the Gaze
-        // If UseController is set at false, this script will be disable as we need to click on a Input Field
-        private ControllersParametersVariable _controllersParameter;
-        private GazeParametersVariable _gazeParameter;
-
-        // The Interaction and Inputs Variable and GameEvents Container
-        private InteractionVariableContainer _interactionContainer;
         private InputVariableContainer _inputContainer;
 
         private BoolVariable _rightTriggerDown;
@@ -47,52 +36,44 @@ namespace VRSF.UI
         Transform _MaxPosBar;
         
         EHand _HandHoldingHandle = EHand.NONE;
-
-        GameObject _GameEventListenersContainer;
-
-        Dictionary<string, GameEventListenerTransform> _ListenersDictionary;
-        Dictionary<string, GameEventTransform> _EventsDictionary;
+        
         Dictionary<string, RaycastHitVariable> _RaycastHitDictionary;
 
         IUISetupScrollable _ScrollableSetup;
-        IUISetupClickOnly _ClickOnlySetup;
-        VRUISetup _UISetup;
-
-        VRUISetup.CheckObjectDelegate _CheckObject;
 
         private bool _boxColliderSetup;
         #endregion
 
 
         #region MONOBEHAVIOUR_METHODS
-#if UNITY_EDITOR
-        protected override void OnValidate()
+        protected override void OnEnable()
         {
-            base.OnValidate();
-            MakeBasicSetup();
-        }
-#endif
+            base.OnEnable();
 
-        protected override void Start()
-        {
-            base.Start();
             if (Application.isPlaying)
             {
-                MakeBasicSetup();
                 SetupUIElement();
+
+                // We setup the BoxCollider size and center
+                StartCoroutine(SetupBoxCollider());
             }
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            ObjectWasClickedEvent.UnregisterListener(CheckRectClick);
         }
 
         private void Update()
         {
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
-            {
-                StartCoroutine(SetupBoxCollider());
-                return;
-            }
-
             if (Application.isPlaying)
             {
+                if (!_boxColliderSetup)
+                {
+                    return;
+                }
+
                 CheckClickDown();
 
                 if (_HandHoldingHandle != EHand.NONE)
@@ -105,31 +86,6 @@ namespace VRSF.UI
                 }
             }
         }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-
-            try
-            {
-                if (this.enabled)
-                {
-                    _ListenersDictionary = _UISetup.EndApp(_ListenersDictionary, _EventsDictionary);
-                }
-            }
-            catch
-            {
-                // Listeners not set in the scene yet.
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            if (this.enabled)
-            {
-                _ListenersDictionary = _UISetup.EndApp(_ListenersDictionary, _EventsDictionary);
-            }
-        }
         #endregion
 
 
@@ -139,15 +95,15 @@ namespace VRSF.UI
 
 
         #region PRIVATE_METHODS
-        private void MakeBasicSetup()
+        private void SetupUIElement()
         {
-            // We initialize the _ListenersDictionary
-            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
-            {
-                { "Right", null },
-                { "Left", null },
-                { "Gaze", null },
-            };
+            _inputContainer = InputVariableContainer.Instance;
+
+            _rightTriggerDown = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
+            _leftTriggerDown = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
+
+            // We setup the references to the ScrollRect elements
+            SetScrollRectReferences();
 
             // We override the directio selected in the inspector by the scrollbar direction if we use one
             // The vertical direction will always have top priority on the horizontal direction
@@ -160,64 +116,25 @@ namespace VRSF.UI
                 Direction = UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(horizontalScrollbar.direction);
             }
 
-            // We create new object to setup the button references; listeners and GameEventListeners
-            _CheckObject = CheckRectClick;
-            _UISetup = new VRUISetup(_CheckObject);
-            _ClickOnlySetup = new VRScrollbarSetup();
             _ScrollableSetup = new VRUIScrollableSetup(Direction);
 
-            // Check if the Listeners GameObject is set correctly. If not, create the child
-            if (!_ClickOnlySetup.CheckGameEventListenerChild(ref _GameEventListenersContainer, ref _ListenersDictionary, transform))
-                _UISetup.CreateGameEventListenerChild(ref _GameEventListenersContainer, transform);
-
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
-            {
-                // We setup the BoxCollider size and center
-                StartCoroutine(SetupBoxCollider());
-            }
-
-            // We setup the references to the ScrollRect elements
-            SetScrollRectReferences();
-        }
-
-        private void SetupUIElement()
-        {
-            _controllersParameter = ControllersParametersVariable.Instance;
-            _gazeParameter = GazeParametersVariable.Instance;
-
-            _interactionContainer = InteractionVariableContainer.Instance;
-            _inputContainer = InputVariableContainer.Instance;
-
-            _rightTriggerDown = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
-            _leftTriggerDown = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
-
             // If the controllers are not used, we cannot click on a Scroll Bar
-            if (!_controllersParameter.UseControllers)
+            if (!ControllersParametersVariable.Instance.UseControllers)
             {
                 Debug.Log("VRSF : You won't be able to use the VR ScrollRect if you're not using the Controllers. To change that,\n" +
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
-            // We initialize the _EventsDictionary
-            _EventsDictionary = new Dictionary<string, GameEventTransform>
-            {
-                { "Right", _interactionContainer.RightObjectWasClicked },
-                { "Left", _interactionContainer.LeftObjectWasClicked },
-                { "Gaze", _interactionContainer.GazeObjectWasClicked },
-            };
-
+            ObjectWasClickedEvent.RegisterListener(CheckRectClick);
+            
             // We initialize the _RaycastHitDictionary
             _RaycastHitDictionary = new Dictionary<string, RaycastHitVariable>
             {
-                { "Right", _interactionContainer.RightHit },
-                { "Left", _interactionContainer.LeftHit },
-                { "Gaze", _interactionContainer.GazeHit },
+                { "Right", InteractionVariableContainer.Instance.RightHit },
+                { "Left", InteractionVariableContainer.Instance.LeftHit },
+                { "Gaze", InteractionVariableContainer.Instance.GazeHit },
             };
-
-            // We setup the ListenersDictionary
-            _ListenersDictionary = _UISetup.CheckGameEventListenersPresence(_GameEventListenersContainer, _ListenersDictionary);
-            _ListenersDictionary = _UISetup.SetGameEventListeners(_ListenersDictionary, _EventsDictionary, _gazeParameter.UseGaze);
-
+            
             // We setup the Min and Max pos transform
             _ScrollableSetup.CheckMinMaxGameObjects(transform, Direction);
             _ScrollableSetup.SetMinMaxPos(ref _MinPosBar, ref _MaxPosBar, GetComponent<Transform>());
@@ -226,36 +143,12 @@ namespace VRSF.UI
         /// <summary>
         /// Event called when the user is clicking on something
         /// </summary>
-        /// <param name="transformValue">The object that was clicked</param>
-        void CheckRectClick(Transform transformValue)
+        /// <param name="clickEvent">The event raised when something is clicked</param>
+        void CheckRectClick(ObjectWasClickedEvent clickEvent)
         {
-            if (transformValue == transform && _HandHoldingHandle == EHand.NONE)
+            if (clickEvent.ObjectClicked == transform && _HandHoldingHandle == EHand.NONE)
             {
-                CheckHandClickingScrollRect();
-            }
-        }
-
-        /// <summary>
-        /// Check which hand is holding clicking on the scrollbar
-        /// </summary>
-        private void CheckHandClickingScrollRect()
-        {
-            // Next if statements are to check which click was used on the slider
-            if (_rightTriggerDown.Value && _ListenersDictionary["Right"].Value == transform)
-            {
-                _HandHoldingHandle = EHand.RIGHT;
-            }
-            else if (_leftTriggerDown.Value && _ListenersDictionary["Left"].Value == transform)
-            {
-                _HandHoldingHandle = EHand.LEFT;
-            }
-            else if (_gazeParameter.UseGaze && _inputContainer.GazeIsCliking.Value && _ListenersDictionary["Gaze"].Value == transform)
-            {
-                _HandHoldingHandle = EHand.GAZE;
-            }
-            else
-            {
-                Debug.LogError("Couldn't find reference to the Click Listener on the slider.");
+                _HandHoldingHandle = clickEvent.HandClicking;
             }
         }
 
@@ -285,11 +178,11 @@ namespace VRSF.UI
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
             yield return new WaitForEndOfFrame();
-
+            
             if (SetColliderAuto)
             {
                 BoxCollider box = GetComponent<BoxCollider>();
-                box = _UISetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
+                box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
                 box.center = Vector3.zero;
 
                 if (vertical)

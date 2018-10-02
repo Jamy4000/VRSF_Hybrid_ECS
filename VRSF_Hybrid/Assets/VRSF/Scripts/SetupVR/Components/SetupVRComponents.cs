@@ -2,6 +2,7 @@
 
 namespace VRSF.Utils.Components
 {
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class SetupVRComponents : MonoBehaviour
     {
         #region SDKS_PREFABS

@@ -63,7 +63,7 @@ namespace VRSF.UI.Editor
             EditorGUILayout.Space();
 
             vrInputField.UseVRKeyboard = EditorGUILayout.ToggleLeft("Use VRKeyboard", vrInputField.UseVRKeyboard);
-            vrInputField.vrKeyboard = EditorGUILayout.ObjectField("VRKeyboard in scene", vrInputField.vrKeyboard, typeof(VRKeyboard), true) as VRKeyboard;
+            vrInputField.VRKeyboard = EditorGUILayout.ObjectField("VRKeyboard in scene", vrInputField.VRKeyboard, typeof(VRKeyboard), true) as VRKeyboard;
 
             serializedObject.Update();
 

@@ -28,7 +28,6 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         #region PRIVATE_VARIABLES
-        private Filter e;
         private ControllersParametersVariable _controllersParameters;
         #endregion PRIVATE_VARIABLES
 

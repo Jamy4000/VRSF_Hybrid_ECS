@@ -8,7 +8,6 @@ using VRSF.Inputs;
 using VRSF.Inputs.Events;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Events;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
@@ -69,6 +68,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
+
+            ButtonClickEvent.UnregisterListener(StartActionDown);
+            ButtonUnclickEvent.UnregisterListener(StartActionUp);
+
+            ButtonTouchEvent.UnregisterListener(StartActionTouched);
+            ButtonUntouchEvent.UnregisterListener(StartActionUntouched);
+
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion
@@ -261,12 +267,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user click the specified button
         /// </summary>
-        private void StartActionDown(ButtonInteractingEvent eventButton)
+        private void StartActionDown(ButtonClickEvent eventButton)
         {
             foreach (var entity in GetEntities<Filter>())
             {
                 // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
+                if (entity.ButtonComponents.ButtonHand == eventButton.HandInteracting && entity.ButtonComponents.ActionButton == eventButton.ButtonInteracting && entity.ButtonComponents.CanBeUsed)
                 {
                     // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
                     if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.ClickThreshold > 0.0f)
@@ -295,12 +301,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user release the specified button
         /// </summary>
-        private void StartActionUp(ButtonInteractingEvent eventButton)
+        private void StartActionUp(ButtonUnclickEvent eventButton)
         {
             foreach (var entity in GetEntities<Filter>())
             {
                 // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
+                if (entity.ButtonComponents.ButtonHand == eventButton.HandInteracting && entity.ButtonComponents.ActionButton == eventButton.ButtonInteracting && entity.ButtonComponents.CanBeUsed)
                 {
                     // If we don't use the Thumb
                     if (entity.ButtonComponents.ThumbPos == null)
@@ -321,12 +327,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user start touching the specified button
         /// </summary>
-        private void StartActionTouched(ButtonInteractingEvent eventButton)
+        private void StartActionTouched(ButtonTouchEvent eventButton)
         {
             foreach (var entity in GetEntities<Filter>())
             {
                 // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
+                if (entity.ButtonComponents.ButtonHand == eventButton.HandInteracting && entity.ButtonComponents.ActionButton == eventButton.ButtonInteracting && entity.ButtonComponents.CanBeUsed)
                 {
                     // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
                     if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.TouchThreshold > 0.0f)
@@ -355,12 +361,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user stop touching the specified button
         /// </summary>
-        private void StartActionUntouched(ButtonInteractingEvent eventButton)
+        private void StartActionUntouched(ButtonUntouchEvent eventButton)
         {
             foreach (var entity in GetEntities<Filter>())
             {
                 // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
+                if (entity.ButtonComponents.ButtonHand == eventButton.HandInteracting && entity.ButtonComponents.ActionButton == eventButton.ButtonInteracting && entity.ButtonComponents.CanBeUsed)
                 {
                     // If we don't use the Thumb
                     if (entity.ButtonComponents.ThumbPos == null)
@@ -375,12 +381,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                         entity.ButtonComponents.OnButtonStopTouching.Invoke();
                 }
             }
-        }
-
-
-        private bool CheckButtonInteracting(ButtonInteractingEvent eventButton, ButtonActionChoserComponents comp)
-        {
-            return comp.ButtonHand == eventButton.HandInteracting && comp.ActionButton == eventButton.ButtonInteracting;
         }
         #endregion Delegates_OnButtonAction
 
