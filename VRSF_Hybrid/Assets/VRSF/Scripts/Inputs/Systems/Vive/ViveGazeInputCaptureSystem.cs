@@ -64,24 +64,24 @@ namespace VRSF.Inputs.Systems.Vive
             if (!_inputContainer.GazeIsCliking.Value && viveInputCapture.GazeController.GetPressDown(Gaze.GazeInteractionOpenVR.Dictionarry[_gazeParameters.GazeButtonOpenVR]))
             {
                 _inputContainer.GazeIsCliking.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonOpenVR, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.GAZE, _gazeParameters.GazeButtonOpenVR);
             }
             else if (_inputContainer.GazeIsCliking.Value && viveInputCapture.GazeController.GetPressUp(Gaze.GazeInteractionOpenVR.Dictionarry[_gazeParameters.GazeButtonOpenVR]))
             {
                 _inputContainer.GazeIsCliking.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonOpenVR, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.GAZE, _gazeParameters.GazeButtonOpenVR);
             }
 
             // Checking Touch event
             if (!_inputContainer.GazeIsTouching.Value && viveInputCapture.GazeController.GetTouchDown(Gaze.GazeInteractionOpenVR.Dictionarry[_gazeParameters.GazeButtonOpenVR]))
             {
                 _inputContainer.GazeIsTouching.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonOpenVR, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.GAZE, _gazeParameters.GazeButtonOpenVR);
             }
             else if (_inputContainer.GazeIsTouching.Value && viveInputCapture.GazeController.GetTouchUp(Gaze.GazeInteractionOpenVR.Dictionarry[_gazeParameters.GazeButtonOpenVR]))
             {
                 _inputContainer.GazeIsTouching.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonOpenVR, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.GAZE, _gazeParameters.GazeButtonOpenVR);
             }
         }
 
@@ -95,18 +95,18 @@ namespace VRSF.Inputs.Systems.Vive
             try
             {
                 // We check the Gaze Click Button
-                if (_gazeParameters.GazeButtonOpenVR == EControllersInput.NONE)
+                if (_gazeParameters.GazeButtonOpenVR == EControllersButton.NONE)
                 {
                     gazeInputCapture.CheckGazeInteractions = false;
                 }
-                else if (_gazeParameters.GazeButtonOpenVR == EControllersInput.WHEEL_BUTTON)
+                else if (_gazeParameters.GazeButtonOpenVR == EControllersButton.WHEEL_BUTTON)
                 {
                     gazeInputCapture.CheckGazeInteractions = false;
                     Debug.LogError("VRSF : Cannot check the Gaze Click with the Wheel Button of the mouse for the Vive.");
                 }
-                else if (_gazeParameters.GazeButtonOpenVR == EControllersInput.A_BUTTON || _gazeParameters.GazeButtonOpenVR == EControllersInput.B_BUTTON ||
-                         _gazeParameters.GazeButtonOpenVR == EControllersInput.X_BUTTON || _gazeParameters.GazeButtonOpenVR == EControllersInput.Y_BUTTON ||
-                         _gazeParameters.GazeButtonOpenVR == EControllersInput.THUMBREST)
+                else if (_gazeParameters.GazeButtonOpenVR == EControllersButton.A_BUTTON || _gazeParameters.GazeButtonOpenVR == EControllersButton.B_BUTTON ||
+                         _gazeParameters.GazeButtonOpenVR == EControllersButton.X_BUTTON || _gazeParameters.GazeButtonOpenVR == EControllersButton.Y_BUTTON ||
+                         _gazeParameters.GazeButtonOpenVR == EControllersButton.THUMBREST)
                 {
                     gazeInputCapture.CheckGazeInteractions = false;
                     Debug.LogError("VRSF : Cannot check the Gaze Click with the " + _gazeParameters.GazeButtonOpenVR + " button for the Vive.");

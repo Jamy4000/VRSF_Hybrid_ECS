@@ -4,7 +4,7 @@ namespace VRSF.Inputs.Events
 {
     public class ButtonTouchEvent : ButtonInteractingEvent
     {
-        public ButtonTouchEvent(EHand handInteracting, EControllersInput buttonInteracting) : base(handInteracting, buttonInteracting)
+        public ButtonTouchEvent(EHand handInteracting, EControllersButton buttonInteracting) : base(handInteracting, buttonInteracting)
         {
         }
     }

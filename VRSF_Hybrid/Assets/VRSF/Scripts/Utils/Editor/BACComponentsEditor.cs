@@ -96,7 +96,7 @@ namespace VRSF.Utils.Editor
                 EditorGUILayout.Space();
 
                 EditorGUILayout.LabelField("The button you wanna use for this feature", EditorStyles.miniBoldLabel);
-                _buttonActionChoser.ActionButton = (EControllersInput)EditorGUILayout.EnumPopup("Button to use", _buttonActionChoser.ActionButton);
+                _buttonActionChoser.ActionButton = (EControllersButton)EditorGUILayout.EnumPopup("Button to use", _buttonActionChoser.ActionButton);
 
                 EditorGUILayout.Space();
 
@@ -118,7 +118,7 @@ namespace VRSF.Utils.Editor
 
                     default:
                         _buttonActionChoser.ParametersAreInvalid = true;
-                        _buttonActionChoser.ActionButton = EControllersInput.NONE;
+                        _buttonActionChoser.ActionButton = EControllersButton.NONE;
                         EditorGUILayout.HelpBox("Please chose a valid Interaction Type.", MessageType.Error);
                         break;
                 }
@@ -137,34 +137,34 @@ namespace VRSF.Utils.Editor
         {
             switch (_buttonActionChoser.ActionButton)
             {
-                case EControllersInput.A_BUTTON:
-                case EControllersInput.B_BUTTON:
-                case EControllersInput.X_BUTTON:
-                case EControllersInput.Y_BUTTON:
-                case EControllersInput.LEFT_THUMBREST:
-                case EControllersInput.RIGHT_THUMBREST:
+                case EControllersButton.A_BUTTON:
+                case EControllersButton.B_BUTTON:
+                case EControllersButton.X_BUTTON:
+                case EControllersButton.Y_BUTTON:
+                case EControllersButton.LEFT_THUMBREST:
+                case EControllersButton.RIGHT_THUMBREST:
                     DisplayOculusWarning();
                     _buttonActionChoser.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersInput.LEFT_TRIGGER:
-                case EControllersInput.RIGHT_TRIGGER:
+                case EControllersButton.LEFT_TRIGGER:
+                case EControllersButton.RIGHT_TRIGGER:
                     _buttonActionChoser.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersInput.RIGHT_THUMBSTICK:
-                    DisplayThumbPosition(EControllerInteractionType.TOUCH, EControllersInput.RIGHT_THUMBSTICK);
+                case EControllersButton.RIGHT_THUMBSTICK:
+                    DisplayThumbPosition(EControllerInteractionType.TOUCH, EControllersButton.RIGHT_THUMBSTICK);
                     break;
 
-                case EControllersInput.LEFT_THUMBSTICK:
-                    DisplayThumbPosition(EControllerInteractionType.TOUCH, EControllersInput.LEFT_THUMBSTICK);
+                case EControllersButton.LEFT_THUMBSTICK:
+                    DisplayThumbPosition(EControllerInteractionType.TOUCH, EControllersButton.LEFT_THUMBSTICK);
                     break;
 
-                case EControllersInput.NONE:
+                case EControllersButton.NONE:
                     _buttonActionChoser.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
@@ -184,47 +184,47 @@ namespace VRSF.Utils.Editor
         {
             switch (_buttonActionChoser.ActionButton)
             {
-                case EControllersInput.A_BUTTON:
-                case EControllersInput.B_BUTTON:
-                case EControllersInput.X_BUTTON:
-                case EControllersInput.Y_BUTTON:
+                case EControllersButton.A_BUTTON:
+                case EControllersButton.B_BUTTON:
+                case EControllersButton.X_BUTTON:
+                case EControllersButton.Y_BUTTON:
                     DisplayOculusWarning();
                     _buttonActionChoser.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersInput.RIGHT_MENU:
+                case EControllersButton.RIGHT_MENU:
                     DisplayViveWarning();
                     _buttonActionChoser.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersInput.WHEEL_BUTTON:
+                case EControllersButton.WHEEL_BUTTON:
                     DisplaySimulatorWarning();
                     _buttonActionChoser.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersInput.RIGHT_THUMBREST:
-                case EControllersInput.LEFT_THUMBREST:
+                case EControllersButton.RIGHT_THUMBREST:
+                case EControllersButton.LEFT_THUMBREST:
                     DisplayClickError();
                     _buttonActionChoser.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersInput.RIGHT_THUMBSTICK:
-                    DisplayThumbPosition(EControllerInteractionType.CLICK, EControllersInput.RIGHT_THUMBSTICK);
+                case EControllersButton.RIGHT_THUMBSTICK:
+                    DisplayThumbPosition(EControllerInteractionType.CLICK, EControllersButton.RIGHT_THUMBSTICK);
                     break;
 
-                case EControllersInput.LEFT_THUMBSTICK:
-                    DisplayThumbPosition(EControllerInteractionType.CLICK, EControllersInput.LEFT_THUMBSTICK);
+                case EControllersButton.LEFT_THUMBSTICK:
+                    DisplayThumbPosition(EControllerInteractionType.CLICK, EControllersButton.LEFT_THUMBSTICK);
                     break;
 
-                case EControllersInput.NONE:
+                case EControllersButton.NONE:
                     _buttonActionChoser.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
@@ -270,20 +270,20 @@ namespace VRSF.Utils.Editor
         }
 
 
-        private void DisplayThumbPosition(EControllerInteractionType interactionType, EControllersInput inputSide)
+        private void DisplayThumbPosition(EControllerInteractionType interactionType, EControllersButton inputSide)
         {
             switch (interactionType)
             {
                 case EControllerInteractionType.CLICK:
                     switch (inputSide)
                     {
-                        case EControllersInput.LEFT_THUMBSTICK:
+                        case EControllersButton.LEFT_THUMBSTICK:
                             EditorGUILayout.LabelField("Left Thumb Position to use for this feature", EditorStyles.miniBoldLabel);
                             _buttonActionChoser.LeftClickThumbPosition = (EThumbPosition)EditorGUILayout.EnumFlagsField("Thumb Click Position", _buttonActionChoser.LeftClickThumbPosition);
                             _leftThumbPosIsShown = true;
                             break;
 
-                        case EControllersInput.RIGHT_THUMBSTICK:
+                        case EControllersButton.RIGHT_THUMBSTICK:
                             EditorGUILayout.LabelField("Right Thumb Position to use for this feature", EditorStyles.miniBoldLabel);
                             _buttonActionChoser.RightClickThumbPosition = (EThumbPosition)EditorGUILayout.EnumFlagsField("Thumb Click Position", _buttonActionChoser.RightClickThumbPosition);
                             _rightThumbPosIsShown = true;
@@ -295,13 +295,13 @@ namespace VRSF.Utils.Editor
                 case EControllerInteractionType.TOUCH:
                     switch (inputSide)
                     {
-                        case EControllersInput.LEFT_THUMBSTICK:
+                        case EControllersButton.LEFT_THUMBSTICK:
                             EditorGUILayout.LabelField("Left Thumb Position to use for this feature", EditorStyles.miniBoldLabel);
                             _buttonActionChoser.LeftTouchThumbPosition = (EThumbPosition)EditorGUILayout.EnumFlagsField("Thumb Touch Position", _buttonActionChoser.LeftTouchThumbPosition);
                             _leftThumbPosIsShown = true;
                             break;
 
-                        case EControllersInput.RIGHT_THUMBSTICK:
+                        case EControllersButton.RIGHT_THUMBSTICK:
                             EditorGUILayout.LabelField("Right Thumb Position to use for this feature", EditorStyles.miniBoldLabel);
                             _buttonActionChoser.RightTouchThumbPosition = (EThumbPosition)EditorGUILayout.EnumFlagsField("Thumb Touch Position", _buttonActionChoser.RightTouchThumbPosition);
                             _rightThumbPosIsShown = true;

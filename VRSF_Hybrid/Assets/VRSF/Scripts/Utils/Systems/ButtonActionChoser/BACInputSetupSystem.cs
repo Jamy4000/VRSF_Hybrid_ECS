@@ -115,7 +115,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         private void CheckButtonHand()
         {
-            EControllersInput gazeClick = GetGazeClick();
+            EControllersButton gazeClick = GetGazeClick();
 
             // If we use the Gaze Button but the Controllers are inactive
             if (_currentEntitiy.ButtonComponents.UseGazeButton && !_controllersParameters.UseControllers)
@@ -126,7 +126,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     "Disabling the script.");
             }
             // If we use the Gaze Button but the chosen gaze button is None
-            else if (_currentEntitiy.ButtonComponents.UseGazeButton && gazeClick == EControllersInput.NONE)
+            else if (_currentEntitiy.ButtonComponents.UseGazeButton && gazeClick == EControllersButton.NONE)
             {
                 _currentEntitiy.ButtonComponents.CanBeUsed = false;
                 throw new Exception("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
@@ -134,37 +134,40 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
 
             // if the Action Button is set to the Wheel Button (SIMULATOR SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.WHEEL_BUTTON)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.WHEEL_BUTTON)
             {
                 _currentEntitiy.ButtonComponents.IsUsingWheelButton = true;
             }
 
             // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.A_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.B_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.RIGHT_THUMBREST)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.A_BUTTON ||
+                     _currentEntitiy.ButtonComponents.ActionButton == EControllersButton.B_BUTTON ||
+                     (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.THUMBREST && 
+                      _currentEntitiy.ButtonComponents.ButtonHand == EHand.RIGHT))
             {
                 _currentEntitiy.ButtonComponents.IsUsingOculusButton = true;
                 _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
             }
             // if the Action Button is set to the X, Y or Left Thumbrest option (OCULUS SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.X_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.Y_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.LEFT_THUMBREST)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.X_BUTTON ||
+                     _currentEntitiy.ButtonComponents.ActionButton == EControllersButton.Y_BUTTON ||
+                     (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.THUMBREST &&
+                      _currentEntitiy.ButtonComponents.ButtonHand == EHand.LEFT))
             {
                 _currentEntitiy.ButtonComponents.IsUsingOculusButton = true;
                 _currentEntitiy.ButtonComponents.ButtonHand = EHand.LEFT;
             }
 
             // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.RIGHT_MENU)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.MENU &&
+                     _currentEntitiy.ButtonComponents.ButtonHand == EHand.RIGHT)
             {
                 _currentEntitiy.ButtonComponents.IsUsingViveButton = true;
                 _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
             }
 
             // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.BACK_BUTTON)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.BACK_BUTTON)
             {
                 _currentEntitiy.ButtonComponents.IsUsingPortableOVRButton = true;
                 _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
@@ -186,7 +189,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Check which button to use for the Gaze depending on the SDK Loaded
         /// </summary>
         /// <returns>The EControllersInput (button) to use for the Gaze Click</returns>
-        private EControllersInput GetGazeClick()
+        private EControllersButton GetGazeClick()
         {
             switch (VRSF_Components.DeviceLoaded)
             {
@@ -226,7 +229,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
             else
             {
-                return (_currentEntitiy.ButtonComponents.InteractionType != EControllerInteractionType.NONE && _currentEntitiy.ButtonComponents.ActionButton != EControllersInput.NONE);
+                return (_currentEntitiy.ButtonComponents.InteractionType != EControllerInteractionType.NONE && _currentEntitiy.ButtonComponents.ActionButton != EControllersButton.NONE);
             }
         }
 
@@ -237,7 +240,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <returns>true if everything is set correctly</returns>
         private bool CheckGivenThumbParameter()
         {
-            if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.LEFT_THUMBSTICK)
+            if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.THUMBSTICK &&
+                _currentEntitiy.ButtonComponents.ButtonHand == EHand.LEFT)
             {
                 if (_currentEntitiy.ButtonComponents.LeftClickThumbPosition == EThumbPosition.NONE &&
                     _currentEntitiy.ButtonComponents.LeftTouchThumbPosition == EThumbPosition.NONE)
@@ -248,7 +252,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
                 _currentEntitiy.ButtonComponents.ThumbPos = _inputsContainer.LeftThumbPosition;
             }
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.RIGHT_THUMBSTICK)
+            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersButton.THUMBSTICK &&
+                _currentEntitiy.ButtonComponents.ButtonHand == EHand.RIGHT)
             {
                 if (_currentEntitiy.ButtonComponents.RightClickThumbPosition == EThumbPosition.NONE &&
                     _currentEntitiy.ButtonComponents.RightTouchThumbPosition == EThumbPosition.NONE)

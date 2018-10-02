@@ -17,7 +17,7 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         [HideInInspector] public bool UseGazeButton = false;
 
         [Header("The button you wanna use for the Action")]
-        [HideInInspector] public EControllersInput ActionButton = EControllersInput.NONE;
+        [HideInInspector] public EControllersButton ActionButton = EControllersButton.NONE;
 
         [Header("The position of the Thumb to start this feature")]
         [HideInInspector] public EThumbPosition LeftTouchThumbPosition = EThumbPosition.NONE;

@@ -63,27 +63,27 @@ namespace VRSF.Inputs.Systems
         private void CheckGazeInputs()
         {
             // Checking Click event
-            if (!_inputContainer.GazeIsCliking.Value && OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            if (!_inputContainer.GazeIsCliking.Value && OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonRift, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
             }
-            else if (_inputContainer.GazeIsCliking.Value && !OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            else if (_inputContainer.GazeIsCliking.Value && !OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonRift, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
             }
 
             // Checking Touch event
-            if (!_inputContainer.GazeIsTouching.Value && OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            if (!_inputContainer.GazeIsTouching.Value && OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsTouching.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonRift, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
             }
-            else if (_inputContainer.GazeIsTouching.Value && !OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            else if (_inputContainer.GazeIsTouching.Value && !OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsTouching.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonRift, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
             }
         }
 
@@ -93,11 +93,11 @@ namespace VRSF.Inputs.Systems
         /// </summary>
         private void CheckGazeClickButton(RiftGazeInputCaptureComponent gazeInputCapture)
         {
-            if ((_gazeParameters.GazeButtonRift == EControllersInput.NONE) || !_gazeParameters.UseGaze)
+            if ((_gazeParameters.GazeButtonRift == EControllersButton.NONE) || !_gazeParameters.UseGaze)
             {
                 gazeInputCapture.CheckGazeInteractions = false;
             }
-            else if (_gazeParameters.GazeButtonRift == EControllersInput.WHEEL_BUTTON)
+            else if (_gazeParameters.GazeButtonRift == EControllersButton.WHEEL_BUTTON)
             {
                 gazeInputCapture.CheckGazeInteractions = false;
                 Debug.LogError("VRSF : Cannot check the Gaze Click with the Wheel Button of the mouse for the Oculus.");

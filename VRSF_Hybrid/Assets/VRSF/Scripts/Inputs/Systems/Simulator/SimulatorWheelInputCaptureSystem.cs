@@ -59,13 +59,13 @@ namespace VRSF.Inputs
             if (!_inputContainer.WheelIsClicking.Value && Input.GetKeyDown(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.WHEEL_BUTTON, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);
             }
             // If the boolVariable for the wheel is clicking is at true but the user is not pressing it
             else if (_inputContainer.WheelIsClicking.Value && Input.GetKeyUp(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.WHEEL_BUTTON, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);
             }
         }
         #endregion

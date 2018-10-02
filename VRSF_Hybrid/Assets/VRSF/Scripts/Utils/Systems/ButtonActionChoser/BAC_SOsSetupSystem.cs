@@ -212,14 +212,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             if ((_currentBACSetup.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                ButtonInteractingEvent.RegisterListener(StartActionDown);
-                ButtonInteractingEvent.RegisterListener(StartActionUp);
+                ButtonClickEvent.RegisterListener(StartActionDown);
+                ButtonUnclickEvent.RegisterListener(StartActionUp);
             }
 
             if ((_currentBACSetup.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                SetupEventListener(delegate { StartActionTouched(_currentBACSetup); });
-                SetupEventListener(delegate { StartActionUntouched(_currentBACSetup); });
+                ButtonTouchEvent.RegisterListener(StartActionTouched);
+                ButtonUntouchEvent.RegisterListener(StartActionUntouched);
             }
         }
 
@@ -247,14 +247,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         }
 
 
-        private bool CheckButtonInteracting(ButtonInteractingEvent eventButton, ButtonActionChoserComponents comp, EFingerMovement fingerMovement)
-        {
-            return ((comp.InteractionType & eventButton.InteractionType) == eventButton.InteractionType &&
-                    (comp.ButtonHand & eventButton.HandInteracting) == eventButton.HandInteracting &&
-                    (fingerMovement & eventButton.FingerMovement) == eventButton.FingerMovement);
-        }
-
-
         /// <summary>
         /// Reactivate the System when switching to another Scene.
         /// </summary>
@@ -273,29 +265,27 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (CheckButtonInteracting(eventButton, entity.ButtonComponents, EFingerMovement.DOWN))
+                // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
+                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
                 {
-                    if (entity.ButtonComponents.CanBeUsed)
+                    // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+                    if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.ClickThreshold > 0.0f)
                     {
-                        // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-                        if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.ClickThreshold > 0.0f)
-                        {
-                            entity.ButtonComponents.UnclickEventWasRaised = false;
+                        entity.ButtonComponents.UnclickEventWasRaised = false;
 
-                            switch (entity.ButtonComponents.ButtonHand)
-                            {
-                                case EHand.RIGHT:
-                                    HandleThumbPosition.CheckThumbPosition(entity.ButtonComponents.RightClickThumbPosition, entity.ButtonComponents.OnButtonStartClicking, entity.ButtonComponents.ClickThreshold, entity.ButtonComponents.ThumbPos.Value);
-                                    break;
-                                case EHand.LEFT:
-                                    HandleThumbPosition.CheckThumbPosition(entity.ButtonComponents.LeftClickThumbPosition, entity.ButtonComponents.OnButtonStartClicking, entity.ButtonComponents.ClickThreshold, entity.ButtonComponents.ThumbPos.Value);
-                                    break;
-                            }
-                        }
-                        else
+                        switch (entity.ButtonComponents.ButtonHand)
                         {
-                            entity.ButtonComponents.OnButtonStartClicking.Invoke();
+                            case EHand.RIGHT:
+                                HandleThumbPosition.CheckThumbPosition(entity.ButtonComponents.RightClickThumbPosition, entity.ButtonComponents.OnButtonStartClicking, entity.ButtonComponents.ClickThreshold, entity.ButtonComponents.ThumbPos.Value);
+                                break;
+                            case EHand.LEFT:
+                                HandleThumbPosition.CheckThumbPosition(entity.ButtonComponents.LeftClickThumbPosition, entity.ButtonComponents.OnButtonStartClicking, entity.ButtonComponents.ClickThreshold, entity.ButtonComponents.ThumbPos.Value);
+                                break;
                         }
+                    }
+                    else
+                    {
+                        entity.ButtonComponents.OnButtonStartClicking.Invoke();
                     }
                 }
             }
@@ -305,21 +295,25 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user release the specified button
         /// </summary>
-        private void StartActionUp(ButtonActionChoserComponents comp)
+        private void StartActionUp(ButtonInteractingEvent eventButton)
         {
-            if (comp.CanBeUsed)
+            foreach (var entity in GetEntities<Filter>())
             {
-                // If we don't use the Thumb
-                if (comp.ThumbPos == null)
-                    comp.OnButtonStopClicking.Invoke();
+                // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
+                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
+                {
+                    // If we don't use the Thumb
+                    if (entity.ButtonComponents.ThumbPos == null)
+                        entity.ButtonComponents.OnButtonStopClicking.Invoke();
 
-                // If we use the Thumb and the click action is beyond the threshold
-                else if (comp.ThumbPos != null && comp.ClickActionBeyondThreshold)
-                    comp.OnButtonStopClicking.Invoke();
+                    // If we use the Thumb and the click action is beyond the threshold
+                    else if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.ClickActionBeyondThreshold)
+                        entity.ButtonComponents.OnButtonStopClicking.Invoke();
 
-                // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (comp.ThumbPos != null && comp.ClickThreshold == 0.0f)
-                    comp.OnButtonStopClicking.Invoke();
+                    // If we use the Thumb and the ClickThreshold is equal to 0
+                    else if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.ClickThreshold == 0.0f)
+                        entity.ButtonComponents.OnButtonStopClicking.Invoke();
+                }
             }
         }
 
@@ -327,28 +321,32 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user start touching the specified button
         /// </summary>
-        private void StartActionTouched(ButtonActionChoserComponents comp)
+        private void StartActionTouched(ButtonInteractingEvent eventButton)
         {
-            if (comp.CanBeUsed)
+            foreach (var entity in GetEntities<Filter>())
             {
-                // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-                if (comp.ThumbPos != null && comp.TouchThreshold > 0.0f)
+                // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
+                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
                 {
-                    comp.UntouchedEventWasRaised = false;
-
-                    switch (comp.ButtonHand)
+                    // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+                    if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.TouchThreshold > 0.0f)
                     {
-                        case EHand.RIGHT:
-                            HandleThumbPosition.CheckThumbPosition(comp.RightTouchThumbPosition, comp.OnButtonStartTouching, comp.TouchThreshold, comp.ThumbPos.Value);
-                            break;
-                        case EHand.LEFT:
-                            HandleThumbPosition.CheckThumbPosition(comp.LeftTouchThumbPosition, comp.OnButtonStartTouching, comp.TouchThreshold, comp.ThumbPos.Value);
-                            break;
+                        entity.ButtonComponents.UntouchedEventWasRaised = false;
+
+                        switch (entity.ButtonComponents.ButtonHand)
+                        {
+                            case EHand.RIGHT:
+                                HandleThumbPosition.CheckThumbPosition(entity.ButtonComponents.RightTouchThumbPosition, entity.ButtonComponents.OnButtonStartTouching, entity.ButtonComponents.TouchThreshold, entity.ButtonComponents.ThumbPos.Value);
+                                break;
+                            case EHand.LEFT:
+                                HandleThumbPosition.CheckThumbPosition(entity.ButtonComponents.LeftTouchThumbPosition, entity.ButtonComponents.OnButtonStartTouching, entity.ButtonComponents.TouchThreshold, entity.ButtonComponents.ThumbPos.Value);
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    comp.OnButtonStartTouching.Invoke();
+                    else
+                    {
+                        entity.ButtonComponents.OnButtonStartTouching.Invoke();
+                    }
                 }
             }
         }
@@ -357,22 +355,32 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user stop touching the specified button
         /// </summary>
-        private void StartActionUntouched(ButtonActionChoserComponents comp)
+        private void StartActionUntouched(ButtonInteractingEvent eventButton)
         {
-            if (comp.CanBeUsed)
+            foreach (var entity in GetEntities<Filter>())
             {
-                // If we don't use the Thumb
-                if (comp.ThumbPos == null)
-                    comp.OnButtonStopTouching.Invoke();
+                // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
+                if (CheckButtonInteracting(eventButton, entity.ButtonComponents) && entity.ButtonComponents.CanBeUsed)
+                {
+                    // If we don't use the Thumb
+                    if (entity.ButtonComponents.ThumbPos == null)
+                        entity.ButtonComponents.OnButtonStopTouching.Invoke();
 
-                // If we use the Thumb and the click action is beyond the threshold
-                else if (comp.ThumbPos != null && comp.TouchActionBeyondThreshold)
-                    comp.OnButtonStopTouching.Invoke();
+                    // If we use the Thumb and the click action is beyond the threshold
+                    else if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.TouchActionBeyondThreshold)
+                        entity.ButtonComponents.OnButtonStopTouching.Invoke();
 
-                // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (comp.ThumbPos != null && comp.TouchThreshold == 0.0f)
-                    comp.OnButtonStopTouching.Invoke();
+                    // If we use the Thumb and the ClickThreshold is equal to 0
+                    else if (entity.ButtonComponents.ThumbPos != null && entity.ButtonComponents.TouchThreshold == 0.0f)
+                        entity.ButtonComponents.OnButtonStopTouching.Invoke();
+                }
             }
+        }
+
+
+        private bool CheckButtonInteracting(ButtonInteractingEvent eventButton, ButtonActionChoserComponents comp)
+        {
+            return comp.ButtonHand == eventButton.HandInteracting && comp.ActionButton == eventButton.ButtonInteracting;
         }
         #endregion Delegates_OnButtonAction
 

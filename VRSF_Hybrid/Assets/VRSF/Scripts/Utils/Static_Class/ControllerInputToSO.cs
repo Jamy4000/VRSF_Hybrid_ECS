@@ -3,32 +3,32 @@ using UnityEngine;
 
 public static class ControllerInputToSO
 {
-    public static string GetClickVariableFor(EControllersInput input)
+    public static string GetClickVariableFor(EControllersButton input)
     {
         switch (input)
         {
-            case (EControllersInput.TRIGGER):
+            case (EControllersButton.TRIGGER):
                 return "TriggerIsDown";
 
-            case (EControllersInput.GRIP):
+            case (EControllersButton.GRIP):
                 return "GripIsDown";
 
-            case (EControllersInput.MENU):
+            case (EControllersButton.MENU):
                 return "MenuIsDown";
 
-            case (EControllersInput.THUMBSTICK):
+            case (EControllersButton.THUMBSTICK):
                 return "ThumbIsDown";
 
-            case (EControllersInput.A_BUTTON):
+            case (EControllersButton.A_BUTTON):
                 return "AButtonIsDown";
-            case (EControllersInput.B_BUTTON):
+            case (EControllersButton.B_BUTTON):
                 return "BButtonIsDown";
-            case (EControllersInput.X_BUTTON):
+            case (EControllersButton.X_BUTTON):
                 return "XButtonIsDown";
-            case (EControllersInput.Y_BUTTON):
+            case (EControllersButton.Y_BUTTON):
                 return "YButtonIsDown";
 
-            case (EControllersInput.BACK_BUTTON):
+            case (EControllersButton.BACK_BUTTON):
                 return "BackButtonIsDown";
 
             default:
@@ -38,26 +38,26 @@ public static class ControllerInputToSO
     }
 
     
-    public static string GetTouchVariableFor(EControllersInput input)
+    public static string GetTouchVariableFor(EControllersButton input)
     {
         switch (input)
         {
-            case (EControllersInput.TRIGGER):
+            case (EControllersButton.TRIGGER):
                 return "TriggerIsTouching";
 
-            case (EControllersInput.THUMBSTICK):
+            case (EControllersButton.THUMBSTICK):
                 return "ThumbIsTouching";
 
-            case (EControllersInput.A_BUTTON):
+            case (EControllersButton.A_BUTTON):
                 return "AButtonIsTouching";
-            case (EControllersInput.B_BUTTON):
+            case (EControllersButton.B_BUTTON):
                 return "BButtonIsTouching";
-            case (EControllersInput.X_BUTTON):
+            case (EControllersButton.X_BUTTON):
                 return "XButtonIsTouching";
-            case (EControllersInput.Y_BUTTON):
+            case (EControllersButton.Y_BUTTON):
                 return "YButtonIsTouching";
 
-            case (EControllersInput.THUMBREST):
+            case (EControllersButton.THUMBREST):
                 return "ThumbrestIsTouching";
 
             default:

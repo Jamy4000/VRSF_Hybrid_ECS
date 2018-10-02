@@ -8,17 +8,17 @@ namespace VRSF.Inputs.Gaze
     public static class GazeInteractionOpenVR
     {
         //The dictionary with references to the button masks
-        public static Dictionary<EControllersInput, ulong> Dictionarry = new Dictionary<EControllersInput, ulong>()
+        public static Dictionary<EControllersButton, ulong> Dictionarry = new Dictionary<EControllersButton, ulong>()
         {
-            { EControllersInput.NONE, 0 },
+            { EControllersButton.NONE, 0 },
 
-            { EControllersInput.TRIGGER, SteamVR_Controller.ButtonMask.Trigger },
+            { EControllersButton.TRIGGER, SteamVR_Controller.ButtonMask.Trigger },
 
-            { EControllersInput.GRIP, SteamVR_Controller.ButtonMask.Grip },
+            { EControllersButton.GRIP, SteamVR_Controller.ButtonMask.Grip },
 
-            { EControllersInput.THUMBSTICK, SteamVR_Controller.ButtonMask.Touchpad },
+            { EControllersButton.THUMBSTICK, SteamVR_Controller.ButtonMask.Touchpad },
 
-            { EControllersInput.MENU, SteamVR_Controller.ButtonMask.ApplicationMenu }
+            { EControllersButton.MENU, SteamVR_Controller.ButtonMask.ApplicationMenu }
         };
     }
 }

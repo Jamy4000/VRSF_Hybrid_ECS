@@ -68,12 +68,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetMouseButtonDown(0))
             {
                 temp.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
             else if (temp.Value && Input.GetMouseButtonUp(0))
             {
                 temp.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.TRIGGER, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
             #endregion TRIGGERa
 
@@ -88,10 +88,10 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.up);
 
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.W))
@@ -99,10 +99,10 @@ namespace VRSF.Inputs
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
 
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -112,10 +112,10 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.down);
 
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.S))
@@ -123,10 +123,10 @@ namespace VRSF.Inputs
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
 
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -136,20 +136,20 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.right);
 
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.D))
             {
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
 
@@ -159,20 +159,20 @@ namespace VRSF.Inputs
                 temp.SetValue(true);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.left);
 
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(true);
             }
             else if (temp.Value && _inputContainer.LeftThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.A))
             {
                 temp.SetValue(false);
                 _inputContainer.LeftThumbPosition.SetValue(Vector2.zero);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.LEFT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
                 _inputContainer.LeftTouchBoolean.Get("ThumbIsTouching").SetValue(false);
             }
             #endregion THUMB
@@ -185,12 +185,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftShift))
             {
                 temp.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.GRIP, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.GRIP);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.LeftShift))
             {
                 temp.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.GRIP, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.GRIP);
             }
             #endregion GRIP
 
@@ -202,12 +202,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.LeftControl))
             {
                 temp.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.MENU, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.LeftControl))
             {
                 temp.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.MENU, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
 
@@ -221,12 +221,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.F))
             {
                 temp.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.X_BUTTON, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.F))
             {
                 temp.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.X_BUTTON, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
             #endregion X BUTTON
 
@@ -238,12 +238,12 @@ namespace VRSF.Inputs
             if (!temp.Value && Input.GetKeyDown(KeyCode.R))
             {
                 temp.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.Y_BUTTON, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
             else if (temp.Value && Input.GetKeyUp(KeyCode.R))
             {
                 temp.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.LEFT, EControllersInput.Y_BUTTON, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
             #endregion Y BUTTON
 

@@ -73,21 +73,21 @@ namespace VRSF.Inputs
         {
             // If the gaze boolVariable is at false but the gaze button is clicking
             if (!_inputContainer.GazeIsCliking.Value && 
-                Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonSimulator, EHand.GAZE)]))
+                Input.GetKeyDown(GazeInteractionSimulator.Dictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonSimulator, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(true);
                 _inputContainer.GazeIsTouching.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.DOWN);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.GAZE, _gazeParameters.GazeButtonSimulator);
+                new ButtonTouchEvent(EHand.GAZE, _gazeParameters.GazeButtonSimulator);
             }
             // If the gaze boolVariable is at true but the gaze button is not clicking
             else if (_inputContainer.GazeIsCliking.Value && 
-                Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonSimulator, EHand.GAZE)]))
+                Input.GetKeyUp(GazeInteractionSimulator.Dictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonSimulator, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(false);
                 _inputContainer.GazeIsTouching.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.UP);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonSimulator, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.GAZE, _gazeParameters.GazeButtonSimulator);
+                new ButtonUntouchEvent(EHand.GAZE, _gazeParameters.GazeButtonSimulator);
             }
         }
 
@@ -97,7 +97,7 @@ namespace VRSF.Inputs
         /// </summary>
         private void CheckGazeClickButton(SimulatorGazeInputCaptureComponent comp)
         {
-            if (_gazeParameters.GazeButtonSimulator == EControllersInput.NONE)
+            if (_gazeParameters.GazeButtonSimulator == EControllersButton.NONE)
             {
                 comp.CheckGazeInteractions = false;
             }

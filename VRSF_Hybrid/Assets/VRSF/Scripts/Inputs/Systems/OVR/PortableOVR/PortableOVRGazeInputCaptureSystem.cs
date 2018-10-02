@@ -63,27 +63,27 @@ namespace VRSF.Inputs.Systems
         private void CheckGazeInputs()
         {
             // Checking Click event
-            if (!_inputContainer.GazeIsCliking.Value && OVRInput.Get(GazeInteractionPortableOVR.ClickDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
+            if (!_inputContainer.GazeIsCliking.Value && OVRInput.Get(GazeInteractionPortableOVR.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonPortableOVR, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.GAZE, _gazeParameters.GazeButtonPortableOVR);
             }
-            else if (_inputContainer.GazeIsCliking.Value && !OVRInput.Get(GazeInteractionPortableOVR.ClickDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
+            else if (_inputContainer.GazeIsCliking.Value && !OVRInput.Get(GazeInteractionPortableOVR.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsCliking.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.GAZE, _gazeParameters.GazeButtonPortableOVR, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.GAZE, _gazeParameters.GazeButtonPortableOVR);
             }
 
             // Checking Touch event
-            if (!_inputContainer.GazeIsTouching.Value && OVRInput.Get(GazeInteractionPortableOVR.TouchDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
+            if (!_inputContainer.GazeIsTouching.Value && OVRInput.Get(GazeInteractionPortableOVR.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsTouching.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonPortableOVR, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.GAZE, _gazeParameters.GazeButtonPortableOVR);
             }
-            else if (_inputContainer.GazeIsTouching.Value && !OVRInput.Get(GazeInteractionPortableOVR.TouchDictionnary[new STuples<EControllersInput, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
+            else if (_inputContainer.GazeIsTouching.Value && !OVRInput.Get(GazeInteractionPortableOVR.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonPortableOVR, EHand.GAZE)]))
             {
                 _inputContainer.GazeIsTouching.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.GAZE, _gazeParameters.GazeButtonPortableOVR, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.GAZE, _gazeParameters.GazeButtonPortableOVR);
             }
         }
 
@@ -95,9 +95,9 @@ namespace VRSF.Inputs.Systems
         {
             switch (_gazeParameters.GazeButtonPortableOVR)
             {
-                case EControllersInput.TRIGGER:
-                case EControllersInput.THUMBSTICK:
-                case EControllersInput.BACK_BUTTON:
+                case EControllersButton.TRIGGER:
+                case EControllersButton.THUMBSTICK:
+                case EControllersButton.BACK_BUTTON:
                     // Everything's good, the button chosen was ok
                     if (!_gazeParameters.UseGaze)
                     {

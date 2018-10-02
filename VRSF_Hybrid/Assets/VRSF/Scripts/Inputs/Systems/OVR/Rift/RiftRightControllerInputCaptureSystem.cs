@@ -67,23 +67,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
             {
                 tempClick.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && OVRInput.Get(OVRInput.Touch.SecondaryIndexTrigger))
             {
                 tempTouch.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
             else if (!tempClick.Value && tempTouch.Value && !OVRInput.Get(OVRInput.Touch.SecondaryIndexTrigger))
             {
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.TRIGGER, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
             #endregion TRIGGER
 
@@ -98,23 +98,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.SecondaryThumbstick))
             {
                 tempClick.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && (OVRInput.Get(OVRInput.Touch.SecondaryThumbstick) || _inputContainer.RightThumbPosition.Value != Vector2.zero))
             {
                 tempTouch.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
             }
             else if (tempTouch.Value && (!OVRInput.Get(OVRInput.Touch.SecondaryThumbstick) && _inputContainer.RightThumbPosition.Value == Vector2.zero))
             {
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBSTICK, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
             }
             #endregion THUMBSTICK
 
@@ -124,12 +124,12 @@ namespace VRSF.Inputs.Systems
             if (!tempClick.Value && OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
             {
                 tempClick.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.GRIP, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.SecondaryHandTrigger))
             {
                 tempClick.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.GRIP, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
             // Touch Event not existing on Grip 
             #endregion GRIP
@@ -145,23 +145,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.One))
             {
                 tempClick.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && OVRInput.Get(OVRInput.Touch.One))
             {
                 tempTouch.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             else if (tempTouch.Value && !OVRInput.Get(OVRInput.Touch.One))
             {
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.A_BUTTON, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             #endregion
 
@@ -174,23 +174,23 @@ namespace VRSF.Inputs.Systems
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.DOWN);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             else if (tempClick.Value && !OVRInput.Get(OVRInput.Button.Two))
             {
                 tempClick.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.CLICK, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.UP);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             // Checking Touch event if user is not clicking
             else if (!tempClick.Value && !tempTouch.Value && OVRInput.Get(OVRInput.Touch.Two))
             {
                 tempTouch.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             else if (!tempClick.Value && tempTouch.Value && !OVRInput.Get(OVRInput.Touch.Two))
             {
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.B_BUTTON, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             #endregion
 
@@ -201,12 +201,12 @@ namespace VRSF.Inputs.Systems
             if (!tempTouch.Value && OVRInput.Get(OVRInput.Touch.SecondaryThumbRest))
             {
                 tempTouch.SetValue(true);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBREST, EFingerMovement.DOWN);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             }
             else if (tempTouch.Value && !OVRInput.Get(OVRInput.Touch.SecondaryThumbRest))
             {
                 tempTouch.SetValue(false);
-                new ButtonInteractingEvent(EControllerInteractionType.TOUCH, EHand.RIGHT, EControllersInput.THUMBREST, EFingerMovement.UP);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             }
             #endregion
         }

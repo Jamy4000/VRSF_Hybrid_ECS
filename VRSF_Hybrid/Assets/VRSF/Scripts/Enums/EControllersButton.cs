@@ -4,7 +4,7 @@
     /// Contain all possible click type for Oculus and Vive controllers
     /// If you're using the two SDKs, make sure the button are corresponding.
     /// </summary>
-    public enum EControllersInput
+    public enum EControllersButton
     {
         NONE = 0,
         TRIGGER = 1 << 0,

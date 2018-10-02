@@ -11,33 +11,33 @@ namespace VRSF.Inputs.Gaze
     public static class GazeInteractionSimulator
     {
         // The dictionary with references to the Input Buttons
-        public static Dictionary<STuples<EControllersInput, EHand>, KeyCode> Dictionnary = new Dictionary<STuples<EControllersInput, EHand>, KeyCode>()
+        public static Dictionary<STuples<EControllersButton, EHand>, KeyCode> Dictionnary = new Dictionary<STuples<EControllersButton, EHand>, KeyCode>()
         {
-            { new STuples<EControllersInput, EHand>(EControllersInput.NONE, EHand.NONE), KeyCode.None },
+            { new STuples<EControllersButton, EHand>(EControllersButton.NONE, EHand.NONE), KeyCode.None },
 
-            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.LEFT), KeyCode.Mouse0 },
-            { new STuples<EControllersInput, EHand>(EControllersInput.TRIGGER, EHand.RIGHT), KeyCode.Mouse1 },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.LEFT), KeyCode.Mouse0 },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.RIGHT), KeyCode.Mouse1 },
 
-            { new STuples<EControllersInput, EHand>(EControllersInput.GRIP, EHand.LEFT), KeyCode.LeftShift },
-            { new STuples<EControllersInput, EHand>(EControllersInput.GRIP, EHand.RIGHT), KeyCode.RightShift },
+            { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.LEFT), KeyCode.LeftShift },
+            { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.RIGHT), KeyCode.RightShift },
 
             // Using Up arrow for thumb
-            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.LEFT), KeyCode.UpArrow },
-            { new STuples<EControllersInput, EHand>(EControllersInput.THUMBSTICK, EHand.RIGHT), KeyCode.W },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), KeyCode.UpArrow },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), KeyCode.W },
 
-            { new STuples<EControllersInput, EHand>(EControllersInput.MENU, EHand.LEFT), KeyCode.LeftControl },
+            { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.LEFT), KeyCode.LeftControl },
 
             // Vive Particularities
-            { new STuples<EControllersInput, EHand>(EControllersInput.MENU, EHand.RIGHT), KeyCode.RightControl },
+            { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.RIGHT), KeyCode.RightControl },
 
             // Oculus Particularities
-            { new STuples<EControllersInput, EHand>(EControllersInput.A_BUTTON, EHand.RIGHT), KeyCode.L },
-            { new STuples<EControllersInput, EHand>(EControllersInput.B_BUTTON, EHand.RIGHT), KeyCode.B },
-            { new STuples<EControllersInput, EHand>(EControllersInput.X_BUTTON, EHand.LEFT), KeyCode.F },
-            { new STuples<EControllersInput, EHand>(EControllersInput.Y_BUTTON, EHand.LEFT), KeyCode.R },
+            { new STuples<EControllersButton, EHand>(EControllersButton.A_BUTTON, EHand.RIGHT), KeyCode.L },
+            { new STuples<EControllersButton, EHand>(EControllersButton.B_BUTTON, EHand.RIGHT), KeyCode.B },
+            { new STuples<EControllersButton, EHand>(EControllersButton.X_BUTTON, EHand.LEFT), KeyCode.F },
+            { new STuples<EControllersButton, EHand>(EControllersButton.Y_BUTTON, EHand.LEFT), KeyCode.R },
 
             // Simulator Particularities
-            { new STuples<EControllersInput, EHand>(EControllersInput.WHEEL_BUTTON, EHand.NONE), KeyCode.Mouse2 },
+            { new STuples<EControllersButton, EHand>(EControllersButton.WHEEL_BUTTON, EHand.NONE), KeyCode.Mouse2 },
         };
     }
 
