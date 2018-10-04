@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4383563707627440}
   - component: {fileID: 114296947544614918}
   - component: {fileID: 114598241307845378}
+  - component: {fileID: 114745903906840794}
   - component: {fileID: 114886083428352990}
   - component: {fileID: 114804183571195726}
   - component: {fileID: 114283853247460836}
@@ -82,6 +83,33 @@ MonoBehaviour:
   RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+--- !u!114 &114745903906840794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122192767626482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CorrectSDK: 1
+  IsSetup: 0
+  CanBeUsed: 1
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
+  IsUsingViveButton: 0
+  IsUsingWheelButton: 0
+  ThumbPos: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
 --- !u!114 &114804183571195726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionType: 2
+  ButtonHand: 2
   UseGazeButton: 0
   ActionButton: 1
   LeftTouchThumbPosition: 0
@@ -146,20 +175,3 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ButtonHand: 2
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}

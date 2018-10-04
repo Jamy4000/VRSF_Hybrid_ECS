@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4566885965485188}
   - component: {fileID: 114729498285908886}
   - component: {fileID: 114438385980122082}
+  - component: {fileID: 114545312131474778}
   - component: {fileID: 114620667244401994}
   - component: {fileID: 114910324435587616}
   - component: {fileID: 114103092957932556}
@@ -60,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionType: 1
+  ButtonHand: 2
   UseGazeButton: 0
   ActionButton: 4
   LeftTouchThumbPosition: 0
@@ -98,23 +100,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ButtonHand: 2
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
 --- !u!114 &114438385980122082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,6 +127,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LineMat: {fileID: 2100000, guid: 854b6af582c2d6f4881453e9a0bf85bd, type: 2}
   BoundariesLinesColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &114545312131474778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532278929074642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CorrectSDK: 1
+  IsSetup: 0
+  CanBeUsed: 1
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
+  IsUsingViveButton: 0
+  IsUsingWheelButton: 0
+  ThumbPos: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
 --- !u!114 &114620667244401994
 MonoBehaviour:
   m_ObjectHideFlags: 1

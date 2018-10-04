@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114369969015623460}
   - component: {fileID: 114191175806869512}
   - component: {fileID: 114672114606473476}
+  - component: {fileID: 114211923153295810}
   - component: {fileID: 114414848692732200}
   m_Layer: 0
   m_Name: CameraRotation
@@ -74,9 +75,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionType: 1
+  ButtonHand: 1
   UseGazeButton: 0
-  ActionButton: 32
-  LeftTouchThumbPosition: 0
+  ActionButton: 4
+  LeftTouchThumbPosition: 12
   RightTouchThumbPosition: 12
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
@@ -112,12 +114,22 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114211923153295810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224792925748134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
   CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
-  ButtonHand: 0
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
   UntouchedEventWasRaised: 0
@@ -127,17 +139,8 @@ MonoBehaviour:
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
 --- !u!114 &114369969015623460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,6 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 2
+  RayOrigin: 1
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
