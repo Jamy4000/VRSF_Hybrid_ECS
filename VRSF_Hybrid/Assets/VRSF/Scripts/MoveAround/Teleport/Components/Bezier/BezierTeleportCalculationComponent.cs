@@ -8,7 +8,7 @@ namespace VRSF.MoveAround.Teleport.Components
     /// <summary>
     /// Contains all variable necessary for the BezierTeleportSystems to work.
     /// </summary>
-    [RequireComponent(typeof(BezierTeleportParametersComponent), typeof(BACGeneralVariablesComponents), typeof(ScriptableRaycastComponent))]
+    [RequireComponent(typeof(BezierTeleportParametersComponent), typeof(BACGeneralComponent), typeof(ScriptableRaycastComponent))]
     public class BezierTeleportCalculationComponent : MonoBehaviour
     {
         [HideInInspector] public Transform _CurveOrigin;

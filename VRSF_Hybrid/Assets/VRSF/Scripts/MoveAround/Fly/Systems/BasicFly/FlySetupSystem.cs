@@ -18,7 +18,8 @@ namespace VRSF.MoveAround.Systems
         new public struct Filter
         {
             public FlyParametersComponent FlyComponent;
-            public BACGeneralVariablesComponents ButtonComponents;
+            public BACGeneralComponent BACGeneral;
+            public BACCalculationsComponent BACCalculations;
             public ScriptableRaycastComponent RaycastComp;
         }
 
@@ -33,10 +34,10 @@ namespace VRSF.MoveAround.Systems
             
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ButtonComponents.ActionButton != EControllersButton.THUMBSTICK)
+                if (e.BACGeneral.ActionButton != EControllersButton.THUMBSTICK)
                 {
                     Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
-                    e.ButtonComponents.CanBeUsed = false;
+                    e.BACCalculations.CanBeUsed = false;
                 }
                     
                 e.FlyComponent.StartCoroutine(SetupListernersCoroutine(e));
@@ -63,32 +64,32 @@ namespace VRSF.MoveAround.Systems
         {
             var e = (Filter)entity;
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { ButtonIsInteracting(e); });
-                e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { ButtonStopInteracting(e); });
+                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { ButtonIsInteracting(e); });
+                e.BACGeneral.OnButtonStopClicking.AddListener(delegate { ButtonStopInteracting(e); });
             }
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { ButtonIsInteracting(e); });
-                e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { ButtonStopInteracting(e); });
+                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { ButtonIsInteracting(e); });
+                e.BACGeneral.OnButtonStopTouching.AddListener(delegate { ButtonStopInteracting(e); });
             }
         }
 
         public override void RemoveListenersOnEndApp(object entity)
         {
             var e = (Filter)entity;
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
-                e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonStopClicking.RemoveAllListeners();
             }
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
-                e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonStopTouching.RemoveAllListeners();
             }
         }
 
@@ -125,7 +126,7 @@ namespace VRSF.MoveAround.Systems
         #region PRIVATE_METHODS
         private IEnumerator SetupListernersCoroutine(Filter entity)
         {
-            while (!VRSF_Components.SetupVRIsReady && entity.ButtonComponents.ActionButtonIsReady && entity.ButtonComponents.IsSetup)
+            while (!VRSF_Components.SetupVRIsReady && entity.BACCalculations.ActionButtonIsReady && entity.BACCalculations.IsSetup)
             {
                 yield return new WaitForEndOfFrame();
             }
@@ -141,10 +142,10 @@ namespace VRSF.MoveAround.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ButtonComponents.ActionButton != EControllersButton.THUMBSTICK)
+                if (e.BACGeneral.ActionButton != EControllersButton.THUMBSTICK)
                 {
                     Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
-                    e.ButtonComponents.CanBeUsed = false;
+                    e.BACCalculations.CanBeUsed = false;
                 }
 
                 e.FlyComponent.StartCoroutine(SetupListernersCoroutine(e));

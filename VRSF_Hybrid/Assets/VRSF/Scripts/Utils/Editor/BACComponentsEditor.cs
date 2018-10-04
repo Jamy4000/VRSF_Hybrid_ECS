@@ -10,7 +10,7 @@ namespace VRSF.Utils.Editor
     /// <summary>
     /// Handle the Options in the Inspector for the class that extend ButtonActionChoser 
     /// </summary>
-    [CustomEditor(typeof(BACGeneralVariablesComponents), true)]
+    [CustomEditor(typeof(BACGeneralComponent), true)]
     public class BACComponentsEditor : UnityEditor.Editor
     {
         // EMPTY
@@ -28,7 +28,8 @@ namespace VRSF.Utils.Editor
         private bool _rightThumbPosIsShown;
 
         // The reference to the target
-        private BACGeneralVariablesComponents _buttonActionChoser;
+        private BACGeneralComponent _buttonActionChoser;
+        private BACCalculationsComponent _bacCalculations;
 
         private bool _showUnityEvents = false;
 
@@ -47,7 +48,9 @@ namespace VRSF.Utils.Editor
         public virtual void OnEnable()
         {
             // We set the buttonActionChoser reference
-            _buttonActionChoser = (BACGeneralVariablesComponents)target;
+            _buttonActionChoser = (BACGeneralComponent)target;
+            _bacCalculations = _buttonActionChoser.GetComponent<BACCalculationsComponent>();
+
             _gazeParameters = GazeParametersVariable.Instance;
             _controllersParameters = ControllersParametersVariable.Instance;
 
@@ -122,7 +125,7 @@ namespace VRSF.Utils.Editor
                         break;
 
                     default:
-                        _buttonActionChoser.ParametersAreInvalid = true;
+                        _bacCalculations.ParametersAreInvalid = true;
                         _buttonActionChoser.ActionButton = EControllersButton.NONE;
                         EditorGUILayout.HelpBox("Please chose a valid Interaction Type.", MessageType.Error);
                         break;
@@ -148,13 +151,13 @@ namespace VRSF.Utils.Editor
                 case EControllersButton.Y_BUTTON:
                 case EControllersButton.THUMBREST:
                     DisplayOculusWarning();
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
                 case EControllersButton.TRIGGER:
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
@@ -164,14 +167,14 @@ namespace VRSF.Utils.Editor
                     break;
 
                 case EControllersButton.NONE:
-                    _buttonActionChoser.ParametersAreInvalid = true;
+                    _bacCalculations.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     EditorGUILayout.HelpBox("Touch : Please chose a valid Action Button.", MessageType.Error);
                     break;
 
                 default:
-                    _buttonActionChoser.ParametersAreInvalid = true;
+                    _bacCalculations.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     DisplayTouchError();
@@ -188,7 +191,7 @@ namespace VRSF.Utils.Editor
                 case EControllersButton.X_BUTTON:
                 case EControllersButton.Y_BUTTON:
                     DisplayOculusWarning();
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
@@ -197,7 +200,7 @@ namespace VRSF.Utils.Editor
                     if (_buttonActionChoser.ButtonHand == EHand.RIGHT)
                     {
                         DisplayViveWarning();
-                        _buttonActionChoser.ParametersAreInvalid = false;
+                        _bacCalculations.ParametersAreInvalid = false;
                         _leftThumbPosIsShown = false;
                         _rightThumbPosIsShown = false;
                     }
@@ -205,14 +208,14 @@ namespace VRSF.Utils.Editor
 
                 case EControllersButton.WHEEL_BUTTON:
                     DisplaySimulatorWarning();
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
                 case EControllersButton.THUMBREST:
                     DisplayClickError();
-                    _buttonActionChoser.ParametersAreInvalid = true;
+                    _bacCalculations.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
@@ -222,14 +225,14 @@ namespace VRSF.Utils.Editor
                     break;
 
                 case EControllersButton.NONE:
-                    _buttonActionChoser.ParametersAreInvalid = true;
+                    _bacCalculations.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     EditorGUILayout.HelpBox("Click : Please chose a valid Action Button.", MessageType.Error);
                     break;
 
                 default:
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
@@ -312,7 +315,7 @@ namespace VRSF.Utils.Editor
 
         private void DisplayGazeInfo()
         {
-            _buttonActionChoser.ParametersAreInvalid = false;
+            _bacCalculations.ParametersAreInvalid = false;
             EditorGUILayout.HelpBox("You can set the button to use for the Gaze in the Gaze Parameters window (Window/VRSF/Gaze Parameters.", MessageType.Info);
         }
 
@@ -324,7 +327,7 @@ namespace VRSF.Utils.Editor
 
             if (_buttonActionChoser.InteractionType == EControllerInteractionType.NONE)
             {
-                _buttonActionChoser.ParametersAreInvalid = true;
+                _bacCalculations.ParametersAreInvalid = true;
                 EditorGUILayout.HelpBox("The Interaction type cannot be NONE.", MessageType.Error);
                 return false;
             }
@@ -339,7 +342,7 @@ namespace VRSF.Utils.Editor
 
             if (_buttonActionChoser.ButtonHand == EHand.NONE)
             {
-                _buttonActionChoser.ParametersAreInvalid = true;
+                _bacCalculations.ParametersAreInvalid = true;
                 EditorGUILayout.HelpBox("The Hand cannot be NONE.", MessageType.Error);
                 return false;
             }
@@ -356,12 +359,12 @@ namespace VRSF.Utils.Editor
                     (_buttonActionChoser.InteractionType == EControllerInteractionType.ALL &&
                         (_buttonActionChoser.LeftTouchThumbPosition == EThumbPosition.NONE || _buttonActionChoser.LeftClickThumbPosition == EThumbPosition.NONE)))
                 {
-                    _buttonActionChoser.ParametersAreInvalid = true;
+                    _bacCalculations.ParametersAreInvalid = true;
                     EditorGUILayout.HelpBox("Please chose a valid Thumb Position.", MessageType.Error);
                 }
                 else
                 {
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                 }
             }
             else if (_rightThumbPosIsShown)
@@ -371,12 +374,12 @@ namespace VRSF.Utils.Editor
                     (_buttonActionChoser.InteractionType == EControllerInteractionType.ALL &&
                         (_buttonActionChoser.RightTouchThumbPosition == EThumbPosition.NONE || _buttonActionChoser.RightClickThumbPosition == EThumbPosition.NONE)))
                 {
-                    _buttonActionChoser.ParametersAreInvalid = true;
+                    _bacCalculations.ParametersAreInvalid = true;
                     EditorGUILayout.HelpBox("Please chose a valid Thumb Position.", MessageType.Error);
                 }
                 else
                 {
-                    _buttonActionChoser.ParametersAreInvalid = false;
+                    _bacCalculations.ParametersAreInvalid = false;
                 }
             }
         }

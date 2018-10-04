@@ -14,7 +14,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         struct Filter
         {
             public SDKChoserComponent SDKComp;
-            public BACGeneralVariablesComponents BAC_Comp;
+            public BACGeneralComponent BAC_General_Comp;
+            public BACCalculationsComponent BAC_Calculations_Comp;
         }
         
 
@@ -29,7 +30,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var entity in GetEntities<Filter>())
             {
                 // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-                entity.BAC_Comp.CorrectSDK = CheckUseSDKToggles(entity);
+                entity.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(entity);
                 entity.SDKComp.IsSetup = true;
             }
 

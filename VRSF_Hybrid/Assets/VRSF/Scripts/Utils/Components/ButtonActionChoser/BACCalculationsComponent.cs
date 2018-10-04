@@ -1,12 +1,10 @@
 ﻿using ScriptableFramework.Variables;
-using System.Collections.Generic;
 using UnityEngine;
-using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.Utils.Components.ButtonActionChoser
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACGeneralVariablesComponents))]
-    public class BACCalculationsVariablesComponents : MonoBehaviour
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACGeneralComponent))]
+    public class BACCalculationsComponent : MonoBehaviour
     {
         [HideInInspector] public bool ActionButtonIsReady = false;
         [HideInInspector] public bool ParametersAreInvalid = false;

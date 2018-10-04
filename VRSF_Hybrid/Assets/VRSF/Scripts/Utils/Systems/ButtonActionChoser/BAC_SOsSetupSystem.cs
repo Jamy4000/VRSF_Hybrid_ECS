@@ -18,7 +18,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
     {
         struct Filter
         {
-            public BACGeneralVariablesComponents ButtonComponents;
+            public BACGeneralComponent BACGeneralComp;
+            public BACCalculationsComponent BACCalculationsComp;
         }
 
         #region PRIVATE_VARIBALES
@@ -40,13 +41,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ButtonComponents.ActionButtonIsReady)
+                if (entity.BACCalculationsComp.ActionButtonIsReady)
                 {
-                    CheckInitSOs(entity.ButtonComponents);
+                    CheckInitSOs(entity);
                 }
                 else
                 {
-                    entity.ButtonComponents.StartCoroutine(WaitForActionButton(entity.ButtonComponents));
+                    entity.BACGeneralComp.StartCoroutine(WaitForActionButton(entity));
                 }
             }
 
@@ -77,43 +78,28 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Check that the Initialization of the ScriptableObjects are done properly.
         /// </summary>
-        private void CheckInitSOs(BACGeneralVariablesComponents bacComp)
+        private void CheckInitSOs(Filter entity)
         {
             // We check that the interaction type is correct
-            if (bacComp.InteractionType == EControllerInteractionType.NONE)
+            if (entity.BACGeneralComp.InteractionType == EControllerInteractionType.NONE)
             {
                 Debug.LogError("VRSF : Please specify a correct InteractionType for the " + this.GetType().Name + " script.\n" +
                     "Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                bacComp.CanBeUsed = false;
+                entity.BACCalculationsComp.CanBeUsed = false;
             }
 
             // We init the Scriptable Object references and how they work
-            if (!InitSOsReferences(bacComp))
+            if (!SetupScriptableVariablesReferences(entity))
             {
                 Debug.LogError("VRSF : An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
                     "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                bacComp.CanBeUsed = false;
+                entity.BACCalculationsComp.CanBeUsed = false;
             }
 
             // We setup the listeners only one time as they're gonna check each entities containing the bac Componenent
-            SetupListeners(bacComp);
+            SetupListeners(entity);
 
-            bacComp.IsSetup = true;
-        }
-
-
-        /// <summary>
-        /// Instantiate and set the GameEventListeners and BoolVariable
-        /// </summary>
-        private bool InitSOsReferences(BACGeneralVariablesComponents bacComp)
-        {
-            // We set the GameEvents and BoolVariables depending on the comp.InteractionType and the Hand of the ActionButton
-            if (!SetupScriptableVariablesReferences(bacComp))
-            {
-                return false;
-            }
-
-            return true;
+            entity.BACCalculationsComp.IsSetup = true;
         }
 
 
@@ -121,22 +107,22 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Depending on the Button used for the feature and the Interaction Type, setup the BoolVariable and GameEvents accordingly
         /// </summary>
         /// <returns>true if everything was setup correctly</returns>
-        private bool SetupScriptableVariablesReferences(BACGeneralVariablesComponents bacComp)
+        private bool SetupScriptableVariablesReferences(Filter entity)
         {
             // If we use the Gaze Button specified in the Gaze Parameters Window
-            if (bacComp.UseGazeButton)
+            if (entity.BACGeneralComp.UseGazeButton)
             {
-                return SetupGazeInteraction(bacComp);
+                return SetupGazeInteraction(entity);
             }
             // If we use the Mouse Wheel Button
-            else if (bacComp.IsUsingWheelButton)
+            else if (entity.BACCalculationsComp.IsUsingWheelButton)
             {
-                bacComp.IsClicking = _inputsContainer.WheelIsClicking;
+                entity.BACCalculationsComp.IsClicking = _inputsContainer.WheelIsClicking;
                 return true;
             }
             else
             {
-                return SetupNormalButton(bacComp);
+                return SetupNormalButton(entity);
             }
         }
 
@@ -145,15 +131,15 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Check the Interaction Type specified and set it to corresponds to the Gaze BoolVariable
         /// </summary>
         /// <returns>true if everything was setup correctly</returns>
-        private bool SetupGazeInteraction(BACGeneralVariablesComponents bacComp)
+        private bool SetupGazeInteraction(Filter entity)
         {
-            if ((bacComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                bacComp.IsClicking = _inputsContainer.GazeIsCliking;
+                entity.BACCalculationsComp.IsClicking = _inputsContainer.GazeIsCliking;
             }
-            if ((bacComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                bacComp.IsTouching = _inputsContainer.GazeIsTouching;
+                entity.BACCalculationsComp.IsTouching = _inputsContainer.GazeIsTouching;
             }
             return true;
         }
@@ -163,18 +149,18 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Setup the comp._isClicking and _isTouching BoolVariable depending on the comp.InteractionType and the comp._buttonHand variable.
         /// </summary>
         /// <returns>true if everything was setup correctly</returns>
-        private bool SetupNormalButton(BACGeneralVariablesComponents bacComp)
+        private bool SetupNormalButton(Filter entity)
         {
             // If the Interaction Type contains at least CLICK
-            if ((bacComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                switch (bacComp.ButtonHand)
+                switch (entity.BACGeneralComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        bacComp.IsClicking = _inputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(bacComp.ActionButton)];
+                        entity.BACCalculationsComp.IsClicking = _inputsContainer.RightClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(entity.BACGeneralComp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        bacComp.IsClicking = _inputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(bacComp.ActionButton)];
+                        entity.BACCalculationsComp.IsClicking = _inputsContainer.LeftClickBoolean.Items[ControllerInputToSO.GetClickVariableFor(entity.BACGeneralComp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -182,16 +168,16 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
 
             // If the Interaction Type contains at least TOUCH
-            if ((bacComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 // Handle Touch events
-                switch (bacComp.ButtonHand)
+                switch (entity.BACGeneralComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        bacComp.IsTouching = _inputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(bacComp.ActionButton)];
+                        entity.BACCalculationsComp.IsTouching = _inputsContainer.RightTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(entity.BACGeneralComp.ActionButton)];
                         break;
                     case EHand.LEFT:
-                        bacComp.IsTouching = _inputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(bacComp.ActionButton)];
+                        entity.BACCalculationsComp.IsTouching = _inputsContainer.LeftTouchBoolean.Items[ControllerInputToSO.GetTouchVariableFor(entity.BACGeneralComp.ActionButton)];
                         break;
                     default:
                         return false;
@@ -205,17 +191,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Create and Setup the GameEventListeners for the Click and the Touch Events
         /// </summary>
-        private void SetupListeners(BACGeneralVariablesComponents bacComp)
+        private void SetupListeners(Filter entity)
         {
-            var delegatesHandler = new BAC_DelegatesActions(bacComp);
+            var delegatesHandler = new BAC_DelegatesActions(entity.BACGeneralComp, entity.BACCalculationsComp);
 
-            if ((bacComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 ButtonClickEvent.RegisterListener(delegatesHandler.StartActionDown);
                 ButtonUnclickEvent.RegisterListener(delegatesHandler.StartActionUp);
             }
 
-            if ((bacComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 ButtonTouchEvent.RegisterListener(delegatesHandler.StartActionTouched);
                 ButtonUntouchEvent.RegisterListener(delegatesHandler.StartActionUntouched);
@@ -228,22 +214,22 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// As some values are initialized in other Systems, we just want to be sure that everything is setup before checking the Scriptable Objects.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator WaitForActionButton(BACGeneralVariablesComponents comp)
+        private IEnumerator WaitForActionButton(Filter entity)
         {
-            while (!comp.ActionButtonIsReady)
+            while (!entity.BACCalculationsComp.ActionButtonIsReady)
             {
                 yield return new WaitForEndOfFrame();
             }
 
-            var sdkChoser = comp.GetComponent<SDKChoserComponent>();
+            var sdkChoser = entity.BACGeneralComp.GetComponent<SDKChoserComponent>();
 
-            if (sdkChoser == null || (sdkChoser != null && comp.CorrectSDK))
+            if (sdkChoser == null || (sdkChoser != null && entity.BACCalculationsComp.CorrectSDK))
             {
-                CheckInitSOs(comp);
+                CheckInitSOs(entity);
             }
             else
             {
-                comp.IsSetup = true;
+                entity.BACCalculationsComp.IsSetup = true;
             }
         }
 

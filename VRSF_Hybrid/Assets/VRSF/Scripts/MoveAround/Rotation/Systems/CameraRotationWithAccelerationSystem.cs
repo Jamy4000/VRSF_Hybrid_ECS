@@ -13,7 +13,8 @@ namespace VRSF.MoveAround.Systems
         struct Filter
         {
             public CameraRotationComponent RotationComp;
-            public BACGeneralVariablesComponents ButtonComponents;
+            public BACGeneralComponent BACGeneral;
+            public BACCalculationsComponent BACCalculations;
             public ScriptableRaycastComponent RaycastComp;
         }
 
@@ -52,7 +53,7 @@ namespace VRSF.MoveAround.Systems
                 float maxSpeedTimeDeltaTime = Time.deltaTime * (entity.RotationComp.MaxSpeed / 50);
 
                 // LastThumbPos : The last thumbPos of the user when rotating (touching/clicking the thumbstick) only 
-                entity.RotationComp.LastThumbPos = entity.RotationComp.IsRotating ? entity.ButtonComponents.ThumbPos.Value.x : entity.RotationComp.LastThumbPos;
+                entity.RotationComp.LastThumbPos = entity.RotationComp.IsRotating ? entity.BACCalculations.ThumbPos.Value.x : entity.RotationComp.LastThumbPos;
 
                 if (isAccelerating)
                 {

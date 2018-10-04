@@ -14,7 +14,8 @@ namespace VRSF.MoveAround.Systems
         new struct Filter
         {
             public CameraRotationComponent RotationComp;
-            public BACGeneralVariablesComponents ButtonComponents;
+            public BACGeneralComponent BACGeneral;
+            public BACCalculationsComponent BACCalculations;
             public ScriptableRaycastComponent RaycastComp;
         }
         
@@ -53,14 +54,14 @@ namespace VRSF.MoveAround.Systems
         {
             var e = (Filter)entity;
             
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
             }
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
             }
         }
 
@@ -68,14 +69,14 @@ namespace VRSF.MoveAround.Systems
         {
             var e = (Filter)entity;
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
             }
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
             }
         }
         #endregion PUBLIC_METHODS
@@ -89,7 +90,7 @@ namespace VRSF.MoveAround.Systems
                 var cameraRigTransform = VRSF_Components.CameraRig.transform;
 
                 Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
-                Vector3 rotationAxis = new Vector3(0, entity.ButtonComponents.ThumbPos.Value.x, 0);
+                Vector3 rotationAxis = new Vector3(0, entity.BACCalculations.ThumbPos.Value.x, 0);
 
                 cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
 

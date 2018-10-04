@@ -3,7 +3,7 @@ using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Components
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACGeneralVariablesComponents))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACGeneralComponent))]
     public class CameraRotationComponent : MonoBehaviour
     {
         [Header("Camera Rotation Parameters")]

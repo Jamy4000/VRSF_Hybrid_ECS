@@ -6,11 +6,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 {
     public class BAC_DelegatesActions
     {
-        public readonly BACGeneralVariablesComponents ButtonActionChoser;
+        public readonly BACGeneralComponent BACGeneral;
+        public readonly BACCalculationsComponent BACCalculations;
 
-        public BAC_DelegatesActions(BACGeneralVariablesComponents bac)
+        public BAC_DelegatesActions(BACGeneralComponent bacGeneral, BACCalculationsComponent bacCalcul)
         {
-            ButtonActionChoser = bac;
+            BACGeneral = bacGeneral;
+            BACCalculations = bacCalcul;
         }
 
         
@@ -20,26 +22,26 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         public void StartActionDown(ButtonClickEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (ButtonActionChoser.ButtonHand == eventButton.HandInteracting && ButtonActionChoser.ActionButton == eventButton.ButtonInteracting && ButtonActionChoser.CanBeUsed)
+            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-                if (ButtonActionChoser.ThumbPos != null && ButtonActionChoser.ClickThreshold > 0.0f)
+                if (BACCalculations.ThumbPos != null && BACGeneral.ClickThreshold > 0.0f)
                 {
-                    ButtonActionChoser.UnclickEventWasRaised = false;
+                    BACCalculations.UnclickEventWasRaised = false;
 
-                    switch (ButtonActionChoser.ButtonHand)
+                    switch (BACGeneral.ButtonHand)
                     {
                         case EHand.RIGHT:
-                            HandleThumbPosition.CheckThumbPosition(ButtonActionChoser.RightClickThumbPosition, ButtonActionChoser.OnButtonStartClicking, ButtonActionChoser.ClickThreshold, ButtonActionChoser.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.RightClickThumbPosition, BACGeneral.OnButtonStartClicking, BACGeneral.ClickThreshold, BACCalculations.ThumbPos.Value);
                             break;
                         case EHand.LEFT:
-                            HandleThumbPosition.CheckThumbPosition(ButtonActionChoser.LeftClickThumbPosition, ButtonActionChoser.OnButtonStartClicking, ButtonActionChoser.ClickThreshold, ButtonActionChoser.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftClickThumbPosition, BACGeneral.OnButtonStartClicking, BACGeneral.ClickThreshold, BACCalculations.ThumbPos.Value);
                             break;
                     }
                 }
                 else
                 {
-                    ButtonActionChoser.OnButtonStartClicking.Invoke();
+                    BACGeneral.OnButtonStartClicking.Invoke();
                 }
             }
         }
@@ -51,19 +53,19 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         public void StartActionUp(ButtonUnclickEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (ButtonActionChoser.ButtonHand == eventButton.HandInteracting && ButtonActionChoser.ActionButton == eventButton.ButtonInteracting && ButtonActionChoser.CanBeUsed)
+            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // If we don't use the Thumb
-                if (ButtonActionChoser.ThumbPos == null)
-                    ButtonActionChoser.OnButtonStopClicking.Invoke();
+                if (BACCalculations.ThumbPos == null)
+                    BACGeneral.OnButtonStopClicking.Invoke();
 
                 // If we use the Thumb and the click action is beyond the threshold
-                else if (ButtonActionChoser.ThumbPos != null && ButtonActionChoser.ClickActionBeyondThreshold)
-                    ButtonActionChoser.OnButtonStopClicking.Invoke();
+                else if (BACCalculations.ThumbPos != null && BACCalculations.ClickActionBeyondThreshold)
+                    BACGeneral.OnButtonStopClicking.Invoke();
 
                 // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (ButtonActionChoser.ThumbPos != null && ButtonActionChoser.ClickThreshold == 0.0f)
-                    ButtonActionChoser.OnButtonStopClicking.Invoke();
+                else if (BACCalculations.ThumbPos != null && BACGeneral.ClickThreshold == 0.0f)
+                    BACGeneral.OnButtonStopClicking.Invoke();
             }
         }
 
@@ -74,26 +76,26 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         public void StartActionTouched(ButtonTouchEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (ButtonActionChoser.ButtonHand == eventButton.HandInteracting && ButtonActionChoser.ActionButton == eventButton.ButtonInteracting && ButtonActionChoser.CanBeUsed)
+            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-                if (ButtonActionChoser.ThumbPos != null && ButtonActionChoser.TouchThreshold > 0.0f)
+                if (BACCalculations.ThumbPos != null && BACGeneral.TouchThreshold > 0.0f)
                 {
-                    ButtonActionChoser.UntouchedEventWasRaised = false;
+                    BACCalculations.UntouchedEventWasRaised = false;
 
-                    switch (ButtonActionChoser.ButtonHand)
+                    switch (BACGeneral.ButtonHand)
                     {
                         case EHand.RIGHT:
-                            HandleThumbPosition.CheckThumbPosition(ButtonActionChoser.RightTouchThumbPosition, ButtonActionChoser.OnButtonStartTouching, ButtonActionChoser.TouchThreshold, ButtonActionChoser.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.RightTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
                             break;
                         case EHand.LEFT:
-                            HandleThumbPosition.CheckThumbPosition(ButtonActionChoser.LeftTouchThumbPosition, ButtonActionChoser.OnButtonStartTouching, ButtonActionChoser.TouchThreshold, ButtonActionChoser.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
                             break;
                     }
                 }
                 else
                 {
-                    ButtonActionChoser.OnButtonStartTouching.Invoke();
+                    BACGeneral.OnButtonStartTouching.Invoke();
                 }
             }
         }
@@ -105,19 +107,19 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         public void StartActionUntouched(ButtonUntouchEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (ButtonActionChoser.ButtonHand == eventButton.HandInteracting && ButtonActionChoser.ActionButton == eventButton.ButtonInteracting && ButtonActionChoser.CanBeUsed)
+            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // If we don't use the Thumb
-                if (ButtonActionChoser.ThumbPos == null)
-                    ButtonActionChoser.OnButtonStopTouching.Invoke();
+                if (BACCalculations.ThumbPos == null)
+                    BACGeneral.OnButtonStopTouching.Invoke();
 
                 // If we use the Thumb and the click action is beyond the threshold
-                else if (ButtonActionChoser.ThumbPos != null && ButtonActionChoser.TouchActionBeyondThreshold)
-                    ButtonActionChoser.OnButtonStopTouching.Invoke();
+                else if (BACCalculations.ThumbPos != null && BACCalculations.TouchActionBeyondThreshold)
+                    BACGeneral.OnButtonStopTouching.Invoke();
 
                 // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (ButtonActionChoser.ThumbPos != null && ButtonActionChoser.TouchThreshold == 0.0f)
-                    ButtonActionChoser.OnButtonStopTouching.Invoke();
+                else if (BACCalculations.ThumbPos != null && BACGeneral.TouchThreshold == 0.0f)
+                    BACGeneral.OnButtonStopTouching.Invoke();
             }
         }
 

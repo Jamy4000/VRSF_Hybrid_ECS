@@ -12,7 +12,8 @@ namespace VRSF.MoveAround.Systems
         struct Filter
         {
             public FlyParametersComponent FlyComponents;
-            public BACGeneralVariablesComponents ButtonComponents;
+            public BACGeneralComponent BACGeneral;
+            public BACCalculationsComponent BACCalculations;
         }
 
 
@@ -36,7 +37,7 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void CalculateFlyForward(Filter entity)
         {
-            entity.FlyComponents._FlyForward = (entity.ButtonComponents.ThumbPos.Value.y >= 0.0f) ? true : false;
+            entity.FlyComponents._FlyForward = (entity.BACCalculations.ThumbPos.Value.y >= 0.0f) ? true : false;
 
             // If user just started to press/touch the thumbstick
             if (!entity.FlyComponents._WantToFly)

@@ -12,7 +12,7 @@ namespace VRSF.MoveAround.Systems
         new struct Filter
         {
             public CameraRotationComponent RotationComp;
-            public BACGeneralVariablesComponents ButtonComponents;
+            public BACGeneralComponent ButtonComponents;
         }
 
 

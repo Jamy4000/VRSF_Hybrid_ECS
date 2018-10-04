@@ -19,7 +19,7 @@ namespace VRSF.MoveAround.Teleport.Systems
     {
         new struct Filter : ITeleportFilter
         {
-            public BACGeneralVariablesComponents BAC_Comp;
+            public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public BezierTeleportCalculationComponent BezierComp;
             public TeleportGeneralComponent GeneralTeleport;

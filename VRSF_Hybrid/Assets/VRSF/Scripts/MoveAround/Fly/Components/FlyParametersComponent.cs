@@ -6,7 +6,7 @@ namespace VRSF.MoveAround.Components
     /// <summary>
     /// Contains all references to the fly variables that are not in the FlyingParametersVariable already.
     /// </summary>
-    [RequireComponent(typeof(BACGeneralVariablesComponents), typeof(FlyVelocityComponent), typeof(FlyDirectionComponent))]
+    [RequireComponent(typeof(BACGeneralComponent), typeof(FlyVelocityComponent), typeof(FlyDirectionComponent))]
     public class FlyParametersComponent : MonoBehaviour
     {
         #region Parameters_Set_By_User

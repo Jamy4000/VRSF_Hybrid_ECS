@@ -17,7 +17,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         new struct Filter : ITeleportFilter
         {
             public LongRangeTeleportComponent LRT_Comp;
-            public BACGeneralVariablesComponents BAC_Comp;
+            public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RaycastComp;
             public TeleportBoundariesComponent TeleportBoundaries;
             public TeleportGeneralComponent GeneralTeleport;
