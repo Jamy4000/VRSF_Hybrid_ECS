@@ -16,7 +16,7 @@
         /// <summary>
         /// The event, working kind of like a list, that contains all the methods to call when the event is fired
         /// </summary>
-        private static event EventListener _listeners;
+        public static event EventListener _listeners;
 
         /// <summary>
         /// Security to avoid an event to be raised multiple times.

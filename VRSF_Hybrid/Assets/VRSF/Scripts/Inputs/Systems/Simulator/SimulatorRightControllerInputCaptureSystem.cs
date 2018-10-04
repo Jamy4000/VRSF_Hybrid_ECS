@@ -36,7 +36,6 @@ namespace VRSF.Inputs
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            
             _inputContainer = InputVariableContainer.Instance;
         }
 

@@ -10,7 +10,7 @@ namespace VRSF.Utils.Editor
     /// <summary>
     /// Handle the Options in the Inspector for the class that extend ButtonActionChoser 
     /// </summary>
-    [CustomEditor(typeof(ButtonActionChoserComponents), true)]
+    [CustomEditor(typeof(BACGeneralVariablesComponents), true)]
     public class BACComponentsEditor : UnityEditor.Editor
     {
         // EMPTY
@@ -28,7 +28,7 @@ namespace VRSF.Utils.Editor
         private bool _rightThumbPosIsShown;
 
         // The reference to the target
-        private ButtonActionChoserComponents _buttonActionChoser;
+        private BACGeneralVariablesComponents _buttonActionChoser;
 
         private bool _showUnityEvents = false;
 
@@ -47,7 +47,7 @@ namespace VRSF.Utils.Editor
         public virtual void OnEnable()
         {
             // We set the buttonActionChoser reference
-            _buttonActionChoser = (ButtonActionChoserComponents)target;
+            _buttonActionChoser = (BACGeneralVariablesComponents)target;
             _gazeParameters = GazeParametersVariable.Instance;
             _controllersParameters = ControllersParametersVariable.Instance;
 

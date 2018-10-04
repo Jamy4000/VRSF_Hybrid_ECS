@@ -9,12 +9,12 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationWithoutAccelerationSystem : BACUpdateSystem
+    public class CameraRotationWithoutAccelerationSystem : BACUpdateSystem<CameraRotationComponent>
     {
-        struct Filter
+        new struct Filter
         {
             public CameraRotationComponent RotationComp;
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralVariablesComponents ButtonComponents;
             public ScriptableRaycastComponent RaycastComp;
         }
         
@@ -32,8 +32,6 @@ namespace VRSF.MoveAround.Systems
                     SetupListenersResponses(e);
                 }
             }
-
-            this.Enabled = false;
         }
 
         protected override void OnDestroyManager()
@@ -86,7 +84,6 @@ namespace VRSF.MoveAround.Systems
         #region PRIVATE_METHODS
         private void HandleRotationWithoutAcceleration(Filter entity)
         {
-            Debug.Log("HandleRotationWithoutAcceleration");
             if (!entity.RotationComp.HasRotated)
             {
                 var cameraRigTransform = VRSF_Components.CameraRig.transform;
@@ -110,7 +107,13 @@ namespace VRSF.MoveAround.Systems
 
         private void OnSceneUnloaded(Scene oldScene)
         {
-            this.Enabled = true;
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (!e.RotationComp.UseAccelerationEffect)
+                {
+                    SetupListenersResponses(e);
+                }
+            }
         }
         #endregion
     }

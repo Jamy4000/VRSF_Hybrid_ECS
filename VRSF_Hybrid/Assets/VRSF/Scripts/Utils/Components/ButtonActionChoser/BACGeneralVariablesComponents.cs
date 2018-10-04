@@ -1,17 +1,21 @@
-﻿
-using ScriptableFramework.Variables;
+﻿using ScriptableFramework.Variables;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Controllers;
 using VRSF.Inputs;
+using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.Utils.Components.ButtonActionChoser
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
-    public class ButtonActionChoserComponents : MonoBehaviour
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACCalculationsVariablesComponents))]
+    public class BACGeneralVariablesComponents : MonoBehaviour
     {
         [Header("The type of Interaction you want to use")]
         [HideInInspector] public EControllerInteractionType InteractionType = EControllerInteractionType.NONE;
+        
+        [Header("The hand on which the button to use is situated")]
+        [HideInInspector] public EHand ButtonHand = EHand.NONE;
 
         [Header("Wheter you want to use the Gaze Click for the Action")]
         [HideInInspector] public bool UseGazeButton = false;
@@ -38,15 +42,14 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         [HideInInspector] public UnityEvent OnButtonStartClicking;
         [HideInInspector] public UnityEvent OnButtonStopClicking;
         [HideInInspector] public UnityEvent OnButtonIsClicking;
-        
+
+        [HideInInspector] public List<BAC_DelegatesActions> _bacDelegatesList = new List<BAC_DelegatesActions>();
+
         [HideInInspector] public bool ActionButtonIsReady = false;
         [HideInInspector] public bool ParametersAreInvalid = false;
         [HideInInspector] public bool CorrectSDK = true;
         [HideInInspector] public bool IsSetup = false;
         [HideInInspector] public bool CanBeUsed = true;
-
-        // The hand on which the button to use is situated
-        [HideInInspector] public EHand ButtonHand = EHand.NONE;
 
         // To keep track of the event that were raised, used for the features that use the Thumbstick
         [HideInInspector] public bool ClickActionBeyondThreshold;

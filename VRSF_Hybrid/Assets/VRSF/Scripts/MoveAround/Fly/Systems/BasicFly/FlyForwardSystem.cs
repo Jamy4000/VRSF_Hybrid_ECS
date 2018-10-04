@@ -12,7 +12,7 @@ namespace VRSF.MoveAround.Systems
         struct Filter
         {
             public FlyParametersComponent FlyComponents;
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralVariablesComponents ButtonComponents;
         }
 
 

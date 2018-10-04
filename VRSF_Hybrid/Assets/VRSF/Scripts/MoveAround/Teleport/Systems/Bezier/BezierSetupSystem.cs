@@ -15,11 +15,11 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Handle the Jobs to setup the BezierCurveComponents
     /// </summary>
-    public class BezierSetupSystem : BACUpdateSystem, ITeleportSystem
+    public class BezierSetupSystem : BACUpdateSystem<BezierTeleportParametersComponent>, ITeleportSystem
     {
-        struct Filter : ITeleportFilter
+        new struct Filter : ITeleportFilter
         {
-            public ButtonActionChoserComponents BAC_Comp;
+            public BACGeneralVariablesComponents BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public BezierTeleportCalculationComponent BezierComp;
             public TeleportGeneralComponent GeneralTeleport;
@@ -50,20 +50,14 @@ namespace VRSF.MoveAround.Teleport.Systems
         protected override void OnUpdate()
         {
             base.OnUpdate();
-
-            // Check if the entities are all setup. 
-            bool entitiesNotSetup = false;
-
+            
             foreach (var e in GetEntities<Filter>())
             {
                 if (!e.BezierComp._IsSetup)
                 {
-                    entitiesNotSetup = true;
                     InitializeValues(e);
                 }
             }
-            // If all the entities were setup, the bool stay at false, and the current system don't need to run anymore
-            this.Enabled = entitiesNotSetup;
         }
 
         protected override void OnDestroyManager()

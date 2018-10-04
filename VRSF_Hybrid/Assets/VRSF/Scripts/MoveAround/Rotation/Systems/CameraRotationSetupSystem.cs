@@ -7,12 +7,12 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationSetupSystem : BACUpdateSystem
+    public class CameraRotationSetupSystem : BACUpdateSystem<CameraRotationComponent>
     {
-        struct Filter
+        new struct Filter
         {
             public CameraRotationComponent RotationComp;
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralVariablesComponents ButtonComponents;
         }
 
 
@@ -91,7 +91,6 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StartRotating(CameraRotationComponent comp)
         {
-            Debug.Log("StartRotating");
             comp.IsRotating = true;
         }
 
@@ -100,7 +99,6 @@ namespace VRSF.MoveAround.Systems
         /// </summary>
         private void StopRotating(CameraRotationComponent comp)
         {
-            Debug.Log("StopRotating");
             comp.IsRotating = false;
             comp.HasRotated = false;
         }

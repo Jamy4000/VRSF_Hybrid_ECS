@@ -2,7 +2,7 @@
 
 namespace VRSF.Utils.Components
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ButtonActionChoser.ButtonActionChoserComponents))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ButtonActionChoser.BACGeneralVariablesComponents))]
     public class SDKChoserComponent : MonoBehaviour
     {
         [Header("SDKs using this ButtonActionChoserComponent")]

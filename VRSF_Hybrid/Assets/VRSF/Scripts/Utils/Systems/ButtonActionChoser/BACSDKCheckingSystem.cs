@@ -14,7 +14,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         struct Filter
         {
             public SDKChoserComponent SDKComp;
-            public ButtonActionChoserComponents BAC_Comp;
+            public BACGeneralVariablesComponents BAC_Comp;
         }
         
 

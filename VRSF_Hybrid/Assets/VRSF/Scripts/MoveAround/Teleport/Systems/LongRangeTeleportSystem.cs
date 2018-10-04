@@ -12,12 +12,12 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
 {
-    public class LongRangeTeleportSystem : BACUpdateSystem, ITeleportSystem
+    public class LongRangeTeleportSystem : BACUpdateSystem<LongRangeTeleportComponent>, ITeleportSystem
     {
-        struct Filter : ITeleportFilter
+        new struct Filter : ITeleportFilter
         {
             public LongRangeTeleportComponent LRT_Comp;
-            public ButtonActionChoserComponents BAC_Comp;
+            public BACGeneralVariablesComponents BAC_Comp;
             public ScriptableRaycastComponent RaycastComp;
             public TeleportBoundariesComponent TeleportBoundaries;
             public TeleportGeneralComponent GeneralTeleport;
@@ -48,8 +48,6 @@ namespace VRSF.MoveAround.Teleport.Systems
                 SetupListenersResponses(e);
                 DeactivateTeleportSlider(e.LRT_Comp);
             }
-
-            this.Enabled = false;
         }
 
 
@@ -214,7 +212,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void OnIsInteracting(Filter entity)
         {
-            CheckTeleport(entity);
+            CheckTeleport();
 
             if (entity.LRT_Comp.UseLoadingSlider)
             {
@@ -230,6 +228,36 @@ namespace VRSF.MoveAround.Teleport.Systems
                 else if (entity.LRT_Comp.TeleportText != null)
                 {
                     entity.LRT_Comp.TeleportText.text = "Release To Teleport !";
+                }
+            }
+
+
+            /// <summary>
+            /// Check if the Teleport ray is on a Teleport Layer, and set the _canTeleport bool and the color of the Loading Slider accordingly.
+            /// </summary>
+            void CheckTeleport()
+            {
+                Color32 fillRectColor;
+
+                if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
+                {
+                    entity.GeneralTeleport.CanTeleport = true;
+                    fillRectColor = new Color32(100, 255, 100, 255);
+                }
+                else
+                {
+                    entity.GeneralTeleport.CanTeleport = false;
+                    fillRectColor = new Color32(0, 180, 255, 255);
+                }
+
+                if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
+                {
+                    entity.LRT_Comp.FillRect.color = fillRectColor;
+                }
+
+                if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.TeleportText != null)
+                {
+                    entity.LRT_Comp.TeleportText.color = fillRectColor;
                 }
             }
         }
@@ -266,36 +294,6 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         /// <summary>
-        /// Check if the Teleport ray is on a Teleport Layer, and set the _canTeleport bool and the color of the Loading Slider accordingly.
-        /// </summary>
-        private void CheckTeleport(Filter entity)
-        {
-            Color32 fillRectColor;
-            
-            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
-            {
-                entity.GeneralTeleport.CanTeleport = true;
-                fillRectColor = new Color32(100, 255, 100, 255);
-            }
-            else
-            {
-                entity.GeneralTeleport.CanTeleport = false;
-                fillRectColor = new Color32(0, 180, 255, 255);
-            }
-
-            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
-            {
-                entity.LRT_Comp.FillRect.color = fillRectColor;
-            }
-
-            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.TeleportText != null)
-            {
-                entity.LRT_Comp.TeleportText.color = fillRectColor;
-            }
-        }
-
-
-        /// <summary>
         /// If used, we deactivate the Teleport Slider and Text when the user release the button.
         /// </summary>
         private void DeactivateTeleportSlider(LongRangeTeleportComponent lrtComp)
@@ -321,7 +319,19 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="oldScene">The previous scene before switching</param>
         private void OnSceneUnloaded(Scene oldScene)
         {
-            this.Enabled = true;
+            foreach (var e in GetEntities<Filter>())
+            {
+                // Setting up teleport layer
+                e.GeneralTeleport.TeleportLayer = LayerMask.NameToLayer("Teleport");
+
+                if (e.GeneralTeleport.TeleportLayer == -1)
+                {
+                    Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
+                }
+
+                SetupListenersResponses(e);
+                DeactivateTeleportSlider(e.LRT_Comp);
+            }
         }
         #endregion
     }

@@ -11,11 +11,11 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
 {
-    public class StepByStepSystem : BACUpdateSystem, ITeleportSystem
+    public class StepByStepSystem : BACUpdateSystem<StepByStepComponent>, ITeleportSystem
     {
-        struct Filter : ITeleportFilter
+        new struct Filter : ITeleportFilter
         {
-            public ButtonActionChoserComponents BAC_Comp;
+            public BACGeneralVariablesComponents BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public StepByStepComponent SBS_Comp;
             public TeleportBoundariesComponent TeleportBoundaries;
@@ -34,8 +34,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 SetupListenersResponses(e);
             }
-
-            this.Enabled = false;
         }
         
         protected override void OnDestroyManager()
@@ -210,7 +208,10 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="oldScene">The previous scene before switching</param>
         private void OnSceneUnloaded(Scene oldScene)
         {
-            this.Enabled = true;
+            foreach (var e in GetEntities<Filter>())
+            {
+                SetupListenersResponses(e);
+            }
         }
         #endregion
     }

@@ -17,7 +17,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
     {
         struct Filter
         {
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralVariablesComponents ButtonComponents;
         }
 
         #region PRIVATE_VARIBALES

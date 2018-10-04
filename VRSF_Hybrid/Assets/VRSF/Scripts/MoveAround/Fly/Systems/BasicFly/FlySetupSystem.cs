@@ -13,12 +13,12 @@ namespace VRSF.MoveAround.Systems
     /// <summary>
     /// System Allowing the user to fly with the thumbstick / touchpad. 
     /// </summary>
-    public class FlySetupSystem : BACUpdateSystem
+    public class FlySetupSystem : BACUpdateSystem<FlyParametersComponent>
     {
-        public struct Filter
+        new public struct Filter
         {
             public FlyParametersComponent FlyComponent;
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralVariablesComponents ButtonComponents;
             public ScriptableRaycastComponent RaycastComp;
         }
 
@@ -139,7 +139,16 @@ namespace VRSF.MoveAround.Systems
         /// <param name="oldScene">The previous scene before switching</param>
         private void OnSceneUnloaded(Scene newScene, LoadSceneMode sceneMode)
         {
-            OnStartRunning();
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (e.ButtonComponents.ActionButton != EControllersButton.THUMBSTICK)
+                {
+                    Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
+                    e.ButtonComponents.CanBeUsed = false;
+                }
+
+                e.FlyComponent.StartCoroutine(SetupListernersCoroutine(e));
+            }
         }
         #endregion PRIVATE_METHODS
     }

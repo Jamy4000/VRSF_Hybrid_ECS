@@ -8,7 +8,7 @@ namespace VRSF.MoveAround.Teleport.Components
     /// Contains all variable necessary for the StepByStepSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(TeleportBoundariesComponent), typeof(ButtonActionChoserComponents), typeof(ScriptableRaycastComponent))]
+    [RequireComponent(typeof(TeleportBoundariesComponent), typeof(BACGeneralVariablesComponents), typeof(ScriptableRaycastComponent))]
     public class StepByStepComponent : MonoBehaviour
     {
         [Header("Teleport Step by Step Parameters")]

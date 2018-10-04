@@ -12,7 +12,6 @@ namespace VRSF.Inputs.Events
         {
             ButtonInteracting = buttonInteracting;
             HandInteracting = handInteracting;
-
             FireEvent(this);
         }
     }
