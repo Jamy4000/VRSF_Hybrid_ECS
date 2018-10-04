@@ -8,9 +8,9 @@ namespace VRSF.Utils.Systems
 {
     public class ScriptableVariableResetterSystem : ComponentSystem
     {
-        protected override void OnCreateManager(int capacity)
+        protected override void OnCreateManager()
         {
-            base.OnCreateManager(capacity);
+            base.OnCreateManager();
 
             ResetInputContainer();
             ResetInteractionContainer();
