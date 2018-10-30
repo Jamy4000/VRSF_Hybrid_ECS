@@ -26,8 +26,10 @@ GameObject:
   - component: {fileID: 114634612381954418}
   - component: {fileID: 114957631758490454}
   - component: {fileID: 114200051596571060}
+  - component: {fileID: 114784269006959318}
+  - component: {fileID: 114697973596442158}
   m_Layer: 0
-  m_Name: NewTeleporter
+  m_Name: NewCurvedTeleporter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pointer: {fileID: 0}
 --- !u!114 &114404225139578052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,6 +112,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1b397268226df488e636f2da56970f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114697973596442158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1421369562089334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c47fe1231b57464d9c435b43624132f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectionPadPrefab: {fileID: 1207235191327700, guid: fd0bb8125c368e047835376edd357a42,
+    type: 2}
+  _invalidPadPrefab: {fileID: 1415373617439018, guid: b930d0faf07413d4fac0f85a19431243,
+    type: 2}
+--- !u!114 &114784269006959318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1421369562089334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7721e3a1b60f784b8a9c895cc3f5ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialVelocity: {x: 0, y: 0, z: 10}
+  Acceleration: {x: -0, y: -10, z: -0}
+  PointCount: 10
+  PointSpacing: 0.5
+  GraphicThickness: 0.2
+  GraphicMaterial: {fileID: 2100000, guid: 21a645b07758b4b478bff4374fdb9a43, type: 2}
 --- !u!114 &114903445863690602
 MonoBehaviour:
   m_ObjectHideFlags: 1

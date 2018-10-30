@@ -12,8 +12,8 @@ namespace VRSF.MoveAround.Teleport
     [RequireComponent(typeof(BorderRendererComponent), typeof(Unity.Entities.GameObjectEntity))]
     public class SceneObjectsComponent : MonoBehaviour
     {
-        [Tooltip("Parabolic Pointer object to pull destination points from, and to assign to each controller.")]
-        public ParabolicPointer Pointer;
+        // Parabolic Pointer object to pull destination points from, and to assign to each controller
+        [System.NonSerialized] public PointerCalculationsComponent Pointer;
 
         /// Origin of the tracking space (basically the cameraRig)
         [System.NonSerialized] public Transform _originTransform;

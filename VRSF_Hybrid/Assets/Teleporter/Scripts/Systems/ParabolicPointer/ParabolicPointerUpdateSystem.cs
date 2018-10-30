@@ -1,177 +1,132 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using VRSF.Inputs;
+using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
-    /// Class calculating and displaying the Parabolic/Bezier Line
+    /// A generic component that renders a border using the given polylines.  
+    /// The borders are double sided and are oriented upwards (ie normals are parallel to the XZ plane)
     /// 
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    [AddComponentMenu("VRSF/Teleport/Parabolic Pointer")]
-    public class ParabolicPointer : MonoBehaviour
+    public class ParabolicPointerUpdateSystem : BACUpdateSystem<PointerCalculationsComponent>
     {
-        #region PUBLIC_VARIABLES
-        public TeleporterNavMesh NavMesh;
-
-        [Header("Parabola Trajectory")]
-        [Tooltip("Initial velocity of the parabola, in local space.")]
-        public Vector3 InitialVelocity = Vector3.forward * 10f;
-        [Tooltip("World-space \"acceleration\" of the parabola.  This effects the falloff of the curve.")]
-        public Vector3 Acceleration = Vector3.up * -9.8f;
-
-        [Header("Parabola Mesh Properties")]
-        [Tooltip("Number of points on the parabola mesh.  Greater point counts lead to a higher poly/smoother mesh.")]
-        public int PointCount = 10;
-        [Tooltip("Approximate spacing between each of the points on the parabola mesh.")]
-        public float PointSpacing = 0.5f;
-        [Tooltip("Thickness of the parabola mesh")]
-        public float GraphicThickness = 0.2f;
-        [Tooltip("Material to use to render the parabola mesh")]
-        public Material GraphicMaterial;
-        #endregion PUBLIC_VARIABLES
-
-
-        #region PRIVATE_VARIABLES
-        [Header("Selection Pad Properties")]
-        [Tooltip("Prefab to use as the selection pad when the player is pointing at a valid teleportable surface.")]
-        [SerializeField] private GameObject _selectionPadPrefab;
-        [Tooltip("Prefab to use as the selection pad when the player is pointing at an invalid teleportable surface.")]
-        [SerializeField] private GameObject _invalidPadPrefab;
-
-
-        private GameObject _selectionPadObject;
-        private GameObject _invalidPadObject;
-
-        private Mesh _parabolaMesh;
-
-        private List<Vector3> ParabolaPoints;
-
-#if UNITY_EDITOR
-        // Only used for the OnDrawGizmos method
-        private List<Vector3> ParabolaPoints_Gizmo;
-#endif
-        #endregion PRIVATE_VARIABLES
-
-
-        #region MONOBEHAVIOUR_METHODS
-        private void Start()
+        private new struct Filter
         {
-            ParabolaPoints = new List<Vector3>(PointCount);
+            public BACGeneralComponent BACGeneral;
+            public BACCalculationsComponent BACCalculations;
+            
+            public TeleportNavMeshComponent NavMeshComp;
+            public PointerObjectsComponent PointerObjects;
+            public PointerCalculationsComponent PointerCalculations;
+        }
 
-            _parabolaMesh = new Mesh();
-            _parabolaMesh.MarkDynamic();
-            _parabolaMesh.name = "Parabolic Pointer";
-            _parabolaMesh.vertices = new Vector3[0];
-            _parabolaMesh.triangles = new int[0];
-
-            if (_selectionPadPrefab != null)
+        public override void SetupListenersResponses(object entity)
+        {
+            var e = (Filter)entity;
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _selectionPadObject = Instantiate<GameObject>(_selectionPadPrefab);
-                _selectionPadObject.SetActive(false);
+                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { ActivatePointer(e); });
+                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { UpdatePointer(e); });
             }
 
-            if (_invalidPadPrefab != null)
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _invalidPadObject = Instantiate<GameObject>(_invalidPadPrefab);
-                _invalidPadObject.SetActive(false);
+                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { ActivatePointer(e); });
+                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { UpdatePointer(e); });
             }
         }
 
-        private void OnDisable()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if (_selectionPadObject != null)
-                _selectionPadObject.SetActive(false);
-            if (_invalidPadObject != null)
-                _invalidPadObject.SetActive(false);
+            var e = (Filter)entity;
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            {
+                e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
+            }
+
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            {
+                e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
+            }
         }
 
-        void Update()
+        private void ActivatePointer(Filter e)
+        {
+            ForceUpdateCurrentAngle(e);
+        }
+
+        private void UpdatePointer(Filter e)
         {
             // 1. Calculate Parabola Points
-            Vector3 velocity = transform.TransformDirection(InitialVelocity);
-            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 velocity_normalized);
-            CurrentPointVector = velocity_normalized;
+            var velocity = ForceUpdateCurrentAngle(e);
 
-            PointOnNavMesh = CalculateParabolicCurve(
-                transform.position,
+            e.PointerCalculations.PointOnNavMesh = CalculateParabolicCurve
+            (
+                e.PointerCalculations.transform.position,
                 velocity,
-                Acceleration, PointSpacing, PointCount,
-                NavMesh,
-                ParabolaPoints,
-                out Vector3 normal);
+                e.PointerCalculations.Acceleration, 
+                e.PointerCalculations.PointSpacing, 
+                e.PointerCalculations.PointCount,
+                e.NavMeshComp,
+                e.PointerObjects.ParabolaPoints,
+                out Vector3 normal
+            );
 
-            SelectedPoint = ParabolaPoints[ParabolaPoints.Count - 1];
+            e.PointerCalculations.SelectedPoint = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
 
             // 2. Render Parabola graphics
-            if (_selectionPadObject != null)
+            if (e.PointerObjects._selectionPadObject != null)
             {
-                _selectionPadObject.SetActive(PointOnNavMesh);
-                _selectionPadObject.transform.position = SelectedPoint + Vector3.one * 0.005f;
-                if (PointOnNavMesh)
+                e.PointerObjects._selectionPadObject.SetActive(e.PointerCalculations.PointOnNavMesh);
+                e.PointerObjects._selectionPadObject.transform.position = e.PointerCalculations.SelectedPoint + Vector3.one * 0.005f;
+                if (e.PointerCalculations.PointOnNavMesh)
                 {
-                    _selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
-                    _selectionPadObject.transform.Rotate(90, 0, 0);
+                    e.PointerObjects._selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
+                    e.PointerObjects._selectionPadObject.transform.Rotate(90, 0, 0);
                 }
             }
-            if (_invalidPadObject != null)
+            if (e.PointerObjects._invalidPadObject != null)
             {
-                _invalidPadObject.SetActive(!PointOnNavMesh);
-                _invalidPadObject.transform.position = SelectedPoint + Vector3.one * 0.005f;
-                if (!PointOnNavMesh)
+                e.PointerObjects._invalidPadObject.SetActive(!e.PointerCalculations.PointOnNavMesh);
+                e.PointerObjects._invalidPadObject.transform.position = e.PointerCalculations.SelectedPoint + Vector3.one * 0.005f;
+                if (!e.PointerCalculations.PointOnNavMesh)
                 {
-                    _invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
-                    _invalidPadObject.transform.Rotate(90, 0, 0);
+                    e.PointerObjects._invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
+                    e.PointerObjects._invalidPadObject.transform.Rotate(90, 0, 0);
                 }
             }
 
             // Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
-            GenerateMesh(ref _parabolaMesh, ParabolaPoints, velocity, Time.time % 1);
-            Graphics.DrawMesh(_parabolaMesh, Matrix4x4.identity, GraphicMaterial, gameObject.layer);
+            GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
+            Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
         }
 
-#if UNITY_EDITOR
-        private void OnDrawGizmos()
+        private void DeactivatePointer(Filter e)
         {
-            if (Application.isPlaying) // Otherwise the parabola can show in the game view
-                return;
-
-            if (ParabolaPoints_Gizmo == null)
-                ParabolaPoints_Gizmo = new List<Vector3>(PointCount);
-
-            Vector3 velocity = transform.TransformDirection(InitialVelocity);
-            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 velocity_normalized);
-
-            bool didHit = CalculateParabolicCurve(
-                transform.position,
-                velocity,
-                Acceleration, PointSpacing, PointCount,
-                NavMesh,
-                ParabolaPoints_Gizmo, out Vector3 normal);
-
-            Gizmos.color = Color.blue;
-            for (int x = 0; x < ParabolaPoints_Gizmo.Count - 1; x++)
-                Gizmos.DrawLine(ParabolaPoints_Gizmo[x], ParabolaPoints_Gizmo[x + 1]);
-            Gizmos.color = Color.green;
-
-            if (didHit)
-                Gizmos.DrawSphere(ParabolaPoints_Gizmo[ParabolaPoints_Gizmo.Count - 1], 0.2f);
+            if (e.PointerObjects._selectionPadObject != null)
+                e.PointerObjects._selectionPadObject.SetActive(false);
+            if (e.PointerObjects._invalidPadObject != null)
+                e.PointerObjects._invalidPadObject.SetActive(false);
         }
-#endif
-        #endregion MONOBEHAVIOUR_METHODS
-
 
         #region PUBLIC_METHODS
         /// <summary>
         ///  Used when you can't depend on Update() to automatically update CurrentParabolaAngle
         /// (for example, directly after enabling the component)
         /// </summary>
-        public void ForceUpdateCurrentAngle()
+        private Vector3 ForceUpdateCurrentAngle(Filter e)
         {
-            Vector3 velocity = transform.TransformDirection(InitialVelocity);
-            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 d);
-            CurrentPointVector = d;
+            Vector3 velocity = e.PointerObjects.transform.TransformDirection(e.PointerCalculations.InitialVelocity);
+            e.PointerCalculations.CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 d, e.PointerCalculations.InitialVelocity);
+            e.PointerCalculations.CurrentPointVector = d;
+            return velocity;
         }
         #endregion PUBLIC_METHODS
 
@@ -192,7 +147,7 @@ namespace VRSF.MoveAround.Teleport
         {
             return v0 + a * t;
         }
-        
+
         /// <summary>
         /// Parabolic motion equation applied to 3 dimensions
         /// </summary> 
@@ -229,7 +184,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="normal">normal of hit point</param>
         /// 
         /// <returns>true if the the parabole is at the end of the NavMesh</returns>
-        private static bool CalculateParabolicCurve(Vector3 p0, Vector3 v0, Vector3 a, float dist, int points, TeleporterNavMesh nav, List<Vector3> outPts, out Vector3 normal)
+        private static bool CalculateParabolicCurve(Vector3 p0, Vector3 v0, Vector3 a, float dist, int points, TeleportNavMeshComponent nav, List<Vector3> outPts, out Vector3 normal)
         {
             outPts.Clear();
             outPts.Add(p0);
@@ -241,16 +196,17 @@ namespace VRSF.MoveAround.Teleport
             {
                 t += dist / ParabolicCurveDeriv(v0, a, t).magnitude;
                 Vector3 next = ParabolicCurve(p0, v0, a, t);
-
-                bool cast = nav.Linecast(last, next, out bool endOnNavmesh, out Vector3 castHit, out Vector3 norm);
-                if (cast)
+                
+                if (TeleportNavMeshUpdateSystem.Linecast(last, next, out bool endOnNavmesh, out Vector3 castHit, out Vector3 norm, nav))
                 {
                     outPts.Add(castHit);
                     normal = norm;
                     return endOnNavmesh;
                 }
                 else
+                {
                     outPts.Add(next);
+                }
 
                 last = next;
             }
@@ -265,7 +221,7 @@ namespace VRSF.MoveAround.Teleport
             return point - d;
         }
 
-        private void GenerateMesh(ref Mesh m, List<Vector3> points, Vector3 fwd, float uvoffset)
+        private void GenerateMesh(ref Mesh m, List<Vector3> points, Vector3 fwd, float uvoffset, float graphicThickness)
         {
             Vector3[] verts = new Vector3[points.Count * 2];
             Vector2[] uv = new Vector2[points.Count * 2];
@@ -274,8 +230,8 @@ namespace VRSF.MoveAround.Teleport
 
             for (int x = 0; x < points.Count; x++)
             {
-                verts[2 * x] = points[x] - right * GraphicThickness / 2;
-                verts[2 * x + 1] = points[x] + right * GraphicThickness / 2;
+                verts[2 * x] = points[x] - right * graphicThickness / 2;
+                verts[2 * x + 1] = points[x] + right * graphicThickness / 2;
 
                 float uvoffset_mod = uvoffset;
                 if (x == points.Count - 1 && x > 1)
@@ -326,10 +282,8 @@ namespace VRSF.MoveAround.Teleport
         /// This is done so that it is easier to leverage the maximum distance (at the 45 degree angle) of
         /// parabolic motion.
         /// </summary>
-        /// <param name="velocity"></param>
-        /// <param name="velocity_normalized"></param>
         /// <returns>angle with reference to the XZ plane</returns>
-        private float ClampInitialVelocity(ref Vector3 velocity, out Vector3 velocity_normalized)
+        private float ClampInitialVelocity(ref Vector3 velocity, out Vector3 velocity_normalized, Vector3 initialVelocity)
         {
             // Project the initial velocity onto the XZ plane.  This gives us the "forward" direction
             Vector3 velocity_fwd = ProjectVectorOntoPlane(Vector3.up, velocity);
@@ -349,7 +303,7 @@ namespace VRSF.MoveAround.Teleport
                 velocity = Vector3.Slerp(velocity_fwd, velocity, 45f / angle);
                 velocity /= velocity.magnitude;
                 velocity_normalized = velocity;
-                velocity *= InitialVelocity.magnitude;
+                velocity *= initialVelocity.magnitude;
                 angle = 45;
             }
             else
@@ -358,13 +312,5 @@ namespace VRSF.MoveAround.Teleport
             return angle;
         }
         #endregion PRIVATE_METHODS
-
-
-        #region GETTERS_SETTERS
-        public Vector3 SelectedPoint { get; private set; }
-        public bool PointOnNavMesh { get; private set; }
-        public float CurrentParabolaAngleY { get; private set; }
-        public Vector3 CurrentPointVector { get; private set; }
-        #endregion GETTERS_SETTERS
     }
-} 
+}

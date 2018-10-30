@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1387114998068350}
+  m_IsPrefabAsset: 1
+--- !u!1 &1387114998068350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4249063665291730}
+  - component: {fileID: 114352988616639752}
+  - component: {fileID: 114067987568865400}
+  - component: {fileID: 114360518102501412}
+  m_Layer: 0
+  m_Name: TeleporterNavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4249063665291730
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1387114998068350}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114067987568865400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1387114998068350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114352988616639752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1387114998068350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de52201ebe74644a9b23fe8163e37fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundAlpha: 1
+  _GroundMaterialSource: {fileID: 2100000, guid: 61ccb656016c9b44b8a49c327ee084a4,
+    type: 2}
+  _GroundMaterial: {fileID: 0}
+  _LayerMask: 256
+  _IgnoreLayerMask: 1
+  _QueryTriggerInteraction: 0
+  _SelectableMesh: {fileID: 0}
+  _SelectableMeshBorder:
+  - Points:
+    - {x: -42.666668, y: 0.0833238, z: -49.333336}
+    - {x: -49.333336, y: 0.0833238, z: -49.333336}
+    - {x: -49.333336, y: 0.0833238, z: -42.666668}
+    - {x: -49.333336, y: 0.0833238, z: 0}
+    - {x: -49.333336, y: 0.0833238, z: 42.666668}
+    - {x: -49.333336, y: 0.0833238, z: 49.5}
+    - {x: -42.666668, y: 0.0833238, z: 49.5}
+    - {x: 0, y: 0.0833238, z: 49.5}
+    - {x: 42.666668, y: 0.0833238, z: 49.5}
+    - {x: 49.333336, y: 0.0833238, z: 49.5}
+    - {x: 49.333336, y: 0.0833238, z: 42.666668}
+    - {x: 49.333336, y: 0.0833238, z: 0}
+    - {x: 49.333336, y: 0.0833238, z: -42.666668}
+    - {x: 49.333336, y: 0.0833238, z: -49.333336}
+    - {x: 42.666668, y: 0.0833238, z: -49.333336}
+    - {x: 0, y: 0.0833238, z: -49.333336}
+    - {x: -42.666668, y: 0.0833238, z: -49.333336}
+  - Points:
+    - {x: -23.5, y: 7.4999905, z: -31.166668}
+    - {x: -23.5, y: 7.4999905, z: -22.333334}
+    - {x: -14.666668, y: 7.4999905, z: -22.333334}
+    - {x: -14.666668, y: 7.4999905, z: -31.166668}
+    - {x: -23.5, y: 7.4999905, z: -31.166668}
+  - Points:
+    - {x: 0, y: 7.4999905, z: -2.333332}
+    - {x: -4.833332, y: 7.4999905, z: -2.333332}
+    - {x: -4.833332, y: 7.4999905, z: 0}
+    - {x: -4.833332, y: 7.4999905, z: 6.5}
+    - {x: 0, y: 7.4999905, z: 6.5}
+    - {x: 4, y: 7.4999905, z: 6.5}
+    - {x: 4, y: 7.4999905, z: 0}
+    - {x: 4, y: 7.4999905, z: -2.333332}
+    - {x: 0, y: 7.4999905, z: -2.333332}
+  - Points:
+    - {x: 0.16666667, y: 7.4999905, z: -26.5}
+    - {x: 0.16666667, y: 7.4999905, z: -17.666668}
+    - {x: 9, y: 7.4999905, z: -17.666668}
+    - {x: 9, y: 7.4999905, z: -26.5}
+    - {x: 0.16666667, y: 7.4999905, z: -26.5}
+  - Points:
+    - {x: 13.166667, y: 7.4999905, z: 14.333334}
+    - {x: 13.166667, y: 7.4999905, z: 23.166668}
+    - {x: 22, y: 7.4999905, z: 23.166668}
+    - {x: 22, y: 7.4999905, z: 14.333334}
+    - {x: 13.166667, y: 7.4999905, z: 14.333334}
+  _NavAreaMask: -3
+  _IgnoreSlopedSurfaces: 1
+  _SampleRadius: 0.25
+  _DewarpingMethod: 0
+--- !u!114 &114360518102501412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1387114998068350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd97aaa8eee92114396bba7e9c2a74c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _borderHeight: 0.2
+  BorderAlpha: 1
+  BorderMaterial: {fileID: 2100000, guid: b684c4a333b51ed4cb44a03406b9964b, type: 2}

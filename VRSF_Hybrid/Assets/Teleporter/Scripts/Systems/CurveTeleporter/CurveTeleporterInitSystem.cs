@@ -2,6 +2,7 @@
 using UnityEngine;
 using Valve.VR;
 using VRSF.Utils;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -12,8 +13,8 @@ namespace VRSF.MoveAround.Teleport
             public SceneObjectsComponent SceneObjects;
             public TeleportCalculationsComponent TeleportCalculations;
             public TeleportFadeComponent FadeComp;
-            public TeleportNavMeshComponent NavMesh;
-            public Utils.Components.ScriptableRaycastComponent RaycastComp;
+            public NavMeshAnimatorComponent NavMeshAnim;
+            public BACGeneralComponent BACGeneral;
         }
 
         protected override void OnUpdate()
@@ -37,12 +38,9 @@ namespace VRSF.MoveAround.Teleport
             e.SceneObjects._headTransform = VRSF_Components.VRCamera.transform;
 
             // We set the active controller to the RayOrigin of this teleporter
-            e.SceneObjects._activeController = e.RaycastComp.RayOrigin == Controllers.EHand.RIGHT ?
+            e.SceneObjects._activeController = e.BACGeneral.ButtonHand == Controllers.EHand.RIGHT ?
                 VRSF_Components.RightController : VRSF_Components.LeftController;
             
-            // Disable the pointer graphic (until the user holds down on the touchpad)
-            e.SceneObjects.Pointer.enabled = false;
-
             // Ensure we mark the player as not teleporting
             e.TeleportCalculations.CurrentTeleportState = ETeleportState.None;
 
@@ -74,14 +72,11 @@ namespace VRSF.MoveAround.Teleport
             e.FadeComp._TeleportCalculations = e.TeleportCalculations;
 
             // Set some standard variables for the TeleportNavMeshComponent
-            e.NavMesh._navmeshAnimator = e.NavMesh.GetComponent<Animator>();
-            e.NavMesh._enabledAnimatorID = Animator.StringToHash("Enabled");
+            e.NavMeshAnim._navmeshAnimator = e.NavMeshAnim.GetComponent<Animator>();
+            e.NavMeshAnim._enabledAnimatorID = Animator.StringToHash("Enabled");
 
             // Set some standard variables for the SceneObjectsComponent
-            if (e.SceneObjects.Pointer == null)
-            {
-                e.SceneObjects.Pointer = GameObject.FindObjectOfType<ParabolicPointer>();
-            }
+            e.SceneObjects.Pointer = e.SceneObjects.GetComponent<PointerCalculationsComponent>();
             e.SceneObjects._roomBorder = e.SceneObjects.GetComponent<BorderRendererComponent>();
 
             // We check if a Play Area was set by the user

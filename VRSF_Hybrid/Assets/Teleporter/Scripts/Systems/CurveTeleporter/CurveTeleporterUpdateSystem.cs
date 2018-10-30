@@ -12,7 +12,7 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    public class CurveTeleporterUpdateSystem : BACUpdateSystem<CurveTeleporterUpdateSystem>
+    public class CurveTeleporterUpdateSystem : BACUpdateSystem<TeleportCalculationsComponent>
     {
         private new struct Filter
         {
@@ -21,7 +21,7 @@ namespace VRSF.MoveAround.Teleport
 
             public SceneObjectsComponent SceneObjects;
             public TeleportCalculationsComponent TeleportCalculations;
-            public TeleportNavMeshComponent NavMeshComp;
+            public NavMeshAnimatorComponent NavMeshAnim;
         }
 
         protected override void OnStartRunning()
@@ -86,15 +86,11 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            // enable the parabolic pointer and visual indicators that the user can use to determine where they are able to teleport.
-            e.SceneObjects.Pointer.enabled = true;
-
             e.TeleportCalculations.CurrentTeleportState = ETeleportState.Selecting;
 
-            if (e.NavMeshComp._navmeshAnimator != null)
-                e.NavMeshComp._navmeshAnimator.SetBool(e.NavMeshComp._enabledAnimatorID, true);
+            if (e.NavMeshAnim._navmeshAnimator != null)
+                e.NavMeshAnim._navmeshAnimator.SetBool(e.NavMeshAnim._enabledAnimatorID, true);
 
-            e.SceneObjects.Pointer.ForceUpdateCurrentAngle();
             e.TeleportCalculations._lastClickAngle = e.SceneObjects.Pointer.CurrentPointVector;
             e.TeleportCalculations.IsClicking = e.SceneObjects.Pointer.PointOnNavMesh;
         }
@@ -134,8 +130,8 @@ namespace VRSF.MoveAround.Teleport
             e.SceneObjects.Pointer.enabled = false;
             e.SceneObjects._roomBorder.enabled = false;
             //RoomBorder.Transpose = Matrix4x4.TRS(OriginTransform.position, Quaternion.identity, Vector3.one);
-            if (e.NavMeshComp._navmeshAnimator != null)
-                e.NavMeshComp._navmeshAnimator.SetBool(e.NavMeshComp._enabledAnimatorID, false);
+            if (e.NavMeshAnim._navmeshAnimator != null)
+                e.NavMeshAnim._navmeshAnimator.SetBool(e.NavMeshAnim._enabledAnimatorID, false);
         }
     }
 }

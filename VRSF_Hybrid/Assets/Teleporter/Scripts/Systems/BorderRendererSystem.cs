@@ -30,6 +30,21 @@ namespace VRSF.MoveAround.Teleport
                 {
                     RegenerateMesh(e.BorderRenderer);
                 }
+
+                if (e.BorderRenderer.BorderAreShown)
+                {
+                    if (e.BorderRenderer.CachedMeshes == null || e.BorderRenderer.BorderMaterial == null)
+                        return;
+
+                    if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
+                    {
+                        e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
+                        e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
+                    }
+
+                    foreach (Mesh m in e.BorderRenderer.CachedMeshes)
+                        Graphics.DrawMesh(m, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
+                }
             }
         }
 

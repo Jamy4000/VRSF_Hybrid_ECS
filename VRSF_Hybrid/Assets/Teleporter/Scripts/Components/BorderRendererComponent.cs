@@ -9,7 +9,6 @@ namespace VRSF.MoveAround.Teleport
     /// A generic component that renders a border using the given polylines.  
     /// The borders are double sided and are oriented upwards (ie normals are parallel to the XZ plane)
     /// </summary>
-    [AddComponentMenu("VRSF/Teleport/Border Renderer")]
     [ExecuteInEditMode]
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class BorderRendererComponent : MonoBehaviour
@@ -41,6 +40,8 @@ namespace VRSF.MoveAround.Teleport
 
         [Tooltip("Material used to render the border mesh.  UV's are set up so that v=0->bottom and v=1->top.  u is stretched along each edge.")]
         public Material BorderMaterial;
+
+        [System.NonSerialized] public bool BorderAreShown;
         #endregion PUBLIC_VARIABLES
 
 

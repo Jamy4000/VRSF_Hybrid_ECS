@@ -10,7 +10,7 @@ namespace VRSF.MoveAround.Teleport
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
     [RequireComponent(typeof(Animator))]
-    public class TeleportNavMeshComponent : MonoBehaviour
+    public class NavMeshAnimatorComponent : MonoBehaviour
     {
         /// Animator used to fade in/out the teleport area.  This should have a boolean parameter "Enabled" where if true
         /// the selectable area is displayed on the ground.

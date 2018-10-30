@@ -14,7 +14,7 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    [CustomEditor(typeof(TeleporterNavMesh))]
+    [CustomEditor(typeof(TeleportNavMeshComponent))]
     public class TeleporterNavMeshEditor : UnityEditor.Editor
     {
         // EMPTY
@@ -57,8 +57,9 @@ namespace VRSF.MoveAround.Teleport
         {
             GUIStyle bold_wrap = EditorStyles.boldLabel;
             bold_wrap.wordWrap = true;
-            GUILayout.Label("Navmesh Preprocessor for HTC Vive Locomotion", bold_wrap);
-            GUILayout.Label("Adrian Biagioli 2017", EditorStyles.miniLabel);
+            GUILayout.Label("Navmesh Preprocessor for VR Locomotion", bold_wrap);
+            GUILayout.Label("Based on Adrian Biagioli work, 2017", EditorStyles.miniLabel);
+            GUILayout.Label("Updated by Arnaud Briche, 2018", EditorStyles.miniLabel);
 
             GUILayout.Label("Before Using", bold_wrap);
             GUIStyle wrap = EditorStyles.label;
@@ -69,7 +70,7 @@ namespace VRSF.MoveAround.Teleport
                 "that the player will see in-game.\n",
                 wrap);
 
-            TeleporterNavMesh mesh = (TeleporterNavMesh)target;
+            TeleportNavMeshComponent mesh = (TeleportNavMeshComponent)target;
 
             serializedObject.Update();
 
@@ -238,14 +239,13 @@ namespace VRSF.MoveAround.Teleport
             {
                 if (dw == ENavmeshDewarpingMethod.RaycastDownward)
                 {
-                    RaycastHit hit;
 
                     // Have the raycast span over the entire navmesh voxel
                     Vector3 sample = verts[x];
                     double vy = Math.Round(verts[x].y / step) * step;
                     sample.y = (float)vy;
 
-                    if (Physics.Raycast(sample, Vector3.down, out hit, (float)step + 0.01f))
+                    if (Physics.Raycast(sample, Vector3.down, out RaycastHit hit, (float)step + 0.01f))
                         verts[x] = hit.point;
 
                 }

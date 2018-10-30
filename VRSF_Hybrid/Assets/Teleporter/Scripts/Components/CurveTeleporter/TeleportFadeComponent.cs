@@ -9,7 +9,7 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    [RequireComponent(typeof(SceneObjectsComponent), typeof(TeleportNavMeshComponent), typeof(TeleportCalculationsComponent))]
+    [RequireComponent(typeof(SceneObjectsComponent), typeof(NavMeshAnimatorComponent), typeof(TeleportCalculationsComponent))]
     public class TeleportFadeComponent : MonoBehaviour
     {
         /// How long, in seconds, the fade-in/fade-out animation should take
@@ -49,4 +49,4 @@ namespace VRSF.MoveAround.Teleport
             }
         }
     }
-}
+} 
