@@ -1,9 +1,7 @@
-﻿using ScriptableFramework.Events;
-using VRSF.Controllers;
-using VRSF.Gaze;
+﻿using VRSF.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
-using VRSF.Interactions;
+using VRSF.Utils.Events;
 
 namespace VRSF.UI
 {
@@ -20,48 +18,19 @@ namespace VRSF.UI
 
 
         #region PRIVATE_VARIABLES
-        // The Controllers and Gaze Parameters
-        private ControllersParametersVariable _controllersParameter;
-        private GazeParametersVariable _gazeParameter;
-
-        // The Interaction Variable and GameEvents Container
-        private InteractionVariableContainer _interactionContainer;
-
-        GameObject _GameEventListenersContainer;
-
-        Dictionary<string, GameEventListenerTransform> _ListenersDictionary;
-        Dictionary<string, GameEventTransform> _EventsDictionary;
-
-        IUISetupClickOnly _ClickOnlySetup;
-        VRUISetup _UISetup;
-
-        VRUISetup.CheckObjectDelegate _CheckObject;
-
         private bool _boxColliderSetup;
         #endregion PRIVATE_VARIABLES
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnValidate()
+        protected override void OnEnable()
         {
-            base.OnValidate();
-            MakeBasicSetup();
-        }
+            base.OnEnable();
 
-        protected override void Start()
-        {
-            base.Start();
             if (Application.isPlaying)
             {
-                MakeBasicSetup();
-                SetupUIElement();
-            }
-        }
+                SetupListener();
 
-        private void Update()
-        {
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
-            {
                 // We setup the BoxCollider size and center
                 StartCoroutine(SetupBoxCollider());
             }
@@ -70,25 +39,7 @@ namespace VRSF.UI
         protected override void OnDisable()
         {
             base.OnDisable();
-            try
-            {
-                if (this.enabled)
-                {
-                    _ListenersDictionary = _UISetup.EndApp(_ListenersDictionary, _EventsDictionary);
-                }
-            }
-            catch
-            {
-                // Listeners not set in the scene yet.
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            if (this.enabled)
-            {
-                _ListenersDictionary = _UISetup.EndApp(_ListenersDictionary, _EventsDictionary);
-            }
+            ObjectWasClickedEvent.UnregisterListener(CheckToggleClick);
         }
         #endregion MONOBEHAVIOUR_METHODS
 
@@ -99,66 +50,25 @@ namespace VRSF.UI
 
 
         #region PRIVATE_METHODS
-        private void MakeBasicSetup()
+        private void SetupListener()
         {
-            // We initialize the _ListenersDictionary
-            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
-            {
-                { "Right", null },
-                { "Left", null },
-                { "Gaze", null },
-            };
-
-            // We create new object to setup the button references; listeners and GameEventListeners
-            _CheckObject = CheckToggleClick;
-            _UISetup = new VRUISetup(_CheckObject);
-            _ClickOnlySetup = new VRToggleSetup();
-
-            // Check if the Listeners GameObject is set correctly. If not, create the child
-            if (!_ClickOnlySetup.CheckGameEventListenerChild(ref _GameEventListenersContainer, ref _ListenersDictionary, transform))
-                _UISetup.CreateGameEventListenerChild(ref _GameEventListenersContainer, transform);
-
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
-            {
-                // We setup the BoxCollider size and center
-                StartCoroutine(SetupBoxCollider());
-            }
-        }
-
-        private void SetupUIElement()
-        {
-            _controllersParameter = ControllersParametersVariable.Instance;
-            _gazeParameter = GazeParametersVariable.Instance;
-
-            _interactionContainer = InteractionVariableContainer.Instance;
-
             // If the controllers are not used, we cannot click on a button
-            if (!_controllersParameter.UseControllers)
+            if (!ControllersParametersVariable.Instance.UseControllers)
             {
                 Debug.Log("VRSF : You won't be able to use the VR Toggle if you're not using the Controllers. To change that,\n" +
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
-            // We initialize the _EventsDictionary
-            _EventsDictionary = new Dictionary<string, GameEventTransform>
-            {
-                { "Right", _interactionContainer.RightObjectWasClicked},
-                { "Left", _interactionContainer.LeftObjectWasClicked },
-                { "Gaze", _interactionContainer.GazeObjectWasClicked },
-            };
-
-            // We setup the ListenersDictionary
-            _ListenersDictionary = _UISetup.CheckGameEventListenersPresence(_GameEventListenersContainer, _ListenersDictionary);
-            _ListenersDictionary = _UISetup.SetGameEventListeners(_ListenersDictionary, _EventsDictionary, _gazeParameter.UseGaze);
+            ObjectWasClickedEvent.RegisterListener(CheckToggleClick);
         }
 
         /// <summary>
         /// Event called when the button is clicked
         /// </summary>
-        /// <param name="value">The object that was clicked</param>
-        void CheckToggleClick(Transform value)
+        /// <param name="clickEvent">The event raised when an object is clicked</param>
+        void CheckToggleClick(ObjectWasClickedEvent clickEvent)
         {
-            if (interactable && value == transform)
+            if (interactable && clickEvent.ObjectClicked == transform)
             {
                 isOn = !isOn;
             }
@@ -172,11 +82,11 @@ namespace VRSF.UI
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
             yield return new WaitForEndOfFrame();
-
+            
             if (SetColliderAuto)
             {
                 BoxCollider box = GetComponent<BoxCollider>();
-                box = _UISetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
+                box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
             }
             _boxColliderSetup = true;
         }

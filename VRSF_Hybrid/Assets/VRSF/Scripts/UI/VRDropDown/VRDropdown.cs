@@ -1,11 +1,9 @@
-﻿using ScriptableFramework.Events;
-using ScriptableFramework.Util;
+﻿using ScriptableFramework.Util;
 using VRSF.Controllers;
-using VRSF.Gaze;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using VRSF.Interactions;
+using VRSF.Utils.Events;
+using System.Collections.Generic;
 
 namespace VRSF.UI
 {
@@ -23,68 +21,24 @@ namespace VRSF.UI
 
 
         #region PRIVATE_VARIABLES
-        // The Controllers and Gaze Parameters
-        private ControllersParametersVariable _controllersParameter;
-        private GazeParametersVariable _gazeParameter;
+        GameObject _template;
+        bool _isShown = false;
 
-        // The Interaction Variable and GameEvents Container
-        private InteractionVariableContainer _interactionContainer;
-
-        GameObject _GameEventListenersContainer;
-
-        Dictionary<string, GameEventListenerTransform> _ListenersDictionary;
-        Dictionary<string, GameEventTransform> _EventsDictionary;
-
-        IUISetupClickOnly _ClickOnlySetup;
-        VRUISetup _UISetup;
-
-        VRUISetup.CheckObjectDelegate _CheckObject;
-
-        GameObject _Template;
-        bool _IsShown = false;
-
-        private bool _boxColliderSetup;
+        private bool _isBoxColliderSetup;
         #endregion PRIVATE_VARIABLES
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnValidate()
+        protected override void OnEnable()
         {
-            base.OnValidate();
+            base.OnEnable();
 
-            // We initialize the _ListenersDictionary
-            _ListenersDictionary = new Dictionary<string, GameEventListenerTransform>
-            {
-                { "Right", null },
-                { "Left", null },
-                { "Gaze", null },
-            };
-
-            // We create new object to setup the button references; listeners and GameEventListeners
-            _CheckObject = CheckObjectClicked;
-            _UISetup = new VRUISetup(_CheckObject);
-            _ClickOnlySetup = new VRDropdownSetup();
-
-            // Check if the Listeners GameObject is set correctly. If not, create the child
-            if (!_ClickOnlySetup.CheckGameEventListenerChild(ref _GameEventListenersContainer, ref _ListenersDictionary, transform))
-                _UISetup.CreateGameEventListenerChild(ref _GameEventListenersContainer, transform);
-        }
-
-        protected override void Start()
-        {
-            base.Start();
-            if (Application.isPlaying && gameObject.activeInHierarchy)
+            if (Application.isPlaying)
             {
                 SetupUIElement();
-            }
-        }
 
-        private void Update()
-        {
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
-            {
+                // We setup the BoxCollider size and center
                 StartCoroutine(SetupBoxCollider());
-                return;
             }
         }
 
@@ -93,28 +47,7 @@ namespace VRSF.UI
             base.OnDisable();
 
             onValueChanged.RemoveListener(delegate { SetDropDownNewState(); });
-
-            try
-            {
-                if (this.enabled)
-                {
-                    _ListenersDictionary = _UISetup.EndApp(_ListenersDictionary, _EventsDictionary);
-                }
-            }
-            catch
-            {
-                // Listeners not set in the scene yet.
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            onValueChanged.RemoveListener(delegate { SetDropDownNewState(); });
-
-            if (this.enabled)
-            {
-                _ListenersDictionary = _UISetup.EndApp(_ListenersDictionary, _EventsDictionary);
-            }
+            ObjectWasClickedEvent.UnregisterListener(CheckObjectClicked);
         }
         #endregion MONOBEHAVIOUR_METHODS
 
@@ -127,40 +60,18 @@ namespace VRSF.UI
         #region PRIVATE_METHODS
         private void SetupUIElement()
         {
-            _controllersParameter = ControllersParametersVariable.Instance;
-            _gazeParameter = GazeParametersVariable.Instance;
-
-            _interactionContainer = InteractionVariableContainer.Instance;
-
             // If the controllers are not used, we cannot click on a Dropdown
-            if (!_controllersParameter.UseControllers)
+            if (!ControllersParametersVariable.Instance.UseControllers)
             {
                 Debug.Log("VRSF : You won't be able to use the VR DropDown if you're not using the Controllers. To change that,\n" +
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
             onValueChanged.AddListener(delegate { SetDropDownNewState(); });
-
-            // We initialize the _EventsDictionary
-            _EventsDictionary = new Dictionary<string, GameEventTransform>
-            {
-                { "Right", _interactionContainer.RightObjectWasClicked },
-                { "Left", _interactionContainer.LeftObjectWasClicked },
-                { "Gaze", _interactionContainer.GazeObjectWasClicked },
-            };
-
-            // We setup the BoxCollider size and center
-            if (!_boxColliderSetup && gameObject.activeInHierarchy)
-            {
-                StartCoroutine(SetupBoxCollider());
-            }
-
-            // We setup the ListenersDictionary
-            _ListenersDictionary = _UISetup.CheckGameEventListenersPresence(_GameEventListenersContainer, _ListenersDictionary);
-            _ListenersDictionary = _UISetup.SetGameEventListeners(_ListenersDictionary, _EventsDictionary, _gazeParameter.UseGaze);
-
+            ObjectWasClickedEvent.RegisterListener(CheckObjectClicked);
+            
             // We setup the Template and Options to fit the VRFramework
-            _Template = transform.Find("Template").gameObject;
+            _template = transform.Find("Template").gameObject;
             SetToggleReferences();
             ChangeTemplate();
         }
@@ -168,10 +79,10 @@ namespace VRSF.UI
         /// <summary>
         /// Event called when the DropDown or its children is clicked
         /// </summary>
-        /// <param name="value">The object that was clicked</param>
-        public void CheckObjectClicked(Transform value)
+        /// <param name="clickEvent">The event raised when an object is clicked</param>
+        public void CheckObjectClicked(ObjectWasClickedEvent clickEvent)
         {
-            if (interactable && value == transform)
+            if (interactable && clickEvent.ObjectClicked == transform)
             {
                 SetDropDownNewState();
             }
@@ -182,15 +93,15 @@ namespace VRSF.UI
         /// </summary>
         void SetDropDownNewState()
         {
-            if (!_IsShown)
+            if (!_isShown)
             {
                 Show();
-                _IsShown = true;
+                _isShown = true;
             }
             else
             {
                 Hide();
-                _IsShown = false;
+                _isShown = false;
             }
         }
 
@@ -202,13 +113,13 @@ namespace VRSF.UI
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
             yield return new WaitForEndOfFrame();
-
+            
             if (SetColliderAuto)
             {
                 BoxCollider box = GetComponent<BoxCollider>();
-                box = _UISetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
+                box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
             }
-            _boxColliderSetup = true;
+            _isBoxColliderSetup = true;
         }
 
         /// <summary>
@@ -216,7 +127,7 @@ namespace VRSF.UI
         /// </summary>
         void SetToggleReferences()
         {
-            template = _Template.GetComponent<RectTransform>();
+            template = _template.GetComponent<RectTransform>();
             captionText = transform.Find("Label").GetComponent<Text>();
             itemText = transform.FindDeepChild("Item Label").GetComponent<Text>();
         }
@@ -226,9 +137,9 @@ namespace VRSF.UI
         /// </summary>
         void ChangeTemplate()
         {
-            _Template.SetActive(true);
+            _template.SetActive(true);
 
-            Transform item = _Template.transform.Find("Viewport/Content/Item");
+            Transform item = _template.transform.Find("Viewport/Content/Item");
 
             if (item.GetComponent<VRToggle>() == null)
             {
@@ -241,7 +152,7 @@ namespace VRSF.UI
                 newToggle.graphic = item.Find("Item Checkmark").GetComponent<Image>();
             }
 
-            _Template.SetActive(false);
+            _template.SetActive(false);
         }
         #endregion PRIVATE_METHODS
     }

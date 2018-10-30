@@ -38,9 +38,10 @@ GameObject:
   - component: {fileID: 4768420924841708}
   - component: {fileID: 114773252836245178}
   - component: {fileID: 114589644836912424}
+  - component: {fileID: 114703259309001394}
   - component: {fileID: 114237024141291514}
   - component: {fileID: 114154512620818030}
-  - component: {fileID: 114074741324813776}
+  - component: {fileID: 114106979821398556}
   - component: {fileID: 114093723974906776}
   m_Layer: 0
   m_Name: LongRangeTeleport
@@ -116,19 +117,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114074741324813776
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1355566103611140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 945a8c58d2390fa47b667e34f0e11592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMat: {fileID: 2100000, guid: 0db4f939d6bcd2d44899332aed0b465b, type: 2}
-  BoundariesLinesColor: {r: 0, g: 0.7130656, b: 1, a: 1}
 --- !u!114 &114093723974906776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,6 +128,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114106979821398556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355566103611140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeleportLayer: -1
+  ExclusionLayer: -1
+  CanTeleport: 0
 --- !u!114 &114154512620818030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,8 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UseBoundaries: 0
-  _MinUserPosition: {x: -100, y: -1, z: -100}
-  _MaxUserPosition: {x: 100, y: 100, z: 100}
+  _Boundaries: []
+  _BoundariesColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &114237024141291514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,8 +168,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionType: 2
+  ButtonHand: 2
   UseGazeButton: 0
-  ActionButton: 4
+  ActionButton: 2
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
@@ -204,31 +207,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ButtonHand: 0
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
 --- !u!114 &114339787960555156
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,9 +251,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 1
+  RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+--- !u!114 &114703259309001394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355566103611140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CorrectSDK: 1
+  IsSetup: 0
+  CanBeUsed: 1
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
+  IsUsingViveButton: 0
+  IsUsingWheelButton: 0
+  ThumbPos: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
 --- !u!114 &114773252836245178
 MonoBehaviour:
   m_ObjectHideFlags: 1

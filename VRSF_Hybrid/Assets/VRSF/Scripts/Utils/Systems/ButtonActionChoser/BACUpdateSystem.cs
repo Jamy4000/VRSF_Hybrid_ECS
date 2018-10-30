@@ -4,16 +4,18 @@ using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
-    public abstract class BACUpdateSystem : ComponentSystem
+    public abstract class BACUpdateSystem<T> : ComponentSystem
     {
-        struct Filter
+        public struct Filter
         {
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralComponent BACGeneralComp;
+            public BACCalculationsComponent BACCalculationsComp;
+            public T InheritedFilter;
         }
 
 
+        // EMPTY
         #region PRIVATE_VARIBALES
-        private ButtonActionChoserComponents _currentComp;
         #endregion PRIVATE_VARIABLES
 
 
@@ -22,19 +24,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ButtonComponents.CanBeUsed)
+                if (e.BACCalculationsComp.ActionButtonIsReady && e.BACCalculationsComp.CanBeUsed)
                 {
-                    _currentComp = e.ButtonComponents;
-
                     // If we use the touch event and the user is touching on the button
-                    if (e.ButtonComponents.IsTouching != null && e.ButtonComponents.IsTouching.Value && !e.ButtonComponents.UntouchedEventWasRaised)
+                    if (e.BACCalculationsComp.IsTouching != null && e.BACCalculationsComp.IsTouching.Value)
                     {
-                        StartActionIsTouching();
+                        StartActionIsTouching(e);
                     }
                     // If we use the click event and the user is clicking on the button
-                    if (e.ButtonComponents.IsClicking != null && e.ButtonComponents.IsClicking.Value && !e.ButtonComponents.UnclickEventWasRaised)
+                    if (e.BACCalculationsComp.IsClicking != null && e.BACCalculationsComp.IsClicking.Value)
                     {
-                        StartActionIsClicking();
+                        StartActionIsClicking(e);
                     }
                 }
             }
@@ -43,8 +43,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
 
         #region PUBLIC_METHODS
-        public abstract void SetupListenersResponses();
-        public abstract void RemoveListenersOnEndApp();
+        public abstract void SetupListenersResponses(object entity);
+        public abstract void RemoveListenersOnEndApp(object entity);
         #endregion PUBLIC_METHODS
 
 
@@ -52,34 +52,36 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when user stop touching the specified button
         /// </summary>
-        private void StartActionIsClicking()
+        private void StartActionIsClicking(Filter entity)
         {
-            _currentComp.UnclickEventWasRaised = false;
-
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-            if (_currentComp.ThumbPos != null)
+            if (entity.BACCalculationsComp.ThumbPos != null)
             {
-                bool oldState = _currentComp.ClickActionBeyondThreshold;
+                bool oldState = entity.BACCalculationsComp.ClickActionBeyondThreshold;
 
-                switch (_currentComp.ButtonHand)
+                switch (entity.BACGeneralComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        _currentComp.ClickActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(_currentComp.RightClickThumbPosition, _currentComp.OnButtonIsClicking, _currentComp.ClickThreshold, _currentComp.ThumbPos.Value);
+                        entity.BACCalculationsComp.ClickActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.RightClickThumbPosition, entity.BACGeneralComp.OnButtonIsClicking, entity.BACGeneralComp.ClickThreshold, entity.BACCalculationsComp.ThumbPos.Value);
                         break;
                     case EHand.LEFT:
-                        _currentComp.ClickActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(_currentComp.LeftClickThumbPosition, _currentComp.OnButtonIsClicking, _currentComp.ClickThreshold, _currentComp.ThumbPos.Value);
+                        entity.BACCalculationsComp.ClickActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.LeftClickThumbPosition, entity.BACGeneralComp.OnButtonIsClicking, entity.BACGeneralComp.ClickThreshold, entity.BACCalculationsComp.ThumbPos.Value);
                         break;
                 }
 
-                if (oldState && !_currentComp.ClickActionBeyondThreshold)
+                if (oldState && !entity.BACCalculationsComp.ClickActionBeyondThreshold && !entity.BACCalculationsComp.UnclickEventWasRaised)
                 {
-                    _currentComp.OnButtonStopClicking.Invoke();
-                    _currentComp.UnclickEventWasRaised = true;
+                    entity.BACGeneralComp.OnButtonStopClicking.Invoke();
+                    entity.BACCalculationsComp.UnclickEventWasRaised = true;
+                }
+                else
+                {
+                    entity.BACCalculationsComp.UnclickEventWasRaised = false;
                 }
             }
             else
             {
-                _currentComp.OnButtonIsClicking.Invoke();
+                entity.BACGeneralComp.OnButtonIsClicking.Invoke();
             }
         }
 
@@ -87,35 +89,37 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Method called when the user stop touching the specified button
         /// </summary>
-        private void StartActionIsTouching()
+        private void StartActionIsTouching(Filter entity)
         {
-            _currentComp.UntouchedEventWasRaised = false;
-
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-            if (_currentComp.ThumbPos != null)
+            if (entity.BACCalculationsComp.ThumbPos != null)
             {
-                bool oldState = _currentComp.TouchActionBeyondThreshold;
+                bool oldState = entity.BACCalculationsComp.TouchActionBeyondThreshold;
 
-                switch (_currentComp.ButtonHand)
+                switch (entity.BACGeneralComp.ButtonHand)
                 {
                     case EHand.RIGHT:
-                        _currentComp.TouchActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(_currentComp.RightTouchThumbPosition, _currentComp.OnButtonIsTouching, _currentComp.TouchThreshold, _currentComp.ThumbPos.Value);
+                        entity.BACCalculationsComp.TouchActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.RightTouchThumbPosition, entity.BACGeneralComp.OnButtonIsTouching, entity.BACGeneralComp.TouchThreshold, entity.BACCalculationsComp.ThumbPos.Value);
                         break;
                     case EHand.LEFT:
-                        _currentComp.TouchActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(_currentComp.LeftTouchThumbPosition, _currentComp.OnButtonIsTouching, _currentComp.TouchThreshold, _currentComp.ThumbPos.Value);
+                        entity.BACCalculationsComp.TouchActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.LeftTouchThumbPosition, entity.BACGeneralComp.OnButtonIsTouching, entity.BACGeneralComp.TouchThreshold, entity.BACCalculationsComp.ThumbPos.Value);
                         break;
                 }
 
                 // If the user was above the threshold, but moved his finger, we invoke the StopTouching Event
-                if (oldState && !_currentComp.TouchActionBeyondThreshold)
+                if (oldState && !entity.BACCalculationsComp.TouchActionBeyondThreshold && !entity.BACCalculationsComp.UntouchedEventWasRaised)
                 {
-                    _currentComp.OnButtonStopTouching.Invoke();
-                    _currentComp.UntouchedEventWasRaised = true;
+                    entity.BACGeneralComp.OnButtonStopTouching.Invoke();
+                    entity.BACCalculationsComp.UntouchedEventWasRaised = true;
+                }
+                else
+                {
+                    entity.BACCalculationsComp.UntouchedEventWasRaised = false;
                 }
             }
             else
             {
-                _currentComp.OnButtonIsTouching.Invoke();
+                entity.BACGeneralComp.OnButtonIsTouching.Invoke();
             }
         }
         #endregion

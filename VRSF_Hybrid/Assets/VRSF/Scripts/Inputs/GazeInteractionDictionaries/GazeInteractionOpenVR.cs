@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace VRSF.Inputs.Gaze
 {
@@ -10,21 +8,17 @@ namespace VRSF.Inputs.Gaze
     public static class GazeInteractionOpenVR
     {
         //The dictionary with references to the button masks
-        public static Dictionary<EControllersInput, ulong> Dictionarry = new Dictionary<EControllersInput, ulong>()
+        public static Dictionary<EControllersButton, ulong> Dictionarry = new Dictionary<EControllersButton, ulong>()
         {
-            { EControllersInput.NONE, 0 },
+            { EControllersButton.NONE, 0 },
 
-            { EControllersInput.LEFT_TRIGGER, SteamVR_Controller.ButtonMask.Trigger },
-            { EControllersInput.RIGHT_TRIGGER, SteamVR_Controller.ButtonMask.Trigger },
+            { EControllersButton.TRIGGER, SteamVR_Controller.ButtonMask.Trigger },
 
-            { EControllersInput.LEFT_GRIP, SteamVR_Controller.ButtonMask.Grip },
-            { EControllersInput.RIGHT_GRIP, SteamVR_Controller.ButtonMask.Grip },
+            { EControllersButton.GRIP, SteamVR_Controller.ButtonMask.Grip },
 
-            { EControllersInput.LEFT_THUMBSTICK, SteamVR_Controller.ButtonMask.Touchpad },
-            { EControllersInput.RIGHT_THUMBSTICK, SteamVR_Controller.ButtonMask.Touchpad },
+            { EControllersButton.THUMBSTICK, SteamVR_Controller.ButtonMask.Touchpad },
 
-            { EControllersInput.LEFT_MENU, SteamVR_Controller.ButtonMask.ApplicationMenu },
-            { EControllersInput.RIGHT_MENU, SteamVR_Controller.ButtonMask.ApplicationMenu },
+            { EControllersButton.MENU, SteamVR_Controller.ButtonMask.ApplicationMenu }
         };
     }
 }

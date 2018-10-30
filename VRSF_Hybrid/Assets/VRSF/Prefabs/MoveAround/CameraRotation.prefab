@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 114014392373344070}
   - component: {fileID: 114369969015623460}
   - component: {fileID: 114191175806869512}
+  - component: {fileID: 114672114606473476}
+  - component: {fileID: 114211923153295810}
   - component: {fileID: 114414848692732200}
   m_Layer: 0
   m_Name: CameraRotation
@@ -55,8 +57,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 1
-  UseAccelerationEffect: 1
+  DegreesToTurn: 30
+  UseAccelerationEffect: 0
   IsRotating: 0
+  HasRotated: 0
   CurrentSpeed: 0
   LastThumbPos: 0
 --- !u!114 &114191175806869512
@@ -71,13 +75,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionType: 1
+  ButtonHand: 1
   UseGazeButton: 0
-  ActionButton: 32
-  LeftTouchThumbPosition: 0
+  ActionButton: 4
+  LeftTouchThumbPosition: 12
   RightTouchThumbPosition: 12
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
-  TouchThreshold: 0
+  TouchThreshold: 0.8
   ClickThreshold: 0.5
   OnButtonStartTouching:
     m_PersistentCalls:
@@ -109,30 +114,33 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114211923153295810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224792925748134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ActionButtonIsReady: 0
   ParametersAreInvalid: 0
+  CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
-  ButtonHand: 0
   ClickActionBeyondThreshold: 0
   TouchActionBeyondThreshold: 0
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
+  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
-  GeDown: {fileID: 0}
-  GeUp: {fileID: 0}
-  GeTouched: {fileID: 0}
-  GeUntouched: {fileID: 0}
-  GelDown: {fileID: 0}
-  GelUp: {fileID: 0}
-  GelTouched: {fileID: 0}
-  GelUntouched: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
-  GameEventsContainer: {fileID: 0}
 --- !u!114 &114369969015623460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,9 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6debe04fb34301044a0679a421506dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseOVR: 1
+  UseRift: 1
+  UsePortableOVR: 1
   UseOpenVR: 0
   UseSimulator: 1
+  IsSetup: 0
 --- !u!114 &114414848692732200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,3 +168,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114672114606473476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224792925748134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RayOrigin: 1
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}

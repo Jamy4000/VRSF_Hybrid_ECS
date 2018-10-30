@@ -107,9 +107,9 @@ namespace VRSF.Editor
                 GUILayout.Label("Gaze Interaction Button for each SDK", EditorStyles.boldLabel);
                 GUILayout.Label("If you want to Click and Touch on object with the Gaze, you can here define which button you're gonna use for that.", EditorStyles.miniBoldLabel);
                 GUILayout.Label("WARNING : Some buttons are SDK Specific (Example : the A, B, X and Y buttons are only available for the Oculus).", EditorStyles.miniBoldLabel);
-                _gazeParameters.GazeButtonOpenVR = (EControllersInput)EditorGUILayout.EnumPopup("Button for OpenVR SDK", _gazeParameters.GazeButtonOpenVR);
-                _gazeParameters.GazeButtonOVR = (EControllersInput)EditorGUILayout.EnumPopup("Button for OVR SDK", _gazeParameters.GazeButtonOVR);
-                _gazeParameters.GazeButtonSimulator = (EControllersInput)EditorGUILayout.EnumPopup("Button for Simulator SDK", _gazeParameters.GazeButtonSimulator);
+                _gazeParameters.GazeButtonOpenVR = (EControllersButton)EditorGUILayout.EnumPopup("Button for OpenVR SDK", _gazeParameters.GazeButtonOpenVR);
+                _gazeParameters.GazeButtonRift = (EControllersButton)EditorGUILayout.EnumPopup("Button for OVR SDK", _gazeParameters.GazeButtonRift);
+                _gazeParameters.GazeButtonSimulator = (EControllersButton)EditorGUILayout.EnumPopup("Button for Simulator SDK", _gazeParameters.GazeButtonSimulator);
 
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();

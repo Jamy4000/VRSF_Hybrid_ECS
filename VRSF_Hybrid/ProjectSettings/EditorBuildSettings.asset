@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/VRSF/Scenes/ExampleScene.unity
+    guid: 8ed50055a92d6fb4b9c2c3407df7cf20
+  m_configObjects: {}

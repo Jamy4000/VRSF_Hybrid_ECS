@@ -1,11 +1,8 @@
-﻿using ScriptableFramework.Events;
-using ScriptableFramework.Variables;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
-using VRSF.Gaze;
 using VRSF.Inputs.Components;
-using VRSF.Inputs.Gaze;
+using VRSF.Inputs.Events;
 
 namespace VRSF.Inputs
 {
@@ -62,13 +59,13 @@ namespace VRSF.Inputs
             if (!_inputContainer.WheelIsClicking.Value && Input.GetKeyDown(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(true);
-                _inputContainer.WheelClickDown.Raise();
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);
             }
             // If the boolVariable for the wheel is clicking is at true but the user is not pressing it
             else if (_inputContainer.WheelIsClicking.Value && Input.GetKeyUp(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(false);
-                _inputContainer.WheelClickUp.Raise();
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);
             }
         }
         #endregion

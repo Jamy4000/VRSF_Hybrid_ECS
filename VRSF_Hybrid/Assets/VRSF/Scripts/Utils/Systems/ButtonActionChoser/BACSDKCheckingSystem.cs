@@ -14,7 +14,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         struct Filter
         {
             public SDKChoserComponent SDKComp;
-            public ButtonActionChoserComponents BAC_Comp;
+            public BACGeneralComponent BAC_General_Comp;
+            public BACCalculationsComponent BAC_Calculations_Comp;
         }
         
 
@@ -24,12 +25,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             base.OnStartRunning();
 
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var entity in GetEntities<Filter>())
             {
                 // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-                entity.BAC_Comp.CorrectSDK = CheckUseSDKToggles(entity);
+                entity.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(entity);
                 entity.SDKComp.IsSetup = true;
             }
 
@@ -37,6 +38,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         }
         
         protected override void OnUpdate() { }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
         #endregion
 
 
@@ -47,9 +54,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <returns>true if the current loaded SDK is selected in the inspector</returns>
         private bool CheckUseSDKToggles(Filter entity)
         {
-            if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseOVR && !entity.SDKComp.UseSimulator)
+            if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseRift && !entity.SDKComp.UseSimulator)
             {
                 Debug.LogError("VRSF : You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                entity.SDKComp.gameObject.SetActive(false);
                 return false;
             }
 
@@ -58,8 +66,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 case EDevice.OPENVR:
                     return entity.SDKComp.UseOpenVR;
 
-                case EDevice.OVR:
-                    return entity.SDKComp.UseOVR;
+                case EDevice.OCULUS_RIFT:
+                    return entity.SDKComp.UseRift;
+
+                case EDevice.PORTABLE_OVR:
+                    return entity.SDKComp.UsePortableOVR;
 
                 case EDevice.SIMULATOR:
                     return entity.SDKComp.UseSimulator;
@@ -74,8 +85,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

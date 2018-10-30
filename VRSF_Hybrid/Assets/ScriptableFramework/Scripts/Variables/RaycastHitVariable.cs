@@ -6,5 +6,10 @@ namespace ScriptableFramework.Variables
     public class RaycastHitVariable : VariableBase<RaycastHit>
     {
         public bool isNull = true;
+
+        public void SetIsNull(bool value)
+        {
+            isNull = value;
+        }
     }
 }

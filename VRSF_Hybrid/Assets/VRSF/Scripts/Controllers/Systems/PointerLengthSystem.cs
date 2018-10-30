@@ -10,6 +10,7 @@ namespace VRSF.Controllers.Systems
     /// <summary>
     /// Handle the Length of the Pointer depending on if the raycast is hitting something
     /// </summary>
+    [UpdateAfter(typeof(Utils.Systems.PointerRaycastSystems))]
     public class PointerLengthSystem : ComponentSystem
     {
         struct Filter
@@ -72,20 +73,21 @@ namespace VRSF.Controllers.Systems
                         new Vector3(0.0f, 0.0f, 0.03f),
                         controller.transform.InverseTransformPoint(hit.Value.point),
                     });
-                    return;
                 }
-
-                // Checking max distance of Line renderer depending on the Hand Variable
-                var maxDistanceLr = (hand == EHand.LEFT
-                    ? _controllersParameters.MaxDistancePointerLeft
-                    : _controllersParameters.MaxDistancePointerRight);
-
-                //put back lineRenderer to its normal length if nothing was hit
-                controller.GetComponent<LineRenderer>().SetPositions(new Vector3[]
+                else
                 {
+                    // Checking max distance of Line renderer depending on the Hand Variable
+                    var maxDistanceLr = (hand == EHand.LEFT
+                        ? _controllersParameters.MaxDistancePointerLeft
+                        : _controllersParameters.MaxDistancePointerRight);
+
+                    //put back lineRenderer to its normal length if nothing was hit
+                    controller.GetComponent<LineRenderer>().SetPositions(new Vector3[]
+                    {
                         new Vector3(0.0f, 0.0f, 0.03f),
                         new Vector3(0, 0, maxDistanceLr),
-                });
+                    });
+                }
             }
             catch (System.Exception e)
             {

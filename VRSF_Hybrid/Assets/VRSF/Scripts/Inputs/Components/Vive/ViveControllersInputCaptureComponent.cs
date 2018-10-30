@@ -1,5 +1,4 @@
-﻿using ScriptableFramework.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace VRSF.Inputs.Components.Vive
 {
@@ -16,9 +15,6 @@ namespace VRSF.Inputs.Components.Vive
         [Header("The two parameters struct for the controllers")]
         [HideInInspector] public ViveInputParameters RightParameters;
         [HideInInspector] public ViveInputParameters LeftParameters;
-        
-        // A Temp GameEvent to raise in the InputCaptureSystems
-        [HideInInspector] public GameEvent TempEvent;
         
         public SteamVR_Controller.Device LeftController
         {

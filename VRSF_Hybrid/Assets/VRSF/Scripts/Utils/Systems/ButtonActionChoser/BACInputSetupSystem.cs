@@ -17,12 +17,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
     {
         struct Filter
         {
-            public ButtonActionChoserComponents ButtonComponents;
+            public BACGeneralComponent BACGeneralComp;
+            public BACCalculationsComponent BACCalculationsComp;
         }
 
         #region PRIVATE_VARIBALES
-        private Filter _currentEntitiy;
-
         private GazeParametersVariable _gazeParameters;
         private ControllersParametersVariable _controllersParameters;
         private InputVariableContainer _inputsContainer;
@@ -39,23 +38,21 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             _controllersParameters = ControllersParametersVariable.Instance;
             _inputsContainer = InputVariableContainer.Instance;
 
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ButtonComponents.GetComponent<SDKChoserComponent>() == null)
+                if (entity.BACGeneralComp.GetComponent<SDKChoserComponent>() == null)
                 {
-                    _currentEntitiy = entity;
-
                     // We check on which hand is set the Action Button selected
-                    CheckButtonHand();
+                    CheckButtonHand(entity);
 
                     // We check that all the parameters are set correctly
-                    if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
+                    if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
                     {
-                        Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.ButtonComponents.transform.name + " object are invalid.\n" +
+                        Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.BACGeneralComp.transform.name + " object are invalid.\n" +
                             "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                        entity.ButtonComponents.CanBeUsed = false;
+                        entity.BACCalculationsComp.CanBeUsed = false;
                     }
                 }
             }
@@ -68,7 +65,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             foreach (var entity in GetEntities<Filter>())
             {
-                var sdkChoser = entity.ButtonComponents.GetComponent<SDKChoserComponent>();
+                var sdkChoser = entity.BACGeneralComp.GetComponent<SDKChoserComponent>();
 
                 if (sdkChoser != null)
                 {
@@ -76,29 +73,33 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     {
                         systemStillRunning = true;
                     }
-                    else if (sdkChoser.IsSetup && entity.ButtonComponents.CorrectSDK)
+                    else if (sdkChoser.IsSetup && entity.BACCalculationsComp.CorrectSDK)
                     {
-                        _currentEntitiy = entity;
-
                         // We check on which hand is set the Action Button selected
-                        CheckButtonHand();
+                        CheckButtonHand(entity);
 
                         // We check that all the parameters are set correctly
-                        if (entity.ButtonComponents.ParametersAreInvalid || !CheckParameters())
+                        if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
                         {
-                            Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.ButtonComponents.transform.name + " object are invalid.\n" +
+                            Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.BACGeneralComp.transform.name + " object are invalid.\n" +
                                 "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                            entity.ButtonComponents.CanBeUsed = false;
+                            entity.BACCalculationsComp.CanBeUsed = false;
                         }
                     }
                     else
                     {
-                        entity.ButtonComponents.ActionButtonIsReady = true;
+                        entity.BACCalculationsComp.ActionButtonIsReady = true;
                     }
                 }
             }
 
             this.Enabled = systemStillRunning;
+        }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion
 
@@ -107,64 +108,74 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// We check which hand correspond to the Action Button that was choosen
         /// </summary>
-        private void CheckButtonHand()
+        private void CheckButtonHand(Filter entity)
         {
-            EControllersInput gazeClick = GetGazeClick();
+            EControllersButton gazeClick = GetGazeClick();
 
             // If we use the Gaze Button but the Controllers are inactive
-            if (_currentEntitiy.ButtonComponents.UseGazeButton && !_controllersParameters.UseControllers)
+            if (entity.BACGeneralComp.UseGazeButton && !_controllersParameters.UseControllers)
             {
-                _currentEntitiy.ButtonComponents.CanBeUsed = false;
+                entity.BACCalculationsComp.CanBeUsed = false;
                 throw new Exception("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "If you want to use the Gaze Click, please activate the Controllers by setting the UseControllers bool in the Window VRSF/Controllers Parameters to true.\n" +
                     "Disabling the script.");
             }
             // If we use the Gaze Button but the chosen gaze button is None
-            else if (_currentEntitiy.ButtonComponents.UseGazeButton && gazeClick == EControllersInput.NONE)
+            else if (entity.BACGeneralComp.UseGazeButton && gazeClick == EControllersButton.NONE)
             {
-                _currentEntitiy.ButtonComponents.CanBeUsed = false;
+                entity.BACCalculationsComp.CanBeUsed = false;
                 throw new Exception("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a GazeButton in the Gaze Parameters Window to use the Gaze Click feature. Disabling the script.");
             }
 
             // if the Action Button is set to the Wheel Button (SIMULATOR SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.WHEEL_BUTTON)
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.WHEEL_BUTTON)
             {
-                _currentEntitiy.ButtonComponents.IsUsingWheelButton = true;
+                entity.BACCalculationsComp.IsUsingWheelButton = true;
             }
 
             // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.A_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.B_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.RIGHT_THUMBREST)
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.A_BUTTON ||
+                     entity.BACGeneralComp.ActionButton == EControllersButton.B_BUTTON ||
+                     (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBREST && 
+                      entity.BACGeneralComp.ButtonHand == EHand.RIGHT))
             {
-                _currentEntitiy.ButtonComponents.IsUsingOculusButton = true;
-                _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
+                entity.BACCalculationsComp.IsUsingOculusButton = true;
+                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
             }
             // if the Action Button is set to the X, Y or Left Thumbrest option (OCULUS SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.X_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.Y_BUTTON ||
-                     _currentEntitiy.ButtonComponents.ActionButton == EControllersInput.LEFT_THUMBREST)
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.X_BUTTON ||
+                     entity.BACGeneralComp.ActionButton == EControllersButton.Y_BUTTON ||
+                     (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBREST &&
+                      entity.BACGeneralComp.ButtonHand == EHand.LEFT))
             {
-                _currentEntitiy.ButtonComponents.IsUsingOculusButton = true;
-                _currentEntitiy.ButtonComponents.ButtonHand = EHand.LEFT;
+                entity.BACCalculationsComp.IsUsingOculusButton = true;
+                entity.BACGeneralComp.ButtonHand = EHand.LEFT;
             }
 
             // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.RIGHT_MENU)
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.MENU &&
+                     entity.BACGeneralComp.ButtonHand == EHand.RIGHT)
             {
-                _currentEntitiy.ButtonComponents.IsUsingViveButton = true;
-                _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
+                entity.BACCalculationsComp.IsUsingViveButton = true;
+                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
+            }
+
+            // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.BACK_BUTTON)
+            {
+                entity.BACCalculationsComp.IsUsingPortableOVRButton = true;
+                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
             }
 
             // If non of the previous solution was chosen, we just check if the button is on the right or left controller
-            else if (_currentEntitiy.ButtonComponents.ActionButton.ToString().Contains("RIGHT"))
+            else if (entity.BACGeneralComp.ActionButton.ToString().Contains("RIGHT"))
             {
-                _currentEntitiy.ButtonComponents.ButtonHand = EHand.RIGHT;
+                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
             }
-            else if (_currentEntitiy.ButtonComponents.ActionButton.ToString().Contains("LEFT"))
+            else if (entity.BACGeneralComp.ActionButton.ToString().Contains("LEFT"))
             {
-                _currentEntitiy.ButtonComponents.ButtonHand = EHand.LEFT;
+                entity.BACGeneralComp.ButtonHand = EHand.LEFT;
             }
         }
 
@@ -173,14 +184,16 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Check which button to use for the Gaze depending on the SDK Loaded
         /// </summary>
         /// <returns>The EControllersInput (button) to use for the Gaze Click</returns>
-        private EControllersInput GetGazeClick()
+        private EControllersButton GetGazeClick()
         {
             switch (VRSF_Components.DeviceLoaded)
             {
                 case EDevice.OPENVR:
                     return _gazeParameters.GazeButtonOpenVR;
-                case EDevice.OVR:
-                    return _gazeParameters.GazeButtonOVR;
+                case EDevice.OCULUS_RIFT:
+                    return _gazeParameters.GazeButtonRift;
+                case EDevice.PORTABLE_OVR:
+                    return _gazeParameters.GazeButtonPortableOVR;
                 default:
                     return _gazeParameters.GazeButtonSimulator;
             }
@@ -191,27 +204,27 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Check that all the parameters are set correctly in the Inspector.
         /// </summary>
         /// <returns>false if the parameters are incorrect</returns>
-        private bool CheckParameters()
+        private bool CheckParameters(Filter entity)
         {
             //Check if the Thumbstick are used, and if they are set correctly in that case.
-            if (!CheckGivenThumbParameter())
+            if (!CheckGivenThumbParameter(entity))
             {
                 return false;
             }
 
             //Check if the Action Button specified is set correctly
-            if (!CheckActionButton())
+            if (!CheckActionButton(entity))
             {
                 return false;
             }
 
-            if (_currentEntitiy.ButtonComponents.UseGazeButton)
+            if (entity.BACGeneralComp.UseGazeButton)
             {
-                return (_currentEntitiy.ButtonComponents.InteractionType != EControllerInteractionType.NONE);
+                return (entity.BACGeneralComp.InteractionType != EControllerInteractionType.NONE);
             }
             else
             {
-                return (_currentEntitiy.ButtonComponents.InteractionType != EControllerInteractionType.NONE && _currentEntitiy.ButtonComponents.ActionButton != EControllersInput.NONE);
+                return (entity.BACGeneralComp.InteractionType != EControllerInteractionType.NONE && entity.BACGeneralComp.ActionButton != EControllersButton.NONE);
             }
         }
 
@@ -220,32 +233,34 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Called if the User is using his Thumb for this feature. Check if the Position to use on the thumbstick are set correctly in the Inspector.
         /// </summary>
         /// <returns>true if everything is set correctly</returns>
-        private bool CheckGivenThumbParameter()
+        private bool CheckGivenThumbParameter(Filter entity)
         {
-            if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.LEFT_THUMBSTICK)
+            if (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBSTICK &&
+                entity.BACGeneralComp.ButtonHand == EHand.LEFT)
             {
-                if (_currentEntitiy.ButtonComponents.LeftClickThumbPosition == EThumbPosition.NONE &&
-                    _currentEntitiy.ButtonComponents.LeftTouchThumbPosition == EThumbPosition.NONE)
+                if (entity.BACGeneralComp.LeftClickThumbPosition == EThumbPosition.NONE &&
+                    entity.BACGeneralComp.LeftTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("VRSF : You need to assign a Thumb Position for the Left Thumbstick in this script : " + _currentEntitiy.ButtonComponents.name);
+                    Debug.LogError("VRSF : You need to assign a Thumb Position for the Left Thumbstick in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 
-                _currentEntitiy.ButtonComponents.ThumbPos = _inputsContainer.LeftThumbPosition;
+                entity.BACCalculationsComp.ThumbPos = _inputsContainer.LeftThumbPosition;
             }
-            else if (_currentEntitiy.ButtonComponents.ActionButton == EControllersInput.RIGHT_THUMBSTICK)
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBSTICK &&
+                entity.BACGeneralComp.ButtonHand == EHand.RIGHT)
             {
-                if (_currentEntitiy.ButtonComponents.RightClickThumbPosition == EThumbPosition.NONE &&
-                    _currentEntitiy.ButtonComponents.RightTouchThumbPosition == EThumbPosition.NONE)
+                if (entity.BACGeneralComp.RightClickThumbPosition == EThumbPosition.NONE &&
+                    entity.BACGeneralComp.RightTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("VRSF : You need to assign a Thumb Position for the Right Thumbstick in this script : " + _currentEntitiy.ButtonComponents.name);
+                    Debug.LogError("VRSF : You need to assign a Thumb Position for the Right Thumbstick in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 
-                _currentEntitiy.ButtonComponents.ThumbPos = _inputsContainer.RightThumbPosition;
+                entity.BACCalculationsComp.ThumbPos = _inputsContainer.RightThumbPosition;
             }
 
-            _currentEntitiy.ButtonComponents.ActionButtonIsReady = true;
+            entity.BACCalculationsComp.ActionButtonIsReady = true;
 
             return true;
         }
@@ -255,27 +270,34 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Check that the ActionButton chosed by the user is corresponding to the SDK that was loaded.
         /// </summary>
         /// <returns>true if the ActionButton is correctly set</returns>
-        private bool CheckActionButton()
+        private bool CheckActionButton(Filter entity)
         {
             // If we are using an Oculus Touch Specific Button but the device loaded is not the Oculus
-            if (_currentEntitiy.ButtonComponents.IsUsingOculusButton && VRSF_Components.DeviceLoaded == EDevice.OPENVR)
+            if (entity.BACCalculationsComp.IsUsingOculusButton && VRSF_Components.DeviceLoaded == EDevice.OPENVR)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Oculus. Disabling the script.");
                 return false;
             }
             // If we are using an OpenVR Specific Button but the device loaded is not the OpenVR
-            else if (_currentEntitiy.ButtonComponents.IsUsingViveButton && VRSF_Components.DeviceLoaded == EDevice.OVR)
+            else if (entity.BACCalculationsComp.IsUsingViveButton && VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Vive. Disabling the script.");
                 return false;
             }
             // If we are using a Simulator Specific Button but the device loaded is not the Simulator
-            else if (_currentEntitiy.ButtonComponents.IsUsingWheelButton && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
+            else if (entity.BACCalculationsComp.IsUsingWheelButton && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
             {
                 Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Simulator. Disabling the script.");
+                return false;
+            }
+            // If we are using a Simulator Specific Button but the device loaded is not the Simulator
+            else if (entity.BACCalculationsComp.IsUsingPortableOVRButton && VRSF_Components.DeviceLoaded != EDevice.PORTABLE_OVR)
+            {
+                Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                    "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the GearVR or Oculus Go. Disabling the script.");
                 return false;
             }
             else
@@ -289,8 +311,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

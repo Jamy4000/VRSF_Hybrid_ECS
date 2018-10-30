@@ -9,6 +9,7 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Handle the Jobs to display the Bezier Curves when user is clicking the assigned button.
     /// </summary>
+    [UpdateBefore(typeof(BezierArcDisplayerSystem))]
     public class BezierTeleportSystem : ComponentSystem
     {
         struct Filter : ITeleportFilter
@@ -60,9 +61,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             }
 
             // Init
-            entity.BezierCalculations._GroundDetected = false;
             entity.BezierCalculations._VertexList.Clear(); // delete all previouse vertices
-            entity.BezierCalculations._LimitDetected = false;
 
             // Check the Velocity
             entity.BezierCalculations._Velocity = Quaternion.AngleAxis(-entity.BezierParameters.BezierAngle, entity.BezierCalculations._CurveOrigin.right) * entity.BezierCalculations._CurveOrigin.forward * strength;

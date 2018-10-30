@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using VRSF.MoveAround.Teleport.Interfaces;
 
 namespace VRSF.MoveAround.Teleport.Components
@@ -11,13 +12,11 @@ namespace VRSF.MoveAround.Teleport.Components
     public class TeleportBoundariesComponent : MonoBehaviour, ITeleportComponent
     {
         [Tooltip("Wheter you wanna use boundaries for the flying mode or not.")]
-        [HideInInspector] public bool _UseBoundaries = false;
+        [HideInInspector] [SerializeField] public bool _UseBoundaries = false;
 
         [Tooltip("The minimun position at which the user can go if UseHorizontalBoundaries is at true.")]
-        [HideInInspector] public Vector3 _MinUserPosition = new Vector3(-100.0f, -1.0f, -100.0f);
-
-        [Tooltip("The maximum position at which the user can go if UseHorizontalBoundaries is at true.")]
-        [HideInInspector] public Vector3 _MaxUserPosition = new Vector3(100.0f, 100.0f, 100.0f);
+        [HideInInspector] [SerializeField] public List<Bounds> _Boundaries = new List<Bounds>();
+        [HideInInspector] [SerializeField] public Color _BoundariesColor = Color.cyan;
 
 
         #region Getters_ITeleportComponent
@@ -26,14 +25,9 @@ namespace VRSF.MoveAround.Teleport.Components
             return _UseBoundaries;
         }
 
-        public Vector3 MaxPosBoundaries()
+        public List<Bounds> Boundaries()
         {
-            return _MaxUserPosition;
-        }
-
-        public Vector3 MinPosBoundaries()
-        {
-            return _MinUserPosition;
+            return _Boundaries;
         }
         #endregion Getters_ITeleportComponent
     }

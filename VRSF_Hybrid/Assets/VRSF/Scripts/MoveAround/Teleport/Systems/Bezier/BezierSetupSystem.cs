@@ -15,20 +15,19 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Handle the Jobs to setup the BezierCurveComponents
     /// </summary>
-    public class BezierSetupSystem : BACUpdateSystem, ITeleportSystem
+    public class BezierSetupSystem : BACUpdateSystem<BezierTeleportParametersComponent>, ITeleportSystem
     {
-        struct Filter : ITeleportFilter
+        new struct Filter : ITeleportFilter
         {
-            public ButtonActionChoserComponents BAC_Comp;
+            public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public BezierTeleportCalculationComponent BezierComp;
-            public TeleportGeneralComponent GeneralComp;
+            public TeleportGeneralComponent GeneralTeleport;
             public BezierTeleportParametersComponent BezierParameters;
         }
 
 
         #region PRIVATE_VARIABLES
-        private Filter _currentSetupEntity;
         private ControllersParametersVariable _controllersParameters;
         #endregion PRIVATE_VARIABLES
 
@@ -39,12 +38,11 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             base.OnStartRunning();
 
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                SetupListenersResponses();
+                SetupListenersResponses(e);
                 InitializeValues(e);
             }
         }
@@ -52,20 +50,14 @@ namespace VRSF.MoveAround.Teleport.Systems
         protected override void OnUpdate()
         {
             base.OnUpdate();
-
-            // Check if the entities are all setup. 
-            bool entitiesNotSetup = false;
-
+            
             foreach (var e in GetEntities<Filter>())
             {
                 if (!e.BezierComp._IsSetup)
                 {
-                    entitiesNotSetup = true;
                     InitializeValues(e);
                 }
             }
-            // If all the entities were setup, the bool stay at false, and the current system don't need to run anymore
-            this.Enabled = entitiesNotSetup;
         }
 
         protected override void OnDestroyManager()
@@ -74,9 +66,10 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                _currentSetupEntity = e;
-                RemoveListenersOnEndApp();
+                RemoveListenersOnEndApp(e);
             }
+            
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -84,31 +77,33 @@ namespace VRSF.MoveAround.Teleport.Systems
         #region PUBLIC_METHODS
 
         #region Listeners_Setup
-        public override void SetupListenersResponses()
+        public override void SetupListenersResponses(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.AddListener(delegate { ToggleDisplay(_currentSetupEntity, true); });
-                _currentSetupEntity.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { ToggleDisplay(e, true); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(e); });
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.AddListener(delegate { ToggleDisplay(_currentSetupEntity, true); });
-                _currentSetupEntity.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(_currentSetupEntity); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { ToggleDisplay(e, true); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(e); });
             }
         }
 
-        public override void RemoveListenersOnEndApp()
+        public override void RemoveListenersOnEndApp(object entity)
         {
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            var e = (Filter)entity;
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
             }
 
-            if ((_currentSetupEntity.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                _currentSetupEntity.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
@@ -124,8 +119,19 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             if (entity.BezierComp._GroundDetected || entity.BezierComp._LimitDetected)
             {
-                VRSF_Components.CameraRig.transform.position = entity.BezierComp._GroundPos + new Vector3(0, entity.BezierParameters.HeightAboveGround + VRSF_Components.CameraRig.transform.localScale.x, 0) + entity.BezierComp._LastNormal * 0.1f;
+                var newPos = entity.BezierComp._GroundPos;
+                switch (VRSF_Components.DeviceLoaded)
+                {
+                    case EDevice.OPENVR:
+                        VRSF_Components.CameraRig.transform.position = entity.BezierComp._GroundPos;
+                        break;
+                    default:
+                        newPos.y += 1.8f;
+                        VRSF_Components.CameraRig.transform.position = newPos;
+                        break;
+                }
             }
+
             ToggleDisplay(entity, false);
         }
 
@@ -147,13 +153,38 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="active"></param>
         private void ToggleDisplay(Filter entity, bool active)
         {
-            entity.BezierComp._ArcRenderer.enabled = active;
-            entity.BezierParameters.TargetMarker.SetActive(active);
-            entity.BezierComp._DisplayActive = active;
+            // If the user is aiming to the UI, we don't activate the system
+            if (!entity.RayComp.RaycastHitVar.isNull && entity.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+            {
+                return;
+            }
+            else
+            {
+                HandleExclusionLayer(entity.GeneralTeleport, active);
 
-            // Change pointer activation if the user is using it
-            if ((entity.RayComp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.RayComp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
-                entity.BezierComp._ControllerPointer.enabled = !active;
+                entity.BezierComp._ArcRenderer.enabled = active;
+                entity.BezierParameters.TargetMarker.SetActive(active);
+                entity.BezierComp._DisplayActive = active;
+
+                // Change pointer activation if the user is using it
+                if ((entity.RayComp.RayOrigin == EHand.LEFT && _controllersParameters.UsePointerLeft) || (entity.RayComp.RayOrigin == EHand.RIGHT && _controllersParameters.UsePointerRight))
+                    entity.BezierComp._ControllerPointer.enabled = !active;
+            }
+        }
+
+
+        private void HandleExclusionLayer(TeleportGeneralComponent generalTeleport, bool active)
+        {
+            if (active)
+            {
+                _controllersParameters.RightExclusionLayer = _controllersParameters.RightExclusionLayer.RemoveFromMask(generalTeleport.TeleportLayer);
+                _controllersParameters.LeftExclusionLayer = _controllersParameters.LeftExclusionLayer.RemoveFromMask(generalTeleport.TeleportLayer);
+            }
+            else
+            {
+                _controllersParameters.RightExclusionLayer = _controllersParameters.RightExclusionLayer.AddToMask(generalTeleport.TeleportLayer);
+                _controllersParameters.LeftExclusionLayer = _controllersParameters.LeftExclusionLayer.AddToMask(generalTeleport.TeleportLayer);
+            }
         }
 
 
@@ -168,9 +199,9 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 CheckHand(entity);
 
-                entity.GeneralComp.TeleportLayer = LayerMask.NameToLayer("Teleport");
+                entity.GeneralTeleport.TeleportLayer = LayerMask.NameToLayer("Teleport");
 
-                if (entity.GeneralComp.TeleportLayer == -1)
+                if (entity.GeneralTeleport.TeleportLayer == -1)
                 {
                     Debug.Log("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
@@ -197,7 +228,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 case (EHand.LEFT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.LeftController.transform;
-                    entity.GeneralComp.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.LEFT);
+                    entity.GeneralTeleport.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.LEFT);
 
                     if (_controllersParameters.UsePointerLeft)
                         entity.BezierComp._ControllerPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
@@ -205,7 +236,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 case (EHand.RIGHT):
                     entity.BezierComp._CurveOrigin = VRSF_Components.RightController.transform;
-                    entity.GeneralComp.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
+                    entity.GeneralTeleport.ExclusionLayer = _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
 
                     if (_controllersParameters.UsePointerRight)
                         entity.BezierComp._ControllerPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
@@ -213,7 +244,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                 case (EHand.GAZE):
                     entity.BezierComp._CurveOrigin = VRSF_Components.VRCamera.transform;
-                    entity.GeneralComp.ExclusionLayer = GazeParametersVariable.Instance.GetGazeExclusionsLayer();
+                    entity.GeneralTeleport.ExclusionLayer = GazeParametersVariable.Instance.GetGazeExclusionsLayer();
                     break;
 
                 default:
@@ -227,8 +258,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

@@ -8,10 +8,7 @@ namespace VRSF.MoveAround.Teleport.Components
     public class BezierTeleportParametersComponent : MonoBehaviour
     {
         [Header("Bezier Curve Parameters")]
-
-        [Tooltip("The height at which the user is teleported above the ground.")]
-        public float HeightAboveGround = 1.8f;
-
+        
         [Tooltip("The value corresponding to the Arc take off angle.")]
         public float BezierAngle = 45f;
         [Tooltip("The value corresponding to the overall arc length.\n" +

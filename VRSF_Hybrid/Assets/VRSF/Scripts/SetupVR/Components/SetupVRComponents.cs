@@ -1,9 +1,8 @@
-﻿using ScriptableFramework.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace VRSF.Utils.Components
 {
-    [RequireComponent(typeof(EventInspectorStandIn))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class SetupVRComponents : MonoBehaviour
     {
         #region SDKS_PREFABS
@@ -11,15 +10,19 @@ namespace VRSF.Utils.Components
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        [HideInInspector] public GameObject OpenVR_SDK;
+        public GameObject OpenVR_SDK;
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        [HideInInspector] public GameObject OVR_SDK;
+        public GameObject Rift_SDK;
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        [HideInInspector] public GameObject Simulator_SDK;
+        public GameObject PortableOVR_SDK;
+
+        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
+            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
+        public GameObject Simulator_SDK;
         #endregion SDKS_PREFABS
 
 
@@ -47,6 +50,5 @@ namespace VRSF.Utils.Components
         // Check if we already instantiated the SDK in the past, useful if the SDK is re-instantiated after a new scene has been loaded
         [HideInInspector] public bool SDKHasBeenInstantiated;
         [HideInInspector] public bool Loaded;
-        [HideInInspector] public bool IsReady;
     }
 }

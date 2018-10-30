@@ -7,7 +7,8 @@
     {
         SIMULATOR,
         OPENVR,
-        OVR,
+        PORTABLE_OVR,
+        OCULUS_RIFT,
         NULL    //To handle errors
     }
 }

@@ -2,6 +2,7 @@
 using System.IO;
 using Unity.Entities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ScriptableFramework.Util.Systems
 {
@@ -15,6 +16,9 @@ namespace ScriptableFramework.Util.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+
             // To let the EntityManager know where are the Entities
             foreach (var e in GetEntities<Filter>()) { }
             this.Enabled = false;
@@ -33,6 +37,8 @@ namespace ScriptableFramework.Util.Systems
                     Save(e.ScriptableSaverComp);
                 }
             }
+
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
 
 
@@ -152,6 +158,16 @@ namespace ScriptableFramework.Util.Systems
                     }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Reactivate the System when switching to another Scene.
+        /// </summary>
+        /// <param name="oldScene">The previous scene before switching</param>
+        private void OnSceneUnloaded(Scene oldScene)
+        {
+            this.Enabled = true;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace VRSF.Gaze.Systems
             base.OnStartRunning();
 
             _gazeParameters = GazeParametersVariable.Instance;
-            SceneManager.activeSceneChanged += OnSceneChanged;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             if (_gazeParameters.UseGaze)
             {
@@ -67,6 +67,13 @@ namespace VRSF.Gaze.Systems
                 }
             }
         }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
         #endregion ComponentSystem_Methods
 
 
@@ -102,12 +109,20 @@ namespace VRSF.Gaze.Systems
                     }
                     break;
 
-                case EDevice.OVR:
-                    if (VRSF_Components.CameraRig.GetComponent<OVRGazeInputCaptureComponent>() == null)
+                case EDevice.OCULUS_RIFT:
+                    if (VRSF_Components.CameraRig.GetComponent<RiftGazeInputCaptureComponent>() == null)
                     {
-                        VRSF_Components.CameraRig.AddComponent<OVRGazeInputCaptureComponent>();
+                        VRSF_Components.CameraRig.AddComponent<RiftGazeInputCaptureComponent>();
                     }
                     break;
+
+                case EDevice.PORTABLE_OVR:
+                    if (VRSF_Components.CameraRig.GetComponent<PortableOVRGazeInputCaptureComponent>() == null)
+                    {
+                        VRSF_Components.CameraRig.AddComponent<PortableOVRGazeInputCaptureComponent>();
+                    }
+                    break;
+
                 case EDevice.SIMULATOR:
                     if (VRSF_Components.CameraRig.GetComponent<SimulatorGazeInputCaptureComponent>() == null)
                     {
@@ -154,8 +169,7 @@ namespace VRSF.Gaze.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
             this.Enabled = true;
         }

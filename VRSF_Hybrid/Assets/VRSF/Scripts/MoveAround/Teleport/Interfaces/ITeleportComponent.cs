@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace VRSF.MoveAround.Teleport.Interfaces
 {
@@ -9,8 +10,6 @@ namespace VRSF.MoveAround.Teleport.Interfaces
     {
         bool UseBoundaries();
 
-        Vector3 MaxPosBoundaries();
-
-        Vector3 MinPosBoundaries();
+        List<Bounds> Boundaries();
     }
 }

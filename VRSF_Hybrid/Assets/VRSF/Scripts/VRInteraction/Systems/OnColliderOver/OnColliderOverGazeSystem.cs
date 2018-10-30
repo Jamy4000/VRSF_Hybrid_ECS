@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
-using UnityEngine;
+using VRSF.Controllers;
 using VRSF.Utils.Components;
+using VRSF.Utils.Events;
 
 namespace VRSF.Interactions.Systems
 {
@@ -18,7 +19,7 @@ namespace VRSF.Interactions.Systems
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons.IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze && entity.PointerRaycast.CheckRaycast)
+                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze && entity.PointerRaycast.CheckRaycast)
                 {
                     HandleOver(entity.ScriptableSingletons);
                 }
@@ -37,15 +38,20 @@ namespace VRSF.Interactions.Systems
         private void HandleOver(ScriptableSingletonsComponent comp)
         {
             //If nothing is hit, we set the isOver value to false
-            if (comp.InteractionsContainer.GazeHit.isNull)
+            if (comp.InteractionsContainer.IsOverSomethingGaze.Value && comp.InteractionsContainer.GazeHit.isNull)
             {
                 comp.InteractionsContainer.IsOverSomethingGaze.SetValue(false);
+                new ObjectWasHoveredEvent(EHand.GAZE, null);
+                comp.InteractionsContainer.PreviousGazeHit = null;
             }
-            //If something is hit, we check that the collider is still "alive"
-            else if (comp.InteractionsContainer.GazeHit.Value.collider != null)
+            //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
+            else if (!comp.InteractionsContainer.GazeHit.isNull && comp.InteractionsContainer.GazeHit.Value.collider != null &&
+                    comp.InteractionsContainer.GazeHit.Value.collider.transform != comp.InteractionsContainer.PreviousGazeHit)
             {
                 var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
-                comp.InteractionsContainer.GazeOverObject.Raise(hitTransform);
+                new ObjectWasHoveredEvent(EHand.GAZE, hitTransform);
+
+                comp.InteractionsContainer.PreviousGazeHit = hitTransform;
 
                 comp.InteractionsContainer.IsOverSomethingGaze.SetValue(true);
             }

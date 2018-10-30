@@ -1,6 +1,8 @@
 ﻿using Unity.Entities;
+using VRSF.Controllers;
 using VRSF.Interactions.Components;
 using VRSF.Utils.Components;
+using VRSF.Utils.Events;
 
 namespace VRSF.Interactions.Systems
 {
@@ -19,7 +21,7 @@ namespace VRSF.Interactions.Systems
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons.IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers &&
+                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers &&
                     entity.PointerRaycast.CheckRaycast)
                 {
                     CheckResetClick(entity);
@@ -64,7 +66,7 @@ namespace VRSF.Interactions.Systems
                     entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.SetValue(true);
 
                     var objectClicked = entity.ScriptableSingletons.InteractionsContainer.RightHit.Value.collider.transform;
-                    entity.ScriptableSingletons.InteractionsContainer.RightObjectWasClicked.Raise(objectClicked);
+                    new ObjectWasClickedEvent(EHand.RIGHT, objectClicked);
                 }
             }
         }

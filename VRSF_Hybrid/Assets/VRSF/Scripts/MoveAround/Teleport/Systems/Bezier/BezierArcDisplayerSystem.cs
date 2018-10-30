@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System.Collections.Generic;
+using Unity.Entities;
 using UnityEngine;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
@@ -40,15 +41,41 @@ namespace VRSF.MoveAround.Teleport.Systems
         public Vector3 CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, Vector3 posToCheck)
         {
             Filter entity = (Filter)teleportFilter;
+            
+            bool _isInBoundaries = false;
+            List<Vector3> closestDists = new List<Vector3>();
 
-            if (entity.TeleportBoundaries._UseBoundaries)
+            foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
             {
-                Vector3 minPos = entity.TeleportBoundaries._MinUserPosition;
-                Vector3 maxPos = entity.TeleportBoundaries._MaxUserPosition;
+                if (bound.Contains(posToCheck))
+                {
+                    _isInBoundaries = true;
+                    break;
+                }
+                else
+                {
+                    closestDists.Add(bound.ClosestPoint(posToCheck));
+                }
+            }
 
-                posToCheck.x = Mathf.Clamp(posToCheck.x, minPos.x, maxPos.x);
-                posToCheck.y = Mathf.Clamp(posToCheck.y, minPos.y, maxPos.y);
-                posToCheck.z = Mathf.Clamp(posToCheck.z, minPos.z, maxPos.z);
+            // if the posToCheck is not in the boundaries, we check what's the closest point from it
+            if (!_isInBoundaries)
+            {
+                float closestDist = float.PositiveInfinity;
+                Vector3 closestPoint = Vector3.positiveInfinity;
+
+                foreach (var point in closestDists)
+                {
+                    var distance = (posToCheck - point).magnitude;
+
+                    if (distance < closestDist)
+                    {
+                        closestDist = distance;
+                        closestPoint = point;
+                    }
+                }
+
+                posToCheck = closestPoint;
             }
 
             return posToCheck;
@@ -63,6 +90,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void DisplayArc(Filter entity)
         {
             // Init
+            entity.BezierCalculations._GroundDetected = false;
+            entity.BezierCalculations._LimitDetected = false;
             RaycastHit hit = new RaycastHit();
             Vector3 pos = entity.BezierCalculations._CurveOrigin.position; // take off position
             entity.BezierCalculations._VertexList.Add(pos);
@@ -72,8 +101,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 Vector3 newPos = pos + entity.BezierCalculations._Velocity * entity.BezierCalculations._VertexDelta
                     + 0.5f * Physics.gravity * entity.BezierCalculations._VertexDelta * entity.BezierCalculations._VertexDelta;
-
-                Vector3 boundedPos = CheckNewPosWithBoundaries(entity, newPos);
+                
+                Vector3 boundedPos = entity.TeleportBoundaries._UseBoundaries ? CheckNewPosWithBoundaries(entity, newPos) : newPos;
 
                 entity.BezierCalculations._Velocity += Physics.gravity * entity.BezierCalculations._VertexDelta;
 
@@ -81,7 +110,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 entity.BezierCalculations._VertexList.Add(boundedPos);
 
                 // if linecast between last vertex and current vertex hit something
-                if (Physics.Linecast(pos, boundedPos, out hit, entity.GeneralTeleport.ExclusionLayer))
+                if (Physics.Linecast(pos, boundedPos, out hit) && hit.transform.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
                 {
                     entity.BezierCalculations._GroundDetected = true;
                     entity.BezierCalculations._GroundPos = hit.point;

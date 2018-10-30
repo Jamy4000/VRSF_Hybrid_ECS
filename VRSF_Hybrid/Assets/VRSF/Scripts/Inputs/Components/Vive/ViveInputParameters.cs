@@ -1,5 +1,6 @@
 ﻿using ScriptableFramework.RuntimeSet;
 using ScriptableFramework.Variables;
+using VRSF.Controllers;
 
 namespace VRSF.Inputs.Components.Vive
 {
@@ -8,8 +9,7 @@ namespace VRSF.Inputs.Components.Vive
     /// </summary>
     public struct ViveInputParameters
     {
-        public VRInputsEvents ClickEvents;
-        public VRInputsEvents TouchEvents;
+        public EHand Hand;
         public VRInputsBoolean ClickBools;
         public VRInputsBoolean TouchBools;
         public SteamVR_Controller.Device Controller;

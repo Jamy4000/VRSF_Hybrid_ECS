@@ -1,8 +1,6 @@
-﻿using VRSF.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using VRSF.Utils.Events;
 
 namespace VRSF.UI.Example
 {
@@ -23,6 +21,12 @@ namespace VRSF.UI.Example
         private void Start()
         {
             image = GetComponent<Image>();
+            ObjectWasHoveredEvent.RegisterListener(CheckRayCastGaze);
+        }
+
+        private void OnApplicationQuit()
+        {
+            ObjectWasHoveredEvent.UnregisterListener(CheckRayCastGaze);
         }
         #endregion MONOBEHAVIOUR_METHODS
 
@@ -34,9 +38,9 @@ namespace VRSF.UI.Example
 
 
         #region PRIVATE_METHODS
-        public void CheckRayCastGaze(Transform value)
+        public void CheckRayCastGaze(ObjectWasHoveredEvent value)
         {
-            image.enabled = (value == transform);
+            image.enabled = (value.ObjectHovered == transform);
         }
         #endregion PRIVATE_METHODS
 

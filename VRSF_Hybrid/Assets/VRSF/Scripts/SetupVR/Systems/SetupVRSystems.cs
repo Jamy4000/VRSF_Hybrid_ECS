@@ -22,23 +22,24 @@ namespace VRSF.Utils.Systems
 
         private ControllersParametersVariable _controllersParameters;
 
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
+            
             _controllersParameters = ControllersParametersVariable.Instance;
-            SceneManager.activeSceneChanged += OnSceneChanged;
 
             SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
+            
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         protected override void OnUpdate()
         {
             var e = GetEntities<Filter>()[0];
-            if (!e.SetupVR.IsReady)
+
+            if (!VRSF_Components.SetupVRIsReady)
             {
                 SetupVRInScene(e.SetupVR);
             }
@@ -47,8 +48,15 @@ namespace VRSF.Utils.Systems
                 this.Enabled = false;
             }
         }
+
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
         #endregion
-        
+
 
         #region PRIVATE_METHODS
         /// <summary>
@@ -93,7 +101,7 @@ namespace VRSF.Utils.Systems
             }
 
             setupVR.SDKHasBeenInstantiated = true;
-            setupVR.IsReady = true;
+            VRSF_Components.SetupVRIsReady = true;
         }
 
         /// <summary>
@@ -103,14 +111,21 @@ namespace VRSF.Utils.Systems
         {
             if (setupVR.CheckDeviceAtRuntime)
                 setupVR.DeviceToLoad = CheckDeviceConnected();
-
+            
             switch (setupVR.DeviceToLoad)
             {
-                case (EDevice.OVR):
+                case (EDevice.OCULUS_RIFT):
                     XRSettings.enabled = true;
-                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OVR_SDK);
-                    VRSF_Components.CameraRig.transform.name = setupVR.OVR_SDK.name;
-                    VRSF_Components.DeviceLoaded = EDevice.OVR;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.Rift_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.Rift_SDK.name;
+                    VRSF_Components.DeviceLoaded = EDevice.OCULUS_RIFT;
+                    break;
+                    
+                case (EDevice.PORTABLE_OVR):
+                    XRSettings.enabled = true;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.PortableOVR_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.PortableOVR_SDK.name;
+                    VRSF_Components.DeviceLoaded = EDevice.PORTABLE_OVR;
                     break;
 
                 case (EDevice.OPENVR):
@@ -148,15 +163,20 @@ namespace VRSF.Utils.Systems
             if (XRDevice.isPresent)
             {
                 string detectedHmd = XRDevice.model;
+
                 Debug.Log("VRSF : " + detectedHmd + " is connected");
 
                 if (detectedHmd.ToLower().Contains("vive"))
                 {
                     return EDevice.OPENVR;
                 }
-                else if (detectedHmd.ToLower().Contains("oculus"))
+                else if (detectedHmd.ToLower().Contains("rift"))
                 {
-                    return EDevice.OVR;
+                    return EDevice.OCULUS_RIFT;
+                }
+                else if (detectedHmd.ToLower().Contains("gear") || detectedHmd.ToLower().Contains("oculus go"))
+                {
+                    return EDevice.PORTABLE_OVR;
                 }
                 else
                 {
@@ -184,11 +204,11 @@ namespace VRSF.Utils.Systems
                     VRSF_Components.LeftController = GameObject.FindGameObjectWithTag("LeftController");
                     VRSF_Components.RightController = GameObject.FindGameObjectWithTag("RightController");
 
-                    return (VRSF_Components.LeftController != null && VRSF_Components.RightController != null);
+                    return VRSF_Components.LeftController != null && VRSF_Components.RightController != null;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("VRSF : Can't setup Left and Right Controllers. Waiting for next frame.\n" + e);
+                    Debug.LogError("VRSF : Can't setup Left or Right Controllers. Waiting for next frame.\n" + e);
                     return false;
                 }
             }
@@ -231,17 +251,22 @@ namespace VRSF.Utils.Systems
                         VRSF_Components.CameraRig.GetComponent<ViveControllersInputCaptureComponent>().enabled = false;
                         VRSF_Components.CameraRig.GetComponent<SteamVR_ControllerManager>().enabled = false;
                         break;
-                    case (EDevice.OVR):
+                    case (EDevice.OCULUS_RIFT):
+                        VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
+                        break;
+                    case (EDevice.PORTABLE_OVR):
+                        VRSF_Components.CameraRig.GetComponent<PortableOVRRemoteInputCaptureComponent>().enabled = false;
+                        break;
                     case (EDevice.SIMULATOR):
-                        VRSF_Components.CameraRig.GetComponent<OVRControllersInputCaptureComponent>().enabled = false;
+                        VRSF_Components.CameraRig.GetComponent<SimulatorControllersInputCaptureComponent>().enabled = false;
                         break;
                     default:
                         Debug.LogError("VRSF : Device Loaded is not set to a valid value : " + VRSF_Components.DeviceLoaded);
                         return false;
                 }
 
-                GameObject.FindGameObjectWithTag("LeftController").SetActive(false);
-                GameObject.FindGameObjectWithTag("RightController").SetActive(false);
+                VRSF_Components.LeftController.SetActive(false);
+                VRSF_Components.RightController.SetActive(false);
 
                 return true;
             }
@@ -257,9 +282,9 @@ namespace VRSF.Utils.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        /// <param name="newScene">The new scene after switching</param>
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneUnloaded(Scene oldScene)
         {
+            VRSF_Components.SetupVRIsReady = false;
             this.Enabled = true;
         }
         #endregion
