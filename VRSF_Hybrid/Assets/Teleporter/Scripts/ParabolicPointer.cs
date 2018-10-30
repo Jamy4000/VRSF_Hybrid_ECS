@@ -13,7 +13,7 @@ namespace VRSF.MoveAround.Teleport
     public class ParabolicPointer : MonoBehaviour
     {
         #region PUBLIC_VARIABLES
-        public ViveNavMesh NavMesh;
+        public TeleporterNavMesh NavMesh;
 
         [Header("Parabola Trajectory")]
         [Tooltip("Initial velocity of the parabola, in local space.")]
@@ -91,18 +91,16 @@ namespace VRSF.MoveAround.Teleport
         {
             // 1. Calculate Parabola Points
             Vector3 velocity = transform.TransformDirection(InitialVelocity);
-            Vector3 velocity_normalized;
-            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out velocity_normalized);
+            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 velocity_normalized);
             CurrentPointVector = velocity_normalized;
 
-            Vector3 normal;
             PointOnNavMesh = CalculateParabolicCurve(
                 transform.position,
                 velocity,
                 Acceleration, PointSpacing, PointCount,
                 NavMesh,
                 ParabolaPoints,
-                out normal);
+                out Vector3 normal);
 
             SelectedPoint = ParabolaPoints[ParabolaPoints.Count - 1];
 
@@ -143,16 +141,14 @@ namespace VRSF.MoveAround.Teleport
                 ParabolaPoints_Gizmo = new List<Vector3>(PointCount);
 
             Vector3 velocity = transform.TransformDirection(InitialVelocity);
-            Vector3 velocity_normalized;
-            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out velocity_normalized);
+            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 velocity_normalized);
 
-            Vector3 normal;
             bool didHit = CalculateParabolicCurve(
                 transform.position,
                 velocity,
                 Acceleration, PointSpacing, PointCount,
                 NavMesh,
-                ParabolaPoints_Gizmo, out normal);
+                ParabolaPoints_Gizmo, out Vector3 normal);
 
             Gizmos.color = Color.blue;
             for (int x = 0; x < ParabolaPoints_Gizmo.Count - 1; x++)
@@ -174,8 +170,7 @@ namespace VRSF.MoveAround.Teleport
         public void ForceUpdateCurrentAngle()
         {
             Vector3 velocity = transform.TransformDirection(InitialVelocity);
-            Vector3 d;
-            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out d);
+            CurrentParabolaAngleY = ClampInitialVelocity(ref velocity, out Vector3 d);
             CurrentPointVector = d;
         }
         #endregion PUBLIC_METHODS
@@ -234,7 +229,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="normal">normal of hit point</param>
         /// 
         /// <returns>true if the the parabole is at the end of the NavMesh</returns>
-        private static bool CalculateParabolicCurve(Vector3 p0, Vector3 v0, Vector3 a, float dist, int points, ViveNavMesh nav, List<Vector3> outPts, out Vector3 normal)
+        private static bool CalculateParabolicCurve(Vector3 p0, Vector3 v0, Vector3 a, float dist, int points, TeleporterNavMesh nav, List<Vector3> outPts, out Vector3 normal)
         {
             outPts.Clear();
             outPts.Add(p0);
@@ -247,10 +242,7 @@ namespace VRSF.MoveAround.Teleport
                 t += dist / ParabolicCurveDeriv(v0, a, t).magnitude;
                 Vector3 next = ParabolicCurve(p0, v0, a, t);
 
-                Vector3 castHit;
-                Vector3 norm;
-                bool endOnNavmesh;
-                bool cast = nav.Linecast(last, next, out endOnNavmesh, out castHit, out norm);
+                bool cast = nav.Linecast(last, next, out bool endOnNavmesh, out Vector3 castHit, out Vector3 norm);
                 if (cast)
                 {
                     outPts.Add(castHit);

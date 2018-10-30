@@ -14,10 +14,10 @@ namespace VRSF.MoveAround.Teleport
     /// used for Vive navigation to be separated form the AI Navmesh.  ViveNavMesh also handles the rendering of the 
     /// NavMesh grid in-game.
     /// </summary>
-    [AddComponentMenu("VRSF/Teleport/Vive Nav Mesh")]
-    [RequireComponent(typeof(BorderRenderer))]
+    [AddComponentMenu("VRSF/Teleport/Teleport Nav Mesh")]
+    [RequireComponent(typeof(BorderRendererComponent))]
     [ExecuteInEditMode]
-    public class ViveNavMesh : MonoBehaviour
+    public class TeleporterNavMesh : MonoBehaviour
     {
         #region PUBLIC_VARIABLES
         /// <summary>
@@ -60,7 +60,7 @@ namespace VRSF.MoveAround.Teleport
 
         [SerializeField] private ENavmeshDewarpingMethod _DewarpingMethod = ENavmeshDewarpingMethod.None;
 
-        private BorderRenderer Border;
+        private BorderRendererComponent Border;
 
         private Dictionary<Camera, CommandBuffer> cameras = new Dictionary<Camera, CommandBuffer>();
         #endregion PRIVATE_VARIABLES
@@ -75,7 +75,7 @@ namespace VRSF.MoveAround.Teleport
             if (_SelectableMeshBorder == null)
                 _SelectableMeshBorder = new BorderPointSet[0];
 
-            Border = GetComponent<BorderRenderer>();
+            Border = GetComponent<BorderRendererComponent>();
             Border.Points = SelectableMeshBorder;
 
             AlphaShaderID = Shader.PropertyToID("_Alpha");
@@ -147,7 +147,7 @@ namespace VRSF.MoveAround.Teleport
 
         private void OnValidate()
         {
-            Border = GetComponent<BorderRenderer>();
+            Border = GetComponent<BorderRendererComponent>();
             Border.Points = SelectableMeshBorder;
 
             if (AlphaShaderID == -1)
@@ -157,8 +157,7 @@ namespace VRSF.MoveAround.Teleport
 
 
         #region PUBLIC_METHODS
-
-        /// TODO : Linecast already exist within Unity, we need to try to remove this method and to use the Native version.
+        
         /// <summary>
         /// Casts a ray against the Navmesh and attempts to calculate the ray's worldspace intersection with it.
         /// This uses Physics raycasts to perform the raycast calculation, so the teleport surface must have a collider on it.

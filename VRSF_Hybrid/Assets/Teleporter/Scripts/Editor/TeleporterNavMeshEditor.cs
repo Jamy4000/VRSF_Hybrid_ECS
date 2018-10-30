@@ -14,8 +14,8 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    [CustomEditor(typeof(ViveNavMesh))]
-    public class ViveNavMeshEditor : Editor
+    [CustomEditor(typeof(TeleporterNavMesh))]
+    public class TeleporterNavMeshEditor : UnityEditor.Editor
     {
         // EMPTY
         #region PUBLIC_VARIABLES
@@ -69,7 +69,7 @@ namespace VRSF.MoveAround.Teleport
                 "that the player will see in-game.\n",
                 wrap);
 
-            ViveNavMesh mesh = (ViveNavMesh)target;
+            TeleporterNavMesh mesh = (TeleporterNavMesh)target;
 
             serializedObject.Update();
 

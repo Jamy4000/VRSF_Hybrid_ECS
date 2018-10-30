@@ -1610,6 +1610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   queueAhead: 1
   useRecommendedMSAALevel: 0
+  _monoscopic: 0
   enableAdaptiveResolution: 0
   minRenderScale: 0.7
   maxRenderScale: 1
@@ -1655,7 +1656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a3f47ad96e62d5408d3a58067b97702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TempEvent: {fileID: 0}
 --- !u!114 &114461717020203996
 MonoBehaviour:
   m_ObjectHideFlags: 1

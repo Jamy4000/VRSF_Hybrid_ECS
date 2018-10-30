@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Valve.VR;
+using VRSF.Inputs;
+using VRSF.Inputs.Events;
+using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -10,58 +14,74 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    [AddComponentMenu("Vive Teleporter/Vive Teleporter")]
-    [RequireComponent(typeof(Camera), typeof(BorderRenderer))]
-    public class TeleportVive : MonoBehaviour
+    [AddComponentMenu("VRSF/Teleporter/Teleporter")]
+    [RequireComponent(typeof(BorderRendererComponent))]
+    public class TeleporterVR : MonoBehaviour
     {
         #region PUBLIC_VARIABLES
+        //OK
         [Tooltip("Parabolic Pointer object to pull destination points from, and to assign to each controller.")]
         public ParabolicPointer Pointer;
-        /// Origin of SteamVR tracking space
-        [Tooltip("Origin of the SteamVR tracking space")]
-        public Transform OriginTransform;
-        /// Origin of the player's head
-        [Tooltip("Transform of the player's head")]
-        public Transform HeadTransform;
 
+        //OK
         /// How long, in seconds, the fade-in/fade-out animation should take
         [Tooltip("Duration of the \"blink\" animation (fading in and out upon teleport) in seconds.")]
         public float TeleportFadeDuration = 0.2f;
+
+        //OK
         /// Measure in degrees of how often the controller should respond with a haptic click.  Smaller value=faster clicks
         [Tooltip("The player feels a haptic pulse in the controller when they raise / lower the controller by this many degrees.  Lower value = faster pulses.")]
         public float HapticClickAngleStep = 10;
-
-        [Tooltip("Array of SteamVR controllers that may used to select a teleport destination.")]
-        public SteamVR_TrackedObject[] Controllers;
         #endregion PUBLIC_VARIABLES
 
 
         #region PRIVATE_VARIABLES
-        /// BorderRenderer to render the chaperone bounds (when choosing a location to teleport to)
-        private BorderRenderer _roomBorder;
+        //OK
+        /// Origin of the tracking space (basically the cameraRig)
+        private Transform _originTransform;
 
+        //OK
+        /// Origin of the player's head
+        private Transform _headTransform;
+
+        //OK
+        /// BorderRenderer to render the chaperone bounds (when choosing a location to teleport to)
+        private BorderRendererComponent _roomBorder;
+
+        //OK
         /// Animator used to fade in/out the teleport area.  This should have a boolean parameter "Enabled" where if true
         /// the selectable area is displayed on the ground.
         [Tooltip("Animator with a boolean \"Enabled\" parameter that is set to true when the player is choosing a place to teleport.")]
         [SerializeField] private Animator _navmeshAnimator;
+        //OK
         private int _enabledAnimatorID;
 
+        //OK
         /// Material used to render the fade in/fade out quad
         [Tooltip("Material used to render the fade in/fade out quad.")]
         [SerializeField] private Material _fadeMaterial;
+        //OK
         private Material _fadeMaterialInstance;
+        //OK
         private int _materialFadeID;
-
+        
+        //OK
         /// SteamVR controllers that should be polled.
-        private SteamVR_TrackedObject _activeController;
+        private GameObject _activeController;
 
 
+        //OK
         private Vector3 _lastClickAngle = Vector3.zero;
+        //OK
         private bool IsClicking = false;
 
+        //OK
         private bool _fadingIn = false;
+
+        //OK
         private float _teleportTimeMarker = -1;
 
+        //OK
         private Mesh _planeMesh;
         #endregion PRIVATE_VARIABLES
 
@@ -69,7 +89,7 @@ namespace VRSF.MoveAround.Teleport
         #region MONOBEHAVIOUR_METHODS
         private void Start()
         {
-            InitVariables();
+            StartCoroutine(InitVariables());
         }
 
         private void Update()
@@ -84,12 +104,13 @@ namespace VRSF.MoveAround.Teleport
             {
                 HandleSelectingState();
             }
-            else //CurrentTeleportState == TeleportState.None
+            else // if (CurrentTeleportState == ETeleportState.None)
             {
                 HandleNoneState();
             }
         }
 
+        // OK
         private void OnPostRender()
         {
             if (CurrentTeleportState == ETeleportState.Teleporting)
@@ -118,7 +139,36 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="p2">Point 2 that make up the chaperone boundaries.</param>
         /// <param name="p3">Point 3 that make up the chaperone boundaries.</param>
         /// <returns>If the play area retrieval was successful</returns>
+        //ok
         public static bool GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
+        {
+            bool toReturn = false;
+
+            switch (VRSF_Components.DeviceLoaded)
+            {
+                case EDevice.OPENVR:
+                    toReturn = GetViveChaperone(out p0, out p1, out p2, out p3);
+                    break;
+                case EDevice.OCULUS_RIFT:
+                case EDevice.PORTABLE_OVR:
+                    toReturn = GetOVRBoundaries(out p0, out p1, out p2, out p3);
+                    break;
+                default:
+                    p0 = Vector3.zero;
+                    p1 = Vector3.zero;
+                    p2 = Vector3.zero;
+                    p3 = Vector3.zero;
+                    return toReturn;
+            }
+
+            return toReturn;
+        }
+        #endregion PUBLIC_METHODS
+
+        
+        #region PRIVATE_METHODS
+        //ok
+        private static bool GetViveChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
         {
             var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
             if (initOpenVR)
@@ -142,36 +192,69 @@ namespace VRSF.MoveAround.Teleport
 
             return success;
         }
-        #endregion PUBLIC_METHODS
 
-        
-        #region PRIVATE_METHODS
+        //ok
+        private static bool GetOVRBoundaries(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
+        {
+            var chaperone = OVRManager.boundary;
+
+            if (chaperone.GetConfigured())
+            {
+                var geometry = chaperone.GetGeometry(OVRBoundary.BoundaryType.PlayArea);
+                bool success = (chaperone != null) && (geometry.Length > 0);
+
+                p0 = geometry[0];
+                p1 = geometry[1];
+                p2 = geometry[2];
+                p3 = geometry[3];
+
+                if (!success)
+                    Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
+
+                return success;
+            }
+            else
+            {
+                p0 = Vector3.zero;
+                p1 = Vector3.zero;
+                p2 = Vector3.zero;
+                p3 = Vector3.zero;
+                return true;
+            }
+        }
+
         /// <summary>
-        /// Called in Update when the user is teleport.
+        /// Called in Update when the user is teleported.
         /// CHeck the Fading status and teleport the user when the Fading out is done.
         /// </summary>
         private void HandleTeleportingState()
         {
-            // Wait until half of the teleport time has passed before the next event (note: both the switch from fade
-            // out to fade in and the switch from fade in to stop the animation is half of the fade duration)
-            if (Time.time - _teleportTimeMarker >= TeleportFadeDuration / 2)
-            {
-                if (_fadingIn)
+            Debug.Log("BoupBoup 3 ");
+            // If we are currently teleporting (ie handling the fade in/out transition)...
+           // if (User wasn't teleported yet)
+           // {
+                Debug.Log("BoupBoup 4");
+                // Wait until half of the teleport time has passed before the next event (note: both the switch from fade
+                // out to fade in and the switch from fade in to stop the animation is half of the fade duration)
+                if (Time.time - _teleportTimeMarker >= TeleportFadeDuration / 2)
                 {
-                    // We have finished fading in
-                    CurrentTeleportState = ETeleportState.None;
-                }
-                else
-                {
-                    // We have finished fading out - time to teleport!
-                    Vector3 offset = OriginTransform.position - HeadTransform.position;
-                    offset.y = 0;
-                    OriginTransform.position = Pointer.SelectedPoint + offset;
-                }
+                    if (_fadingIn)
+                    {
+                        // We have finished fading in
+                        CurrentTeleportState = ETeleportState.None;
+                    }
+                    else
+                    {
+                        // We have finished fading out - time to teleport!
+                        Vector3 offset = _originTransform.position - _headTransform.position;
+                        offset.y = 0;
+                        _originTransform.position = Pointer.SelectedPoint + offset;
+                    }
 
-                _teleportTimeMarker = Time.time;
-                _fadingIn = !_fadingIn;
-            }
+                    _teleportTimeMarker = Time.time;
+                    _fadingIn = !_fadingIn;
+                }
+            //}
         }
 
         /// <summary>
@@ -180,27 +263,23 @@ namespace VRSF.MoveAround.Teleport
         private void HandleSelectingState()
         {
             Debug.Assert(_activeController != null);
-
-            // Here, there is an active controller - that is, the user is holding down on the trackpad.
-            // Poll controller for pertinent button data
-            int index = (int)_activeController.index;
-            var device = SteamVR_Controller.Input(index);
-            bool shouldTeleport = device.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad);
-            bool shouldCancel = device.GetPressUp(SteamVR_Controller.ButtonMask.Grip);
-
-            if (shouldTeleport || shouldCancel)
+            
+            // If User stop clicking
+            if (!InputVariableContainer.Instance.RightClickBoolean.Get("TriggerIsDown").Value)
             {
                 // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
                 // related to selecting things and actually teleport
                 // If the user has decided to cancel (ie squeezes grip button) then remove visual indicators and do nothing
-                if (shouldTeleport && Pointer.PointOnNavMesh)
+                if (Pointer.PointOnNavMesh)
                 {
                     // Begin teleport sequence
                     CurrentTeleportState = ETeleportState.Teleporting;
                     _teleportTimeMarker = Time.time;
                 }
                 else
+                {
                     CurrentTeleportState = ETeleportState.None;
+                }
 
                 // Reset active controller, disable pointer, disable visual indicators
                 _activeController = null;
@@ -215,54 +294,49 @@ namespace VRSF.MoveAround.Teleport
                 Pointer.transform.rotation = Quaternion.identity;
                 Pointer.transform.localScale = Vector3.one;
             }
+            // If User is clicking
             else
             {
                 CalculateRommBorderPos();
-                HandleHapticPulse(device);
+                // HandleHapticPulse(device);
             }
         }
 
         private void HandleNoneState()
         {
-            // At this point the user is not holding down on the touchpad at all or has canceled a teleport and hasn't
-            // let go of the touchpad.  So we wait for the user to press the touchpad and enable visual indicators
-            // if necessary.
-            foreach (SteamVR_TrackedObject obj in Controllers)
-            {
-                int index = (int)obj.index;
-                if (index == -1)
-                    continue;
+            Debug.Log("BoupBoup 1 ");
+            // If User Start clicking
+            // {
+                // At this point the user is not holding down on the touchpad at all or has canceled a teleport and hasn't
+                // let go of the touchpad.  So we wait for the user to press the touchpad and enable visual indicators
+                // if necessary.
+                Debug.Log("BoupBoup 2 ");
+                // Set active controller to this controller, and enable the parabolic pointer and visual indicators
+                // that the user can use to determine where they are able to teleport.
+                _activeController = gameObject;
 
-                var device = SteamVR_Controller.Input(index);
-                if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
-                {
-                    // Set active controller to this controller, and enable the parabolic pointer and visual indicators
-                    // that the user can use to determine where they are able to teleport.
-                    _activeController = obj;
+                Pointer.transform.parent = transform;
+                Pointer.transform.localPosition = Vector3.zero;
+                Pointer.transform.localRotation = Quaternion.identity;
+                Pointer.transform.localScale = Vector3.one;
+                Pointer.enabled = true;
 
-                    Pointer.transform.parent = obj.transform;
-                    Pointer.transform.localPosition = Vector3.zero;
-                    Pointer.transform.localRotation = Quaternion.identity;
-                    Pointer.transform.localScale = Vector3.one;
-                    Pointer.enabled = true;
+                CurrentTeleportState = ETeleportState.Selecting;
 
-                    CurrentTeleportState = ETeleportState.Selecting;
+                if (_navmeshAnimator != null)
+                    _navmeshAnimator.SetBool(_enabledAnimatorID, true);
 
-                    if (_navmeshAnimator != null)
-                        _navmeshAnimator.SetBool(_enabledAnimatorID, true);
-
-                    Pointer.ForceUpdateCurrentAngle();
-                    _lastClickAngle = Pointer.CurrentPointVector;
-                    IsClicking = Pointer.PointOnNavMesh;
-                }
-            }
+                Pointer.ForceUpdateCurrentAngle();
+                _lastClickAngle = Pointer.CurrentPointVector;
+                IsClicking = Pointer.PointOnNavMesh;
+            // }
         }
 
         private void CalculateRommBorderPos()
         {
             // The user is still deciding where to teleport and has the touchpad held down.
             // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
-            Vector3 offset = HeadTransform.position - OriginTransform.position;
+            Vector3 offset = _headTransform.position - _originTransform.position;
             offset.y = 0;
 
             // Render representation of where the chaperone bounds will be after teleporting
@@ -298,8 +372,15 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Initialize all variables necessary to use the teleport system.
         /// </summary>
-        private void InitVariables()
+        //ok
+        private IEnumerator InitVariables()
         {
+            while (VRSF_Components.CameraRig == null)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            _originTransform = VRSF_Components.CameraRig.transform;
+            _headTransform = VRSF_Components.VRCamera.transform;
             // Disable the pointer graphic (until the user holds down on the touchpad)
             Pointer.enabled = false;
 
@@ -333,13 +414,12 @@ namespace VRSF.MoveAround.Teleport
             _materialFadeID = Shader.PropertyToID("_Fade");
             _enabledAnimatorID = Animator.StringToHash("Enabled");
 
-            _roomBorder = GetComponent<BorderRenderer>();
-
-            Vector3 p0, p1, p2, p3;
-            if (GetChaperoneBounds(out p0, out p1, out p2, out p3))
+            _roomBorder = GetComponent<BorderRendererComponent>();
+            
+            if (GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3))
             {
                 // Rotate to match camera rig rotation
-                var originRotationMatrix = Matrix4x4.TRS(Vector3.zero, OriginTransform.rotation, Vector3.one);
+                var originRotationMatrix = Matrix4x4.TRS(Vector3.zero, _originTransform.rotation, Vector3.one);
 
                 BorderPointSet p = new BorderPointSet(new Vector3[]
                 {
@@ -368,6 +448,7 @@ namespace VRSF.MoveAround.Teleport
         /// Selecting: The player is currently selecting a teleport destination (holding down on touchpad)
         /// Teleporting: The player has selected a teleport destination and is currently teleporting now (fading in/out)
         /// </summary>
+        //ok
         public ETeleportState CurrentTeleportState { get; private set; }
         #endregion GETTERS_SETTERS
     }
