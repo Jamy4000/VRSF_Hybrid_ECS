@@ -16,13 +16,16 @@ namespace VRSF.MoveAround.Teleport
         {
             public PointerObjectsComponent PointerObjects;
             public PointerCalculationsComponent PointerCalculations;
+            public NavMeshAnimatorComponent NavMeshAnimator;
         }
 
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+
             foreach (var e in GetEntities<Filter>())
             {
+                Debug.Log("Init for pointer's object " + e.PointerObjects.transform.name);
                 InitValues(e);
             }
         }
@@ -31,6 +34,8 @@ namespace VRSF.MoveAround.Teleport
 
         private void InitValues(Filter e)
         {
+            e.NavMeshAnimator._TeleportNavMesh = GameObject.FindObjectOfType<TeleportNavMeshComponent>();
+
             e.PointerObjects.ParabolaPoints = new List<Vector3>(e.PointerCalculations.PointCount);
 
             e.PointerObjects._parabolaMesh = new Mesh();
@@ -50,6 +55,8 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerObjects._invalidPadObject = GameObject.Instantiate(e.PointerObjects._invalidPadPrefab);
                 e.PointerObjects._invalidPadObject.SetActive(false);
             }
+
+            Debug.Log("end of init for pointer's object " + e.PointerObjects.transform.name);
         }
     }
 }

@@ -88,8 +88,8 @@ namespace VRSF.MoveAround.Teleport
         {
             e.TeleportCalculations.CurrentTeleportState = ETeleportState.Selecting;
 
-            if (e.NavMeshAnim._navmeshAnimator != null)
-                e.NavMeshAnim._navmeshAnimator.SetBool(e.NavMeshAnim._enabledAnimatorID, true);
+            if (e.NavMeshAnim._NavmeshAnimator != null)
+                e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, true);
 
             e.TeleportCalculations._lastClickAngle = e.SceneObjects.Pointer.CurrentPointVector;
             e.TeleportCalculations.IsClicking = e.SceneObjects.Pointer.PointOnNavMesh;
@@ -130,8 +130,8 @@ namespace VRSF.MoveAround.Teleport
             e.SceneObjects.Pointer.enabled = false;
             e.SceneObjects._roomBorder.enabled = false;
             //RoomBorder.Transpose = Matrix4x4.TRS(OriginTransform.position, Quaternion.identity, Vector3.one);
-            if (e.NavMeshAnim._navmeshAnimator != null)
-                e.NavMeshAnim._navmeshAnimator.SetBool(e.NavMeshAnim._enabledAnimatorID, false);
+            if (e.NavMeshAnim._NavmeshAnimator != null)
+                e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, false);
         }
     }
 }

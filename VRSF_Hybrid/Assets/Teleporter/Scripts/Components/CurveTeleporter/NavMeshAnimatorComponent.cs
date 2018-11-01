@@ -15,8 +15,10 @@ namespace VRSF.MoveAround.Teleport
         /// Animator used to fade in/out the teleport area.  This should have a boolean parameter "Enabled" where if true
         /// the selectable area is displayed on the ground.
         /// Should have a boolean \"Enabled\" parameter that is set to true when the player is choosing a place to teleport
-        [System.NonSerialized] public Animator _navmeshAnimator;
+        [System.NonSerialized] public Animator _NavmeshAnimator;
 
-        [System.NonSerialized] public int _enabledAnimatorID;
+        [System.NonSerialized] public int _EnabledAnimatorID;
+
+        [System.NonSerialized] public TeleportNavMeshComponent _TeleportNavMesh;
     }
 }

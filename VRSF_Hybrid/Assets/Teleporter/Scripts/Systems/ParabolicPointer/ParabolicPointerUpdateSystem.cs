@@ -20,9 +20,27 @@ namespace VRSF.MoveAround.Teleport
             public BACGeneralComponent BACGeneral;
             public BACCalculationsComponent BACCalculations;
             
-            public TeleportNavMeshComponent NavMeshComp;
+            public NavMeshAnimatorComponent NavMeshComp;
             public PointerObjectsComponent PointerObjects;
             public PointerCalculationsComponent PointerCalculations;
+        }
+
+        protected override void OnStartRunning()
+        {
+            base.OnStartRunning();
+            foreach (var e in GetEntities<Filter>())
+            {
+                SetupListenersResponses(e);
+            }
+        }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            foreach (var e in GetEntities<Filter>())
+            {
+                RemoveListenersOnEndApp(e);
+            }
         }
 
         public override void SetupListenersResponses(object entity)
@@ -32,12 +50,14 @@ namespace VRSF.MoveAround.Teleport
             {
                 e.BACGeneral.OnButtonStartClicking.AddListener(delegate { ActivatePointer(e); });
                 e.BACGeneral.OnButtonIsClicking.AddListener(delegate { UpdatePointer(e); });
+                e.BACGeneral.OnButtonStopClicking.AddListener(delegate { DeactivatePointer(e); });
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BACGeneral.OnButtonStartTouching.AddListener(delegate { ActivatePointer(e); });
                 e.BACGeneral.OnButtonIsTouching.AddListener(delegate { UpdatePointer(e); });
+                e.BACGeneral.OnButtonStopTouching.AddListener(delegate { DeactivatePointer(e); });
             }
         }
 
@@ -48,12 +68,14 @@ namespace VRSF.MoveAround.Teleport
             {
                 e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
                 e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
                 e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonStopTouching.RemoveAllListeners();
             }
         }
 
@@ -74,7 +96,7 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.Acceleration, 
                 e.PointerCalculations.PointSpacing, 
                 e.PointerCalculations.PointCount,
-                e.NavMeshComp,
+                e.NavMeshComp._TeleportNavMesh,
                 e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );
@@ -191,7 +213,7 @@ namespace VRSF.MoveAround.Teleport
 
             Vector3 last = p0;
             float t = 0;
-
+            
             for (int i = 0; i < points; i++)
             {
                 t += dist / ParabolicCurveDeriv(v0, a, t).magnitude;

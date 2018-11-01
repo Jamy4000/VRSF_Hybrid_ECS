@@ -72,8 +72,8 @@ namespace VRSF.MoveAround.Teleport
             e.FadeComp._TeleportCalculations = e.TeleportCalculations;
 
             // Set some standard variables for the TeleportNavMeshComponent
-            e.NavMeshAnim._navmeshAnimator = e.NavMeshAnim.GetComponent<Animator>();
-            e.NavMeshAnim._enabledAnimatorID = Animator.StringToHash("Enabled");
+            e.NavMeshAnim._NavmeshAnimator = e.NavMeshAnim.GetComponent<Animator>();
+            e.NavMeshAnim._EnabledAnimatorID = Animator.StringToHash("Enabled");
 
             // Set some standard variables for the SceneObjectsComponent
             e.SceneObjects.Pointer = e.SceneObjects.GetComponent<PointerCalculationsComponent>();
