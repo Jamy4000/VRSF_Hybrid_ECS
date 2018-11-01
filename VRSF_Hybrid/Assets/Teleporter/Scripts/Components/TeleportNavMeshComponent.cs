@@ -22,7 +22,8 @@ namespace VRSF.MoveAround.Teleport
         /// The alpha (transparency) value of the rendered ground mesh
         /// </summary>
         [Range(0, 1)]
-        public float GroundAlpha = 1.0f;
+        [SerializeField]
+        [HideInInspector] public float GroundAlpha = 1.0f;
 
         public bool IgnoreSlopedSurfaces { get { return _IgnoreSlopedSurfaces; } }
 
@@ -31,9 +32,7 @@ namespace VRSF.MoveAround.Teleport
         
         [FormerlySerializedAs("_GroundMaterial")]
         [SerializeField] public Material _GroundMaterialSource;
-        public Material _GroundMaterial;
-
-        [System.NonSerialized] public float LastGroundAlpha = 1.0f;
+        
         [System.NonSerialized] public int AlphaShaderID = -1;
 
         [SerializeField] public int _LayerMask = 0;
@@ -56,18 +55,16 @@ namespace VRSF.MoveAround.Teleport
 
         [SerializeField] public ENavmeshDewarpingMethod _DewarpingMethod = ENavmeshDewarpingMethod.None;
 
-        [System.NonSerialized] public Dictionary<Camera, CommandBuffer> cameras = new Dictionary<Camera, CommandBuffer>();
-
-        [System.NonSerialized] public bool NeedCleanUp = false;
+        [System.NonSerialized] public Dictionary<Camera, CommandBuffer> _Cameras = new Dictionary<Camera, CommandBuffer>();
 
         public void OnEnable()
         {
-            NeedCleanUp = true;
+            TeleportNavMeshUpdateSystem.Cleanup(this);
         }
 
         public void OnDisable()
         {
-            NeedCleanUp = true;
+            TeleportNavMeshUpdateSystem.Cleanup(this);
         }
 
         private void OnRenderObject()
@@ -77,26 +74,26 @@ namespace VRSF.MoveAround.Teleport
             var act = gameObject.activeInHierarchy && enabled;
             if (!act)
             {
-                NeedCleanUp = true;
+                TeleportNavMeshUpdateSystem.Cleanup(this);
                 return;
             }
-
-            // If _SelectableMesh == null there is a crash in Unity 5.4 beta (apparently you can't pass null to CommandBuffer::DrawMesh now).
-            if (!_SelectableMesh || !GroundMaterial)
-                return;
+            
+            // We set the alpha of the Ground
+            if (_GroundMaterialSource != null)
+                _GroundMaterialSource.SetFloat(AlphaShaderID, GroundAlpha);
 
             var cam = Camera.current;
             if (!cam || cam.cameraType == CameraType.Preview || ((1 << gameObject.layer) & Camera.current.cullingMask) == 0)
                 return;
-
-            CommandBuffer buf = null;
-            if (cameras.ContainsKey(cam))
+            
+           // CommandBuffer buf = null; 
+            if (_Cameras.ContainsKey(cam))
                 return;
 
-            buf = new CommandBuffer();
+            CommandBuffer buf = new CommandBuffer();
             // Note: Mesh is drawn slightly pushed upwards to avoid z-fighting issues
             buf.DrawMesh(_SelectableMesh, Matrix4x4.TRS(Vector3.up * 0.005f, Quaternion.identity, Vector3.one), GroundMaterial, 0);
-            cameras[cam] = buf;
+            _Cameras[cam] = buf;
             cam.AddCommandBuffer(CameraEvent.AfterForwardOpaque, buf);
         }
 
@@ -114,15 +111,15 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         public Material GroundMaterial
         {
-            get { return _GroundMaterial; }
+            get { return _GroundMaterialSource; }
             set
             {
-                Material old = _GroundMaterial;
-                _GroundMaterial = value;
-                if (_GroundMaterial != null)
-                    _GroundMaterial.SetFloat(AlphaShaderID, GroundAlpha);
-                if (old != _GroundMaterial)
-                    NeedCleanUp = true;
+                Material old = _GroundMaterialSource;
+                _GroundMaterialSource = value;
+                if (_GroundMaterialSource != null)
+                    _GroundMaterialSource.SetFloat(AlphaShaderID, GroundAlpha);
+                if (old != _GroundMaterialSource)
+                    TeleportNavMeshUpdateSystem.Cleanup(this);
             }
         }
 
@@ -148,7 +145,12 @@ namespace VRSF.MoveAround.Teleport
         public Mesh SelectableMesh
         {
             get { return _SelectableMesh; }
-            set { _SelectableMesh = value; NeedCleanUp = true; ; } // Cleanup because we need to change the mesh inside command buffers
+            set
+            {
+                _SelectableMesh = value;
+                // Cleanup because we need to change the mesh inside command buffers
+                TeleportNavMeshUpdateSystem.Cleanup(this);
+            }
         }
 
         /// <summary>

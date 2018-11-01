@@ -15,7 +15,6 @@ namespace VRSF.MoveAround.Teleport
         private struct Filter
         {
             public TeleportNavMeshComponent TeleportNavMesh;
-            public BorderRendererComponent Border;
         }
 
         protected override void OnStartRunning()
@@ -27,7 +26,9 @@ namespace VRSF.MoveAround.Teleport
             }
         }
 
-        protected override void OnUpdate() { }
+        protected override void OnUpdate()
+        {
+        }
 
         private void InitValues(Filter e)
         {
@@ -35,19 +36,11 @@ namespace VRSF.MoveAround.Teleport
                 e.TeleportNavMesh.SelectableMesh = new Mesh();
             if (e.TeleportNavMesh._SelectableMeshBorder == null)
                 e.TeleportNavMesh._SelectableMeshBorder = new BorderPointSet[0];
-
-            e.Border.Points = e.TeleportNavMesh.SelectableMeshBorder;
-
+            
             e.TeleportNavMesh.AlphaShaderID = Shader.PropertyToID("_Alpha");
 
             if (e.TeleportNavMesh._GroundMaterialSource != null)
                 e.TeleportNavMesh.GroundMaterial = new Material(e.TeleportNavMesh._GroundMaterialSource);
-
-            if (e.TeleportNavMesh.GroundAlpha != e.TeleportNavMesh.LastGroundAlpha && e.TeleportNavMesh.GroundMaterial != null)
-            {
-                e.TeleportNavMesh.GroundMaterial.SetFloat(e.TeleportNavMesh.AlphaShaderID, e.TeleportNavMesh.GroundAlpha);
-                e.TeleportNavMesh.LastGroundAlpha = e.TeleportNavMesh.GroundAlpha;
-            }
 
 #if UNITY_EDITOR
             UnityEditor.SceneView.RepaintAll();

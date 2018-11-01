@@ -61,11 +61,13 @@ namespace VRSF.MoveAround.Teleport
             GUILayout.Label("Based on Adrian Biagioli work, 2017", EditorStyles.miniLabel);
             GUILayout.Label("Updated by Arnaud Briche, 2018", EditorStyles.miniLabel);
 
+            EditorGUILayout.Space();
+
             GUILayout.Label("Before Using", bold_wrap);
             GUIStyle wrap = EditorStyles.label;
             wrap.wordWrap = true;
             GUILayout.Label(
-                "Make sure you bake a Navigation Mesh (NavMesh) in Unity before continuing (Window > Navigation).  When you " +
+                "Make sure you bake a Navigation Mesh (NavMesh) in Unity before continuing (Window > AI > Navigation).  When you " +
                 "are done, click \"Update Navmesh Data\" below.  This will update the graphic of the playable area " +
                 "that the player will see in-game.\n",
                 wrap);
@@ -142,6 +144,8 @@ namespace VRSF.MoveAround.Teleport
                 p_mesh.objectReferenceValue = m;
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
                 mesh.SelectableMesh = mesh.SelectableMesh; // Make sure that setter is called
+
+                TeleportNavMeshUpdateSystem.Cleanup(target as TeleportNavMeshComponent);
             }
 
             GUI.enabled = HasMesh;
@@ -158,10 +162,14 @@ namespace VRSF.MoveAround.Teleport
                 mesh.SelectableMesh = mesh.SelectableMesh; // Make sure setter is called
 
                 mesh.SelectableMeshBorder = new BorderPointSet[0];
+
+                TeleportNavMeshUpdateSystem.Cleanup(target as TeleportNavMeshComponent);
             }
             GUI.enabled = true;
 
             GUILayout.Label(HasMesh ? "Status: NavMesh Loaded" : "Status: No NavMesh Loaded");
+
+            EditorGUILayout.Space();
 
             // Render Settings //
             EditorGUILayout.LabelField("Render Settings", EditorStyles.boldLabel);
@@ -177,6 +185,8 @@ namespace VRSF.MoveAround.Teleport
 
             EditorGUILayout.PropertyField(p_alpha);
             serializedObject.ApplyModifiedProperties();
+
+            EditorGUILayout.Space();
 
             // Raycast Settings //
             EditorGUILayout.LabelField("Raycast Settings", EditorStyles.boldLabel);
@@ -208,6 +218,8 @@ namespace VRSF.MoveAround.Teleport
                 p_query_trigger_interaction.intValue = (int)temp_query_trigger_interaction;
             }
             serializedObject.ApplyModifiedProperties();
+        
+            EditorGUILayout.Space();
 
             // Navmesh Settings //
             EditorGUILayout.LabelField("Navmesh Settings", EditorStyles.boldLabel);

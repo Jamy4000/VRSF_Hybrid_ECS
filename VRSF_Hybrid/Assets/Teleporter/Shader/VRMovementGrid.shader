@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Custom/Vive Movement Grid"
+Shader "VRSF/VR Movement Grid"
 {
 	Properties
 	{

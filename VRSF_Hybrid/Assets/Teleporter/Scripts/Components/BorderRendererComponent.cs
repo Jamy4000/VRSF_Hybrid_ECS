@@ -32,16 +32,12 @@ namespace VRSF.MoveAround.Teleport
 
         [System.NonSerialized] public Matrix4x4 Transpose = Matrix4x4.identity;
 
-        [System.NonSerialized] public bool MeshNeedRegeneration = false;
-
         [Range(0, 1)]
         [Tooltip("Alpha (transparency) of the border mesh.")]
         public float BorderAlpha = 1.0f;
 
         [Tooltip("Material used to render the border mesh.  UV's are set up so that v=0->bottom and v=1->top.  u is stretched along each edge.")]
         public Material BorderMaterial;
-
-        [System.NonSerialized] public bool BorderAreShown;
         #endregion PUBLIC_VARIABLES
 
 
@@ -58,7 +54,7 @@ namespace VRSF.MoveAround.Teleport
             set
             {
                 _points = value;
-                MeshNeedRegeneration = true;
+                BorderMeshRegeneration.RegenerateMesh(this);
             }
         }
 
@@ -74,7 +70,7 @@ namespace VRSF.MoveAround.Teleport
             set
             {
                 _borderHeight = value;
-                MeshNeedRegeneration = true;
+                BorderMeshRegeneration.RegenerateMesh(this);
             }
         }
         #endregion GETTERS_SETTERS
@@ -82,7 +78,7 @@ namespace VRSF.MoveAround.Teleport
 #if UNITY_EDITOR
         void OnValidate()
         {
-            MeshNeedRegeneration = true;
+            BorderMeshRegeneration.RegenerateMesh(this);
 
             if (AlphaShaderID == -1)
                 AlphaShaderID = Shader.PropertyToID("_Alpha");

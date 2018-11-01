@@ -52,7 +52,7 @@ namespace VRSF.MoveAround.Teleport
                 else
                 {
                     // We have finished fading out - time to teleport!
-                    VRSF_Components.SetCameraRigPosition(e.SceneObjects.Pointer.SelectedPoint, true);
+                    VRSF_Components.SetCameraRigPosition(e.SceneObjects.Pointer.SelectedPoint);
                 }
 
                 e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;

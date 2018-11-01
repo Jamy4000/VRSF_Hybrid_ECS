@@ -17,19 +17,10 @@ namespace VRSF.MoveAround.Teleport
         private struct Filter
         {
             public TeleportNavMeshComponent TeleportNavMesh;
-            public BorderRendererComponent Border;
         }
 
         protected override void OnUpdate()
-        {
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (e.TeleportNavMesh.NeedCleanUp)
-                {
-                    Cleanup(e.TeleportNavMesh);
-                }
-            }
-        }
+        { }
 
         #region PUBLIC_METHODS
 
@@ -79,17 +70,16 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Remove the Command Buffer from the Cameras and Clear the Cameras Dictionnary
         /// </summary>
-        private void Cleanup(TeleportNavMeshComponent teleportNavMesh)
+        public static void Cleanup(TeleportNavMeshComponent teleportNavMesh)
         {
-            foreach (var cam in teleportNavMesh.cameras)
+            foreach (var cam in teleportNavMesh._Cameras)
             {
                 if (cam.Key)
                 {
                     cam.Key.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, cam.Value);
                 }
             }
-            teleportNavMesh.cameras.Clear();
-            teleportNavMesh.NeedCleanUp = false;
+            teleportNavMesh._Cameras.Clear();
         }
         #endregion PRIVATE_METHODS
     }

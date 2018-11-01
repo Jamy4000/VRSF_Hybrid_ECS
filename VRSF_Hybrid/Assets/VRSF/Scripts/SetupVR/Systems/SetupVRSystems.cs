@@ -91,13 +91,13 @@ namespace VRSF.Utils.Systems
                 return;
 
             // We copy the transform of the Scripts Container and add them as children of the corresponding SDKs objects
-            VRSF_Components.SetupTransformFromContainer(setupVR.CameraRigScripts, ref VRSF_Components.CameraRig);
-            VRSF_Components.SetupTransformFromContainer(setupVR.VRCameraScripts, ref VRSF_Components.VRCamera);
+            VRSF_Components.SetupTransformFromContainer(setupVR.CameraRigScripts.transform, ref VRSF_Components.CameraRig);
+            VRSF_Components.SetupTransformFromContainer(setupVR.VRCameraScripts.transform, ref VRSF_Components.VRCamera);
 
             if (_controllersParameters.UseControllers)
             {
-                VRSF_Components.SetupTransformFromContainer(setupVR.LeftControllerScripts, ref VRSF_Components.LeftController);
-                VRSF_Components.SetupTransformFromContainer(setupVR.RightControllerScripts, ref VRSF_Components.RightController);
+                VRSF_Components.SetupTransformFromContainer(setupVR.LeftControllerScripts.transform, ref VRSF_Components.LeftController);
+                VRSF_Components.SetupTransformFromContainer(setupVR.RightControllerScripts.transform, ref VRSF_Components.RightController);
             }
 
             setupVR.SDKHasBeenInstantiated = true;
