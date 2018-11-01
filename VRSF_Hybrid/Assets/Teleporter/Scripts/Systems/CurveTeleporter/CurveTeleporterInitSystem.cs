@@ -37,6 +37,12 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         private void InitVariables(Filter e)
         {
+            e.SceneObjects._TeleportNavMesh = GameObject.FindObjectOfType<TeleportNavMeshComponent>();
+            if (e.SceneObjects._TeleportNavMesh == null)
+            {
+                Debug.LogError("VRSF : You need to add a TeleportNavMeshComponent in your scene to be able to use the Teleport Feature.");
+            }
+
             // Ensure we mark the player as not teleporting
             e.TeleportCalculations.CurrentTeleportState = ETeleportState.None;
             

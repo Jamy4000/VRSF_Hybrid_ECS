@@ -34,17 +34,11 @@ namespace VRSF.MoveAround.Teleport
         [SerializeField] public Material _GroundMaterialSource;
         
         [System.NonSerialized] public int AlphaShaderID = -1;
-
-        [SerializeField] public int _LayerMask = 0;
-        [SerializeField] public bool _IgnoreLayerMask = true;
-
+        
         [SerializeField] public int _QueryTriggerInteraction = 0;
 
         [SerializeField]
         [HideInInspector] public Mesh _SelectableMesh;
-
-        [SerializeField]
-        [HideInInspector] public BorderPointSet[] _SelectableMeshBorder;
 
         [SerializeField]
         [HideInInspector] public int _NavAreaMask = ~0; // Initialize to all
@@ -59,12 +53,12 @@ namespace VRSF.MoveAround.Teleport
 
         public void OnEnable()
         {
-            TeleportNavMeshUpdateSystem.Cleanup(this);
+            TeleportNavMeshHelper.Cleanup(this);
         }
 
         public void OnDisable()
         {
-            TeleportNavMeshUpdateSystem.Cleanup(this);
+            TeleportNavMeshHelper.Cleanup(this);
         }
 
         private void OnRenderObject()
@@ -74,7 +68,7 @@ namespace VRSF.MoveAround.Teleport
             var act = gameObject.activeInHierarchy && enabled;
             if (!act)
             {
-                TeleportNavMeshUpdateSystem.Cleanup(this);
+                TeleportNavMeshHelper.Cleanup(this);
                 return;
             }
             
@@ -119,22 +113,10 @@ namespace VRSF.MoveAround.Teleport
                 if (_GroundMaterialSource != null)
                     _GroundMaterialSource.SetFloat(AlphaShaderID, GroundAlpha);
                 if (old != _GroundMaterialSource)
-                    TeleportNavMeshUpdateSystem.Cleanup(this);
+                    TeleportNavMeshHelper.Cleanup(this);
             }
         }
-
-        public int LayerMask
-        {
-            get { return _LayerMask; }
-            set { _LayerMask = value; }
-        }
-
-        public bool IgnoreLayerMask
-        {
-            get { return _IgnoreLayerMask; }
-            set { _IgnoreLayerMask = value; }
-        }
-
+        
         public int QueryTriggerInteraction
         {
             get { return _QueryTriggerInteraction; }
@@ -149,22 +131,8 @@ namespace VRSF.MoveAround.Teleport
             {
                 _SelectableMesh = value;
                 // Cleanup because we need to change the mesh inside command buffers
-                TeleportNavMeshUpdateSystem.Cleanup(this);
+                TeleportNavMeshHelper.Cleanup(this);
             }
-        }
-
-        /// <summary>
-        /// The border points of SelectableMesh.  This is automatically generated in ViveNavMeshEditor.
-        /// 
-        /// This is an array of Vector3 arrays, where each Vector3 array is the points in a polyline. 
-        /// These polylines combined describe the borders of SelectableMesh.  
-        /// We have to use BorderPointSets instead of a jagged Vector3[][] array because
-        /// Unity can't serialize jagged arrays for some reason.
-        /// </summary>
-        public BorderPointSet[] SelectableMeshBorder
-        {
-            get { return _SelectableMeshBorder; }
-            set { _SelectableMeshBorder = value;/* GetComponent<BorderRendererComponent>().Points = _SelectableMeshBorder;*/ }
         }
 
         public float SampleRadius

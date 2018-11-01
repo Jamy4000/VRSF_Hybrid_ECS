@@ -27,8 +27,6 @@ namespace VRSF.MoveAround.Teleport
         private SerializedProperty p_mesh;
         private SerializedProperty p_material;
         private SerializedProperty p_alpha;
-        private SerializedProperty p_layer_mask;
-        private SerializedProperty p_ignore_layer_mask;
         private SerializedProperty p_query_trigger_interaction;
         private SerializedProperty p_sample_radius;
         private SerializedProperty p_ignore_sloped_surfaces;
@@ -45,8 +43,6 @@ namespace VRSF.MoveAround.Teleport
             p_mesh = serializedObject.FindProperty("_SelectableMesh");
             p_material = serializedObject.FindProperty("_GroundMaterialSource");
             p_alpha = serializedObject.FindProperty("GroundAlpha");
-            p_layer_mask = serializedObject.FindProperty("_LayerMask");
-            p_ignore_layer_mask = serializedObject.FindProperty("_IgnoreLayerMask");
             p_query_trigger_interaction = serializedObject.FindProperty("_QueryTriggerInteraction");
             p_sample_radius = serializedObject.FindProperty("_SampleRadius");
             p_ignore_sloped_surfaces = serializedObject.FindProperty("_IgnoreSlopedSurfaces");
@@ -97,7 +93,7 @@ namespace VRSF.MoveAround.Teleport
             serializedObject.ApplyModifiedProperties();
 
             // Sanity check for Null properties //
-            bool HasMesh = (mesh.SelectableMesh != null && mesh.SelectableMesh.vertexCount != 0) || (mesh.SelectableMeshBorder != null && mesh.SelectableMeshBorder.Length != 0);
+            bool HasMesh = (mesh.SelectableMesh != null && mesh.SelectableMesh.vertexCount != 0);
 
             // Fixes below error message popping up with prefabs.  Kind of hacky but gets the job done
             bool isPrefab = EditorUtility.IsPersistent(target);
@@ -105,15 +101,10 @@ namespace VRSF.MoveAround.Teleport
                 mesh.SelectableMesh = new Mesh();
 
             bool MeshNull = mesh.SelectableMesh == null;
-            bool BorderNull = mesh.SelectableMeshBorder == null;
 
-            if (MeshNull || BorderNull)
+            if (MeshNull)
             {
-                string str = "Internal Error: ";
-                if (MeshNull)
-                    str += "Selectable Mesh == null.  ";
-                if (BorderNull)
-                    str += "Border point array == null.  ";
+                string str = "Internal Error: Selectable Mesh == null. ";
                 str += "This may lead to strange behavior or serialization.  Try updating the mesh or delete and recreate the Navmesh object.  ";
                 str += "If you are able to consistently get a Vive Nav Mesh object into this state, please submit a bug report.";
                 EditorGUILayout.HelpBox(str, MessageType.Error);
@@ -137,15 +128,13 @@ namespace VRSF.MoveAround.Teleport
                 CullNavmeshTriangulation(verts, tris, areas, p_area.intValue, mesh.IgnoreSlopedSurfaces, ref vert_size, ref tri_size);
 
                 Mesh m = ConvertNavmeshToMesh(verts, tris, vert_size, tri_size);
-                // Can't use SerializedProperties here because BorderPointSet doesn't derive from UnityEngine.Object
-                mesh.SelectableMeshBorder = FindBorderEdges(m);
 
                 serializedObject.Update();
                 p_mesh.objectReferenceValue = m;
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
                 mesh.SelectableMesh = mesh.SelectableMesh; // Make sure that setter is called
 
-                TeleportNavMeshUpdateSystem.Cleanup(target as TeleportNavMeshComponent);
+                TeleportNavMeshHelper.Cleanup(target as TeleportNavMeshComponent);
             }
 
             GUI.enabled = HasMesh;
@@ -160,10 +149,8 @@ namespace VRSF.MoveAround.Teleport
                 p_mesh.objectReferenceValue = m;
                 serializedObject.ApplyModifiedPropertiesWithoutUndo();
                 mesh.SelectableMesh = mesh.SelectableMesh; // Make sure setter is called
-
-                mesh.SelectableMeshBorder = new BorderPointSet[0];
-
-                TeleportNavMeshUpdateSystem.Cleanup(target as TeleportNavMeshComponent);
+                
+                TeleportNavMeshHelper.Cleanup(target as TeleportNavMeshComponent);
             }
             GUI.enabled = true;
 
@@ -190,25 +177,7 @@ namespace VRSF.MoveAround.Teleport
 
             // Raycast Settings //
             EditorGUILayout.LabelField("Raycast Settings", EditorStyles.boldLabel);
-
-            int temp_layer_mask = p_layer_mask.intValue;
-            bool temp_ignore_layer_mask = p_ignore_layer_mask.boolValue;
-
-            EditorGUI.BeginChangeCheck();
-            temp_layer_mask = LayerMaskField("Layer Mask", temp_layer_mask);
-            if (EditorGUI.EndChangeCheck())
-            {
-                p_layer_mask.intValue = temp_layer_mask;
-            }
-            serializedObject.ApplyModifiedProperties();
-            EditorGUI.BeginChangeCheck();
-            temp_ignore_layer_mask = EditorGUILayout.Toggle("Ignore Layer Mask", temp_ignore_layer_mask);
-            if (EditorGUI.EndChangeCheck())
-            {
-                p_ignore_layer_mask.boolValue = temp_ignore_layer_mask;
-            }
-            serializedObject.ApplyModifiedProperties();
-
+            
             QueryTriggerInteraction temp_query_trigger_interaction = (QueryTriggerInteraction)p_query_trigger_interaction.intValue;
 
             EditorGUI.BeginChangeCheck();
@@ -437,92 +406,6 @@ namespace VRSF.MoveAround.Teleport
             }
 
             verts_size = size;
-        }
-
-        /// <summary>
-        /// Given some mesh m, calculates a number of polylines that border the mesh.  This may return more than
-        /// one polyline if, for example, the mesh has holes in it or if the mesh is separated in two pieces.
-        /// </summary>
-        /// 
-        /// <param name="m">input mesh</param>
-        /// 
-        /// <returns>array of cyclic polylines</returns>
-        private static BorderPointSet[] FindBorderEdges(Mesh m)
-        {
-            // First, get together all the edges in the mesh and find out
-            // how many times each edge is used.  Edges that are only used
-            // once are border edges.
-
-            // Key: edges (note that because of how the hashcode / equals() is set up, two equivalent edges will effectively
-            //      be equal)
-            // Value: How many times this edge shows up in the mesh.  Any keys with a value of 1 are border edges.
-            Dictionary<Edge, int> edges = new Dictionary<Edge, int>();
-            for (int x = 0; x < m.triangles.Length / 3; x++)
-            {
-                int p1 = m.triangles[x * 3];
-                int p2 = m.triangles[x * 3 + 1];
-                int p3 = m.triangles[x * 3 + 2];
-
-                Edge[] e = new Edge[3];
-                e[0] = new Edge(p1, p2);
-                e[1] = new Edge(p2, p3);
-                e[2] = new Edge(p3, p1);
-
-                foreach (Edge d in e)
-                {
-                    int curval;
-                    edges.TryGetValue(d, out curval); // 0 if nonexistant
-                    edges[d] = curval + 1;
-                }
-            }
-
-            // Next, consolidate all of the border edges into one List<Edge>
-            List<Edge> border = new List<Edge>();
-            foreach (KeyValuePair<Edge, int> p in edges)
-            {
-                if (p.Value == 1) // border edge == edge only used once.
-                    border.Add(p.Key);
-            }
-
-            // Perform the following routine:
-            // 1. Pick any unvisited edge segment [v_start,v_next] and add these vertices to the polygon loop.
-            // 2. Find the unvisited edge segment [v_i,v_j] that has either v_i = v_next or v_j = v_next and add the 
-            //    other vertex (the one not equal to v_next) to the polygon loop. Reset v_next as this newly added vertex, 
-            //    mark the edge as visited and continue from 2.
-            // 3. Traversal is done when we get back to v_start.
-            // Source: http://stackoverflow.com/questions/14108553/get-border-edges-of-mesh-in-winding-order
-            bool[] visited = new bool[border.Count];
-            bool finished = false;
-            int cur_index = 0;
-
-            List<Vector3[]> ret = new List<Vector3[]>();
-
-            while (!finished)
-            {
-                int[] raw = FindPolylineFromEdges(cur_index, visited, border);
-                Vector3[] fmt = new Vector3[raw.Length];
-                for (int x = 0; x < raw.Length; x++)
-                    fmt[x] = m.vertices[raw[x]];
-                ret.Add(fmt);
-
-                finished = true;
-                for (int x = 0; x < visited.Length; x++)
-                {
-                    if (!visited[x])
-                    {
-                        cur_index = x;
-                        finished = false;
-                        break;
-                    }
-                }
-            }
-
-            BorderPointSet[] ret_set = new BorderPointSet[ret.Count];
-            for (int x = 0; x < ret.Count; x++)
-            {
-                ret_set[x] = new BorderPointSet(ret[x]);
-            }
-            return ret_set;
         }
 
         /// <summary>

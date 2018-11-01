@@ -24,6 +24,8 @@ namespace VRSF.MoveAround.Teleport
 
         [System.NonSerialized] public List<Vector3> ParabolaPoints;
 
+        [System.NonSerialized] public LineRenderer _ControllersPointer;
+
 #if UNITY_EDITOR
         // Only used for the OnDrawGizmos method
         [System.NonSerialized] public List<Vector3> ParabolaPoints_Gizmo;

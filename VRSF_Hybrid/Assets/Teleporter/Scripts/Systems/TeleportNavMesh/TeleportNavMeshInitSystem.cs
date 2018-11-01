@@ -34,8 +34,6 @@ namespace VRSF.MoveAround.Teleport
         {
             if (e.TeleportNavMesh.SelectableMesh == null)
                 e.TeleportNavMesh.SelectableMesh = new Mesh();
-            if (e.TeleportNavMesh._SelectableMeshBorder == null)
-                e.TeleportNavMesh._SelectableMeshBorder = new BorderPointSet[0];
             
             e.TeleportNavMesh.AlphaShaderID = Shader.PropertyToID("_Alpha");
 

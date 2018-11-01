@@ -18,7 +18,5 @@ namespace VRSF.MoveAround.Teleport
         [System.NonSerialized] public Animator _NavmeshAnimator;
 
         [System.NonSerialized] public int _EnabledAnimatorID;
-
-        [System.NonSerialized] public TeleportNavMeshComponent _TeleportNavMesh;
     }
 }

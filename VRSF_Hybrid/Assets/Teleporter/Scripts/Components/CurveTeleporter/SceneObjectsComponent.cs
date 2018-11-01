@@ -16,5 +16,7 @@ namespace VRSF.MoveAround.Teleport
         /// Fade Component to place on the VRCamera. If not assigned, teleport the user without any fading effect.
         /// </summary>
         [System.NonSerialized] public TeleportFadeComponent FadeComponent;
+
+        [System.NonSerialized] public TeleportNavMeshComponent _TeleportNavMesh;
     }
 }

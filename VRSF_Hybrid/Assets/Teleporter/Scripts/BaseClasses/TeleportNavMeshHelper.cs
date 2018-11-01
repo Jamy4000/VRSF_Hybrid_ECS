@@ -11,19 +11,9 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    public class TeleportNavMeshUpdateSystem : ComponentSystem
+    public static class TeleportNavMeshHelper
     {
-
-        private struct Filter
-        {
-            public TeleportNavMeshComponent TeleportNavMesh;
-        }
-
-        protected override void OnUpdate()
-        { }
-
         #region PUBLIC_METHODS
-
         /// <summary>
         /// Casts a ray against the Navmesh and attempts to calculate the ray's worldspace intersection with it.
         /// This uses Physics raycasts to perform the raycast calculation, so the teleport surface must have a collider on it.
@@ -36,13 +26,13 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="normal">If hit, the normal of the hit surface.  Otherwise (0, 1, 0)</param>
         /// 
         /// <returns>If the raycast hit something.</returns>
-        public static bool Linecast(Vector3 p1, Vector3 p2, out bool pointOnNavmesh, out Vector3 hitPoint, out Vector3 normal, TeleportNavMeshComponent teleportNavMesh)
+        public static bool Linecast(Vector3 p1, Vector3 p2, out bool pointOnNavmesh, int excludedLayer, out Vector3 hitPoint, out Vector3 normal, TeleportNavMeshComponent teleportNavMesh)
         {
             Vector3 dir = p2 - p1;
             float dist = dir.magnitude;
             dir /= dist;
 
-            if (Physics.Raycast(p1, dir, out RaycastHit hit, dist, teleportNavMesh._IgnoreLayerMask ? ~teleportNavMesh._LayerMask : teleportNavMesh._LayerMask, (QueryTriggerInteraction)teleportNavMesh._QueryTriggerInteraction))
+            if (Physics.Raycast(p1, dir, out RaycastHit hit, dist, excludedLayer, (QueryTriggerInteraction)teleportNavMesh._QueryTriggerInteraction))
             {
                 normal = hit.normal;
                 if (Vector3.Dot(Vector3.up, hit.normal) < 0.99f && teleportNavMesh._IgnoreSlopedSurfaces)

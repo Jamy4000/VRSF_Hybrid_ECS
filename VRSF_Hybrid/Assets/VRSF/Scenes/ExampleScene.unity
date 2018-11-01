@@ -2115,6 +2115,39 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 886940801}
   m_CullTransparentMesh: 0
+--- !u!1 &988845777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1585675364989146, guid: b54324daf24ae2541bce93b95f5d8215,
+    type: 2}
+  m_PrefabInternal: {fileID: 261660954}
+--- !u!114 &988845778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 988845777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeleportLayer: -1
+  ExclusionLayer: -1
+  CanTeleport: 0
+--- !u!114 &988845779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 988845777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ce249d2c6f20e49b6e80ea9a00df5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UseBoundaries: 0
+  _Boundaries: []
+  _BoundariesColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!224 &993698109 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224034959900816986, guid: 8fadc49a3fe87ac42b5f5296febfbfdc,
@@ -4168,7 +4201,7 @@ Prefab:
     - target: {fileID: 224283192447803244, guid: 1d1e25a19084827429dd2a81cd02cb75,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00018329102
+      value: 0.000109071516
       objectReference: {fileID: 0}
     - target: {fileID: 224345697660441066, guid: 1d1e25a19084827429dd2a81cd02cb75,
         type: 2}
