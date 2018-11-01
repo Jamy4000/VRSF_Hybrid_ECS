@@ -325,15 +325,15 @@ namespace VRSF.MoveAround.Teleport
                 angle *= -1;
 
             // Clamp the angle if it is greater than 45 degrees
-            if (angle > 45)
-            {
-                velocity = Vector3.Slerp(velocity_fwd, velocity, 45f / angle);
-                velocity /= velocity.magnitude;
-                velocity_normalized = velocity;
-                velocity *= initialVelocity.magnitude;
-                angle = 45;
-            }
-            else
+            //if (angle > 45)
+            //{
+            //    velocity = Vector3.Slerp(velocity_fwd, velocity, 45f / angle);
+            //    velocity /= velocity.magnitude;
+            //    velocity_normalized = velocity;
+            //    velocity *= initialVelocity.magnitude;
+            //    angle = 45;
+            //}
+            //else
                 velocity_normalized = velocity.normalized;
 
             return angle;
