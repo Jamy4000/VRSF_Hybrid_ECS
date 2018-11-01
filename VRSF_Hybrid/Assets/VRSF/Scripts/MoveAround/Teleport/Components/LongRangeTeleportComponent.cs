@@ -15,10 +15,6 @@ namespace VRSF.MoveAround.Teleport.Components
         [Header("Teleport Far Away Parameters")]
         [Tooltip("The loading time for the TeleportFarAway feature.")]
         public float TimerBeforeTeleport = 1.0f;
-        [Tooltip("If you want to adjust the height to the point that was hit.")]
-        public bool AdjustHeight = true;
-        [Tooltip("The height at which the user is teleported above the ground.")]
-        public float HeightAboveGround = 1.8f;
         
 
         [Header("OPTIONAL : Loading Slider")]

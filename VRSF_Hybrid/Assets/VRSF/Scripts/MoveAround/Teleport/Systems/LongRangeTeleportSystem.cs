@@ -19,8 +19,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RaycastComp;
-            public TeleportBoundariesComponent TeleportBoundaries;
             public TeleportGeneralComponent GeneralTeleport;
+            public SceneObjectsComponent SceneObjects;
         }
 
         private ControllersParametersVariable _controllersVariable;
@@ -130,43 +130,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <returns>The new position of the user after checking the boundaries</returns>
         public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
         {
-            Filter entity = (Filter)teleportFilter;
-
-            bool _isInBoundaries = false;
-            List<Vector3> closestDists = new List<Vector3>();
-
-            foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
-            {
-                if (bound.Contains(posToCheck))
-                {
-                    _isInBoundaries = true;
-                    break;
-                }
-                else
-                {
-                    closestDists.Add(bound.ClosestPoint(posToCheck));
-                }
-            }
-
-            // if the posToCheck is not in the boundaries, we check what's the closest point from it
-            if (!_isInBoundaries)
-            {
-                float closestDist = float.PositiveInfinity;
-                Vector3 closestPoint = Vector3.positiveInfinity;
-
-                foreach (var point in closestDists)
-                {
-                    var distance = (posToCheck - point).magnitude;
-
-                    if (distance < closestDist)
-                    {
-                        closestDist = distance;
-                        closestPoint = point;
-                    }
-                }
-
-                posToCheck = closestPoint;
-            }
+            // No need when we are using the NavMesh feature
         }
         #endregion
 
@@ -184,24 +148,26 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 return;
             }
-            else
+
+            entity.GeneralTeleport.CurrentTeleportState = ETeleportState.Selecting;
+            if (entity.SceneObjects.FadeComponent != null)
+                entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
+
+            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
+
+            if (entity.LRT_Comp.UseLoadingSlider)
             {
-                _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-                _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-
-                if (entity.LRT_Comp.UseLoadingSlider)
+                if (entity.LRT_Comp.FillRect != null)
                 {
-                    if (entity.LRT_Comp.FillRect != null)
-                    {
-                        entity.LRT_Comp.FillRect.gameObject.SetActive(true);
-                        entity.LRT_Comp.FillRect.fillAmount = 0.0f;
-                    }
+                    entity.LRT_Comp.FillRect.gameObject.SetActive(true);
+                    entity.LRT_Comp.FillRect.fillAmount = 0.0f;
+                }
 
-                    if (entity.LRT_Comp.TeleportText != null)
-                    {
-                        entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
-                        entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
-                    }
+                if (entity.LRT_Comp.TeleportText != null)
+                {
+                    entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
+                    entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
                 }
             }
         }
@@ -238,17 +204,16 @@ namespace VRSF.MoveAround.Teleport.Systems
             void CheckTeleport()
             {
                 Color32 fillRectColor;
+                bool endOnNavmesh = false;
 
-                if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == entity.GeneralTeleport.TeleportLayer)
+                if (!entity.RaycastComp.RaycastHitVar.isNull)
                 {
-                    entity.GeneralTeleport.CanTeleport = true;
-                    fillRectColor = new Color32(100, 255, 100, 255);
+                    TeleportNavMeshHelper.Linecast(entity.RaycastComp.RayVar.Value.origin, entity.RaycastComp.RaycastHitVar.Value.point, out endOnNavmesh,
+                                               entity.GeneralTeleport.ExclusionLayer, out entity.GeneralTeleport.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh);
                 }
-                else
-                {
-                    entity.GeneralTeleport.CanTeleport = false;
-                    fillRectColor = new Color32(0, 180, 255, 255);
-                }
+                
+                entity.GeneralTeleport.CanTeleport = endOnNavmesh;
+                fillRectColor = endOnNavmesh ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
 
                 if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
                 {
@@ -269,27 +234,12 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void Teleport(Filter entity)
         {
             var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
-            if (entity.GeneralTeleport.CanTeleport && currentFillAmount >= entity.LRT_Comp.TimerBeforeTeleport)
-            {
-                Vector3 newPos = entity.RaycastComp.RaycastHitVar.Value.point;
 
-                if (entity.LRT_Comp.AdjustHeight)
-                {
-                    newPos.y += entity.LRT_Comp.HeightAboveGround + VRSF_Components.CameraRig.transform.localScale.y;
-                }
-                else
-                {
-                    newPos.y = VRSF_Components.CameraRig.transform.position.y;
-                }
+            entity.GeneralTeleport.CurrentTeleportState = entity.GeneralTeleport.CanTeleport && currentFillAmount >= entity.LRT_Comp.TimerBeforeTeleport ?
+                ETeleportState.Teleporting : ETeleportState.None;
 
-                // If we use the boundaries, we check the newPos, if not, we set the position of the user directly
-                if (entity.TeleportBoundaries.UseBoundaries())
-                {
-                    CheckNewPosWithBoundaries(entity, ref newPos);
-                }
-
-                VRSF_Components.CameraRig.transform.position = newPos;
-            }
+            if (entity.SceneObjects.FadeComponent != null)
+                entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
         }
 
 

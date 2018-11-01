@@ -18,7 +18,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public StepByStepComponent SBS_Comp;
-            public TeleportBoundariesComponent TeleportBoundaries;
         }
 
 
@@ -111,20 +110,20 @@ namespace VRSF.MoveAround.Teleport.Systems
                     }
 
                     // If we use boundaries, we check if the user is not going to far away
-                    if (entity.TeleportBoundaries.UseBoundaries())
-                    {
-                        newPos += VRSF_Components.VRCamera.transform.position;
+                    //if (entity.TeleportBoundaries.UseBoundaries())
+                    //{
+                    //    newPos += VRSF_Components.VRCamera.transform.position;
 
-                        CheckNewPosWithBoundaries(entity, ref newPos);
+                    //    CheckNewPosWithBoundaries(entity, ref newPos);
 
-                        // We set the cameraRig position
-                        VRSF_Components.CameraRig.transform.position += (newPos - VRSF_Components.VRCamera.transform.position);
-                    }
-                    else
-                    {
-                        // We set the cameraRig position
-                        VRSF_Components.CameraRig.transform.position += newPos;
-                    }
+                    //    // We set the cameraRig position
+                    //    VRSF_Components.CameraRig.transform.position += (newPos - VRSF_Components.VRCamera.transform.position);
+                    //}
+                    //else
+                    //{
+                    //    // We set the cameraRig position
+                    //    VRSF_Components.CameraRig.transform.position += newPos;
+                    //}
                 }
             }
         }
@@ -140,18 +139,18 @@ namespace VRSF.MoveAround.Teleport.Systems
             bool isInBoundaries = false;
             List<Vector3> closestDists = new List<Vector3>();
 
-            foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
-            {
-                if (bound.Contains(posToCheck))
-                {
-                    isInBoundaries = true;
-                    break;
-                }
-                else
-                {
-                    closestDists.Add(bound.ClosestPoint(posToCheck));
-                }
-            }
+            //foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
+            //{
+            //    if (bound.Contains(posToCheck))
+            //    {
+            //        isInBoundaries = true;
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        closestDists.Add(bound.ClosestPoint(posToCheck));
+            //    }
+            //}
 
             // if the posToCheck is not in the boundaries, we check what's the closest point from it
             if (!isInBoundaries)
