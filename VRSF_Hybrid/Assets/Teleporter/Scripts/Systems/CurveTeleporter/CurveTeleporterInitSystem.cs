@@ -21,10 +21,16 @@ namespace VRSF.MoveAround.Teleport
         {
             if (VRSF_Components.SetupVRIsReady)
             {
+                var setupStillRunning = false;
                 foreach (var e in GetEntities<Filter>())
                 {
-                    InitVariables(e);
+                    if (!e.TeleportCalculations._IsSetup)
+                    {
+                        setupStillRunning = true;
+                        InitVariables(e);
+                    }
                 }
+                this.Enabled = setupStillRunning;
             }
         }
 

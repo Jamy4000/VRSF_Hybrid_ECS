@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -42,9 +43,16 @@ namespace VRSF.MoveAround.Teleport
                 else
                 {
                     // We have finished fading out - time to teleport!
-                    Vector3 offset = e.SceneObjects._originTransform.position - e.SceneObjects._headTransform.position;
-                    offset.y = 0;
-                    e.SceneObjects._originTransform.position = e.SceneObjects.Pointer.SelectedPoint + offset;
+                    VRSF.Utils.VRSF_Components.SetCameraRigPosition(e.SceneObjects.Pointer.SelectedPoint, true);
+                    switch (VRSF_Components.DeviceLoaded)
+                    {
+                        case EDevice.OPENVR:
+                            VRSF_Components.CameraRig.transform.position = e.SceneObjects.Pointer.SelectedPoint;
+                            break;
+                        default:
+                            VRSF_Components.CameraRig.transform.position = e.SceneObjects.Pointer.SelectedPoint + new Vector3(0.0f, 1.8f, 0.0f);
+                            break;
+                    }
                 }
 
                 e.TeleportCalculations._teleportTimeMarker = Time.time;

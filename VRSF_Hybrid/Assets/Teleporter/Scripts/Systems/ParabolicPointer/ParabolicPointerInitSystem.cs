@@ -25,7 +25,6 @@ namespace VRSF.MoveAround.Teleport
 
             foreach (var e in GetEntities<Filter>())
             {
-                Debug.Log("Init for pointer's object " + e.PointerObjects.transform.name);
                 InitValues(e);
             }
         }
@@ -55,8 +54,6 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerObjects._invalidPadObject = GameObject.Instantiate(e.PointerObjects._invalidPadPrefab);
                 e.PointerObjects._invalidPadObject.SetActive(false);
             }
-
-            Debug.Log("end of init for pointer's object " + e.PointerObjects.transform.name);
         }
     }
 }
