@@ -24,10 +24,7 @@ namespace VRSF.MoveAround.Teleport
                 // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
                 Vector3 offset = VRSF_Components.VRCamera.transform.position - VRSF_Components.CameraRig.transform.position;
                 offset.y = 0.0f;
-
-                Debug.Log("selectedPoint " + selectedPoint);
-                Debug.Log("selectedPoint - offset " + (selectedPoint - offset));
-
+                
                 // Render representation of where the chaperone bounds will be after teleporting
                 borderRenderer.Transpose = Matrix4x4.TRS(selectedPoint - offset, Quaternion.identity, Vector3.one);
 

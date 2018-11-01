@@ -1,9 +1,7 @@
-﻿using UnityEngine;
+﻿using Unity.Entities;
+using UnityEngine;
 using Valve.VR;
-using VRSF.Inputs;
 using VRSF.Utils;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -14,15 +12,11 @@ namespace VRSF.MoveAround.Teleport
     /// A generic System that renders a border using the given polylines.  
     /// The borders are double sided and are oriented upwards (ie normals are parallel to the XZ plane)
     /// </summary>
-    public class BorderRendererSystem : BACUpdateSystem<BorderRendererComponent>
+    public class BorderRendererInitSystem : ComponentSystem
     {
-        private new struct Filter
+        struct Filter
         {
             public BorderRendererComponent BorderRenderer;
-            public SceneObjectsComponent SceneObjects;
-            public TeleportCalculationsComponent TeleportCalculations;
-            public PointerCalculationsComponent PointerCalculations;
-            public BACGeneralComponent BACGeneral;
         }
 
         protected override void OnStartRunning()
@@ -45,85 +39,14 @@ namespace VRSF.MoveAround.Teleport
                         originRotationMatrix * p3,
                         originRotationMatrix * p0,
                     };
-
-                    SetupListenersResponses(e);
                 }
 
                 e.BorderRenderer.BorderAreShown = false;
             }
         }
 
-        protected override void OnDestroyManager()
-        {
-            base.OnDestroyManager();
-            foreach (var e in GetEntities<Filter>())
-            {
-                RemoveListenersOnEndApp(e);
-            }
-        }
-
-        public override void SetupListenersResponses(object entity)
-        {
-            var e = (Filter)entity;
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
-            }
-
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
-            }
-        }
-
-        public override void RemoveListenersOnEndApp(object entity)
-        {
-            var e = (Filter)entity;
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
-            }
-
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
-            }
-        }
-
-
-        /// <summary>
-        /// Calculate the Room Border Positions when user is clicking on the Teleport Button
-        /// </summary>
-        /// <param name="e"></param>
-        private void OnIsInteractingCallback(Filter e)
-        {
-            // To avoid bug if user click again on teleport while the fading effect didn't end
-            if (e.SceneObjects.FadeComponent == null || e.TeleportCalculations.CurrentTeleportState != ETeleportState.Teleporting)
-            {
-                // We regenerate the mesh base on the pointer position
-                BorderMeshRegeneration.RegenerateMesh(e.BorderRenderer, e.PointerCalculations.SelectedPoint);
-
-                // Render representation of where the chaperone bounds will be after teleporting
-                e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
-                
-                // Quick check to avoid NullReferenceException
-                if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
-                    return;
-
-                // Check if alpha of border's material has changed
-                if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
-                {
-                    e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
-                    e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
-                }
-
-                Debug.Log(e.BorderRenderer.Transpose.GetPosition());
-
-                // Draw the generated mesh
-                Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
-            }
-        }
-
+        protected override void OnUpdate() { }
+        
         /// <summary>
         /// Requests the chaperone boundaries of the SteamVR play area.  This doesn't work if you haven't performed Room Setup.
         /// </summary>
