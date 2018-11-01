@@ -14,7 +14,7 @@ namespace VRSF.MoveAround.Teleport
     /// used for Vive navigation to be separated form the AI Navmesh.  ViveNavMesh also handles the rendering of the 
     /// NavMesh grid in-game.
     /// </summary>
-    [RequireComponent(typeof(BorderRendererComponent), typeof(GameObjectEntity))]
+    [RequireComponent(typeof(GameObjectEntity))]
     [ExecuteInEditMode]
     public class TeleportNavMeshComponent : MonoBehaviour
     {
@@ -99,7 +99,7 @@ namespace VRSF.MoveAround.Teleport
 
         private void OnValidate()
         {
-            GetComponent<BorderRendererComponent>().Points = SelectableMeshBorder;
+           // GetComponent<BorderRendererComponent>().Points = SelectableMeshBorder;
 
             if (AlphaShaderID == -1)
                 AlphaShaderID = Shader.PropertyToID("_Alpha");
@@ -164,7 +164,7 @@ namespace VRSF.MoveAround.Teleport
         public BorderPointSet[] SelectableMeshBorder
         {
             get { return _SelectableMeshBorder; }
-            set { _SelectableMeshBorder = value; GetComponent<BorderRendererComponent>().Points = _SelectableMeshBorder; }
+            set { _SelectableMeshBorder = value;/* GetComponent<BorderRendererComponent>().Points = _SelectableMeshBorder;*/ }
         }
 
         public float SampleRadius

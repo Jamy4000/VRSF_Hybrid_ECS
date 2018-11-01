@@ -1144,11 +1144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7721e3a1b60f784b8a9c895cc3f5ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialVelocity: {x: 0, y: 0, z: 10}
+  InitialVelocity: {x: 0, y: 0, z: 20}
   Acceleration: {x: -0, y: -20, z: -0}
   PointCount: 50
   PointSpacing: 0.5
-  GraphicThickness: 0.1
+  GraphicThickness: 0.05
   GraphicMaterial: {fileID: 2100000, guid: 21a645b07758b4b478bff4374fdb9a43, type: 2}
 --- !u!114 &114499441261834910
 MonoBehaviour:

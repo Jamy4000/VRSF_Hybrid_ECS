@@ -20,6 +20,7 @@ namespace VRSF.MoveAround.Teleport
             public SceneObjectsComponent SceneObjects;
             public TeleportCalculationsComponent TeleportCalculations;
             public NavMeshAnimatorComponent NavMeshAnim;
+            public PointerCalculationsComponent PointerCalculations;
         }
 
         protected override void OnStartRunning()
@@ -46,14 +47,12 @@ namespace VRSF.MoveAround.Teleport
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BACGeneral.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
                 e.BACGeneral.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BACGeneral.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
                 e.BACGeneral.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
             }
         }
@@ -64,14 +63,12 @@ namespace VRSF.MoveAround.Teleport
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
-                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
                 e.BACGeneral.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
-                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
                 e.BACGeneral.OnButtonStopTouching.RemoveAllListeners();
             }
         }
@@ -96,27 +93,8 @@ namespace VRSF.MoveAround.Teleport
                 if (e.NavMeshAnim._NavmeshAnimator != null)
                     e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, true);
 
-                e.TeleportCalculations._lastClickAngle = e.SceneObjects.Pointer.CurrentPointVector;
-                e.TeleportCalculations.IsClicking = e.SceneObjects.Pointer.PointOnNavMesh;
-            }
-        }
-
-        /// <summary>
-        /// Calculate the Room Border Positions when user is clicking on the Teleport Button
-        /// </summary>
-        /// <param name="e"></param>
-        private void OnIsInteractingCallback(Filter e)
-        {
-            if (e.SceneObjects.FadeComponent == null || e.TeleportCalculations.CurrentTeleportState != ETeleportState.Teleporting)
-            {
-                // The user is still deciding where to teleport and has the touchpad held down.
-                // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
-                Vector3 offset = e.SceneObjects._headTransform.position - e.SceneObjects._originTransform.position;
-                offset.y = 0;
-
-                // Render representation of where the chaperone bounds will be after teleporting
-                e.SceneObjects._roomBorder.enabled = e.SceneObjects.Pointer.PointOnNavMesh;
-                e.SceneObjects._roomBorder.Transpose = Matrix4x4.TRS(e.SceneObjects.Pointer.SelectedPoint - offset, Quaternion.identity, Vector3.one);
+                e.TeleportCalculations._lastClickAngle = e.PointerCalculations.CurrentPointVector;
+                e.TeleportCalculations.IsClicking = e.PointerCalculations.PointOnNavMesh;
             }
         }
 
@@ -126,7 +104,7 @@ namespace VRSF.MoveAround.Teleport
             {
                 // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
                 // related to selecting things and actually teleport
-                if (e.SceneObjects.Pointer.PointOnNavMesh)
+                if (e.PointerCalculations.PointOnNavMesh)
                 {
                     // Begin teleport sequence
                     e.TeleportCalculations.CurrentTeleportState = ETeleportState.Teleporting;
@@ -150,8 +128,8 @@ namespace VRSF.MoveAround.Teleport
                 }
 
                 // Reset active controller, disable pointer, disable visual indicators
-                e.SceneObjects.Pointer.enabled = false;
-                e.SceneObjects._roomBorder.enabled = false;
+                e.PointerCalculations.enabled = false;
+
                 //RoomBorder.Transpose = Matrix4x4.TRS(OriginTransform.position, Quaternion.identity, Vector3.one);
                 if (e.NavMeshAnim._NavmeshAnimator != null)
                     e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, false);

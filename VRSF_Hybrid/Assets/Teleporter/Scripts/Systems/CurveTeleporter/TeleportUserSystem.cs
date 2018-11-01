@@ -10,6 +10,7 @@ namespace VRSF.MoveAround.Teleport
         {
             public TeleportCalculationsComponent TeleportCalculations;
             public SceneObjectsComponent SceneObjects;
+            public PointerCalculationsComponent PointerCalculations;
         }
         
         protected override void OnUpdate()
@@ -26,7 +27,7 @@ namespace VRSF.MoveAround.Teleport
                     }
                     else
                     {
-                        VRSF_Components.SetCameraRigPosition(e.SceneObjects.Pointer.SelectedPoint, true);
+                        VRSF_Components.SetCameraRigPosition(e.PointerCalculations.SelectedPoint, true);
                     }
                 }
             }
@@ -52,7 +53,7 @@ namespace VRSF.MoveAround.Teleport
                 else
                 {
                     // We have finished fading out - time to teleport!
-                    VRSF_Components.SetCameraRigPosition(e.SceneObjects.Pointer.SelectedPoint);
+                    VRSF_Components.SetCameraRigPosition(e.PointerCalculations.SelectedPoint);
                 }
 
                 e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;

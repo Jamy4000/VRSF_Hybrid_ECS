@@ -18,12 +18,12 @@ namespace VRSF.MoveAround.Teleport
         [Tooltip("Height of the border mesh, in meters.")]
         private float _borderHeight = 0.2f;
 
-        private BorderPointSet[] _points;
+        private Vector3[] _points;
         #endregion PRIVATE_VARIABLES
 
 
         #region PUBLIC_VARIABLES
-        [System.NonSerialized] public Mesh[] CachedMeshes;
+        [System.NonSerialized] public Mesh CachedBorderMesh;
 
         [System.NonSerialized] public float LastBorderAlpha = 1.0f;
 
@@ -38,14 +38,16 @@ namespace VRSF.MoveAround.Teleport
 
         [Tooltip("Material used to render the border mesh.  UV's are set up so that v=0->bottom and v=1->top.  u is stretched along each edge.")]
         public Material BorderMaterial;
+
+        [System.NonSerialized] public bool BorderAreShown = false;
         #endregion PUBLIC_VARIABLES
 
 
         #region GETTERS_SETTERS
         /// <summary>
-        /// Polylines that will be drawn.
+        /// Positions of the edges of the Chaperone to draw.
         /// </summary>
-        public BorderPointSet[] Points
+        public Vector3[] Points
         {
             get
             {
@@ -54,7 +56,6 @@ namespace VRSF.MoveAround.Teleport
             set
             {
                 _points = value;
-                BorderMeshRegeneration.RegenerateMesh(this);
             }
         }
 
@@ -70,7 +71,6 @@ namespace VRSF.MoveAround.Teleport
             set
             {
                 _borderHeight = value;
-                BorderMeshRegeneration.RegenerateMesh(this);
             }
         }
         #endregion GETTERS_SETTERS
@@ -78,8 +78,6 @@ namespace VRSF.MoveAround.Teleport
 #if UNITY_EDITOR
         void OnValidate()
         {
-            BorderMeshRegeneration.RegenerateMesh(this);
-
             if (AlphaShaderID == -1)
                 AlphaShaderID = Shader.PropertyToID("_Alpha");
             if (BorderMaterial != null)

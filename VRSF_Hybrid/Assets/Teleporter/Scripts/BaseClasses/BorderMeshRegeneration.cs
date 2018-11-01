@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -14,26 +15,23 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Regenerate the Borders Meshes based on the Borders Points provided in the Editor
         /// </summary>
-        public static void RegenerateMesh(BorderRendererComponent borderRenderer)
+        public static void RegenerateMesh(BorderRendererComponent borderRenderer, Vector3 selectedPoint)
         {
-            // We check that the points are not null. If so, we set the Cahced Meshes to an empty Collection
-            if (borderRenderer.Points == null)
+            // We check that the points are not null. 
+            if (borderRenderer.Points != null || borderRenderer.Points.Length > 0)
             {
-                borderRenderer.CachedMeshes = new Mesh[0];
-            }
-            else
-            {
-                borderRenderer.CachedMeshes = new Mesh[borderRenderer.Points.Length];
+                // The user is still deciding where to teleport and has the touchpad held down.
+                // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
+                Vector3 offset = VRSF_Components.VRCamera.transform.position - VRSF_Components.CameraRig.transform.position;
+                offset.y = 0.0f;
 
-                // For each points in the ChachedMeshes, we check that the point is not null, and generate a new mesh
-                // based on the Borders Points
-                for (int x = 0; x < borderRenderer.CachedMeshes.Length; x++)
-                {
-                    if (borderRenderer.Points[x] == null || borderRenderer.Points[x].Points == null)
-                        borderRenderer.CachedMeshes[x] = new Mesh();
-                    else
-                        borderRenderer.CachedMeshes[x] = GenerateMeshForPoints(borderRenderer.Points[x].Points, borderRenderer.BorderHeight);
-                }
+                Debug.Log("selectedPoint " + selectedPoint);
+                Debug.Log("selectedPoint - offset " + (selectedPoint - offset));
+
+                // Render representation of where the chaperone bounds will be after teleporting
+                borderRenderer.Transpose = Matrix4x4.TRS(selectedPoint - offset, Quaternion.identity, Vector3.one);
+
+                borderRenderer.CachedBorderMesh = GenerateMeshForPoints(borderRenderer.Points, borderRenderer.BorderHeight);
             }
         }
 
