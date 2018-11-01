@@ -26,5 +26,10 @@ namespace VRSF.MoveAround.Teleport
 
         /// SteamVR controllers that should be polled.
         [System.NonSerialized] public GameObject _activeController;
+
+        /// <summary>
+        /// Fade Component to place on the VRCamera. If not assigned, teleport the user without any fading effect.
+        /// </summary>
+        [System.NonSerialized] public TeleportFadeComponent FadeComponent;
     }
 }

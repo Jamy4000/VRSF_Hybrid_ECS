@@ -117,7 +117,8 @@ GameObject:
   - component: {fileID: 4564043346116426}
   - component: {fileID: 20792991002025928}
   - component: {fileID: 124229465026099878}
-  - component: {fileID: 114753176895421712}
+  - component: {fileID: 114900816034651498}
+  - component: {fileID: 114306397749588444}
   m_Layer: 0
   m_Name: Camera (eye)
   m_TagString: MainCamera
@@ -351,7 +352,7 @@ GameObject:
   - component: {fileID: 92591587417231442}
   m_Layer: 0
   m_Name: Camera (head)
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2054,6 +2055,20 @@ MonoBehaviour:
   - {x: -1.65, y: 0.01, z: -1.275}
   - {x: -1.65, y: 0.01, z: 1.275}
   - {x: 1.65, y: 0.01, z: 1.275}
+--- !u!114 &114306397749588444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160675514891568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 4875851359688154}
+  _ears: {fileID: 4230546073196556}
+  wireframe: 0
 --- !u!114 &114362647696192826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2068,7 +2083,6 @@ MonoBehaviour:
   LeftTrackedObject: {fileID: 114589108609959534}
   RightTrackedObject: {fileID: 114854272374558628}
   ControllersParametersSetup: 0
-  TempEvent: {fileID: 0}
 --- !u!114 &114495171690362188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2080,7 +2094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a86c1078ce4314b9c4224560e031b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vrcam: {fileID: 114753176895421712}
+  vrcam: {fileID: 0}
 --- !u!114 &114589108609959534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2122,20 +2136,6 @@ MonoBehaviour:
   right: {fileID: 1724180431914852}
   objects: []
   assignAllBeforeIdentified: 0
---- !u!114 &114753176895421712
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160675514891568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _head: {fileID: 4875851359688154}
-  _ears: {fileID: 4230546073196556}
-  wireframe: 0
 --- !u!114 &114769358220819390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2160,6 +2160,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: -1
   origin: {fileID: 0}
+--- !u!114 &114900816034651498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160675514891568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffcbf105be541b41934fb6eb8b7220f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeleportFadeDuration: 0.5
+  _fadeMaterial: {fileID: 2100000, guid: 5ba70d58d085f2b44b315edf2d739376, type: 2}
 --- !u!120 &120074784999405258
 LineRenderer:
   m_ObjectHideFlags: 1

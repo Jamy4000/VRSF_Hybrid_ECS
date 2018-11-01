@@ -18,11 +18,10 @@ namespace VRSF.MoveAround.Teleport
         private new struct Filter
         {
             public BACGeneralComponent BACGeneral;
-            public BACCalculationsComponent BACCalculations;
-            
             public NavMeshAnimatorComponent NavMeshComp;
             public PointerObjectsComponent PointerObjects;
             public PointerCalculationsComponent PointerCalculations;
+            public SceneObjectsComponent SceneObjects;
         }
 
         protected override void OnStartRunning()
@@ -81,53 +80,59 @@ namespace VRSF.MoveAround.Teleport
 
         private void ActivatePointer(Filter e)
         {
-            ForceUpdateCurrentAngle(e);
+            if (e.SceneObjects.FadeComponent == null || e.SceneObjects.FadeComponent.TeleportState != ETeleportState.Teleporting)
+            {
+                ForceUpdateCurrentAngle(e);
+            }
         }
 
         private void UpdatePointer(Filter e)
         {
-            // 1. Calculate Parabola Points
-            var velocity = ForceUpdateCurrentAngle(e);
-
-            e.PointerCalculations.PointOnNavMesh = CalculateParabolicCurve
-            (
-                e.PointerCalculations.transform.position,
-                velocity,
-                e.PointerCalculations.Acceleration, 
-                e.PointerCalculations.PointSpacing, 
-                e.PointerCalculations.PointCount,
-                e.NavMeshComp._TeleportNavMesh,
-                e.PointerObjects.ParabolaPoints,
-                out Vector3 normal
-            );
-
-            e.PointerCalculations.SelectedPoint = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
-
-            // 2. Render Parabola graphics
-            if (e.PointerObjects._selectionPadObject != null)
+            if (e.SceneObjects.FadeComponent == null || e.SceneObjects.FadeComponent.TeleportState != ETeleportState.Teleporting)
             {
-                e.PointerObjects._selectionPadObject.SetActive(e.PointerCalculations.PointOnNavMesh);
-                e.PointerObjects._selectionPadObject.transform.position = e.PointerCalculations.SelectedPoint + Vector3.one * 0.005f;
-                if (e.PointerCalculations.PointOnNavMesh)
-                {
-                    e.PointerObjects._selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
-                    e.PointerObjects._selectionPadObject.transform.Rotate(90, 0, 0);
-                }
-            }
-            if (e.PointerObjects._invalidPadObject != null)
-            {
-                e.PointerObjects._invalidPadObject.SetActive(!e.PointerCalculations.PointOnNavMesh);
-                e.PointerObjects._invalidPadObject.transform.position = e.PointerCalculations.SelectedPoint + Vector3.one * 0.005f;
-                if (!e.PointerCalculations.PointOnNavMesh)
-                {
-                    e.PointerObjects._invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
-                    e.PointerObjects._invalidPadObject.transform.Rotate(90, 0, 0);
-                }
-            }
+                // 1. Calculate Parabola Points
+                var velocity = ForceUpdateCurrentAngle(e);
 
-            // Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
-            GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
-            Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
+                e.PointerCalculations.PointOnNavMesh = CalculateParabolicCurve
+                (
+                    e.PointerCalculations.transform.position,
+                    velocity,
+                    e.PointerCalculations.Acceleration,
+                    e.PointerCalculations.PointSpacing,
+                    e.PointerCalculations.PointCount,
+                    e.NavMeshComp._TeleportNavMesh,
+                    e.PointerObjects.ParabolaPoints,
+                    out Vector3 normal
+                );
+
+                e.PointerCalculations.SelectedPoint = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
+
+                // 2. Render Parabola graphics
+                if (e.PointerObjects._selectionPadObject != null)
+                {
+                    e.PointerObjects._selectionPadObject.SetActive(e.PointerCalculations.PointOnNavMesh);
+                    e.PointerObjects._selectionPadObject.transform.position = e.PointerCalculations.SelectedPoint + Vector3.one * 0.005f;
+                    if (e.PointerCalculations.PointOnNavMesh)
+                    {
+                        e.PointerObjects._selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
+                        e.PointerObjects._selectionPadObject.transform.Rotate(90, 0, 0);
+                    }
+                }
+                if (e.PointerObjects._invalidPadObject != null)
+                {
+                    e.PointerObjects._invalidPadObject.SetActive(!e.PointerCalculations.PointOnNavMesh);
+                    e.PointerObjects._invalidPadObject.transform.position = e.PointerCalculations.SelectedPoint + Vector3.one * 0.005f;
+                    if (!e.PointerCalculations.PointOnNavMesh)
+                    {
+                        e.PointerObjects._invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
+                        e.PointerObjects._invalidPadObject.transform.Rotate(90, 0, 0);
+                    }
+                }
+
+                // Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
+                GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
+                Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
+            }
         }
 
         private void DeactivatePointer(Filter e)

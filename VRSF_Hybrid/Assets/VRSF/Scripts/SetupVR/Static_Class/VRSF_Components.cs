@@ -59,20 +59,27 @@ namespace VRSF.Utils
         /// </summary>
         /// <param name="newPos">The new Pos where the user should be in World coordinate</param>
         /// <param name="setYPos">Wheter we have to change the Y position</param>
-        /// <param name="useYOffset">Whether we need to check the offset of the Y localPosition of the VRCamera</param>
-        public static void SetCameraRigPosition(Vector3 newPos, bool setYPos = true, bool useYOffset = false)
+        /// <param name="useYCameraOffset">Whether we need to check the offset of the Y localPosition of the VRCamera</param>
+        public static void SetCameraRigPosition(Vector3 newPos, bool setYPos = true, bool useYCameraOffset = false)
         {
-            if (useYOffset)
-            {
-                newPos -= VRCamera.transform.localPosition;
-            }
-            else
-            {
-                newPos.x -= VRCamera.transform.localPosition.x;
-                newPos.z -= VRCamera.transform.localPosition.z;
-            }
+            newPos = useYCameraOffset ? (newPos - VRCamera.transform.localPosition) :
+                new Vector3
+                (
+                    newPos.x - VRCamera.transform.localPosition.x,
+                    newPos.y,
+                    newPos.z - VRCamera.transform.localPosition.z
+                );
 
-            CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
+            switch (DeviceLoaded)
+            {
+                case EDevice.OPENVR:
+                    CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
+                    break;
+                default:
+                    newPos.y += 1.8f;
+                    CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
+                    break;
+            }
         }
         #endregion
 

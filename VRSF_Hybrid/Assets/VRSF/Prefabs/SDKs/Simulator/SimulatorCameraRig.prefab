@@ -37,6 +37,8 @@ GameObject:
   - component: {fileID: 4404034900531224}
   - component: {fileID: 20544000245971386}
   - component: {fileID: 124690151339060592}
+  - component: {fileID: 114271580592221548}
+  - component: {fileID: 114675535892047788}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -184,8 +186,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515c706227a3b42a68b602f410e3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TempEvent: {fileID: 0}
-  CheckGazeInteractions: 0
+--- !u!114 &114271580592221548
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1521805255087138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffcbf105be541b41934fb6eb8b7220f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeleportFadeDuration: 0.5
+  _fadeMaterial: {fileID: 2100000, guid: 5ba70d58d085f2b44b315edf2d739376, type: 2}
 --- !u!114 &114534456078256912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,6 +211,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1
+--- !u!114 &114675535892047788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1521805255087138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114845008837313072
 MonoBehaviour:
   m_ObjectHideFlags: 1

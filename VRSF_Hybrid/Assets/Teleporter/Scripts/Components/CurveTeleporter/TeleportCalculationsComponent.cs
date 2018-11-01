@@ -20,8 +20,6 @@ namespace VRSF.MoveAround.Teleport
 
         [System.NonSerialized] public bool IsClicking = false;
 
-        [System.NonSerialized] public float _teleportTimeMarker = -1;
-
         [System.NonSerialized] public bool _IsSetup;
 
         /// <summary>

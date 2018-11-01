@@ -12,7 +12,6 @@ namespace VRSF.MoveAround.Teleport
         {
             public SceneObjectsComponent SceneObjects;
             public TeleportCalculationsComponent TeleportCalculations;
-            public TeleportFadeComponent FadeComp;
             public NavMeshAnimatorComponent NavMeshAnim;
             public BACGeneralComponent BACGeneral;
         }
@@ -49,33 +48,16 @@ namespace VRSF.MoveAround.Teleport
             
             // Ensure we mark the player as not teleporting
             e.TeleportCalculations.CurrentTeleportState = ETeleportState.None;
-
-            Vector3[] verts = new Vector3[]
+            
+            try
             {
-                new Vector3(-1, -1, 0),
-                new Vector3(-1, 1, 0),
-                new Vector3(1, 1, 0),
-                new Vector3(1, -1, 0)
-            };
-
-            int[] elts = new int[] { 0, 1, 2, 0, 2, 3 };
-
-            // Standard plane mesh used for "fade out" graphic when you teleport
-            // This way you don't need to supply a simple plane mesh in the inspector
-            e.FadeComp._planeMesh = new Mesh
-            {
-                vertices = verts,
-                triangles = elts
-            };
-            e.FadeComp._planeMesh.RecalculateBounds();
-
-            // Set some standard variables for the FadeComponent
-            if (e.FadeComp._fadeMaterial != null)
-            {
-                e.FadeComp._fadeMaterialInstance = new Material(e.FadeComp._fadeMaterial);
+                e.SceneObjects.FadeComponent = VRSF_Components.VRCamera.GetComponentInChildren<TeleportFadeComponent>();
+                e.SceneObjects.FadeComponent.TeleportState = ETeleportState.None;
             }
-            e.FadeComp._materialFadeID = Shader.PropertyToID("_Fade");
-            e.FadeComp._TeleportCalculations = e.TeleportCalculations;
+            catch (System.Exception exception)
+            {
+                Debug.Log("VRSF : No Fade Component found on the VRCamera. Teleporting user without fade effect.\n" + exception.ToString());
+            }
 
             // Set some standard variables for the TeleportNavMeshComponent
             e.NavMeshAnim._NavmeshAnimator = e.NavMeshAnim.GetComponent<Animator>();

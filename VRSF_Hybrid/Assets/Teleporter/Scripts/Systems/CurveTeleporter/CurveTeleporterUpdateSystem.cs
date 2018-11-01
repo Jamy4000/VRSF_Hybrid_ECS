@@ -17,8 +17,6 @@ namespace VRSF.MoveAround.Teleport
         private new struct Filter
         {
             public BACGeneralComponent BACGeneral;
-            public BACCalculationsComponent BACCalculations;
-
             public SceneObjectsComponent SceneObjects;
             public TeleportCalculationsComponent TeleportCalculations;
             public NavMeshAnimatorComponent NavMeshAnim;
@@ -86,13 +84,21 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            e.TeleportCalculations.CurrentTeleportState = ETeleportState.Selecting;
+            if (e.SceneObjects.FadeComponent == null || e.TeleportCalculations.CurrentTeleportState != ETeleportState.Teleporting)
+            {
+                e.TeleportCalculations.CurrentTeleportState = ETeleportState.Selecting;
 
-            if (e.NavMeshAnim._NavmeshAnimator != null)
-                e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, true);
+                if (e.SceneObjects.FadeComponent != null)
+                {
+                    e.SceneObjects.FadeComponent.TeleportState = ETeleportState.Selecting;
+                }
 
-            e.TeleportCalculations._lastClickAngle = e.SceneObjects.Pointer.CurrentPointVector;
-            e.TeleportCalculations.IsClicking = e.SceneObjects.Pointer.PointOnNavMesh;
+                if (e.NavMeshAnim._NavmeshAnimator != null)
+                    e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, true);
+
+                e.TeleportCalculations._lastClickAngle = e.SceneObjects.Pointer.CurrentPointVector;
+                e.TeleportCalculations.IsClicking = e.SceneObjects.Pointer.PointOnNavMesh;
+            }
         }
 
         /// <summary>
@@ -101,37 +107,55 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
-            // The user is still deciding where to teleport and has the touchpad held down.
-            // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
-            Vector3 offset = e.SceneObjects._headTransform.position - e.SceneObjects._originTransform.position;
-            offset.y = 0;
+            if (e.SceneObjects.FadeComponent == null || e.TeleportCalculations.CurrentTeleportState != ETeleportState.Teleporting)
+            {
+                // The user is still deciding where to teleport and has the touchpad held down.
+                // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
+                Vector3 offset = e.SceneObjects._headTransform.position - e.SceneObjects._originTransform.position;
+                offset.y = 0;
 
-            // Render representation of where the chaperone bounds will be after teleporting
-            e.SceneObjects._roomBorder.enabled = e.SceneObjects.Pointer.PointOnNavMesh;
-            e.SceneObjects._roomBorder.Transpose = Matrix4x4.TRS(e.SceneObjects.Pointer.SelectedPoint - offset, Quaternion.identity, Vector3.one);
+                // Render representation of where the chaperone bounds will be after teleporting
+                e.SceneObjects._roomBorder.enabled = e.SceneObjects.Pointer.PointOnNavMesh;
+                e.SceneObjects._roomBorder.Transpose = Matrix4x4.TRS(e.SceneObjects.Pointer.SelectedPoint - offset, Quaternion.identity, Vector3.one);
+            }
         }
 
         private void OnStopInteractingCallback(Filter e)
         {
-            // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
-            // related to selecting things and actually teleport
-            if (e.SceneObjects.Pointer.PointOnNavMesh)
+            if (e.SceneObjects.FadeComponent == null || e.TeleportCalculations.CurrentTeleportState != ETeleportState.Teleporting)
             {
-                // Begin teleport sequence
-                e.TeleportCalculations.CurrentTeleportState = ETeleportState.Teleporting;
-                e.TeleportCalculations._teleportTimeMarker = Time.time;
-            }
-            else
-            {
-                e.TeleportCalculations.CurrentTeleportState = ETeleportState.None;
-            }
+                // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
+                // related to selecting things and actually teleport
+                if (e.SceneObjects.Pointer.PointOnNavMesh)
+                {
+                    // Begin teleport sequence
+                    e.TeleportCalculations.CurrentTeleportState = ETeleportState.Teleporting;
 
-            // Reset active controller, disable pointer, disable visual indicators
-            e.SceneObjects.Pointer.enabled = false;
-            e.SceneObjects._roomBorder.enabled = false;
-            //RoomBorder.Transpose = Matrix4x4.TRS(OriginTransform.position, Quaternion.identity, Vector3.one);
-            if (e.NavMeshAnim._NavmeshAnimator != null)
-                e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, false);
+                    // If we use a fade effect, we set the info necessary to use this effect.
+                    if (e.SceneObjects.FadeComponent != null)
+                    {
+                        e.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
+                        e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
+                    }
+                }
+                else
+                {
+                    e.TeleportCalculations.CurrentTeleportState = ETeleportState.None;
+
+                    // If we use a fade effect, we set the info necessary to use this effect.
+                    if (e.SceneObjects.FadeComponent != null)
+                    {
+                        e.SceneObjects.FadeComponent.TeleportState = ETeleportState.None;
+                    }
+                }
+
+                // Reset active controller, disable pointer, disable visual indicators
+                e.SceneObjects.Pointer.enabled = false;
+                e.SceneObjects._roomBorder.enabled = false;
+                //RoomBorder.Transpose = Matrix4x4.TRS(OriginTransform.position, Quaternion.identity, Vector3.one);
+                if (e.NavMeshAnim._NavmeshAnimator != null)
+                    e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, false);
+            }
         }
     }
 }
