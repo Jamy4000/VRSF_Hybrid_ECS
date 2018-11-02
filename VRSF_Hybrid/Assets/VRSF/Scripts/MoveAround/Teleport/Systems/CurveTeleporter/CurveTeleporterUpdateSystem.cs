@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VRSF.Inputs;
+using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -12,9 +13,9 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    public class CurveTeleporterUpdateSystem : BACUpdateSystem<ParabolCalculationsComponent>
+    public class CurveTeleporterUpdateSystem : BACUpdateSystem<ParabolCalculationsComponent>, ITeleportSystem
     {
-        private new struct Filter
+        private new struct Filter : ITeleportFilter
         {
             public BACGeneralComponent BACGeneral;
             public SceneObjectsComponent SceneObjects;
@@ -103,15 +104,7 @@ namespace VRSF.MoveAround.Teleport
                 // related to selecting things and actually teleport
                 if (e.PointerCalculations.PointOnNavMesh)
                 {
-                    // Begin teleport sequence
-                    e.TeleportGeneral.CurrentTeleportState = ETeleportState.Teleporting;
-
-                    // If we use a fade effect, we set the info necessary to use this effect.
-                    if (e.SceneObjects.FadeComponent != null)
-                    {
-                        e.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
-                        e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
-                    }
+                    TeleportUser(e);
                 }
                 else
                 {
@@ -124,12 +117,23 @@ namespace VRSF.MoveAround.Teleport
                     }
                 }
 
-                // Reset active controller, disable pointer, disable visual indicators
-                e.PointerCalculations.enabled = false;
-
-                //RoomBorder.Transpose = Matrix4x4.TRS(OriginTransform.position, Quaternion.identity, Vector3.one);
                 if (e.NavMeshAnim._NavmeshAnimator != null)
                     e.NavMeshAnim._NavmeshAnimator.SetBool(e.NavMeshAnim._EnabledAnimatorID, false);
+            }
+        }
+
+        public void TeleportUser(ITeleportFilter teleportFilter)
+        {
+            var e = (Filter)teleportFilter;
+
+            // Begin teleport sequence
+            e.TeleportGeneral.CurrentTeleportState = ETeleportState.Teleporting;
+
+            // If we use a fade effect, we set the info necessary to use this effect.
+            if (e.SceneObjects.FadeComponent != null)
+            {
+                e.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
+                e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
             }
         }
     }

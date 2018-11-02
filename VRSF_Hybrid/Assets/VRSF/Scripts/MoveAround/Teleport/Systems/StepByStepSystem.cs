@@ -121,7 +121,10 @@ namespace VRSF.MoveAround.Teleport.Systems
 
                     // We set the current State of the FadeComponent to Teleporting if it exist. The teleport is then handled by the TeleportUserSystem
                     if (entity.SceneObjects.FadeComponent != null)
+                    {
                         entity.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
+                        entity.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
+                    }
                 }
             }
         }

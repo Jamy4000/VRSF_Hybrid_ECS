@@ -66,7 +66,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SrcBlend: 1
-    - _TexScale: 0.31
+    - _TexScale: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

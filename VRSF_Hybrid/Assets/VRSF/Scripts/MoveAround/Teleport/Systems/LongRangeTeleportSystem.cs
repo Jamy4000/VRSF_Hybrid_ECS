@@ -143,14 +143,18 @@ namespace VRSF.MoveAround.Teleport.Systems
                 return;
             }
 
-            // We set the current state as 
+            // We set the current state as Selecting
             entity.GeneralTeleport.CurrentTeleportState = ETeleportState.Selecting;
+
+            // We do the same for the Fade component if it exists
             if (entity.SceneObjects.FadeComponent != null)
                 entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
 
+            // We remove the Teleport Layer from the exclusion layer while the user is clicking on the teleport button
             _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
             _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
 
+            // If we use the loading slider, we set the fillRect value and the TeleportText value
             if (entity.LRT_Comp.UseLoadingSlider)
             {
                 if (entity.LRT_Comp.FillRect != null)
@@ -247,7 +251,10 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
             if (entity.SceneObjects.FadeComponent != null)
-                entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
+            {
+                entity.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
+                entity.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
+            }
         }
 
 
