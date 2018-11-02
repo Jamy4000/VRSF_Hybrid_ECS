@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 114117341646516142}
   - component: {fileID: 114853679301929544}
   - component: {fileID: 114476093172704892}
+  - component: {fileID: 114019279060861324}
+  - component: {fileID: 114239108694249020}
   m_Layer: 0
   m_Name: StepByStepTeleport
   m_TagString: Untagged
@@ -37,13 +39,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1965356667570362}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114019279060861324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965356667570362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeleportLayer: -1
+  ExclusionLayer: -1
+  CanTeleport: 0
+  PointToGoTo: {x: 0, y: 0, z: 0}
 --- !u!114 &114117341646516142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,6 +88,17 @@ MonoBehaviour:
   ThumbPos: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
+--- !u!114 &114239108694249020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965356667570362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114311887240058022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,7 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceStepByStep: 1
-  MoveOnVerticalAxis: 1
 --- !u!114 &114379532114450960
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
-using VRSF.Utils;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
 {
+    /// <summary>
+    /// Using the ButtonActionChoser, this System allow the user to teleport where the Raycast of his controller is pointing
+    /// </summary>
     public class LongRangeTeleportSystem : BACUpdateSystem<LongRangeTeleportComponent>, ITeleportSystem
     {
         new struct Filter : ITeleportFilter
@@ -23,6 +24,9 @@ namespace VRSF.MoveAround.Teleport.Systems
             public SceneObjectsComponent SceneObjects;
         }
 
+        /// <summary>
+        /// The reference to the ScriptableSingleton containing the variables for the Controllers
+        /// </summary>
         private ControllersParametersVariable _controllersVariable;
 
         #region ComponentSystem_Methods
@@ -122,16 +126,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
             _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
         }
-
-
-        /// <summary>
-        /// Check the newPos for theStep by Step feature depending on the Teleport Boundaries
-        /// </summary>
-        /// <returns>The new position of the user after checking the boundaries</returns>
-        public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
-        {
-            // No need when we are using the NavMesh feature
-        }
         #endregion
 
         #endregion
@@ -149,6 +143,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 return;
             }
 
+            // We set the current state as 
             entity.GeneralTeleport.CurrentTeleportState = ETeleportState.Selecting;
             if (entity.SceneObjects.FadeComponent != null)
                 entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
@@ -178,19 +173,26 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void OnIsInteracting(Filter entity)
         {
+            // We check that the user can actually teleport himself
             CheckTeleport();
 
+            // If we use a loading slider
             if (entity.LRT_Comp.UseLoadingSlider)
             {
+                // We set the texts and fillrect based on the current fillAmount of the Timer
                 var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
+
+                // If the loading slider is still not full
                 if (entity.LRT_Comp.FillRect != null && currentFillAmount < entity.LRT_Comp.TimerBeforeTeleport)
                 {
                     entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.TimerBeforeTeleport;
                 }
+                // If we don't hit the ground with the laser
                 else if (entity.LRT_Comp.TeleportText != null && !entity.GeneralTeleport.CanTeleport)
                 {
                     entity.LRT_Comp.TeleportText.text = "Waiting for ground ...";
                 }
+                // If we hit the ground with the laser
                 else if (entity.LRT_Comp.TeleportText != null)
                 {
                     entity.LRT_Comp.TeleportText.text = "Release To Teleport !";
@@ -206,7 +208,8 @@ namespace VRSF.MoveAround.Teleport.Systems
                 Color32 fillRectColor;
                 bool endOnNavmesh = false;
 
-                if (!entity.RaycastComp.RaycastHitVar.isNull)
+                // If the raycast is hitting something ad it's not a UI Element
+                if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
                 {
                     TeleportNavMeshHelper.Linecast(entity.RaycastComp.RayVar.Value.origin, entity.RaycastComp.RaycastHitVar.Value.point, out endOnNavmesh,
                                                entity.GeneralTeleport.ExclusionLayer, out entity.GeneralTeleport.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh);
@@ -215,11 +218,13 @@ namespace VRSF.MoveAround.Teleport.Systems
                 entity.GeneralTeleport.CanTeleport = endOnNavmesh;
                 fillRectColor = endOnNavmesh ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
 
+                // If we use a loading slider and the fillRect to give the user a visual feedback is not null
                 if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
                 {
                     entity.LRT_Comp.FillRect.color = fillRectColor;
                 }
 
+                // If we use a loading slider and the Text to give the user a visual feedback is not null
                 if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.TeleportText != null)
                 {
                     entity.LRT_Comp.TeleportText.color = fillRectColor;
@@ -233,11 +238,14 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void Teleport(Filter entity)
         {
+            // We calculate the current fill amount of the slider
             var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
 
+            // If it's above the time provided in the LongRangeTeleportComponent, we set the TeleportState to Teleproting
             entity.GeneralTeleport.CurrentTeleportState = entity.GeneralTeleport.CanTeleport && currentFillAmount >= entity.LRT_Comp.TimerBeforeTeleport ?
                 ETeleportState.Teleporting : ETeleportState.None;
 
+            // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
             if (entity.SceneObjects.FadeComponent != null)
                 entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
         }

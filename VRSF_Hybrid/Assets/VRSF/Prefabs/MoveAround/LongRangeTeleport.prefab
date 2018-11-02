@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e61e018b26d5a489fc55c62f4978c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimerBeforeTeleport: 1
+  TimerBeforeTeleport: 0.5
   UseLoadingSlider: 1
   FillRect: {fileID: 114639438830620704}
   TeleportText: {fileID: 114926556755087892}

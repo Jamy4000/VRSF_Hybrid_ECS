@@ -14,7 +14,5 @@ namespace VRSF.MoveAround.Teleport.Components
         [Header("Teleport Step by Step Parameters")]
         [Tooltip("The distance to move the Camera (in Meters) for the step by step feature.")]
         public float DistanceStepByStep = 1.0f;
-        [Tooltip("If you want to move on the vertical axis with the step by step feature.")]
-        public bool MoveOnVerticalAxis = false;
     }
 }

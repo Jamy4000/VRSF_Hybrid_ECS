@@ -21,13 +21,12 @@ namespace VRSF.MoveAround.Teleport
                     // If we use a fade effect
                     if (e.SceneObjects.FadeComponent != null)
                     {
-                        Debug.Log("Fade component not null");
                         // We then Check if the user can teleport
                         HandleTeleportingState(e);
                     }
+                    // If not, we teleport directly the user
                     else
                     {
-                        Debug.Log("Fade component null");
                         VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo, true);
                     }
                 }

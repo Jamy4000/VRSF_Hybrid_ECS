@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
@@ -11,6 +10,9 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
 {
+    /// <summary>
+    /// Using the ButtonActionChoser, this System allow the user to move Step by Step, ie in the direction of its laser to which this feature is linked.
+    /// </summary>
     public class StepByStepSystem : BACUpdateSystem<StepByStepComponent>, ITeleportSystem
     {
         new struct Filter : ITeleportFilter
@@ -18,6 +20,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RayComp;
             public StepByStepComponent SBS_Comp;
+            public TeleportGeneralComponent TeleportGeneral;
+            public SceneObjectsComponent SceneObjects;
         }
 
 
@@ -95,81 +99,30 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 return;
             }
-            else
+
+            // We check where the user should be when teleported one meter away.
+            Vector3 newPos = CheckHandForward(entity);
+
+            // If the new pos returned is null, an error as occured, so we stop the method
+            if (newPos != Vector3.zero)
             {
-                // We check where the user should be when teleported one meter away.
-                Vector3 newPos = CheckHandForward(entity);
+                // We check the theoritic new user pos
+                var newUsersPos = VRSF_Components.CameraRig.transform.position + new Vector3(newPos.x, 0.0f, newPos.z);
 
-                // If the new pos returned is null, an error as occured, so we stop the method
-                if (newPos != Vector3.zero)
+                // We create a down vector based on the new theoritic position and the actual users's height
+                var downVector = newUsersPos + (Vector3.down * newUsersPos.y);
+                
+                // If the linecast between the newUserPos and the downVector hit the TeleportNavMesh
+                if (TeleportNavMeshHelper.Linecast(newUsersPos, downVector, out bool endOnNavmesh,
+                                               entity.TeleportGeneral.ExclusionLayer, out entity.TeleportGeneral.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh))
                 {
-                    // If we want to stay on the same vertical axis, we set the y in newPos to 0
-                    if (!entity.SBS_Comp.MoveOnVerticalAxis)
-                    {
-                        newPos = new Vector3(newPos.x, 0.0f, newPos.z);
-                    }
+                    // We set the current State to Teleporting
+                    entity.TeleportGeneral.CurrentTeleportState = ETeleportState.Teleporting;
 
-                    // If we use boundaries, we check if the user is not going to far away
-                    //if (entity.TeleportBoundaries.UseBoundaries())
-                    //{
-                    //    newPos += VRSF_Components.VRCamera.transform.position;
-
-                    //    CheckNewPosWithBoundaries(entity, ref newPos);
-
-                    //    // We set the cameraRig position
-                    //    VRSF_Components.CameraRig.transform.position += (newPos - VRSF_Components.VRCamera.transform.position);
-                    //}
-                    //else
-                    //{
-                    //    // We set the cameraRig position
-                    //    VRSF_Components.CameraRig.transform.position += newPos;
-                    //}
+                    // We set the current State of the FadeComponent to Teleporting if it exist. The teleport is then handled by the TeleportUserSystem
+                    if (entity.SceneObjects.FadeComponent != null)
+                        entity.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
                 }
-            }
-        }
-
-
-        /// <summary>
-        /// Check the newPos for theStep by Step feature depending on the Teleport Boundaries
-        /// </summary>
-        public void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 posToCheck)
-        {
-            Filter entity = (Filter)teleportFilter;
-            
-            bool isInBoundaries = false;
-            List<Vector3> closestDists = new List<Vector3>();
-
-            //foreach (Bounds bound in entity.TeleportBoundaries.Boundaries())
-            //{
-            //    if (bound.Contains(posToCheck))
-            //    {
-            //        isInBoundaries = true;
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        closestDists.Add(bound.ClosestPoint(posToCheck));
-            //    }
-            //}
-
-            // if the posToCheck is not in the boundaries, we check what's the closest point from it
-            if (!isInBoundaries)
-            {
-                float closestDist = float.PositiveInfinity;
-                Vector3 closestPoint = Vector3.positiveInfinity;
-
-                foreach (var point in closestDists)
-                {
-                    var distance = (posToCheck - point).magnitude;
-
-                    if (distance < closestDist)
-                    {
-                        closestDist = distance;
-                        closestPoint = point;
-                    }
-                }
-
-                posToCheck = closestPoint;
             }
         }
         #endregion

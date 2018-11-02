@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace VRSF.MoveAround.Teleport.Interfaces
+﻿namespace VRSF.MoveAround.Teleport.Interfaces
 {
     /// <summary>
     /// Contains all the basic methods for the Teleport Systems.
@@ -8,7 +6,5 @@ namespace VRSF.MoveAround.Teleport.Interfaces
     public interface ITeleportSystem
     {
         void TeleportUser(ITeleportFilter teleportFilter);
-
-        void CheckNewPosWithBoundaries(ITeleportFilter teleportFilter, ref Vector3 PosToCheck);
     }
 }
