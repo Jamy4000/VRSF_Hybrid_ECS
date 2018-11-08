@@ -62,11 +62,13 @@ namespace VRSF.MoveAround.Teleport.Systems
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { TeleportUser(e); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnButtonReleased(e); });
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { TeleportUser(e); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnButtonReleased(e); });
             }
         }
 
@@ -76,11 +78,13 @@ namespace VRSF.MoveAround.Teleport.Systems
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
@@ -134,6 +138,16 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         #region PRIVATE_METHODS
+        /// <summary>
+        /// Called when the user stop touching or clicking on the teleport button to reset the variables
+        /// </summary>
+        private void OnButtonReleased(Filter entity)
+        {
+            // We reset the current State to None
+            entity.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
+        }
+
+
         /// <summary>
         /// Check, depending on the RayOrigin and the User's size, the forward vector to use.
         /// </summary>
