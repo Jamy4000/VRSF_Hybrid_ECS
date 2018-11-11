@@ -123,7 +123,7 @@ namespace VRSF.MoveAround.Teleport
 
                 int vert_size = verts.Length;
                 int tri_size = tris.Length;
-                RemoveMeshDuplicates(verts, tris, out vert_size, 0.01f);
+                //RemoveMeshDuplicates(verts, tris, out vert_size, 0.01f);
                 DewarpMesh(verts, mesh.DewarpingMethod, mesh.SampleRadius);
                 CullNavmeshTriangulation(verts, tris, areas, p_area.intValue, mesh.IgnoreSlopedSurfaces, ref vert_size, ref tri_size);
 

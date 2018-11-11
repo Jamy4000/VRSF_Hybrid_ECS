@@ -4,15 +4,13 @@ using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
-    public abstract class BACUpdateSystem<T> : ComponentSystem
+    public abstract class BACUpdateSystem : ComponentSystem
     {
         public struct Filter
         {
             public BACGeneralComponent BACGeneralComp;
             public BACCalculationsComponent BACCalculationsComp;
-            public T InheritedFilter;
         }
-
 
         // EMPTY
         #region PRIVATE_VARIBALES
@@ -34,6 +32,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     // If we use the click event and the user is clicking on the button
                     if (e.BACCalculationsComp.IsClicking != null && e.BACCalculationsComp.IsClicking.Value)
                     {
+                        //UnityEngine.Debug.Log("IsClicking " + e.InheritedFilter.ToString());
                         StartActionIsClicking(e);
                     }
                 }
@@ -54,6 +53,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         private void StartActionIsClicking(Filter entity)
         {
+            if (entity.BACGeneralComp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BACGeneralComp.BACTimer))
+                return;
+
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (entity.BACCalculationsComp.ThumbPos != null)
             {
@@ -91,6 +93,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         private void StartActionIsTouching(Filter entity)
         {
+            if (entity.BACGeneralComp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BACGeneralComp.BACTimer))
+                return;
+
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (entity.BACCalculationsComp.ThumbPos != null)
             {

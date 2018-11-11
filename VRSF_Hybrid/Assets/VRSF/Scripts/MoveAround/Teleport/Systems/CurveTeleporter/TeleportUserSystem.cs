@@ -27,7 +27,8 @@ namespace VRSF.MoveAround.Teleport
                     // If not, we teleport directly the user
                     else
                     {
-                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo, true);
+                        e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
+                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);
                     }
                 }
             }

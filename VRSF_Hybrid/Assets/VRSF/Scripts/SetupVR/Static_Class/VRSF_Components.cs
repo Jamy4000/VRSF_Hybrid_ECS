@@ -79,7 +79,7 @@ namespace VRSF.Utils
         {
             if (DeviceLoaded != EDevice.OPENVR)
                 newPos.y += 1.8f;
-            
+
             CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
         }
         #endregion

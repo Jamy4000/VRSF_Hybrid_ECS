@@ -9,7 +9,7 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationWithoutAccelerationSystem : BACUpdateSystem<CameraRotationComponent>
+    public class CameraRotationWithoutAccelerationSystem : BACUpdateSystem
     {
         new struct Filter
         {

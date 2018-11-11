@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Inputs;
@@ -13,14 +14,14 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Using the ButtonActionChoser, this System allow the user to teleport where the Raycast of his controller is pointing
     /// </summary>
-    public class LongRangeTeleportSystem : BACUpdateSystem<LongRangeTeleportComponent>, ITeleportSystem
+    public class LongRangeTeleportSystem : BACUpdateSystem, ITeleportSystem
     {
         new struct Filter : ITeleportFilter
         {
             public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;
             public ScriptableRaycastComponent RaycastComp;
-            public TeleportGeneralComponent GeneralTeleport;
+            public TeleportGeneralComponent TeleportGeneral;
             public SceneObjectsComponent SceneObjects;
         }
 
@@ -42,15 +43,15 @@ namespace VRSF.MoveAround.Teleport.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // Setting up teleport layer
-                e.GeneralTeleport.TeleportLayer = LayerMask.NameToLayer("Teleport");
+                e.TeleportGeneral.TeleportLayer = LayerMask.NameToLayer("Teleport");
 
-                if (e.GeneralTeleport.TeleportLayer == -1)
+                if (e.TeleportGeneral.TeleportLayer == -1)
                 {
                     Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
                 
                 SetupListenersResponses(e);
-                DeactivateTeleportSlider(e.LRT_Comp);
+                DeactivateTeleportSlider(e);
             }
         }
 
@@ -78,16 +79,16 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteracting(e); });
-                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteracting(e); });
-                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { TeleportUser(e); });
+                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteracting(e); });
-                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteracting(e); });
-                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { TeleportUser(e); });
+                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
             }
         }
 
@@ -120,11 +121,9 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter entity = (Filter)teleportFilter;
 
-            Teleport(entity);
-            DeactivateTeleportSlider(entity.LRT_Comp);
-
-            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
-            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.AddToMask(entity.GeneralTeleport.TeleportLayer);
+            SetTeleportState(entity, ETeleportState.Teleporting);
+            if (entity.SceneObjects.FadeComponent != null)
+                entity.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
         }
         #endregion
 
@@ -135,73 +134,39 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <summary>
         /// Method to call from the StartTouching or StartClicking Method, set the Loading Slider values if used.
         /// </summary>
-        private void OnStartInteracting(Filter entity)
+        private void OnStartInteractingCallback(Filter entity)
         {
-            // If the user is aiming to the UI, we don't activate the system
-            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
-            {
-                return;
-            }
-
-            // We set the current state as Selecting
-            entity.GeneralTeleport.CurrentTeleportState = ETeleportState.Selecting;
-
-            // We do the same for the Fade component if it exists
-            if (entity.SceneObjects.FadeComponent != null)
-                entity.SceneObjects.FadeComponent.TeleportState = entity.GeneralTeleport.CurrentTeleportState;
-
-            // We remove the Teleport Layer from the exclusion layer while the user is clicking on the teleport button
-            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.GeneralTeleport.TeleportLayer);
-
-            // If we use the loading slider, we set the fillRect value and the TeleportText value
-            if (entity.LRT_Comp.UseLoadingSlider)
-            {
-                if (entity.LRT_Comp.FillRect != null)
-                {
-                    entity.LRT_Comp.FillRect.gameObject.SetActive(true);
-                    entity.LRT_Comp.FillRect.fillAmount = 0.0f;
-                }
-
-                if (entity.LRT_Comp.TeleportText != null)
-                {
-                    entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
-                    entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
-                }
-            }
+            Initvariables(entity);
         }
-
 
         /// <summary>
         /// To call from the IsClicking or IsTouching event
         /// </summary>
-        private void OnIsInteracting(Filter entity)
+        private void OnIsInteractingCallback(Filter entity)
         {
             // We check that the user can actually teleport himself
             CheckTeleport();
-
-            // If we use a loading slider
-            if (entity.LRT_Comp.UseLoadingSlider)
+            
+            // If the loading slider is still not full
+            if (entity.LRT_Comp.UseLoadingSlider && entity.LRT_Comp.FillRect != null)
             {
                 // We set the texts and fillrect based on the current fillAmount of the Timer
-                var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
+                var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.LoadingTime;
 
-                // If the loading slider is still not full
-                if (entity.LRT_Comp.FillRect != null && currentFillAmount < entity.LRT_Comp.TimerBeforeTeleport)
-                {
-                    entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.TimerBeforeTeleport;
-                }
-                // If we don't hit the ground with the laser
-                else if (entity.LRT_Comp.TeleportText != null && !entity.GeneralTeleport.CanTeleport)
-                {
-                    entity.LRT_Comp.TeleportText.text = "Waiting for ground ...";
-                }
-                // If we hit the ground with the laser
-                else if (entity.LRT_Comp.TeleportText != null)
-                {
-                    entity.LRT_Comp.TeleportText.text = "Release To Teleport !";
-                }
+                if (currentFillAmount < entity.LRT_Comp.LoadingTime)
+                    entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.LoadingTime;
             }
+            // If we don't hit the ground with the laser
+            else if (entity.LRT_Comp.TeleportText != null && !entity.TeleportGeneral.CanTeleport)
+            {
+                entity.LRT_Comp.TeleportText.text = "Waiting for ground ...";
+            }
+            // If we hit the ground with the laser
+            else if (entity.LRT_Comp.TeleportText != null)
+            {
+                entity.LRT_Comp.TeleportText.text = "Release To Teleport !";
+            }
+            
 
 
             /// <summary>
@@ -212,14 +177,14 @@ namespace VRSF.MoveAround.Teleport.Systems
                 Color32 fillRectColor;
                 bool endOnNavmesh = false;
 
-                // If the raycast is hitting something ad it's not a UI Element
+                // If the raycast is hitting something and it's not a UI Element
                 if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
                 {
                     TeleportNavMeshHelper.Linecast(entity.RaycastComp.RayVar.Value.origin, entity.RaycastComp.RaycastHitVar.Value.point, out endOnNavmesh,
-                                               entity.GeneralTeleport.ExclusionLayer, out entity.GeneralTeleport.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh);
+                                               entity.TeleportGeneral.ExclusionLayer, out entity.TeleportGeneral.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh);
                 }
-                
-                entity.GeneralTeleport.CanTeleport = endOnNavmesh;
+
+                entity.TeleportGeneral.CanTeleport = endOnNavmesh;
                 fillRectColor = endOnNavmesh ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
 
                 // If we use a loading slider and the fillRect to give the user a visual feedback is not null
@@ -240,19 +205,52 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <summary>
         /// Handle the Teleport when the user is releasing the button.
         /// </summary>
-        private void Teleport(Filter entity)
+        private void OnStopInteractingCallback(Filter entity)
         {
-            // We calculate the current fill amount of the slider
-            var currentFillAmount = entity.LRT_Comp.FillRect.fillAmount * entity.LRT_Comp.TimerBeforeTeleport;
+            TeleportUser(entity);
+            DeactivateTeleportSlider(entity);
 
-            // If it's above the time provided in the LongRangeTeleportComponent, we set the TeleportState to Teleproting
-            entity.GeneralTeleport.CurrentTeleportState = entity.GeneralTeleport.CanTeleport && currentFillAmount >= entity.LRT_Comp.TimerBeforeTeleport ?
-                ETeleportState.Teleporting : ETeleportState.None;
+            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.AddToMask(entity.TeleportGeneral.TeleportLayer);
+            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.AddToMask(entity.TeleportGeneral.TeleportLayer);
+        }
+
+        private void Initvariables(Filter entity)
+        {
+            // We set the current state as Selecting
+            entity.TeleportGeneral.CurrentTeleportState = ETeleportState.Selecting;
+
+            // We do the same for the Fade component if it exists
+            if (entity.SceneObjects.FadeComponent != null)
+                entity.SceneObjects.FadeComponent.TeleportState = entity.TeleportGeneral.CurrentTeleportState;
+
+            // We remove the Teleport Layer from the exclusion layer while the user is clicking on the teleport button
+            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.TeleportGeneral.TeleportLayer);
+            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.TeleportGeneral.TeleportLayer);
+
+            // If we use the loading slider, we set the fillRect value and the TeleportText value
+            if (entity.LRT_Comp.FillRect != null)
+            {
+                entity.LRT_Comp.FillRect.gameObject.SetActive(true);
+                entity.LRT_Comp.FillRect.fillAmount = 0.0f;
+            }
+
+            if (entity.LRT_Comp.TeleportText != null)
+            {
+                entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
+                entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
+            }
+        }
+
+
+        private void SetTeleportState(Filter entity, ETeleportState newState)
+        {
+            // We set the teleporting state to teleporting
+            entity.TeleportGeneral.CurrentTeleportState = newState;
 
             // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
             if (entity.SceneObjects.FadeComponent != null)
-            {
-                entity.SceneObjects.FadeComponent.TeleportState = ETeleportState.Teleporting;
+            { 
+                entity.SceneObjects.FadeComponent.TeleportState = newState;
                 entity.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
             }
         }
@@ -261,20 +259,10 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <summary>
         /// If used, we deactivate the Teleport Slider and Text when the user release the button.
         /// </summary>
-        private void DeactivateTeleportSlider(LongRangeTeleportComponent lrtComp)
+        private void DeactivateTeleportSlider(Filter e)
         {
-            if (lrtComp.UseLoadingSlider)
-            {
-                if (lrtComp.FillRect != null)
-                {
-                    lrtComp.FillRect.gameObject.SetActive(false);
-                }
-
-                if (lrtComp.TeleportText != null)
-                {
-                    lrtComp.TeleportText.gameObject.SetActive(false);
-                }
-            }
+            e.LRT_Comp.FillRect?.gameObject.SetActive(false);
+            e.LRT_Comp.TeleportText?.gameObject.SetActive(false);
         }
 
 
@@ -287,15 +275,15 @@ namespace VRSF.MoveAround.Teleport.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 // Setting up teleport layer
-                e.GeneralTeleport.TeleportLayer = LayerMask.NameToLayer("Teleport");
+                e.TeleportGeneral.TeleportLayer = LayerMask.NameToLayer("Teleport");
 
-                if (e.GeneralTeleport.TeleportLayer == -1)
+                if (e.TeleportGeneral.TeleportLayer == -1)
                 {
                     Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
                 }
 
                 SetupListenersResponses(e);
-                DeactivateTeleportSlider(e.LRT_Comp);
+                DeactivateTeleportSlider(e);
             }
         }
         #endregion

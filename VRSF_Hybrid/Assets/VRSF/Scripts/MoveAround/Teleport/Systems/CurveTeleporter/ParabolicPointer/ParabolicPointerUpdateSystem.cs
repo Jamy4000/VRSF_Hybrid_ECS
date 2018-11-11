@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Inputs;
-using VRSF.MoveAround.Teleport.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -15,7 +13,7 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    public class ParabolicPointerUpdateSystem : BACUpdateSystem<ParabolCalculationsComponent>
+    public class ParabolicPointerUpdateSystem : BACUpdateSystem
     {
         private new struct Filter
         {
@@ -52,16 +50,16 @@ namespace VRSF.MoveAround.Teleport
             var e = (Filter)entity;
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { ActivatePointer(e); });
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { UpdatePointer(e); });
-                e.BACGeneral.OnButtonStopClicking.AddListener(delegate { DeactivatePointer(e); });
+                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BACGeneral.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { ActivatePointer(e); });
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { UpdatePointer(e); });
-                e.BACGeneral.OnButtonStopTouching.AddListener(delegate { DeactivatePointer(e); });
+                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BACGeneral.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
             }
         }
 
@@ -88,41 +86,34 @@ namespace VRSF.MoveAround.Teleport
         /// Deactivate the laser and Activate the Parabole when the user start to click
         /// </summary>
         /// <param name="e"></param>
-        private void ActivatePointer(Filter e)
+        private void OnStartInteractingCallback(Filter e)
         {
-            if (e.SceneObjects.FadeComponent == null || e.SceneObjects.FadeComponent.TeleportState != ETeleportState.Teleporting)
-            {
-                ToggleNormalLaser(e, false);
-                ForceUpdateCurrentAngle(e);
-            }
+            ActivatePointer(e);
         }
 
         /// <summary>
         /// Update the Parabole mesh when user click on the button
         /// </summary>
         /// <param name="e"></param>
-        private void UpdatePointer(Filter e)
+        private void OnIsInteractingCallback(Filter e)
         {
-            if (e.SceneObjects.FadeComponent == null || e.SceneObjects.FadeComponent.TeleportState != ETeleportState.Teleporting)
-            {
-                // 1. Calculate Parabola Points
-                var velocity = ForceUpdateCurrentAngle(e);
-                var normal = ParabolaPointsCalculations(e, velocity);
+            // 1. Calculate Parabola Points
+            var velocity = ForceUpdateCurrentAngle(e);
+            var normal = ParabolaPointsCalculations(e, velocity);
 
-                // 2. Render the Parabole's pads, aka the targets at the end of the parabole
-                RenderParabolePads(e, normal);
+            // 2. Render the Parabole's pads, aka the targets at the end of the parabole
+            RenderParabolePads(e, normal);
 
-                // 3. Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
-                ParaboleCalculationsHelper.GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
-                Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
-            }
+            // 3. Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
+            ParaboleCalculationsHelper.GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
+            Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
         }
 
         /// <summary>
         /// Reactivate the laser and Deactivate the pads when realising the button 
         /// </summary>
         /// <param name="e"></param>
-        private void DeactivatePointer(Filter e)
+        private void OnStopInteractingCallback(Filter e)
         {
             ToggleNormalLaser(e, true);
 
@@ -131,6 +122,12 @@ namespace VRSF.MoveAround.Teleport
             if (e.PointerObjects._invalidPadObject != null)
                 e.PointerObjects._invalidPadObject.SetActive(false);
         }
+
+        private void ActivatePointer(Filter e)
+        {
+            ToggleNormalLaser(e, false);
+            ForceUpdateCurrentAngle(e);
+        } 
         #endregion
 
 
@@ -151,7 +148,7 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.PointSpacing,
                 e.PointerCalculations.PointCount,
                 e.SceneObjects._TeleportNavMesh,
-                ~e.TeleportGeneral.ExclusionLayer,
+                e.TeleportGeneral.ExclusionLayer,
                 e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );

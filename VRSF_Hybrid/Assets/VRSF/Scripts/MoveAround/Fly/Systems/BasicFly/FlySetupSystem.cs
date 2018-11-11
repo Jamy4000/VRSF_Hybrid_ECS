@@ -13,7 +13,7 @@ namespace VRSF.MoveAround.Systems
     /// <summary>
     /// System Allowing the user to fly with the thumbstick / touchpad. 
     /// </summary>
-    public class FlySetupSystem : BACUpdateSystem<FlyParametersComponent>
+    public class FlySetupSystem : BACUpdateSystem
     {
         new public struct Filter
         {
@@ -111,14 +111,11 @@ namespace VRSF.MoveAround.Systems
         public void ButtonIsInteracting(Filter entity)
         {
             // If the user is aiming to the UI, we don't activate the system
-            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
-            {
+            if (!entity.RaycastComp.RaycastHitVar.isNull && 
+                entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
                 return;
-            }
-            else
-            {
-                entity.FlyComponent._IsInteracting = true;
-            }
+
+            entity.FlyComponent._IsInteracting = true;
         }
         #endregion PUBLIC_METHODS
 

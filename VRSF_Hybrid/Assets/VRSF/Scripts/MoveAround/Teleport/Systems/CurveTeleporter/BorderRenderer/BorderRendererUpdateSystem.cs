@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VRSF.Inputs;
+using VRSF.MoveAround.Teleport.Systems;
 using VRSF.Utils;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
@@ -13,7 +14,7 @@ namespace VRSF.MoveAround.Teleport
     /// A generic System that renders a border using the given polylines.  
     /// The borders are double sided and are oriented upwards (ie normals are parallel to the XZ plane)
     /// </summary>
-    public class BorderRendererUpdateSystem : BACUpdateSystem<BorderRendererComponent>
+    public class BorderRendererUpdateSystem : BACUpdateSystem
     {
         private new struct Filter
         {
@@ -83,29 +84,25 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
-            // To avoid bug if user click again on teleport while the fading effect didn't end
-            if (e.SceneObjects.FadeComponent == null || e.SceneObjects.FadeComponent.TeleportState != ETeleportState.Teleporting)
-            {
-                // We regenerate the mesh base on the pointer position
-                RegenerateMesh(e.BorderRenderer, e.TeleportGeneral.PointToGoTo);
+            // We regenerate the mesh base on the pointer position
+            RegenerateMesh(e.BorderRenderer, e.TeleportGeneral.PointToGoTo);
 
-                // Render representation of where the chaperone bounds will be after teleporting
-                e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
+            // Render representation of where the chaperone bounds will be after teleporting
+            e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
                 
-                // Quick check to avoid NullReferenceException
-                if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
-                    return;
+            // Quick check to avoid NullReferenceException
+            if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
+                return;
 
-                // Check if alpha of border's material has changed
-                if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
-                {
-                    e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
-                    e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
-                }
-
-                // Draw the generated mesh
-                Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
+            // Check if alpha of border's material has changed
+            if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
+            {
+                e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
+                e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
             }
+
+            // Draw the generated mesh
+            Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
         }
 
         /// <summary>

@@ -12,15 +12,11 @@ namespace VRSF.MoveAround.Teleport.Components
     [RequireComponent(typeof(BACGeneralComponent), typeof(ScriptableRaycastComponent), typeof(TeleportGeneralComponent))]
     public class LongRangeTeleportComponent : MonoBehaviour
     {
-        [Header("Teleport Far Away Parameters")]
-        [Tooltip("The loading time for the TeleportFarAway feature.")]
-        public float TimerBeforeTeleport = 1.0f;
-        
-
         [Header("OPTIONAL : Loading Slider")]
+        public bool UseLoadingSlider = true;
+        public float LoadingTime = 1.5f;
         [Tooltip("Those are used to display the loading slider on the controller when charging the teleport feature.\n" +
             "Can be useful when using multiple teleport feature, like StepByStep and Long Range teleports, on the same Button.")]
-        [HideInInspector] public bool UseLoadingSlider;
         [HideInInspector] public Image FillRect;
         [HideInInspector] public Text TeleportText;
     }

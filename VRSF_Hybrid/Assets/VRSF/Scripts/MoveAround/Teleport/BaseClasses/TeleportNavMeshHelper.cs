@@ -1,5 +1,4 @@
-﻿using Unity.Entities;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
 
@@ -35,15 +34,14 @@ namespace VRSF.MoveAround.Teleport
             if (Physics.Raycast(p1, dir, out RaycastHit hit, dist, excludedLayer, (QueryTriggerInteraction)teleportNavMesh._QueryTriggerInteraction))
             {
                 normal = hit.normal;
-                if (Vector3.Dot(Vector3.up, hit.normal) < 0.99f && teleportNavMesh._IgnoreSlopedSurfaces)
+                hitPoint = hit.point;
+
+                if (teleportNavMesh._IgnoreSlopedSurfaces && Vector3.Dot(Vector3.up, hit.normal) < 0.99f)
                 {
                     pointOnNavmesh = false;
-                    hitPoint = hit.point;
-
                     return true;
                 }
-
-                hitPoint = hit.point;
+                
                 pointOnNavmesh = NavMesh.SamplePosition(hitPoint, out NavMeshHit navHit, teleportNavMesh._SampleRadius, teleportNavMesh._NavAreaMask);
 
                 return true;

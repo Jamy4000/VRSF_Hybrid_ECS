@@ -39,5 +39,8 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         [HideInInspector] public UnityEvent OnButtonStartClicking;
         [HideInInspector] public UnityEvent OnButtonStopClicking;
         [HideInInspector] public UnityEvent OnButtonIsClicking;
+
+        // Set within the BACTimerUpdateSystem on Start.
+        [HideInInspector] public BACTimerComponent BACTimer;
     }
 }
