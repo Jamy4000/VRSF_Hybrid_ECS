@@ -12,6 +12,9 @@ namespace VRSF.Controllers.Components
         [HideInInspector] public LineRenderer _RightHandPointer;
         [HideInInspector] public LineRenderer _LeftHandPointer;
 
+        [HideInInspector] public ParticleSystem[] _RightParticles;
+        [HideInInspector] public ParticleSystem[] _LeftParticles;
+
         [HideInInspector] public bool _IsSetup = false;
     }
 }

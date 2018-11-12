@@ -75,19 +75,19 @@ namespace VRSF.Controllers.Systems
             // If the pointer is supposed to be off
             if (pointerState == EPointerState.OFF)
             {
-                pointer.material.color = off;
+                pointer.material.SetColor("_MainColor", off);
                 return EPointerState.OFF;
             }
             // If the pointer is not over something and it's state is not On
             else if (!isOver.Value && pointerState != EPointerState.ON)
             {
-                pointer.material.color = on;
+                pointer.material.SetColor("_MainColor", on);
                 return EPointerState.ON;
             }
             // If the pointer is over something and it's state is not at Selectable
             else if (isOver.Value && pointerState != EPointerState.SELECTABLE)
             {
-                pointer.material.color = selectable;
+                pointer.material.SetColor("_MainColor", selectable);
                 return EPointerState.SELECTABLE;
             }
             return pointerState;

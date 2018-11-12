@@ -45,8 +45,8 @@ namespace VRSF.Controllers.Systems
                 {
                     if (_controllersParameters.UseControllers)
                     {
-                        SetControllerRayLength(_interactionsContainer.LeftHit, VRSF_Components.LeftController, EHand.LEFT, e.ControllerPointerComp);
-                        SetControllerRayLength(_interactionsContainer.RightHit, VRSF_Components.RightController, EHand.RIGHT, e.ControllerPointerComp);
+                        SetControllerRayLength(_interactionsContainer.LeftHit, VRSF_Components.LeftController.transform, e.ControllerPointerComp._LeftHandPointer, EHand.LEFT, e.ControllerPointerComp);
+                        SetControllerRayLength(_interactionsContainer.RightHit, VRSF_Components.RightController.transform, e.ControllerPointerComp._RightHandPointer, EHand.RIGHT, e.ControllerPointerComp);
                     }
                 }
             }
@@ -61,17 +61,17 @@ namespace VRSF.Controllers.Systems
         /// <param name="hit">The RaycastHitVariable containing the RaycastHit for the controller</param>
         /// <param name="controller">The controller GameObject from which the ray started</param>
         /// <param name="hand">The hand rom which we are checking the raycastHit</param>
-        private void SetControllerRayLength(RaycastHitVariable hit, GameObject controller, EHand hand, ControllerPointerComponents comp)
+        private void SetControllerRayLength(RaycastHitVariable hit, Transform controller, LineRenderer pointer, EHand hand, ControllerPointerComponents comp)
         {
             try
             {
                 if (!hit.isNull)
                 {
                     //Reduce lineRenderer from the controllers position to the object that was hit
-                    controller.GetComponent<LineRenderer>().SetPositions(new Vector3[]
+                    pointer.SetPositions(new Vector3[]
                     {
-                        new Vector3(0.0f, 0.0f, 0.03f),
-                        controller.transform.InverseTransformPoint(hit.Value.point),
+                        Vector3.zero,
+                        controller.InverseTransformPoint(hit.Value.point),
                     });
                 }
                 else
@@ -82,9 +82,9 @@ namespace VRSF.Controllers.Systems
                         : _controllersParameters.MaxDistancePointerRight);
 
                     //put back lineRenderer to its normal length if nothing was hit
-                    controller.GetComponent<LineRenderer>().SetPositions(new Vector3[]
+                    pointer.SetPositions(new Vector3[]
                     {
-                        new Vector3(0.0f, 0.0f, 0.03f),
+                        Vector3.zero,
                         new Vector3(0, 0, maxDistanceLr),
                     });
                 }

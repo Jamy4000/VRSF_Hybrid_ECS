@@ -49,11 +49,11 @@ namespace VRSF.Controllers.Systems
         {
             var cameraRigScale = Utils.VRSF_Components.CameraRig.transform.lossyScale;
 
-            comp._RightHandPointer.startWidth = cameraRigScale.x / 100;
-            comp._RightHandPointer.endWidth = cameraRigScale.x / 100;
+            comp._RightHandPointer.startWidth = cameraRigScale.x / 500;
+            comp._RightHandPointer.endWidth = cameraRigScale.x / 500;
 
-            comp._LeftHandPointer.startWidth = cameraRigScale.x / 100;
-            comp._LeftHandPointer.endWidth = cameraRigScale.x / 100;
+            comp._LeftHandPointer.startWidth = cameraRigScale.x / 500;
+            comp._LeftHandPointer.endWidth = cameraRigScale.x / 500;
         }
     }
 }

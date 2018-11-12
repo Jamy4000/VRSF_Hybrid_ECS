@@ -85,15 +85,35 @@ namespace VRSF.Controllers.Systems
         /// </summary>
         private void SetupPointers(ControllerPointerComponents comp)
         {
-            comp._RightHandPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
-            comp._RightHandPointer.enabled = _controllersParameters.UsePointerRight;
+            // We setup the right pointer
+            comp._RightHandPointer = VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
             comp._RightHandPointer.material.color = _controllersParameters.RightPointerState != EPointerState.OFF ?
                 _controllersParameters.ColorMatOnRight : _controllersParameters.ColorMatOffRight;
+            comp._RightParticles = comp._RightHandPointer.GetComponentsInChildren<ParticleSystem>();
 
-            comp._LeftHandPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
-            comp._LeftHandPointer.enabled = _controllersParameters.UsePointerLeft;
+            if (!_controllersParameters.UsePointerRight)
+            {
+                comp._RightHandPointer.enabled = false;
+                foreach (var particleSystem in comp._RightParticles)
+                {
+                    particleSystem.Stop();
+                }
+            }
+
+            // We setup the left pointer
+            comp._LeftHandPointer = VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>();
             comp._LeftHandPointer.material.color = _controllersParameters.LeftPointerState != EPointerState.OFF ?
                 _controllersParameters.ColorMatOnLeft : _controllersParameters.ColorMatOffLeft;
+            comp._LeftParticles = comp._LeftHandPointer.GetComponentsInChildren<ParticleSystem>();
+
+            if (!_controllersParameters.UsePointerLeft)
+            {
+                comp._LeftHandPointer.enabled = false;
+                foreach (var particleSystem in comp._LeftParticles)
+                {
+                    particleSystem.Stop();
+                }
+            }
         }
 
 
