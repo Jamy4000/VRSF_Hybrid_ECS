@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using VRSF.Inputs;
 using VRSF.Utils.Components.ButtonActionChoser;
 
@@ -20,7 +21,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             public BACTimerComponent BACTimer;
             public BACGeneralComponent BAC_Comp;
-            public BACCalculationsComponent BAC_Calcul;
         }
 
         protected override void OnStartRunning()
@@ -30,6 +30,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 e.BAC_Comp.BACTimer = e.BACTimer;
                 SetupListenersResponses(e);
+                // if we use a thumbstick
+                if (e.BAC_Comp.ActionButton == EControllersButton.THUMBSTICK)
+                {
+                    // We create a new event that will be use in the CheckThumbstick method
+                    e.BACTimer.ThumbCheckEvent = new UnityEvent();
+                    e.BACTimer.ThumbCheckEvent.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
+                }
             }
         }
 
@@ -39,6 +46,8 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListenersOnEndApp(e);
+                // Remove the listeners for the ThumbCheckEvent if it's not null
+                e.BACTimer.ThumbCheckEvent?.RemoveAllListeners();
             }
         }
 
@@ -47,16 +56,16 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             var e = (Filter)entity;
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { IsInteractingCallback(e); });
-                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e)); });
+                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { IsInteractingCallback(e); });
-                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e)); });
+                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
             }
         }
 
@@ -82,11 +91,20 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <summary>
         /// Reset the timer to zero on Start Interacting
         /// </summary>
-        /// <param name="e"></param>
-        private void OnStartInteractingCallback(Filter e)
+        /// <param name="timer"></param>
+        private void OnStartInteractingCallback(BACTimerComponent timer)
         {
             // We reset the timers stuffs
-            e.BACTimer._Timer = 0.0f;
+            timer._Timer = 0.0f;
+        }
+
+        /// <summary>
+        /// Update timer based on a fixed unscaled delta time when user interact with the button
+        /// </summary>
+        /// <param name="e"></param>
+        private void IsInteractingCallback(BACTimerComponent timer)
+        {
+            timer._Timer += Time.deltaTime;
         }
 
         /// <summary>
@@ -95,22 +113,53 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         /// <param name="e">The entity in which the timer is</param>
         /// <returns></returns>
-        private IEnumerator OnStopInteractingCallback(Filter e)
+        private IEnumerator OnStopInteractingCallback(BACTimerComponent timer)
         {
             yield return new WaitForEndOfFrame();
             // We reset the timers stuffs
-            e.BACTimer._Timer = 0.0f;
+            timer._Timer = 0.0f;
+        }
+
+
+        /// <summary>
+        /// Override of StartActionIsClicking as the timer doesn't need to check the presence of a timer or if the timer is ready.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void StartActionIsClicking(BACUpdateSystem.Filter e)
+        {
+            if (e.BACGeneralComp.BACTimer == null)
+                return;
+
+            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+            if (e.BACCalculationsComp.ThumbPos != null)
+            {
+                e.BACCalculationsComp.UnclickEventWasRaised = CheckThumbstick(new ThumstickChecker(e, EControllerInteractionType.CLICK, e.BACGeneralComp.BACTimer.ThumbCheckEvent), ref e.BACCalculationsComp.ClickActionBeyondThreshold);
+            }
+            else
+            {
+                IsInteractingCallback(e.BACGeneralComp.BACTimer);
+            }
         }
 
         /// <summary>
-        /// Update timer based on a fixed unscaled delta time when user interact with the button
+        /// Override of StartActionIsTouching as the timer doesn't need to check the presence of a timer or if the timer is ready.
         /// </summary>
         /// <param name="e"></param>
-        private void IsInteractingCallback(Filter e)
+        public override void StartActionIsTouching(BACUpdateSystem.Filter e)
         {
-            e.BACTimer._Timer += Time.deltaTime;
-        }
+            if (e.BACGeneralComp.BACTimer == null)
+                return;
 
+            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+            if (e.BACCalculationsComp.ThumbPos != null)
+            {
+                e.BACCalculationsComp.UntouchedEventWasRaised = CheckThumbstick(new ThumstickChecker(e, EControllerInteractionType.TOUCH, e.BACGeneralComp.BACTimer.ThumbCheckEvent), ref e.BACCalculationsComp.TouchActionBeyondThreshold);
+            }
+            else
+            {
+                IsInteractingCallback(e.BACGeneralComp.BACTimer);
+            }
+        }
 
 
         /// <summary>

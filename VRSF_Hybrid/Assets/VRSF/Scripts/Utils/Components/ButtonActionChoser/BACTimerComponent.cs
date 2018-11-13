@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace VRSF.Utils.Components.ButtonActionChoser
 {
@@ -16,5 +17,11 @@ namespace VRSF.Utils.Components.ButtonActionChoser
 
         [System.NonSerialized]
         public float _Timer = 0.0f;
+
+        /// <summary>
+        /// Event used when the user is using a Thumbstick for he's feature
+        /// </summary>
+        [System.NonSerialized]
+        public UnityEvent ThumbCheckEvent;
     }
 }

@@ -97,6 +97,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
+            Debug.Log("Is Interacting callback");
             // 1. Calculate Parabola Points
             var velocity = ForceUpdateCurrentAngle(e);
             var normal = ParabolaPointsCalculations(e, velocity);
@@ -198,11 +199,13 @@ namespace VRSF.MoveAround.Teleport
         {
             HandleExclusionLayer(entity.TeleportGeneral, !active);
             
-            // Change pointer activation if the user is using it
-            if ((entity.BACGeneral.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) || 
-                (entity.BACGeneral.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
-                entity.PointerObjects._ControllerPointer.enabled = active;
-
+            if (Utils.VRSF_Components.DeviceLoaded != Utils.EDevice.SIMULATOR)
+            {
+                // Change pointer activation if the user is using it
+                if ((entity.BACGeneral.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) ||
+                    (entity.BACGeneral.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
+                    entity.PointerObjects._ControllerPointer.enabled = active;
+            }
         }
 
         /// <summary>

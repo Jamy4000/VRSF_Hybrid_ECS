@@ -91,7 +91,7 @@ namespace VRSF.Controllers.Systems
                 _controllersParameters.ColorMatOnRight : _controllersParameters.ColorMatOffRight;
             comp._RightParticles = comp._RightHandPointer.GetComponentsInChildren<ParticleSystem>();
 
-            if (!_controllersParameters.UsePointerRight)
+            if (!_controllersParameters.UsePointerRight || VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
             {
                 comp._RightHandPointer.enabled = false;
                 foreach (var particleSystem in comp._RightParticles)
@@ -106,7 +106,7 @@ namespace VRSF.Controllers.Systems
                 _controllersParameters.ColorMatOnLeft : _controllersParameters.ColorMatOffLeft;
             comp._LeftParticles = comp._LeftHandPointer.GetComponentsInChildren<ParticleSystem>();
 
-            if (!_controllersParameters.UsePointerLeft)
+            if (!_controllersParameters.UsePointerLeft || VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
             {
                 comp._LeftHandPointer.enabled = false;
                 foreach (var particleSystem in comp._LeftParticles)

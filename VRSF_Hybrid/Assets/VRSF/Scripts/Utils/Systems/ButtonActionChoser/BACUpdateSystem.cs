@@ -1,5 +1,4 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
@@ -32,7 +31,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     // If we use the click event and the user is clicking on the button
                     if (e.BACCalculationsComp.IsClicking != null && e.BACCalculationsComp.IsClicking.Value)
                     {
-                        //UnityEngine.Debug.Log("IsClicking " + e.InheritedFilter.ToString());
                         StartActionIsClicking(e);
                     }
                 }
@@ -50,36 +48,17 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         #region PRIVATE_VARIABLES
         /// <summary>
         /// Method called when user stop touching the specified button
+        /// It's virtual as the timer update system doen't need to check if the timer is ready.
         /// </summary>
-        private void StartActionIsClicking(Filter entity)
+        public virtual void StartActionIsClicking(Filter entity)
         {
             if (entity.BACGeneralComp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BACGeneralComp.BACTimer))
                 return;
-
+            
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (entity.BACCalculationsComp.ThumbPos != null)
             {
-                bool oldState = entity.BACCalculationsComp.ClickActionBeyondThreshold;
-
-                switch (entity.BACGeneralComp.ButtonHand)
-                {
-                    case EHand.RIGHT:
-                        entity.BACCalculationsComp.ClickActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.RightClickThumbPosition, entity.BACGeneralComp.OnButtonIsClicking, entity.BACGeneralComp.ClickThreshold, entity.BACCalculationsComp.ThumbPos.Value);
-                        break;
-                    case EHand.LEFT:
-                        entity.BACCalculationsComp.ClickActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.LeftClickThumbPosition, entity.BACGeneralComp.OnButtonIsClicking, entity.BACGeneralComp.ClickThreshold, entity.BACCalculationsComp.ThumbPos.Value);
-                        break;
-                }
-
-                if (oldState && !entity.BACCalculationsComp.ClickActionBeyondThreshold && !entity.BACCalculationsComp.UnclickEventWasRaised)
-                {
-                    entity.BACGeneralComp.OnButtonStopClicking.Invoke();
-                    entity.BACCalculationsComp.UnclickEventWasRaised = true;
-                }
-                else
-                {
-                    entity.BACCalculationsComp.UnclickEventWasRaised = false;
-                }
+                entity.BACCalculationsComp.UnclickEventWasRaised = CheckThumbstick(new ThumstickChecker(entity, Inputs.EControllerInteractionType.CLICK), ref entity.BACCalculationsComp.ClickActionBeyondThreshold);
             }
             else
             {
@@ -89,9 +68,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
 
         /// <summary>
-        /// Method called when the user stop touching the specified button
+        /// Method called when the user stop touching the specified button.
+        /// It's virtual as the timer update system doen't need to check if the timer is ready.
         /// </summary>
-        private void StartActionIsTouching(Filter entity)
+        public virtual void StartActionIsTouching(Filter entity)
         {
             if (entity.BACGeneralComp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BACGeneralComp.BACTimer))
                 return;
@@ -99,32 +79,32 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (entity.BACCalculationsComp.ThumbPos != null)
             {
-                bool oldState = entity.BACCalculationsComp.TouchActionBeyondThreshold;
-
-                switch (entity.BACGeneralComp.ButtonHand)
-                {
-                    case EHand.RIGHT:
-                        entity.BACCalculationsComp.TouchActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.RightTouchThumbPosition, entity.BACGeneralComp.OnButtonIsTouching, entity.BACGeneralComp.TouchThreshold, entity.BACCalculationsComp.ThumbPos.Value);
-                        break;
-                    case EHand.LEFT:
-                        entity.BACCalculationsComp.TouchActionBeyondThreshold = HandleThumbPosition.CheckThumbPosition(entity.BACGeneralComp.LeftTouchThumbPosition, entity.BACGeneralComp.OnButtonIsTouching, entity.BACGeneralComp.TouchThreshold, entity.BACCalculationsComp.ThumbPos.Value);
-                        break;
-                }
-
-                // If the user was above the threshold, but moved his finger, we invoke the StopTouching Event
-                if (oldState && !entity.BACCalculationsComp.TouchActionBeyondThreshold && !entity.BACCalculationsComp.UntouchedEventWasRaised)
-                {
-                    entity.BACGeneralComp.OnButtonStopTouching.Invoke();
-                    entity.BACCalculationsComp.UntouchedEventWasRaised = true;
-                }
-                else
-                {
-                    entity.BACCalculationsComp.UntouchedEventWasRaised = false;
-                }
+                entity.BACCalculationsComp.UntouchedEventWasRaised = CheckThumbstick(new ThumstickChecker(entity, Inputs.EControllerInteractionType.TOUCH), ref entity.BACCalculationsComp.TouchActionBeyondThreshold);
             }
             else
             {
                 entity.BACGeneralComp.OnButtonIsTouching.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Check if we use a thumbstick to call this feature. If so, we check the position of the thumbstick, and If not, we raise the event.
+        /// </summary>
+        /// <param name="entity"></param>
+        public bool CheckThumbstick(ThumstickChecker thumbstickChecker, ref bool actionAboveThreshold)
+        {
+            bool oldState = actionAboveThreshold;
+
+            actionAboveThreshold = HandleThumbPosition.CheckThumbPosition(thumbstickChecker.ThumbPositions[thumbstickChecker.ButtonHand], thumbstickChecker.EventToRaise, thumbstickChecker.InteractionThreshold, thumbstickChecker.ThumbPosValue);
+            
+            if (oldState && !actionAboveThreshold && !thumbstickChecker.EventWasRaised)
+            {
+                thumbstickChecker.EventToRaise.Invoke();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         #endregion
