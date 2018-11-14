@@ -36,5 +36,5 @@ MonoBehaviour:
     type: 3}
   GazeButtonRift: 0
   GazeButtonPortableOVR: 0
-  GazeButtonOpenVR: 16384
-  GazeButtonSimulator: 2048
+  GazeButtonOpenVR: 0
+  GazeButtonSimulator: 0

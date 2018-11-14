@@ -9,9 +9,9 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationWithoutAccelerationSystem : BACUpdateSystem
+    public class CameraRotationWithoutAccelerationSystem : BACListenersSetupSystem
     {
-        new struct Filter
+        struct Filter
         {
             public CameraRotationComponent RotationComp;
             public BACGeneralComponent BACGeneral;
@@ -34,7 +34,7 @@ namespace VRSF.MoveAround.Systems
                 }
             }
         }
-
+        
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();

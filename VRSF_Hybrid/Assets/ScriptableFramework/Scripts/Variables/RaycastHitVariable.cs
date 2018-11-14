@@ -5,11 +5,11 @@ namespace ScriptableFramework.Variables
     [CreateAssetMenu(menuName = "Variables/RaycastHit")]
     public class RaycastHitVariable : VariableBase<RaycastHit>
     {
-        public bool isNull = true;
+        public bool IsNull = true;
 
         public void SetIsNull(bool value)
         {
-            isNull = value;
+            IsNull = value;
         }
     }
 }

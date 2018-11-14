@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Interfaces;
-using VRSF.MoveAround.Teleport.Systems;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -15,9 +13,9 @@ namespace VRSF.MoveAround.Teleport
     /// Disclaimer : This script is based on the Flafla2 Vive-Teleporter Repository. You can check it out here :
     /// https://github.com/Flafla2/Vive-Teleporter
     /// </summary>
-    public class CurveTeleporterUpdateSystem : BACUpdateSystem, ITeleportSystem
+    public class CurveTeleporterUpdateSystem : BACListenersSetupSystem, ITeleportSystem
     {
-        private new struct Filter : ITeleportFilter
+        private struct Filter : ITeleportFilter
         {
             public BACGeneralComponent BACGeneral;
             public SceneObjectsComponent SceneObjects;

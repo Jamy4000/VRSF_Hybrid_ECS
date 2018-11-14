@@ -15,6 +15,9 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         [Tooltip("Threshold before or after which the feature is launched")]
         public float TimerThreshold = 1.0f;
 
+        [Tooltip("Whether you want to fire the Stop interacting Events  when the user is not respective the timer.")]
+        public bool StopEventShouldBeFired;
+
         [System.NonSerialized]
         public float _Timer = 0.0f;
 

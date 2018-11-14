@@ -13,9 +13,9 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// <summary>
     /// Using the ButtonActionChoser, this System allow the user to move Step by Step, ie in the direction of its laser to which this feature is linked.
     /// </summary>
-    public class StepByStepSystem : BACUpdateSystem, ITeleportSystem
+    public class StepByStepSystem : BACListenersSetupSystem, ITeleportSystem
     {
-        new struct Filter : ITeleportFilter
+        struct Filter : ITeleportFilter
         {
             public StepByStepComponent SBS_Comp;
             public ScriptableRaycastComponent RayComp;
@@ -38,7 +38,9 @@ namespace VRSF.MoveAround.Teleport.Systems
                 SetupListenersResponses(e);
             }
         }
-        
+
+        protected override void OnUpdate() { }
+
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
@@ -150,7 +152,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void OnStopInteractingCallback(Filter e)
         {
             // If the user is aiming to the UI, we don't activate the system
-            if (!e.RayComp.RaycastHitVar.isNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+            if (!e.RayComp.RaycastHitVar.IsNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
                 return;
 
             TeleportUser(e);

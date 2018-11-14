@@ -23,7 +23,6 @@ namespace ScriptableFramework.Util.Systems
             {
                 if (e.ScriptableLoaderComp.LoadScriptableFromJSONOnAppStart)
                 {
-                    Debug.Log("Hello");
                     Load(e.ScriptableLoaderComp);
                 }
             }

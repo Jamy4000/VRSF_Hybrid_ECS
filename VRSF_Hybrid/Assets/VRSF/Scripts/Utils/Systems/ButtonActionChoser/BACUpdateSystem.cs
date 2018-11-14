@@ -3,33 +3,32 @@ using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
-    public abstract class BACUpdateSystem : ComponentSystem
+    public class BACUpdateSystem : ComponentSystem
     {
         public struct Filter
         {
-            public BACGeneralComponent BACGeneralComp;
-            public BACCalculationsComponent BACCalculationsComp;
+            public BACGeneralComponent BAC_Comp;
+            public BACCalculationsComponent BAC_Calc;
         }
 
         // EMPTY
         #region PRIVATE_VARIBALES
         #endregion PRIVATE_VARIABLES
 
-
         #region ComponentSystem_Methods
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.BACCalculationsComp.ActionButtonIsReady && e.BACCalculationsComp.CanBeUsed)
+                if (e.BAC_Calc.ActionButtonIsReady && e.BAC_Calc.CanBeUsed)
                 {
                     // If we use the touch event and the user is touching on the button
-                    if (e.BACCalculationsComp.IsTouching != null && e.BACCalculationsComp.IsTouching.Value)
+                    if (e.BAC_Calc.IsTouching != null && e.BAC_Calc.IsTouching.Value)
                     {
                         StartActionIsTouching(e);
                     }
                     // If we use the click event and the user is clicking on the button
-                    if (e.BACCalculationsComp.IsClicking != null && e.BACCalculationsComp.IsClicking.Value)
+                    if (e.BAC_Calc.IsClicking != null && e.BAC_Calc.IsClicking.Value)
                     {
                         StartActionIsClicking(e);
                     }
@@ -39,12 +38,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         #endregion
 
 
-        #region PUBLIC_METHODS
-        public abstract void SetupListenersResponses(object entity);
-        public abstract void RemoveListenersOnEndApp(object entity);
-        #endregion PUBLIC_METHODS
-
-
         #region PRIVATE_VARIABLES
         /// <summary>
         /// Method called when user stop touching the specified button
@@ -52,17 +45,21 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         public virtual void StartActionIsClicking(Filter entity)
         {
-            if (entity.BACGeneralComp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BACGeneralComp.BACTimer))
+            if (entity.BAC_Comp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BAC_Comp.BACTimer))
                 return;
             
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-            if (entity.BACCalculationsComp.ThumbPos != null)
+            if (entity.BAC_Calc.ThumbPos != null)
             {
-                entity.BACCalculationsComp.UnclickEventWasRaised = CheckThumbstick(new ThumstickChecker(entity, Inputs.EControllerInteractionType.CLICK), ref entity.BACCalculationsComp.ClickActionBeyondThreshold);
+                entity.BAC_Calc.UnclickEventWasRaised = CheckThumbstick
+                (
+                    new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, Inputs.EControllerInteractionType.CLICK), 
+                    ref entity.BAC_Calc.ClickActionBeyondThreshold
+                );
             }
             else
             {
-                entity.BACGeneralComp.OnButtonIsClicking.Invoke();
+                entity.BAC_Comp.OnButtonIsClicking.Invoke();
             }
         }
 
@@ -73,25 +70,29 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// </summary>
         public virtual void StartActionIsTouching(Filter entity)
         {
-            if (entity.BACGeneralComp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BACGeneralComp.BACTimer))
+            if (entity.BAC_Comp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BAC_Comp.BACTimer))
                 return;
-
+            
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-            if (entity.BACCalculationsComp.ThumbPos != null)
+            if (entity.BAC_Calc.ThumbPos != null)
             {
-                entity.BACCalculationsComp.UntouchedEventWasRaised = CheckThumbstick(new ThumstickChecker(entity, Inputs.EControllerInteractionType.TOUCH), ref entity.BACCalculationsComp.TouchActionBeyondThreshold);
+                entity.BAC_Calc.UntouchedEventWasRaised = CheckThumbstick
+                (
+                    new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, Inputs.EControllerInteractionType.TOUCH), 
+                    ref entity.BAC_Calc.TouchActionBeyondThreshold
+                );
             }
             else
             {
-                entity.BACGeneralComp.OnButtonIsTouching.Invoke();
+                entity.BAC_Comp.OnButtonIsTouching.Invoke();
             }
         }
 
         /// <summary>
-        /// Check if we use a thumbstick to call this feature. If so, we check the position of the thumbstick, and If not, we raise the event.
+        /// Check if the position of the thumbstick is still within the threshold specified by the user, and If not, we raise the event.
         /// </summary>
         /// <param name="entity"></param>
-        public bool CheckThumbstick(ThumstickChecker thumbstickChecker, ref bool actionAboveThreshold)
+        public static bool CheckThumbstick(ThumstickChecker thumbstickChecker, ref bool actionAboveThreshold)
         {
             bool oldState = actionAboveThreshold;
 

@@ -13,9 +13,9 @@ namespace VRSF.MoveAround.Teleport
     /// A generic System that renders a border using the given polylines.  
     /// The borders are double sided and are oriented upwards (ie normals are parallel to the XZ plane)
     /// </summary>
-    public class BorderRendererUpdateSystem : BACUpdateSystem
+    public class BorderRendererUpdateSystem : BACListenersSetupSystem
     {
-        private new struct Filter
+        private struct Filter
         {
             public BorderRendererComponent BorderRenderer;
             public SceneObjectsComponent SceneObjects;

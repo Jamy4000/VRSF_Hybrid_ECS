@@ -7,9 +7,9 @@ using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {
-    public class CameraRotationSetupSystem : BACUpdateSystem
+    public class CameraRotationSetupSystem : BACListenersSetupSystem
     {
-        new struct Filter
+        struct Filter
         {
             public CameraRotationComponent RotationComp;
             public BACGeneralComponent ButtonComponents;
@@ -29,6 +29,8 @@ namespace VRSF.MoveAround.Systems
                 SetupListenersResponses(e);
             }
         }
+
+        protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {

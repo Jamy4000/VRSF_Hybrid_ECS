@@ -84,14 +84,14 @@ namespace VRSF.MoveAround.Teleport
                     entity.TeleportGeneral.ExclusionLayer = ControllersParametersVariable.Instance.GetExclusionsLayer(EHand.LEFT);
 
                     if (ControllersParametersVariable.Instance.UsePointerLeft)
-                        entity.PointerObjects._ControllerPointer = VRSF_Components.LeftController.GetComponent<LineRenderer>();
+                        entity.PointerObjects._ControllerPointer = VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>();
                     break;
 
                 case (EHand.RIGHT):
                     entity.TeleportGeneral.ExclusionLayer = ControllersParametersVariable.Instance.GetExclusionsLayer(EHand.RIGHT);
 
                     if (ControllersParametersVariable.Instance.UsePointerRight)
-                        entity.PointerObjects._ControllerPointer = VRSF_Components.RightController.GetComponent<LineRenderer>();
+                        entity.PointerObjects._ControllerPointer = VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
                     break;
 
                 case (EHand.GAZE):

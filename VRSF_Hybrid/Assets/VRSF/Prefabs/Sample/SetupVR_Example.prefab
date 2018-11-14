@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 114777953536323930}
   - component: {fileID: 114228354837057478}
   - component: {fileID: 114183519347432886}
+  - component: {fileID: 114666825438892722}
   m_Layer: 0
   m_Name: FlyMode
   m_TagString: Untagged
@@ -110,6 +111,7 @@ GameObject:
   - component: {fileID: 114653672007515940}
   - component: {fileID: 114429401956851906}
   - component: {fileID: 114455274315764004}
+  - component: {fileID: 114230273448378746}
   m_Layer: 0
   m_Name: CurvedTeleporter
   m_TagString: Untagged
@@ -203,6 +205,7 @@ GameObject:
   - component: {fileID: 114778627105166108}
   - component: {fileID: 114071907752965034}
   - component: {fileID: 114851091135691700}
+  - component: {fileID: 114121514912759356}
   m_Layer: 0
   m_Name: LongRangeTeleport
   m_TagString: Untagged
@@ -306,6 +309,7 @@ GameObject:
   - component: {fileID: 114905422043337364}
   - component: {fileID: 114482401957061992}
   - component: {fileID: 114151580137043084}
+  - component: {fileID: 114714063986445488}
   m_Layer: 0
   m_Name: StepByStepTeleport
   m_TagString: Untagged
@@ -580,7 +584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseHorizontalBoundaries: 0
-  MinAvatarYPosition: -1
+  MinAvatarYPosition: 0
   MaxAvatarYPosition: 2000
   MinAvatarPosition: {x: -10, y: -1, z: -10}
   MaxAvatarPosition: {x: 10, y: 10, z: 10}
@@ -612,7 +616,7 @@ MonoBehaviour:
   InteractionType: 2
   ButtonHand: 2
   UseGazeButton: 0
-  ActionButton: 2
+  ActionButton: 1
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
@@ -649,6 +653,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114098829690202874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -676,6 +681,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114121514912759356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1726403046914494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUpdatedBeforeThreshold: 0
+  TimerThreshold: 1
 --- !u!114 &114131405620133656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -687,10 +705,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e61e018b26d5a489fc55c62f4978c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimerBeforeTeleport: 0.5
   UseLoadingSlider: 1
-  FillRect: {fileID: 114881348120732182}
-  TeleportText: {fileID: 114817954679358654}
+  LoadingTime: 1.5
+  FillRect: {fileID: 0}
+  TeleportText: {fileID: 0}
 --- !u!114 &114136519035160686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -810,10 +828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4270c1b981de842a0c454818397a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GazeParameters: {fileID: 0}
-  ControllersParameters: {fileID: 0}
-  InteractionsContainer: {fileID: 0}
-  InputsContainer: {fileID: 0}
+  GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
+  ControllersParameters: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
+    type: 2}
+  InteractionsContainer: {fileID: 11400000, guid: fe3b805d02f64c44ebcb1e3c8ff9a6cd,
+    type: 2}
+  InputsContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
   _IsSetup: 0
 --- !u!114 &114228354837057478
 MonoBehaviour:
@@ -829,6 +849,19 @@ MonoBehaviour:
   FlightDirection: 0
   NormalizedDir: {x: 0, y: 0, z: 0}
   FinalDirection: {x: 0, y: 0, z: 0}
+--- !u!114 &114230273448378746
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1304171735072834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUpdatedBeforeThreshold: 0
+  TimerThreshold: 1
 --- !u!114 &114255052484434966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -979,7 +1012,7 @@ MonoBehaviour:
   UseGazeButton: 0
   ActionButton: 4
   LeftTouchThumbPosition: 12
-  RightTouchThumbPosition: 12
+  RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
   TouchThreshold: 0.8
@@ -1014,6 +1047,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114446038712882166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1028,7 +1062,7 @@ MonoBehaviour:
   ScriptablesToLoad:
   - {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094, type: 2}
   - {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
-  LoadScriptableFromJSONOnAppStart: 0
+  LoadScriptableFromJSONOnAppStart: 1
   ScriptableToLoad: {fileID: 11400000, guid: 0204502ad7143fa4da9956f7a21f28b0, type: 2}
 --- !u!114 &114455274315764004
 MonoBehaviour:
@@ -1071,7 +1105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1424377f67cc75d4dbfd955ee8f22061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineMat: {fileID: 2100000, guid: 854b6af582c2d6f4881453e9a0bf85bd, type: 2}
+  LineMat: {fileID: 0}
   BoundariesLinesColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &114494878719303548
 MonoBehaviour:
@@ -1210,6 +1244,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114657065208947904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1261,6 +1296,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114664438791166408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1302,6 +1338,32 @@ MonoBehaviour:
   RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+--- !u!114 &114666825438892722
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1239490779246508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUpdatedBeforeThreshold: 0
+  TimerThreshold: 1
+--- !u!114 &114714063986445488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1984781572047990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUpdatedBeforeThreshold: 1
+  TimerThreshold: 1
 --- !u!114 &114724220828959406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1338,11 +1400,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7721e3a1b60f784b8a9c895cc3f5ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialVelocity: {x: 0, y: 0, z: 20}
-  Acceleration: {x: -0, y: -15, z: -0}
-  PointCount: 50
+  InitialVelocity: {x: 0, y: 0, z: 10}
+  Acceleration: {x: -0, y: -9.8, z: -0}
+  PointCount: 10
   PointSpacing: 0.5
-  GraphicThickness: 0.05
+  GraphicThickness: 0.2
   GraphicMaterial: {fileID: 2100000, guid: 21a645b07758b4b478bff4374fdb9a43, type: 2}
 --- !u!114 &114769170903457178
 MonoBehaviour:
@@ -1457,9 +1519,9 @@ MonoBehaviour:
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 3
   LeftClickThumbPosition: 0
-  RightClickThumbPosition: 3
-  TouchThreshold: 0.5
-  ClickThreshold: 0
+  RightClickThumbPosition: 0
+  TouchThreshold: 0.8
+  ClickThreshold: 0.5
   OnButtonStartTouching:
     m_PersistentCalls:
       m_Calls: []
@@ -1490,6 +1552,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114846982198159796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1503,6 +1566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _RightHandPointer: {fileID: 0}
   _LeftHandPointer: {fileID: 0}
+  _RightParticles: []
+  _LeftParticles: []
   _IsSetup: 0
 --- !u!114 &114851091135691700
 MonoBehaviour:

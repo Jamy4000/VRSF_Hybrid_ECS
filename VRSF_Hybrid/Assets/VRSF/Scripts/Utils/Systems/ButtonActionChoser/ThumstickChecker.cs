@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using VRSF.Controllers;
 using VRSF.Inputs;
+using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {
@@ -14,41 +15,41 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         public readonly EHand ButtonHand;
         public readonly UnityEngine.Vector2 ThumbPosValue;
 
-        public ThumstickChecker(BACUpdateSystem.Filter entity, EControllerInteractionType interactionType, UnityEvent eventToRaise = null)
+        public ThumstickChecker(BACGeneralComponent bacGeneral, BACCalculationsComponent bacCalc, EControllerInteractionType interactionType, UnityEvent eventToRaise = null)
         {
             if (interactionType == EControllerInteractionType.CLICK)
             {
                 if (eventToRaise != null)
                     EventToRaise = eventToRaise;
                 else
-                    EventToRaise = entity.BACGeneralComp.OnButtonIsClicking;
+                    EventToRaise = bacGeneral.OnButtonIsClicking;
 
                 ThumbPositions = new Dictionary<EHand, EThumbPosition>
                 {
-                    { EHand.LEFT, entity.BACGeneralComp.LeftClickThumbPosition },
-                    { EHand.RIGHT, entity.BACGeneralComp.RightClickThumbPosition }
+                    { EHand.LEFT, bacGeneral.LeftClickThumbPosition },
+                    { EHand.RIGHT, bacGeneral.RightClickThumbPosition }
                 };
-                InteractionThreshold = entity.BACGeneralComp.ClickThreshold;
-                EventWasRaised = entity.BACCalculationsComp.UnclickEventWasRaised;
+                InteractionThreshold = bacGeneral.ClickThreshold;
+                EventWasRaised = bacCalc.UnclickEventWasRaised;
             }
             else if (interactionType == EControllerInteractionType.TOUCH)
             {
                 if (eventToRaise != null)
                     EventToRaise = eventToRaise;
                 else
-                    EventToRaise = entity.BACGeneralComp.OnButtonIsTouching;
+                    EventToRaise = bacGeneral.OnButtonIsTouching;
 
                 ThumbPositions = new Dictionary<EHand, EThumbPosition>
                 {
-                    { EHand.LEFT, entity.BACGeneralComp.LeftTouchThumbPosition },
-                    { EHand.RIGHT, entity.BACGeneralComp.RightTouchThumbPosition }
+                    { EHand.LEFT, bacGeneral.LeftTouchThumbPosition },
+                    { EHand.RIGHT, bacGeneral.RightTouchThumbPosition }
                 };
-                InteractionThreshold = entity.BACGeneralComp.TouchThreshold;
-                EventWasRaised = entity.BACCalculationsComp.UntouchedEventWasRaised;
+                InteractionThreshold = bacGeneral.TouchThreshold;
+                EventWasRaised = bacCalc.UntouchedEventWasRaised;
             }
 
-            ButtonHand = entity.BACGeneralComp.ButtonHand;
-            ThumbPosValue = entity.BACCalculationsComp.ThumbPos.Value;
+            ButtonHand = bacGeneral.ButtonHand;
+            ThumbPosValue = bacCalc.ThumbPos.Value;
         }
     }
 }

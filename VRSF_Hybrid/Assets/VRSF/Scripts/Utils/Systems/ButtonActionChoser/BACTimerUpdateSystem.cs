@@ -15,12 +15,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
     /// If this timer is updated after the threshold, your BAC feature will launch the BAC events Callbacks
     /// only after the time specified if the user press the button until the end of the timer threshold.
     /// </summary>
-    public class BACTimerUpdateSystem : BACUpdateSystem
+    public class BACTimerUpdateSystem : BACListenersSetupSystem
     {
-        private new struct Filter
+        struct Filter
         {
             public BACTimerComponent BACTimer;
             public BACGeneralComponent BAC_Comp;
+            public BACCalculationsComponent BAC_Calc;
         }
 
         protected override void OnStartRunning()
@@ -36,6 +37,26 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     // We create a new event that will be use in the CheckThumbstick method
                     e.BACTimer.ThumbCheckEvent = new UnityEvent();
                     e.BACTimer.ThumbCheckEvent.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
+                }
+            }
+        }
+        
+        protected override void OnUpdate()
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (e.BAC_Calc.ActionButtonIsReady && e.BAC_Calc.CanBeUsed)
+                {
+                    // If we use the touch event and the user is touching on the button
+                    if (e.BAC_Calc.IsTouching != null && e.BAC_Calc.IsTouching.Value)
+                    {
+                        StartActionIsTouching(e);
+                    }
+                    // If we use the click event and the user is clicking on the button
+                    if (e.BAC_Calc.IsClicking != null && e.BAC_Calc.IsClicking.Value)
+                    {
+                        StartActionIsClicking(e);
+                    }
                 }
             }
         }
@@ -57,14 +78,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
-                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
                 e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
-                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
                 e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
             }
         }
@@ -75,14 +94,12 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
-                e.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
                 e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
-                e.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
                 e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
@@ -125,19 +142,20 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Override of StartActionIsClicking as the timer doesn't need to check the presence of a timer or if the timer is ready.
         /// </summary>
         /// <param name="e"></param>
-        public override void StartActionIsClicking(BACUpdateSystem.Filter e)
+        private void StartActionIsClicking(Filter e)
         {
-            if (e.BACGeneralComp.BACTimer == null)
-                return;
-
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-            if (e.BACCalculationsComp.ThumbPos != null)
+            if (e.BAC_Calc.ThumbPos != null)
             {
-                e.BACCalculationsComp.UnclickEventWasRaised = CheckThumbstick(new ThumstickChecker(e, EControllerInteractionType.CLICK, e.BACGeneralComp.BACTimer.ThumbCheckEvent), ref e.BACCalculationsComp.ClickActionBeyondThreshold);
+                e.BAC_Calc.UnclickEventWasRaised = BACUpdateSystem.CheckThumbstick
+                (
+                    new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.CLICK, e.BAC_Comp.BACTimer.ThumbCheckEvent), 
+                    ref e.BAC_Calc.ClickActionBeyondThreshold
+                );
             }
             else
             {
-                IsInteractingCallback(e.BACGeneralComp.BACTimer);
+                IsInteractingCallback(e.BAC_Comp.BACTimer);
             }
         }
 
@@ -145,19 +163,20 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Override of StartActionIsTouching as the timer doesn't need to check the presence of a timer or if the timer is ready.
         /// </summary>
         /// <param name="e"></param>
-        public override void StartActionIsTouching(BACUpdateSystem.Filter e)
+        private void StartActionIsTouching(Filter e)
         {
-            if (e.BACGeneralComp.BACTimer == null)
-                return;
-
             // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
-            if (e.BACCalculationsComp.ThumbPos != null)
+            if (e.BAC_Calc.ThumbPos != null)
             {
-                e.BACCalculationsComp.UntouchedEventWasRaised = CheckThumbstick(new ThumstickChecker(e, EControllerInteractionType.TOUCH, e.BACGeneralComp.BACTimer.ThumbCheckEvent), ref e.BACCalculationsComp.TouchActionBeyondThreshold);
+                e.BAC_Calc.UntouchedEventWasRaised = BACUpdateSystem.CheckThumbstick
+                (
+                    new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.TOUCH, e.BAC_Comp.BACTimer.ThumbCheckEvent), 
+                    ref e.BAC_Calc.TouchActionBeyondThreshold
+                );
             }
             else
             {
-                IsInteractingCallback(e.BACGeneralComp.BACTimer);
+                IsInteractingCallback(e.BAC_Comp.BACTimer);
             }
         }
 

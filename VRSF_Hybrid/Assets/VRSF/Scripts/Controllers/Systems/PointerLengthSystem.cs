@@ -65,7 +65,7 @@ namespace VRSF.Controllers.Systems
         {
             try
             {
-                if (!hit.isNull)
+                if (!hit.IsNull)
                 {
                     //Reduce lineRenderer from the controllers position to the object that was hit
                     pointer.SetPositions(new Vector3[]
