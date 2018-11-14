@@ -50,7 +50,7 @@ namespace VRSF.Gaze.Systems
         /// </summary>
         private void CheckGazePosition(Filter entity)
         {
-            if (!_interactionContainer.GazeHit.IsNull)
+            if (!_interactionContainer.GazeHit.isNull)
             {
                 //Reduce the reticle positon to the object that was hit
                 SetPositionToHit(entity);

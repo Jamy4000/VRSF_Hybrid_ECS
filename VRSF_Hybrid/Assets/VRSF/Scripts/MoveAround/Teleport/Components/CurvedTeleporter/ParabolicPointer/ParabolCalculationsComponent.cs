@@ -18,7 +18,7 @@ namespace VRSF.MoveAround.Teleport
 
         [Header("Parabola Mesh Properties")]
         [Tooltip("Number of points on the parabola mesh.  Greater point counts lead to a higher poly/smoother mesh.")]
-        public int PointCount = 10;
+        public int PointCount = 100;
         [Tooltip("Approximate spacing between each of the points on the parabola mesh.")]
         public float PointSpacing = 0.5f;
         [Tooltip("Thickness of the parabola mesh")]

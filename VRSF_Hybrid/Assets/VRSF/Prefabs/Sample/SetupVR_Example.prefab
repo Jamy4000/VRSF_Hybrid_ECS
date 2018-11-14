@@ -694,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 0
   TimerThreshold: 1
+  StopEventShouldBeFired: 0
 --- !u!114 &114131405620133656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -862,6 +863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 0
   TimerThreshold: 1
+  StopEventShouldBeFired: 0
 --- !u!114 &114255052484434966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1351,6 +1353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 0
   TimerThreshold: 1
+  StopEventShouldBeFired: 1
 --- !u!114 &114714063986445488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1364,6 +1367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 1
   TimerThreshold: 1
+  StopEventShouldBeFired: 0
 --- !u!114 &114724220828959406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1402,7 +1406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialVelocity: {x: 0, y: 0, z: 10}
   Acceleration: {x: -0, y: -9.8, z: -0}
-  PointCount: 10
+  PointCount: 100
   PointSpacing: 0.5
   GraphicThickness: 0.2
   GraphicMaterial: {fileID: 2100000, guid: 21a645b07758b4b478bff4374fdb9a43, type: 2}

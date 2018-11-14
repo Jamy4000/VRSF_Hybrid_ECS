@@ -85,7 +85,7 @@ namespace VRSF.MoveAround.Systems
         /// <returns>The new vertical axis speed</returns>
         private float GetSpeed(FlyParametersComponent flyComp)
         {
-            return 0.3f * flyComp.FlyingSpeed;
+            return 0.05f * flyComp.FlyingSpeed;
         }
         #endregion PRIVATE_METHODS
     }

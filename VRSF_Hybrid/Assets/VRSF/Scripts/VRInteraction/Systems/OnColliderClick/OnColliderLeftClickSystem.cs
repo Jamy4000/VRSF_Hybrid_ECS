@@ -54,7 +54,7 @@ namespace VRSF.Interactions.Systems
         private void HandleClick(Filter entity)
         {
             //If nothing is hit, we set the isOver value to false
-            if (entity.ScriptableSingletons.InteractionsContainer.LeftHit.IsNull)
+            if (entity.ScriptableSingletons.InteractionsContainer.LeftHit.isNull)
             {
                 entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingLeft.SetValue(false);
             }

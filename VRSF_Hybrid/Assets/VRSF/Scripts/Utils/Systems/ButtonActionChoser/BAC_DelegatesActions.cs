@@ -91,38 +91,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // Check if we use a timer
-                if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
-                {
-                    ActionUp();
-                }
-            }
-
-            /// <summary>
-            /// Actual Method checking if everwting is ok
-            /// </summary>
-            bool ActionUp()
-            {
-                // If we don't use the Thumb
-                if (BACCalculations.ThumbPos == null)
+                if (BACGeneral.BACTimer == null || BACGeneral.BACTimer.StopEventShouldBeFired || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
                     BACGeneral.OnButtonStopClicking.Invoke();
-                    return true;
                 }
-
-                // If we use the Thumb and the click action is beyond the threshold
-                else if (BACCalculations.ThumbPos != null && BACCalculations.ClickActionBeyondThreshold)
-                { 
-                    BACGeneral.OnButtonStopClicking.Invoke();
-                    return true;
-                }
-
-                // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (BACCalculations.ThumbPos != null && BACGeneral.ClickThreshold == 0.0f)
-                { 
-                    BACGeneral.OnButtonStopClicking.Invoke();
-                    return true;
-                }
-                return false;
             }
         }
 
@@ -194,40 +166,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // Check if we use a timer and, if so, if the timer is ready
-                if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
-                {
-                    ActionUntouched();
-                }
-            }
-
-            /// <summary>
-            /// Actual Method checking if everwting is ok
-            /// </summary>
-            bool ActionUntouched()
-            {
-                // If we don't use the Thumb
-                if (BACCalculations.ThumbPos == null)
+                if (BACGeneral.BACTimer == null || BACGeneral.BACTimer.StopEventShouldBeFired || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
                     BACGeneral.OnButtonStopTouching.Invoke();
-                    return true;
                 }
-
-                // If we use the Thumb and the click action is beyond the threshold
-                else if (BACCalculations.ThumbPos != null && BACCalculations.TouchActionBeyondThreshold)
-                {
-                    BACGeneral.OnButtonStopTouching.Invoke();
-                    return true;
-                }
-
-                // If we use the Thumb and the ClickThreshold is equal to 0
-                else if (BACCalculations.ThumbPos != null && BACGeneral.TouchThreshold == 0.0f)
-                {
-                    BACGeneral.OnButtonStopTouching.Invoke();
-                    return true;
-                }
-                return false;
             }
         }
-
     }
 }

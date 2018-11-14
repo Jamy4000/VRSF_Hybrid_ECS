@@ -152,7 +152,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void OnStopInteractingCallback(Filter e)
         {
             // If the user is aiming to the UI, we don't activate the system
-            if (!e.RayComp.RaycastHitVar.IsNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
+            if (!e.RayComp.RaycastHitVar.isNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
                 return;
 
             TeleportUser(e);
