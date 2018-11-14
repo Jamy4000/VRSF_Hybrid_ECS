@@ -15,7 +15,7 @@ namespace VRSF.MoveAround.Teleport
     /// </summary>
     public class ParabolicPointerUpdateSystem : BACListenersSetupSystem
     {
-        private new struct Filter
+        private struct Filter
         {
             public BACGeneralComponent BACGeneral;
             public ParabolObjectsComponent PointerObjects;
@@ -88,7 +88,8 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            ActivatePointer(e);
+            ToggleNormalLaser(e, false);
+            ForceUpdateCurrentAngle(e);
         }
 
         /// <summary>
@@ -122,12 +123,6 @@ namespace VRSF.MoveAround.Teleport
             if (e.PointerObjects._invalidPadObject != null)
                 e.PointerObjects._invalidPadObject.SetActive(false);
         }
-
-        private void ActivatePointer(Filter e)
-        {
-            ToggleNormalLaser(e, false);
-            ForceUpdateCurrentAngle(e);
-        } 
         #endregion
 
 
@@ -148,7 +143,7 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.PointSpacing,
                 e.PointerCalculations.PointCount,
                 e.SceneObjects._TeleportNavMesh,
-                e.TeleportGeneral.ExclusionLayer,
+                ~e.TeleportGeneral.ExclusionLayer,
                 e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );
@@ -203,7 +198,19 @@ namespace VRSF.MoveAround.Teleport
                 // Change pointer activation if the user is using it
                 if ((entity.BACGeneral.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) ||
                     (entity.BACGeneral.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
+                {
                     entity.PointerObjects._ControllerPointer.enabled = active;
+                    foreach(var particleSystem in entity.PointerObjects._ControllerPointer.GetComponentsInChildren<ParticleSystem>())
+                    {
+                        if (active)
+                            particleSystem.Play();
+                        else
+                        {
+                            particleSystem.Clear();
+                            particleSystem.Stop();
+                        }
+                    }
+                }
             }
         }
 

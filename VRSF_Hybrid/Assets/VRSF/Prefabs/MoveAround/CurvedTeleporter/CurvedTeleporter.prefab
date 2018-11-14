@@ -175,6 +175,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114585948240483796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -238,3 +239,4 @@ MonoBehaviour:
   TeleportLayer: -1
   ExclusionLayer: -1
   CanTeleport: 0
+  PointToGoTo: {x: 0, y: 0, z: 0}

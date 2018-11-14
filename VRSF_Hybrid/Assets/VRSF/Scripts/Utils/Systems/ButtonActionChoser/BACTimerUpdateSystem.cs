@@ -77,13 +77,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             var e = (Filter)entity;
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
+                //e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
                 e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
+                //e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
                 e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
             }
         }
@@ -93,13 +93,13 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             var e = (Filter)entity;
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                //e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
                 e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                //e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
                 e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
@@ -109,11 +109,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Reset the timer to zero on Start Interacting
         /// </summary>
         /// <param name="timer"></param>
-        private void OnStartInteractingCallback(BACTimerComponent timer)
-        {
-            // We reset the timers stuffs
-            timer._Timer = 0.0f;
-        }
+        //private void OnStartInteractingCallback(BACTimerComponent timer)
+        //{
+        //    // We reset the timers stuffs
+        //    timer._Timer = 0.0f;
+        //}
 
         /// <summary>
         /// Update timer based on a fixed unscaled delta time when user interact with the button

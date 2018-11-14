@@ -64,7 +64,6 @@ GameObject:
   - component: {fileID: 114777953536323930}
   - component: {fileID: 114228354837057478}
   - component: {fileID: 114183519347432886}
-  - component: {fileID: 114666825438892722}
   m_Layer: 0
   m_Name: FlyMode
   m_TagString: Untagged
@@ -111,7 +110,6 @@ GameObject:
   - component: {fileID: 114653672007515940}
   - component: {fileID: 114429401956851906}
   - component: {fileID: 114455274315764004}
-  - component: {fileID: 114230273448378746}
   m_Layer: 0
   m_Name: CurvedTeleporter
   m_TagString: Untagged
@@ -694,7 +692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 0
   TimerThreshold: 1
-  StopEventShouldBeFired: 0
 --- !u!114 &114131405620133656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -708,8 +705,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UseLoadingSlider: 1
   LoadingTime: 1.5
-  FillRect: {fileID: 0}
-  TeleportText: {fileID: 0}
+  FillRect: {fileID: 114881348120732182}
+  TeleportText: {fileID: 114817954679358654}
 --- !u!114 &114136519035160686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -850,20 +847,6 @@ MonoBehaviour:
   FlightDirection: 0
   NormalizedDir: {x: 0, y: 0, z: 0}
   FinalDirection: {x: 0, y: 0, z: 0}
---- !u!114 &114230273448378746
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304171735072834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsUpdatedBeforeThreshold: 0
-  TimerThreshold: 1
-  StopEventShouldBeFired: 0
 --- !u!114 &114255052484434966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1340,20 +1323,6 @@ MonoBehaviour:
   RayOrigin: 2
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
---- !u!114 &114666825438892722
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsUpdatedBeforeThreshold: 0
-  TimerThreshold: 1
-  StopEventShouldBeFired: 1
 --- !u!114 &114714063986445488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1367,7 +1336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 1
   TimerThreshold: 1
-  StopEventShouldBeFired: 0
 --- !u!114 &114724220828959406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1405,7 +1373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVelocity: {x: 0, y: 0, z: 10}
-  Acceleration: {x: -0, y: -9.8, z: -0}
+  Acceleration: {x: -0, y: -10, z: -0}
   PointCount: 100
   PointSpacing: 0.5
   GraphicThickness: 0.2

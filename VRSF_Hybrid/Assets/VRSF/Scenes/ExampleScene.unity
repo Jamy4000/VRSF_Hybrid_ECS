@@ -1053,7 +1053,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114753777770787768, guid: b54324daf24ae2541bce93b95f5d8215,
+        type: 2}
+      propertyPath: Acceleration.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114121514912759356, guid: b54324daf24ae2541bce93b95f5d8215,
+        type: 2}
+      propertyPath: StopEventShouldBeFired
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114666825438892722, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
+    - {fileID: 114230273448378746, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &518242944
@@ -4184,7 +4196,7 @@ Prefab:
     - target: {fileID: 224283192447803244, guid: 1d1e25a19084827429dd2a81cd02cb75,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00008564497
+      value: 0.00018172737
       objectReference: {fileID: 0}
     - target: {fileID: 224345697660441066, guid: 1d1e25a19084827429dd2a81cd02cb75,
         type: 2}

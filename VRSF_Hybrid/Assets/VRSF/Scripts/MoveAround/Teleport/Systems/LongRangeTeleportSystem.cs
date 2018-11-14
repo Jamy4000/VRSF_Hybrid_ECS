@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Inputs;
@@ -16,7 +15,7 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// </summary>
     public class LongRangeTeleportSystem : BACListenersSetupSystem, ITeleportSystem
     {
-        new struct Filter : ITeleportFilter
+        struct Filter : ITeleportFilter
         {
             public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;

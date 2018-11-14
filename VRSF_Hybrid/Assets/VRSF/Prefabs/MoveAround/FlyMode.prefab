@@ -125,7 +125,7 @@ MonoBehaviour:
   RightTouchThumbPosition: 3
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 3
-  TouchThreshold: 0.5
+  TouchThreshold: 0.8
   ClickThreshold: 0
   OnButtonStartTouching:
     m_PersistentCalls:
@@ -157,6 +157,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114388553226914150
 MonoBehaviour:
   m_ObjectHideFlags: 1

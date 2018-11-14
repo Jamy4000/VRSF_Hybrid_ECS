@@ -139,6 +139,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114566185692446992
 MonoBehaviour:
   m_ObjectHideFlags: 1

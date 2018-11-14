@@ -205,8 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e61e018b26d5a489fc55c62f4978c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimerBeforeTeleport: 0.5
   UseLoadingSlider: 1
+  LoadingTime: 1.5
   FillRect: {fileID: 114639438830620704}
   TeleportText: {fileID: 114926556755087892}
 --- !u!114 &114394128901598018
@@ -271,6 +271,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}
 --- !u!114 &114639438830620704
 MonoBehaviour:
   m_ObjectHideFlags: 1

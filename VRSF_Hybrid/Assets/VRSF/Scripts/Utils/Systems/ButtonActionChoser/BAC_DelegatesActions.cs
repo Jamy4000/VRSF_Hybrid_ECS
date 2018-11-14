@@ -20,7 +20,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
         IEnumerator WaitForTimer(Func<bool> toInvoke)
         {
-            yield return new WaitForSeconds(BACGeneral.BACTimer.TimerThreshold);
+            yield return new WaitForSeconds(BACGeneral.BACTimer.TimerThreshold + 0.1f);
             
             if (BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 toInvoke.Invoke();
@@ -41,9 +41,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 }
                 else
                 {
-                    // We reset the timer
-                    BACGeneral.BACTimer._Timer = 0.0f;
-
                     if (!BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                     {
                         Func<bool> newFunc = new Func<bool>(() => ActionDown());
@@ -91,7 +88,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // Check if we use a timer
-                if (BACGeneral.BACTimer == null || BACGeneral.BACTimer.StopEventShouldBeFired || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
+                if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
                     BACGeneral.OnButtonStopClicking.Invoke();
                 }
@@ -114,9 +111,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 }
                 else
                 {
-                    // We reset the timer
-                    BACGeneral.BACTimer._Timer = 0.0f;
-
                     if (!BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                     {
                         Func<bool> newFunc = new Func<bool>(() => ActionTouched());
@@ -166,7 +160,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
                 // Check if we use a timer and, if so, if the timer is ready
-                if (BACGeneral.BACTimer == null || BACGeneral.BACTimer.StopEventShouldBeFired || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
+                if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
                     BACGeneral.OnButtonStopTouching.Invoke();
                 }

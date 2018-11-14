@@ -66,7 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _borderHeight: 0.2
   BorderAlpha: 1
-  BorderMaterial: {fileID: 2100000, guid: b684c4a333b51ed4cb44a03406b9964b, type: 2}
+  BorderMaterial: {fileID: 2100000, guid: 1a012bd00f38e1b4699aaba9de6e995d, type: 2}
 --- !u!114 &114352988616639752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80,11 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GroundAlpha: 1
   _GroundMaterialSource: {fileID: 0}
-  _LayerMask: 256
-  _IgnoreLayerMask: 0
   _QueryTriggerInteraction: 0
   _SelectableMesh: {fileID: 0}
-  _SelectableMeshBorder: []
   _NavAreaMask: -3
   _IgnoreSlopedSurfaces: 1
   _SampleRadius: 0.25
