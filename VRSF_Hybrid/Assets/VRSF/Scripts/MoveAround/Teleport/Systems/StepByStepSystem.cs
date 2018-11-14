@@ -106,6 +106,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             // If the new pos returned is null, an error as occured, so we stop the method
             if (newPos != Vector3.zero)
             {
+                Debug.Log("newPos != Vector3.zero)");
                 // We check the theoritic new user pos
                 var newUsersPos = VRSF_Components.CameraRig.transform.position + new Vector3(newPos.x, 0.0f, newPos.z);
 
@@ -125,7 +126,9 @@ namespace VRSF.MoveAround.Teleport.Systems
                     out Vector3 norm, 
                     entity.SceneObjects._TeleportNavMesh
                 );
-                
+
+                Debug.Log("endOnNavmesh " + endOnNavmesh);
+
                 if (endOnNavmesh)
                     SetTeleportState(entity, ETeleportState.Teleporting);
             }
@@ -151,6 +154,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
+            Debug.Log("OnStopinteracting");
             // If the user is aiming to the UI, we don't activate the system
             if (!e.RayComp.RaycastHitVar.isNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
                 return;

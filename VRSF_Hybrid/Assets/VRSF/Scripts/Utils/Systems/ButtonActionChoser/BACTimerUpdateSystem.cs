@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Inputs;
@@ -15,7 +16,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
     /// If this timer is updated after the threshold, your BAC feature will launch the BAC events Callbacks
     /// only after the time specified if the user press the button until the end of the timer threshold.
     /// </summary>
-    public class BACTimerUpdateSystem : BACListenersSetupSystem
+    public class BACTimerUpdateSystem : ComponentSystem
     {
         struct Filter
         {
@@ -30,7 +31,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             foreach (var e in GetEntities<Filter>())
             {
                 e.BAC_Comp.BACTimer = e.BACTimer;
-                SetupListenersResponses(e);
                 // if we use a thumbstick
                 if (e.BAC_Comp.ActionButton == EControllersButton.THUMBSTICK)
                 {
@@ -48,14 +48,39 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 if (e.BAC_Calc.ActionButtonIsReady && e.BAC_Calc.CanBeUsed)
                 {
                     // If we use the touch event and the user is touching on the button
-                    if (e.BAC_Calc.IsTouching != null && e.BAC_Calc.IsTouching.Value)
+                    if (e.BAC_Calc.IsTouching != null)
                     {
-                        StartActionIsTouching(e);
+                        if (e.BAC_Calc.IsTouching.Value)
+                        {
+                            StartActionIsTouching(e);
+
+                            if (!e.BACTimer._OldTouchingState)
+                                e.BACTimer._OldTouchingState = true;
+                        }
+                        else if (e.BACTimer._OldTouchingState)
+                        {
+                            e.BACTimer._OldTouchingState = false;
+                            e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
+                        }
                     }
+
                     // If we use the click event and the user is clicking on the button
-                    if (e.BAC_Calc.IsClicking != null && e.BAC_Calc.IsClicking.Value)
+                    if (e.BAC_Calc.IsClicking != null)
                     {
-                        StartActionIsClicking(e);
+                        if (e.BAC_Calc.IsClicking.Value)
+                        {
+                            Debug.Log("IsClicking");
+                            StartActionIsClicking(e);
+
+                            if (!e.BACTimer._OldClickingState)
+                                e.BACTimer._OldClickingState = true;
+                        }
+                        else if (e.BACTimer._OldClickingState)
+                        {
+                            Debug.Log("_OldClickingState");
+                            e.BACTimer._OldClickingState = false;
+                            e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
+                        }
                     }
                 }
             }
@@ -66,54 +91,10 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
-                RemoveListenersOnEndApp(e);
                 // Remove the listeners for the ThumbCheckEvent if it's not null
                 e.BACTimer.ThumbCheckEvent?.RemoveAllListeners();
             }
         }
-
-        public override void SetupListenersResponses(object entity)
-        {
-            var e = (Filter)entity;
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                //e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
-                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
-            }
-
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                //e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e.BACTimer); });
-                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { e.BAC_Comp.StartCoroutine(OnStopInteractingCallback(e.BACTimer)); });
-            }
-        }
-
-        public override void RemoveListenersOnEndApp(object entity)
-        {
-            var e = (Filter)entity;
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                //e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
-                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
-            }
-
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                //e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
-                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
-            }
-        }
-
-
-        /// <summary>
-        /// Reset the timer to zero on Start Interacting
-        /// </summary>
-        /// <param name="timer"></param>
-        //private void OnStartInteractingCallback(BACTimerComponent timer)
-        //{
-        //    // We reset the timers stuffs
-        //    timer._Timer = 0.0f;
-        //}
 
         /// <summary>
         /// Update timer based on a fixed unscaled delta time when user interact with the button
@@ -121,17 +102,19 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <param name="e"></param>
         private void IsInteractingCallback(BACTimerComponent timer)
         {
+            Debug.Log("timer " + timer._Timer);
             timer._Timer += Time.deltaTime;
         }
 
         /// <summary>
-        /// Waiting for one frame on stop interacting so all the systems using on stop interacting 
+        /// Waiting for two frame on stop interacting so all the systems using on stop interacting 
         /// can finish what they're doing with the final value of the timer.
         /// </summary>
         /// <param name="e">The entity in which the timer is</param>
         /// <returns></returns>
         private IEnumerator OnStopInteractingCallback(BACTimerComponent timer)
         {
+            yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             // We reset the timers stuffs
             timer._Timer = 0.0f;

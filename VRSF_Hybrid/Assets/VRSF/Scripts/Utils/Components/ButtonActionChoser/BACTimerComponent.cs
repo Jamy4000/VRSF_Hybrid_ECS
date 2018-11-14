@@ -23,5 +23,11 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         /// </summary>
         [System.NonSerialized]
         public UnityEvent ThumbCheckEvent;
+
+        [System.NonSerialized]
+        public bool _OldTouchingState;
+
+        [System.NonSerialized]
+        public bool _OldClickingState;
     }
 }
