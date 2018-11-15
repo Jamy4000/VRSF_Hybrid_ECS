@@ -44,7 +44,7 @@ namespace VRSF.MoveAround.Teleport
 
             foreach (var e in GetEntities<Filter>())
             {
-                RemoveListenersOnEndApp(e);
+                RemoveListeners(e);
             }
         }
 
@@ -62,7 +62,7 @@ namespace VRSF.MoveAround.Teleport
             }
         }
 
-        public override void RemoveListenersOnEndApp(object entity)
+        public override void RemoveListeners(object entity)
         {
             var e = (Filter)entity;
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)

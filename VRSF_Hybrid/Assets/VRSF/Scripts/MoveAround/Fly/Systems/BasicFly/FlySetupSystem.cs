@@ -51,7 +51,7 @@ namespace VRSF.MoveAround.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                RemoveListenersOnEndApp(e);
+                RemoveListeners(e);
             }
 
             SceneManager.sceneLoaded -= OnSceneUnloaded;
@@ -77,7 +77,7 @@ namespace VRSF.MoveAround.Systems
             }
         }
 
-        public override void RemoveListenersOnEndApp(object entity)
+        public override void RemoveListeners(object entity)
         {
             var e = (Filter)entity;
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)

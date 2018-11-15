@@ -26,7 +26,6 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         #region ComponentSystem_Methods
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
@@ -43,7 +42,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
-                RemoveListenersOnEndApp(e);
+                RemoveListeners(e);
             }
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
@@ -69,7 +68,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             }
         }
 
-        public override void RemoveListenersOnEndApp(object entity)
+        public override void RemoveListeners(object entity)
         {
             var e = (Filter)entity;
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
