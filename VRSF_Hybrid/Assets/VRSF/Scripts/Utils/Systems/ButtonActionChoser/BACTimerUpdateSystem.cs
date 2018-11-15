@@ -69,7 +69,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                     {
                         if (e.BAC_Calc.IsClicking.Value)
                         {
-                            Debug.Log("IsClicking");
                             StartActionIsClicking(e);
 
                             if (!e.BACTimer._OldClickingState)
@@ -77,7 +76,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                         }
                         else if (e.BACTimer._OldClickingState)
                         {
-                            Debug.Log("_OldClickingState");
                             e.BACTimer._OldClickingState = false;
                             e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
                         }
@@ -102,7 +100,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <param name="e"></param>
         private void IsInteractingCallback(BACTimerComponent timer)
         {
-            Debug.Log("timer " + timer._Timer);
             timer._Timer += Time.deltaTime;
         }
 

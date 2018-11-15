@@ -46,52 +46,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1239490779246508
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4645491109525198}
-  - component: {fileID: 114136519035160686}
-  - component: {fileID: 114559321109071486}
-  - component: {fileID: 114264588089565486}
-  - component: {fileID: 114088190708349326}
-  - component: {fileID: 114739515348070646}
-  - component: {fileID: 114821036199202506}
-  - component: {fileID: 114492878262552136}
-  - component: {fileID: 114777953536323930}
-  - component: {fileID: 114228354837057478}
-  - component: {fileID: 114183519347432886}
-  m_Layer: 0
-  m_Name: FlyMode
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1277118419728172
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4441412496234388}
-  - component: {fileID: 114872557734933004}
-  - component: {fileID: 114494878719303548}
-  - component: {fileID: 114433236659366650}
-  - component: {fileID: 114955160144381880}
-  - component: {fileID: 114664438791166408}
-  - component: {fileID: 114147892441799130}
-  m_Layer: 0
-  m_Name: CameraRotation
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1304171735072834
 GameObject:
   m_ObjectHideFlags: 1
@@ -224,7 +178,7 @@ GameObject:
   - component: {fileID: 114993652508453836}
   - component: {fileID: 114574329391399860}
   m_Layer: 0
-  m_Name: SetupVR_Example
+  m_Name: SetupVR_Teleport_Example
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +294,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4645491109525198}
   - {fileID: 4706107728995826}
   - {fileID: 4233697437354440}
   m_Father: {fileID: 4214709753130550}
@@ -387,7 +340,7 @@ Transform:
   m_Children:
   - {fileID: 224351592695860480}
   m_Father: {fileID: 4153205081392672}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4249235784960038
 Transform:
@@ -400,19 +353,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4461885262797478}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4441412496234388
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4899502866265192}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4461885262797478
@@ -440,19 +380,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4899502866265192}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4645491109525198
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4153205081392672}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4706107728995826
@@ -466,7 +393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4153205081392672}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4899502866265192
 Transform:
@@ -478,7 +405,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4441412496234388}
   - {fileID: 4642193931679582}
   m_Father: {fileID: 4214709753130550}
   m_RootOrder: 0
@@ -570,22 +496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114088190708349326
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4454539f17089364188ca985a54c684d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseHorizontalBoundaries: 0
-  MinAvatarYPosition: 0
-  MaxAvatarYPosition: 2000
-  MinAvatarPosition: {x: -10, y: -1, z: -10}
-  MaxAvatarPosition: {x: 10, y: 10, z: 10}
 --- !u!114 &114091848750264520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -703,41 +613,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e61e018b26d5a489fc55c62f4978c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseLoadingSlider: 1
+  UseLoadingTimer: 1
   LoadingTime: 1.5
+  _LoadingTimer: 0
   FillRect: {fileID: 114881348120732182}
   TeleportText: {fileID: 114817954679358654}
---- !u!114 &114136519035160686
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82a98e707674b9047a915b76d67fb115, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FlyingSpeed: 1
-  ChangeSpeedDependingOnHeight: 1
-  ChangeSpeedDependingOnScale: 1
-  _IsInteracting: 0
-  _WantToFly: 0
-  _FlyForward: 1
-  _IsSlowingDown: 0
-  _TimeSinceStartFlying: 0
-  _SlowDownTimer: 0
---- !u!114 &114147892441799130
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114150696968277554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -788,17 +668,6 @@ MonoBehaviour:
   ThumbPos: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
---- !u!114 &114183519347432886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114185831037210240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -833,20 +702,6 @@ MonoBehaviour:
     type: 2}
   InputsContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
   _IsSetup: 0
---- !u!114 &114228354837057478
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61e31f7983b18ed4596513e349683a2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FlightDirection: 0
-  NormalizedDir: {x: 0, y: 0, z: 0}
-  FinalDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &114255052484434966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -872,33 +727,6 @@ MonoBehaviour:
   VRCameraScripts: {fileID: 1873019281804272}
   SDKHasBeenInstantiated: 0
   Loaded: 0
---- !u!114 &114264588089565486
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
 --- !u!114 &114412815117216682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -981,58 +809,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LeftClickBool: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
   RightClickBool: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
---- !u!114 &114433236659366650
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractionType: 1
-  ButtonHand: 1
-  UseGazeButton: 0
-  ActionButton: 4
-  LeftTouchThumbPosition: 12
-  RightTouchThumbPosition: 0
-  LeftClickThumbPosition: 0
-  RightClickThumbPosition: 0
-  TouchThreshold: 0.8
-  ClickThreshold: 0.5
-  OnButtonStartTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStartClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  BACTimer: {fileID: 0}
 --- !u!114 &114446038712882166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1079,35 +855,6 @@ MonoBehaviour:
   ExclusionLayer: -1
   CanTeleport: 0
   PointToGoTo: {x: 0, y: 0, z: 0}
---- !u!114 &114492878262552136
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1424377f67cc75d4dbfd955ee8f22061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMat: {fileID: 0}
-  BoundariesLinesColor: {r: 0, g: 1, b: 0, a: 1}
---- !u!114 &114494878719303548
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6debe04fb34301044a0679a421506dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseRift: 1
-  UsePortableOVR: 1
-  UseOpenVR: 0
-  UseSimulator: 1
-  IsSetup: 0
 --- !u!114 &114516360561480400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1120,20 +867,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceStepByStep: 1
---- !u!114 &114559321109071486
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RayOrigin: 2
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
 --- !u!114 &114574224988541878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1282,33 +1015,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   BACTimer: {fileID: 0}
---- !u!114 &114664438791166408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
 --- !u!114 &114665731632834278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1347,20 +1053,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d19593ec0220024fa0bfaff644d26f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114739515348070646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3e87711b3b9660449431978a6c21d46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AccelerationDecelerationEffect: 1
-  AccelerationEffectFactor: 1
-  DecelerationEffectFactor: 1
 --- !u!114 &114753777770787768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1392,18 +1084,6 @@ MonoBehaviour:
   _borderHeight: 0.2
   BorderAlpha: 1
   BorderMaterial: {fileID: 2100000, guid: 1a012bd00f38e1b4699aaba9de6e995d, type: 2}
---- !u!114 &114777953536323930
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac6da6c7e5ec0b24b825f4ed5263bd10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentFlightVelocity: 0
 --- !u!114 &114778627105166108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1473,58 +1153,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Preparing Teleport ...
---- !u!114 &114821036199202506
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1239490779246508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractionType: 1
-  ButtonHand: 2
-  UseGazeButton: 0
-  ActionButton: 4
-  LeftTouchThumbPosition: 0
-  RightTouchThumbPosition: 3
-  LeftClickThumbPosition: 0
-  RightClickThumbPosition: 0
-  TouchThreshold: 0.8
-  ClickThreshold: 0.5
-  OnButtonStartTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStartClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  BACTimer: {fileID: 0}
 --- !u!114 &114846982198159796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1552,24 +1180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114872557734933004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 138932dbcfbb6564386d97f5f3ebad26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxSpeed: 1
-  DegreesToTurn: 30
-  UseAccelerationEffect: 0
-  IsRotating: 0
-  HasRotated: 0
-  CurrentSpeed: 0
-  LastThumbPos: 0
 --- !u!114 &114881348120732182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1608,20 +1218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114955160144381880
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1277118419728172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RayOrigin: 1
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
 --- !u!114 &114993652508453836
 MonoBehaviour:
   m_ObjectHideFlags: 1

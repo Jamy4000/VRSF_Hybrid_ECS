@@ -7,6 +7,7 @@ using VRSF.Controllers;
 using VRSF.Inputs.Components;
 using VRSF.Inputs.Events;
 using VRSF.Utils;
+using VRSF.Utils.Components;
 
 namespace VRSF.Inputs.Systems
 {
@@ -33,9 +34,7 @@ namespace VRSF.Inputs.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            var setupVR = GameObject.FindObjectOfType<Utils.Components.SetupVRComponents>();
-            setupVR.StartCoroutine(Init());
+            GameObject.FindObjectOfType<SetupVRComponents>()?.StartCoroutine(Init());
         }
 
         protected override void OnUpdate()

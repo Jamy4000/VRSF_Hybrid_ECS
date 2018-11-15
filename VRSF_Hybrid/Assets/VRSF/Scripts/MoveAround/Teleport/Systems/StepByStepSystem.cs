@@ -26,30 +26,25 @@ namespace VRSF.MoveAround.Teleport.Systems
 
 
         #region ComponentSystem_Methods
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-
             foreach (var e in GetEntities<Filter>())
             {
                 SetupListenersResponses(e);
             }
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
-
-        protected override void OnUpdate() { }
-
+        
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListenersOnEndApp(e);
             }
-
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
@@ -106,7 +101,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             // If the new pos returned is null, an error as occured, so we stop the method
             if (newPos != Vector3.zero)
             {
-                Debug.Log("newPos != Vector3.zero)");
                 // We check the theoritic new user pos
                 var newUsersPos = VRSF_Components.CameraRig.transform.position + new Vector3(newPos.x, 0.0f, newPos.z);
 
@@ -127,8 +121,6 @@ namespace VRSF.MoveAround.Teleport.Systems
                     entity.SceneObjects._TeleportNavMesh
                 );
 
-                Debug.Log("endOnNavmesh " + endOnNavmesh);
-
                 if (endOnNavmesh)
                     SetTeleportState(entity, ETeleportState.Teleporting);
             }
@@ -140,7 +132,8 @@ namespace VRSF.MoveAround.Teleport.Systems
 
         #region PRIVATE_METHODS
         /// <summary>
-        /// 
+        /// Callback for when the user start to interact with the button link to this feature.
+        /// Take account of the BAC Timer if the component is attached to this Entity.
         /// </summary>
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
@@ -149,12 +142,12 @@ namespace VRSF.MoveAround.Teleport.Systems
         }
 
         /// <summary>
-        /// 
+        /// Callback for when the user stop to interact with the button link to this feature.
+        /// Take account of the BAC Timer if the component is attached to this Entity.
         /// </summary>
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
-            Debug.Log("OnStopinteracting");
             // If the user is aiming to the UI, we don't activate the system
             if (!e.RayComp.RaycastHitVar.isNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
                 return;

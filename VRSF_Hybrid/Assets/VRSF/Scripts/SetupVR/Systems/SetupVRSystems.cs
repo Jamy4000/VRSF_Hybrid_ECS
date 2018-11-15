@@ -30,22 +30,26 @@ namespace VRSF.Utils.Systems
             
             _controllersParameters = ControllersParametersVariable.Instance;
 
-            SetupVRInScene(GetEntities<Filter>()[0].SetupVR);
+            foreach (var e in GetEntities<Filter>())
+            {
+                SetupVRInScene(e.SetupVR);
+            }
             
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         protected override void OnUpdate()
         {
-            var e = GetEntities<Filter>()[0];
-
-            if (!VRSF_Components.SetupVRIsReady)
+            foreach (var e in GetEntities<Filter>())
             {
-                SetupVRInScene(e.SetupVR);
-            }
-            else
-            {
-                this.Enabled = false;
+                if (!VRSF_Components.SetupVRIsReady)
+                {
+                    SetupVRInScene(e.SetupVR);
+                }
+                else
+                {
+                    this.Enabled = false;
+                }
             }
         }
 
