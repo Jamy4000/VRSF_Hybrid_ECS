@@ -120,6 +120,36 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4752634677255506, guid: f1fd7aee124b3ef438da6db1c899ebd8, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -151,6 +181,209 @@ Prefab:
     - target: {fileID: 4752634677255506, guid: f1fd7aee124b3ef438da6db1c899ebd8, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586550496048030, guid: f1fd7aee124b3ef438da6db1c899ebd8, type: 2}
+      propertyPath: m_Name
+      value: FlyMode_ClickVersion
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743566610571864, guid: f1fd7aee124b3ef438da6db1c899ebd8, type: 2}
+      propertyPath: m_Name
+      value: FlyMode_TouchVersion
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: InteractionType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: ClickThreshold
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SimpleDebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Start CLicking
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SimpleDebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Stop Clicking
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SimpleDebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114877068439596598, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsClicking.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Is Clicking
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SimpleDebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStartTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Start Touching
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SimpleDebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonStopTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Stop Touching
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SimpleDebugLog
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: OnButtonIsTouching.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Is Touching
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296986598888360, guid: f1fd7aee124b3ef438da6db1c899ebd8,
+        type: 2}
+      propertyPath: TouchThreshold
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1fd7aee124b3ef438da6db1c899ebd8, type: 2}

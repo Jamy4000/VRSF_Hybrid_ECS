@@ -41,7 +41,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 }
                 else
                 {
-                    Debug.Log("Timer " + BACGeneral.BACTimer._Timer);
                     if (!BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                     {
                         Func<bool> newFunc = new Func<bool>(() => ActionDown());

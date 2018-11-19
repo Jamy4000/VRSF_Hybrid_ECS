@@ -143,13 +143,12 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.PointSpacing,
                 e.PointerCalculations.PointCount,
                 e.SceneObjects._TeleportNavMesh,
-                ~e.TeleportGeneral.ExclusionLayer,
+                e.TeleportGeneral.ExclusionLayer,
                 e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );
             
             e.TeleportGeneral.PointToGoTo = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
-
             return normal;
         }
 
@@ -203,11 +202,13 @@ namespace VRSF.MoveAround.Teleport
                     foreach(var particleSystem in entity.PointerObjects._ControllerPointer.GetComponentsInChildren<ParticleSystem>())
                     {
                         if (active)
+                        {
                             particleSystem.Play();
+                        }
                         else
                         {
-                            particleSystem.Clear();
                             particleSystem.Stop();
+                            particleSystem.Clear();
                         }
                     }
                 }

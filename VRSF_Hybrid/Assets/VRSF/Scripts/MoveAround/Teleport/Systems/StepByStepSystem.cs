@@ -92,10 +92,10 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
-            Filter entity = (Filter)teleportFilter;
+            Filter e = (Filter)teleportFilter;
 
             // We check where the user should be when teleported one meter away.
-            Vector3 newPos = CheckHandForward(entity);
+            Vector3 newPos = CheckHandForward(e);
 
             // If the new pos returned is null, an error as occured, so we stop the method
             if (newPos != Vector3.zero)
@@ -106,22 +106,30 @@ namespace VRSF.MoveAround.Teleport.Systems
                 // We launch a Vector directed to the floor to check if the new position is on the Teleport NavMesh
                 // We use a 2.5 factor as a user's height is between 0.0 (SteamVR) and the height of a normal user (2 meter approximatively)
                 // and we multiply it to the scale of the user
-                var downVector = newUsersPos + (Vector3.down * 2.5f * VRSF_Components.CameraRig.transform.localScale.y);
+                var vectorDownFactor = Vector3.down * VRSF_Components.CameraRig.transform.localScale.y;
 
+                vectorDownFactor *= VRSF_Components.DeviceLoaded == EDevice.OPENVR ?
+                    VRSF_Components.VRCamera.transform.localPosition.y + 1.2f : 3.5f;
+
+                var downVector = newUsersPos + vectorDownFactor;
+                
                 // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
                 TeleportNavMeshHelper.Linecast
                 (
                     newUsersPos, 
                     downVector, 
                     out bool endOnNavmesh,      
-                    entity.TeleportGeneral.ExclusionLayer, 
-                    out entity.TeleportGeneral.PointToGoTo,
+                    e.TeleportGeneral.ExclusionLayer, 
+                    out e.TeleportGeneral.PointToGoTo,
                     out Vector3 norm, 
-                    entity.SceneObjects._TeleportNavMesh
+                    e.SceneObjects._TeleportNavMesh
                 );
 
                 if (endOnNavmesh)
-                    SetTeleportState(entity, ETeleportState.Teleporting);
+                {
+                    e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
+                    VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo + new Vector3(0.0f, -0.3f, 0.0f));
+                }
             }
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System.Collections;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,7 @@ namespace VRSF.MoveAround.Teleport
 
             foreach (var e in GetEntities<Filter>())
             {
-                InitValues(e);
+                e.SceneObjects.StartCoroutine(InitValues(e));
             }
 
             this.Enabled = false;
@@ -26,8 +27,13 @@ namespace VRSF.MoveAround.Teleport
 
         protected override void OnUpdate() { }
 
-        void InitValues(Filter e)
+        IEnumerator InitValues(Filter e)
         {
+            while (!Utils.VRSF_Components.SetupVRIsReady)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             try
             {
                 e.SceneObjects.FadeComponent = Utils.VRSF_Components.VRCamera.GetComponentInChildren<TeleportFadeComponent>();
@@ -49,7 +55,7 @@ namespace VRSF.MoveAround.Teleport
         {
             foreach (var e in GetEntities<Filter>())
             {
-                InitValues(e);
+                e.SceneObjects.StartCoroutine(InitValues(e));
             }
         }
     }
