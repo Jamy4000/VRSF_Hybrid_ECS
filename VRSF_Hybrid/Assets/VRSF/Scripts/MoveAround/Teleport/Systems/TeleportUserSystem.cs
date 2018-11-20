@@ -12,15 +12,6 @@ namespace VRSF.MoveAround.Teleport
             public TeleportGeneralComponent TeleportGeneral;
         }
 
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.TeleportGeneral.TeleportLayer = LayerMask.NameToLayer("Teleport");
-            }
-        }
-
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
@@ -37,7 +28,7 @@ namespace VRSF.MoveAround.Teleport
                     else
                     {
                         e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo + new Vector3(0.0f, -0.3f, 0.0f));
+                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo + new Vector3(0.0f, -0.2f, 0.0f));
                     }
                 }
             }

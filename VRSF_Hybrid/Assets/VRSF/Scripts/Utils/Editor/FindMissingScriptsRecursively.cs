@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace ScriptableFramework.Util
+namespace VRSF.Utils.Editor
 {
     /// <summary>
     /// Allow the user to open a new window in which he can find the missing scripts in the selected GameObject.
@@ -11,7 +11,7 @@ namespace ScriptableFramework.Util
     {
         static int go_count = 0, components_count = 0, missing_count = 0;
 
-        [MenuItem("Window/Find Missing Scripts Recursively")]
+        [MenuItem("Window/VRSF/Util/Find Missing Scripts")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(FindMissingScriptsRecursively));

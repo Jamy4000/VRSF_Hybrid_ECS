@@ -404,42 +404,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1835172292324740, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_Name
-      value: SetupVR_Teleport_Example
-      objectReference: {fileID: 0}
-    - target: {fileID: 1984781572047990, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_Name
-      value: StepByStepTeleport_With_Timer
-      objectReference: {fileID: 0}
-    - target: {fileID: 1726403046914494, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_Name
-      value: LongRangeTeleport_With_Timer
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304171735072834, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_Name
-      value: CurvedTeleporter_Without_Timer
-      objectReference: {fileID: 0}
-    - target: {fileID: 4214709753130550, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4214709753130550, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4214709753130550, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4214709753130550, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4214709753130550, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b54324daf24ae2541bce93b95f5d8215, type: 2}
   m_IsPrefabAsset: 0

@@ -41,14 +41,6 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             foreach (var e in GetEntities<Filter>())
             {
-                // Setting up teleport layer
-                e.TeleportGeneral.TeleportLayer = LayerMask.NameToLayer("Teleport");
-
-                if (e.TeleportGeneral.TeleportLayer == -1)
-                {
-                    Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
-                }
-                
                 SetupListenersResponses(e);
                 DeactivateTeleportSlider(e);
             }
@@ -206,9 +198,6 @@ namespace VRSF.MoveAround.Teleport.Systems
                 SetTeleportState(entity, ETeleportState.None);
 
             DeactivateTeleportSlider(entity);
-
-            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.AddToMask(entity.TeleportGeneral.TeleportLayer);
-            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.AddToMask(entity.TeleportGeneral.TeleportLayer);
         }
 
 
@@ -217,10 +206,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             // We set the current state as Selecting
             SetTeleportState(entity, ETeleportState.Selecting);
             
-            // We remove the Teleport Layer from the exclusion layer while the user is clicking on the teleport button
-            _controllersVariable.RightExclusionLayer = _controllersVariable.RightExclusionLayer.RemoveFromMask(entity.TeleportGeneral.TeleportLayer);
-            _controllersVariable.LeftExclusionLayer = _controllersVariable.LeftExclusionLayer.RemoveFromMask(entity.TeleportGeneral.TeleportLayer);
-
             // If we use the loading slider, we set the fillRect value and the TeleportText value
             if (entity.LRT_Comp.FillRect != null)
             {
@@ -268,14 +253,6 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                // Setting up teleport layer
-                e.TeleportGeneral.TeleportLayer = LayerMask.NameToLayer("Teleport");
-
-                if (e.TeleportGeneral.TeleportLayer == -1)
-                {
-                    Debug.LogError("VRSF : You won't be able to teleport on the floor, as you didn't set the Ground Layer");
-                }
-
                 SetupListenersResponses(e);
                 DeactivateTeleportSlider(e);
             }

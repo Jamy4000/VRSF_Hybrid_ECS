@@ -19,11 +19,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4036672034062292}
-  - component: {fileID: 95663861795769870}
   - component: {fileID: 114809677556817342}
   - component: {fileID: 114316348397199028}
   - component: {fileID: 114191634654909690}
-  - component: {fileID: 114585948240483796}
   - component: {fileID: 114103916019600064}
   - component: {fileID: 114538474380559272}
   - component: {fileID: 114544768118627090}
@@ -49,24 +47,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95663861795769870
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1729505352647408}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0ce07017caf3a8744abb84c506642f56, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114103916019600064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,17 +156,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   BACTimer: {fileID: 0}
---- !u!114 &114585948240483796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1729505352647408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1b397268226df488e636f2da56970f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114809677556817342
 MonoBehaviour:
   m_ObjectHideFlags: 1

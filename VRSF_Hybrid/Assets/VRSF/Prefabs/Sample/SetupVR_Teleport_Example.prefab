@@ -54,18 +54,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4642193931679582}
-  - component: {fileID: 95935932139647460}
   - component: {fileID: 114574224988541878}
   - component: {fileID: 114769170903457178}
   - component: {fileID: 114000779662834002}
-  - component: {fileID: 114610491869018092}
   - component: {fileID: 114753777770787768}
   - component: {fileID: 114412815117216682}
   - component: {fileID: 114653672007515940}
   - component: {fileID: 114429401956851906}
   - component: {fileID: 114455274315764004}
   m_Layer: 0
-  m_Name: CurvedTeleporter
+  m_Name: CurvedTeleporter_Without_Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +157,7 @@ GameObject:
   - component: {fileID: 114851091135691700}
   - component: {fileID: 114121514912759356}
   m_Layer: 0
-  m_Name: LongRangeTeleport
+  m_Name: LongRangeTeleport_With_Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,7 +261,7 @@ GameObject:
   - component: {fileID: 114151580137043084}
   - component: {fileID: 114714063986445488}
   m_Layer: 0
-  m_Name: StepByStepTeleport
+  m_Name: StepByStepTeleport_With_Timer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +316,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1327966388754566}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -23.5, y: 1.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -327,7 +325,7 @@ Transform:
   - {fileID: 4461885262797478}
   m_Father: {fileID: 4070404726540182}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4233697437354440
 Transform:
   m_ObjectHideFlags: 1
@@ -456,24 +454,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1104087155469754}
   m_Enabled: 1
---- !u!95 &95935932139647460
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304171735072834}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0ce07017caf3a8744abb84c506642f56, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114000779662834002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -898,17 +878,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114610491869018092
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304171735072834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1b397268226df488e636f2da56970f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114653672007515940

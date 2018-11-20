@@ -190,8 +190,6 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="active"></param>
         private void ToggleNormalLaser(Filter entity, bool active)
         {
-            HandleExclusionLayer(entity.TeleportGeneral, !active);
-            
             if (Utils.VRSF_Components.DeviceLoaded != Utils.EDevice.SIMULATOR)
             {
                 // Change pointer activation if the user is using it
@@ -212,25 +210,6 @@ namespace VRSF.MoveAround.Teleport
                         }
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Add or Remove the exclusion layer everytime the user is clicking or releasing on the teleport button.
-        /// </summary>
-        /// <param name="generalTeleport"></param>
-        /// <param name="active"></param>
-        private void HandleExclusionLayer(TeleportGeneralComponent generalTeleport, bool active)
-        {
-            if (active)
-            {
-                _controllersParameters.RightExclusionLayer = _controllersParameters.RightExclusionLayer.RemoveFromMask(generalTeleport.TeleportLayer);
-                _controllersParameters.LeftExclusionLayer = _controllersParameters.LeftExclusionLayer.RemoveFromMask(generalTeleport.TeleportLayer);
-            }
-            else
-            {
-                _controllersParameters.RightExclusionLayer = _controllersParameters.RightExclusionLayer.AddToMask(generalTeleport.TeleportLayer);
-                _controllersParameters.LeftExclusionLayer = _controllersParameters.LeftExclusionLayer.AddToMask(generalTeleport.TeleportLayer);
             }
         }
 

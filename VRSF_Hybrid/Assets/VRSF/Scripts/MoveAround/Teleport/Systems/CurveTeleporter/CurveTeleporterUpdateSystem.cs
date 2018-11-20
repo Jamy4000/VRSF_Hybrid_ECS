@@ -20,7 +20,6 @@ namespace VRSF.MoveAround.Teleport
             public BACGeneralComponent BACGeneral;
             public SceneObjectsComponent SceneObjects;
             public TeleportGeneralComponent TeleportGeneral;
-            public ParaboleAnimatorComponent NavMeshAnim;
             public ParabolCalculationsComponent PointerCalculations;
         }
 
@@ -133,9 +132,6 @@ namespace VRSF.MoveAround.Teleport
                 e.SceneObjects.FadeComponent.TeleportState = newState;
                 e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
             }
-
-            bool isNavmeshAnimActive = newState != ETeleportState.Selecting ? false : true;
-            e.NavMeshAnim._NavmeshAnimator?.SetBool(e.NavMeshAnim._EnabledAnimatorID, isNavmeshAnimActive);
         }
         #endregion
     }

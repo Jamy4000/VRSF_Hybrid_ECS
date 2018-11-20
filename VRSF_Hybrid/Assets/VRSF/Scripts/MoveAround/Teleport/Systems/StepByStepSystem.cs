@@ -128,7 +128,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 if (endOnNavmesh)
                 {
                     e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-                    VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo + new Vector3(0.0f, -0.3f, 0.0f));
+                    VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo + new Vector3(0.0f, -0.2f, 0.0f));
                 }
             }
         }
