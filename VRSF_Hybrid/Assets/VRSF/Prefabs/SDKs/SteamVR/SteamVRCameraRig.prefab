@@ -151,7 +151,6 @@ GameObject:
   - component: {fileID: 4564043346116426}
   - component: {fileID: 20792991002025928}
   - component: {fileID: 124229465026099878}
-  - component: {fileID: 114900816034651498}
   - component: {fileID: 114306397749588444}
   m_Layer: 0
   m_Name: Camera (eye)
@@ -2380,19 +2379,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: -1
   origin: {fileID: 0}
---- !u!114 &114900816034651498
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160675514891568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ffcbf105be541b41934fb6eb8b7220f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TeleportFadeDuration: 0.5
-  _fadeMaterial: {fileID: 2100000, guid: 5ba70d58d085f2b44b315edf2d739376, type: 2}
 --- !u!120 &120443069169185024
 LineRenderer:
   m_ObjectHideFlags: 1
