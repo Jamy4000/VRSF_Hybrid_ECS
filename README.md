@@ -31,7 +31,7 @@ Once all of that is done, **Restart your project so everything can be recompiled
 
 
 ## Credits
-The Scriptable Framework in this repository is based on multiple repositories found online, and that's why I would like to thanks the following persons for their work that helped me through the development of this project :
+This repository is based on multiple repositories found online, and that's why I would like to thanks the following persons for their work that helped me through the development of this project :
 - The work of [Thorsten Jänichen](https://github.com/TJaenichen) and [Thomas Masquart](https://github.com/ThmsMsqrt), co-author of the Scriptable Framework used in this repository. Their work is as well based on the excellent Unite Talk 2017 from Ryan Hipple, [available here](https://youtu.be/raQ3iHhE_Kk), and on its [Scriptable Objects Github repository](https://github.com/roboryantron/Unite2017).
 - The EventCallbacks Plugin from [Quill18](https://www.youtube.com/watch?v=04wXkgfd9V8) and the rewriting of it by [CrazyFrog55](https://github.com/crazyfox55) and [FuzzyHobo](https://github.com/FuzzyHobo). I made my own version available [here](https://github.com/Jamy4000/UnityCallbackAndEventTutorial).
 - The Vive-Teleporter offered by [FlaFla2](https://github.com/Flafla2/Vive-Teleporter) for the calculation and display of the Arc Teleporter.
@@ -42,7 +42,7 @@ For more info about this VR framework, please check the Wiki Section on Github.
 
 For more info about the Scriptable Objects and the Framework created, please check the Github Repository given above as well as the Unite talk and Example project provided by Unity and Ryan Hipple.
 
-For more info about the Event System used, please check the Github Repository and video given above as well as the example project I've created on my Github page.
+For more info about the Event System we're using, please check the Github Repository and video given above as well as the example project I've created on my Github page.
 
 
 # Releases
