@@ -20,9 +20,12 @@ To use this Framework, you gonna need to import the following stuffs :
 - **SteamVR 1.2.3** : For now you need to use the deprecated version of SteamVR, that you can find on [their Github Releases Page](https://github.com/ValveSoftware/steamvr_unity_plugin/releases/tag/1.2.3). This will be updated in the next weeks. You can as well only import the Core Scripts from SteamVR, and uncheck the materials, models, Texture, Interaction System, LongBow, ...
 - **The Entities Package** : You can find it in the Package Manager offered by Unity3D (in Unity, Tab Window>Package Manager, in the Packages Window : All > Entities > Install) 
 - **The Incremental Compiler** : You can find it in the Package Manager offered by Unity3D (in Unity, Tab Window>Package Manager, in the Packages Window : All > IncrementalCompiler > Install) 
+- **VR Support** : In the Player Settings Window (Edit > Project Settings > Player), go to the last tab called XR Settings, set the Virtual Reality Supported toggle to true, and has the Oculus, OpenVR and None SDKs to the list.
+- **Scripting Runtime Version** : Finally, still in the Player Settings Window, go to the Other Settings tab and set the Scripting Runtime version to .NET 4.x Equivalent.
 
 ### Oculus GO and Gear VR Specifities
 If you need to build for Oculus GO or Gear VR, you need as well to download the Android Building support (File > Build Settings > Android) and to switch the platform to Android.
+
 
 Once all of that is done, **Restart your project so everything can be recompiled !**
 
