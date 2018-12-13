@@ -5,13 +5,10 @@ namespace VRSF.MoveAround.Teleport.Systems
 {
     public static class SBSCalculationsHelper
     {
-
         public static bool UserIsOnNavMesh(StepByStepSystem.Filter e, out Vector3 newTheoriticPos, LayerMask excludedLayer)
         {
-            var directionVector = CheckHandForward(e);
-            
             // We check the theoritic new user pos
-            newTheoriticPos = VRSF_Components.VRCamera.transform.position + new Vector3(directionVector.x, 0.0f, directionVector.z);
+            newTheoriticPos = GetNewPosWithObstacle(e, excludedLayer);
                 
             // We calculate a vector down based on the new User Pos. 
             var downVector = newTheoriticPos + (Vector3.down * Mathf.Abs(newTheoriticPos.y));
@@ -34,6 +31,22 @@ namespace VRSF.MoveAround.Teleport.Systems
             return endOnNavmesh;
         }
 
+        private static Vector3 GetNewPosWithObstacle(StepByStepSystem.Filter e, LayerMask excludedLayer)
+        {
+            var origin = VRSF_Components.VRCamera.transform.position;
+            var directionVector = CheckHandForward(e);
+            float distanceWithScale = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
+
+            if (Physics.Raycast(origin, directionVector, out RaycastHit hit, distanceWithScale, excludedLayer))
+            {
+                return hit.point - (directionVector / 2);
+            }
+            else
+            {
+                directionVector *= distanceWithScale;
+                return origin + new Vector3(directionVector.x, 0.0f, directionVector.z);
+            }
+        }
 
         /// <summary>
         /// Check, depending on the RayOrigin and the User's size, the forward vector to use.
@@ -41,16 +54,14 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <returns>The new theoritical position of the user</returns>
         private static Vector3 CheckHandForward(StepByStepSystem.Filter entity)
         {
-            float distanceWithScale = VRSF_Components.CameraRig.transform.localScale.y * entity.SBS_Comp.DistanceStepByStep;
-
             switch (entity.BAC_Comp.ButtonHand)
             {
                 case Controllers.EHand.LEFT:
-                    return VRSF_Components.LeftController.transform.forward * distanceWithScale;
+                    return VRSF_Components.LeftController.transform.forward;
                 case Controllers.EHand.RIGHT:
-                    return VRSF_Components.RightController.transform.forward * distanceWithScale;
+                    return VRSF_Components.RightController.transform.forward;
                 case Controllers.EHand.GAZE:
-                    return VRSF_Components.VRCamera.transform.forward * distanceWithScale;
+                    return VRSF_Components.VRCamera.transform.forward;
                 default:
                     Debug.LogError("Please specify a valid RayOrigin in the Inspector to be able to use the Teleport StepByStep feature.");
                     return Vector3.zero;
