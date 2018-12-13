@@ -37,14 +37,8 @@ namespace VRSF.Utils
         /// <param name="newInstance">The new Instance of the VRSF Object</param>
         public static void SetupTransformFromContainer(Transform scriptsContainer, ref GameObject newInstance)
         {
-            if (newInstance.name.Contains("CameraRig"))
-            {
+            if (newInstance.tag.Contains("CameraRig"))
                 SetCameraRigPositionOnStart(scriptsContainer.position);
-            }
-            else
-            {
-                newInstance.transform.position = scriptsContainer.position;
-            }
 
             // We copy the transform values of the scriptsContainer to the newInstance
             newInstance.transform.localScale = scriptsContainer.localScale;
@@ -53,20 +47,18 @@ namespace VRSF.Utils
             // We set the script container as child of the new Instance object
             scriptsContainer.SetParent(newInstance.transform);
             scriptsContainer.transform.localPosition = Vector3.zero;
-            scriptsContainer.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            scriptsContainer.transform.localRotation = Quaternion.identity;
             scriptsContainer.transform.localScale = Vector3.one;
 
 
-            /// <summary>a
+            /// <summary>
             /// Method to set the CameraRig position when launching the app.
             /// </summary>
-            /// <param name="newPos">The new Pos where the user should be in World coordinate</param>
-            void SetCameraRigPositionOnStart(Vector3 newPos)
+            /// <param name="newWorldPos">The new Pos where the user should be in World coordinate</param>
+            void SetCameraRigPositionOnStart(Vector3 newWorldPos)
             {
-                newPos = DeviceLoaded != EDevice.OPENVR ?
-                    newPos : (newPos - VRCamera.transform.localPosition);
-
-                CameraRig.transform.position = newPos;
+                CameraRig.transform.position = DeviceLoaded == EDevice.OPENVR ? 
+                    (newWorldPos - VRCamera.transform.localPosition) : newWorldPos;
             }
         }
 
@@ -77,8 +69,8 @@ namespace VRSF.Utils
         /// <param name="setYPos">Wheter we have to change the Y position</param>
         public static void SetCameraRigPosition(Vector3 newPos, bool setYPos = true)
         {
-            if (DeviceLoaded != EDevice.OPENVR)
-                newPos.y += 1.8f;
+            if (setYPos && DeviceLoaded == EDevice.OPENVR)
+                newPos.y -= VRCamera.transform.localPosition.y;
 
             CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
         }
@@ -92,8 +84,8 @@ namespace VRSF.Utils
             {
                 // If we use the controller, we check the object in this class. If not, we only check the VRCamera and the CameraRig. 
                 return ControllersParametersVariable.Instance.UseControllers ?
-                    (CameraRig != null && VRCamera != null) :
-                    (CameraRig != null && VRCamera != null && LeftController != null && RightController != null);
+                    (CameraRig != null && VRCamera != null && LeftController != null && RightController != null) :
+                    (CameraRig != null && VRCamera != null);
             }
 
 

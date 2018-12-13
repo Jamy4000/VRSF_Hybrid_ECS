@@ -93,46 +93,11 @@ namespace VRSF.MoveAround.Teleport.Systems
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
             Filter e = (Filter)teleportFilter;
+            
+            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos))
+                VRSF_Components.SetCameraRigPosition(newUsersPos);
 
-            // We check where the user should be when teleported one meter away.
-            Vector3 newPos = SBSCalculationsHelper.CheckHandForward(e);
-
-            // If the new pos returned is null, an error as occured, so we stop the method
-            if (newPos != Vector3.zero)
-            {
-                // We check the theoritic new user pos
-                var newUsersPos = VRSF_Components.CameraRig.transform.position + new Vector3(newPos.x, 0.0f, newPos.z);
-                if (VRSF_Components.DeviceLoaded == EDevice.OPENVR)
-                    newUsersPos.y += VRSF_Components.VRCamera.transform.localPosition.y;
-
-                // We launch a Vector directed to the floor to check if the new position is on the Teleport NavMesh
-                // We use a 2.5 factor as a user's height is between 0.0 (SteamVR) and the height of a normal user (2 meter approximatively)
-                // and we multiply it to the scale of the user
-                var vectorDownFactor = Vector3.down * VRSF_Components.CameraRig.transform.localScale.y;
-
-                vectorDownFactor *= 3.5f;/* VRSF_Components.DeviceLoaded == EDevice.OPENVR ?
-                    VRSF_Components.VRCamera.transform.localPosition.y + 1.2f : 3.5f;*/
-
-                var downVector = newUsersPos + vectorDownFactor;
-
-                // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
-                TeleportNavMeshHelper.Linecast
-                (
-                    newUsersPos,
-                    downVector,
-                    out bool endOnNavmesh,
-                    e.TeleportGeneral.ExclusionLayer,
-                    out e.TeleportGeneral.PointToGoTo,
-                    out Vector3 norm,
-                    e.SceneObjects._TeleportNavMesh
-                );
-
-                if (endOnNavmesh)
-                {
-                    e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-                    VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);// - new Vector3(0, 0.15f, 0));
-                }
-            }
+            e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
         }
         #endregion
 
@@ -147,7 +112,15 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
+            if (e.BAC_Comp.BACTimer != null)
+            {
+                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
+            }
+            // If the user is not aimaing at anything OR is not aiming at the UI, we try to teleport the user
+            else if (e.RayComp.RaycastHitVar.isNull || e.RayComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
+            {
+                TeleportUser(e);
+            }
         }
 
         /// <summary>
@@ -157,11 +130,16 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
-            // If the user is aiming to the UI, we don't activate the system
-            if (!e.RayComp.RaycastHitVar.isNull && e.RayComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
-                return;
+            if (UserCanTeleportOnStopInteracting())
+                TeleportUser(e);
 
-            TeleportUser(e);
+            bool UserCanTeleportOnStopInteracting()
+            {
+                // If we use a BACTimer (if not, teleported on Start Interacting) AND that the timer is ready AND
+                // If the user is not aimaing at anything OR is not aiming at the UI, we try to teleport the user
+                return e.BAC_Comp.BACTimer != null && BACTimerUpdateSystem.TimerIsReady(e.BAC_Comp.BACTimer) &&
+                   (e.RayComp.RaycastHitVar.isNull || e.RayComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"));
+            }
         }
 
         /// <summary>

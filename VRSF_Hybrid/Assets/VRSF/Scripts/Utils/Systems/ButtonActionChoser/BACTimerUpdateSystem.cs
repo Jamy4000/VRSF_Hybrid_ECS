@@ -53,9 +53,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                         if (e.BAC_Calc.IsTouching.Value)
                         {
                             StartActionIsTouching(e);
-
-                            if (!e.BACTimer._OldTouchingState)
-                                e.BACTimer._OldTouchingState = true;
+                            e.BACTimer._OldTouchingState = true;
                         }
                         else if (e.BACTimer._OldTouchingState)
                         {
@@ -70,9 +68,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                         if (e.BAC_Calc.IsClicking.Value)
                         {
                             StartActionIsClicking(e);
-
-                            if (!e.BACTimer._OldClickingState)
-                                e.BACTimer._OldClickingState = true;
+                            e.BACTimer._OldClickingState = true;
                         }
                         else if (e.BACTimer._OldClickingState)
                         {

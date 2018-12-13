@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
@@ -29,7 +28,7 @@ namespace VRSF.MoveAround.Teleport
                     else
                     {
                         e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo + new Vector3(0.0f, -0.2f, 0.0f));
+                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);
                     }
                 }
             }

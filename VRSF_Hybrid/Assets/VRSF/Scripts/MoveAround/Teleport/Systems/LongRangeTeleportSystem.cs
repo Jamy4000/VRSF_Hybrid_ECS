@@ -107,7 +107,7 @@ namespace VRSF.MoveAround.Teleport.Systems
 
         #region Teleport_Interface
         /// <summary>
-        /// Method to call from StartClicking or StartTouching, teleport the user one meter away.
+        /// Method to call from StopTOuching or StopClicking Callback, set the user position to where he's poiting
         /// </summary>
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
@@ -160,7 +160,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 bool endOnNavmesh = false;
 
                 // If the raycast is hitting something and it's not a UI Element
-                if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
+                if (entity.RaycastComp.RaycastHitVar.isNull || entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
                 {
                     TeleportNavMeshHelper.Linecast(entity.RaycastComp.RayVar.Value.origin, entity.RaycastComp.RaycastHitVar.Value.point, out endOnNavmesh,
                                                entity.TeleportGeneral.ExclusionLayer, out entity.TeleportGeneral.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh);
