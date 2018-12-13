@@ -36,12 +36,8 @@ namespace VRSF.MoveAround.Systems
         #region PRIVATE_METHODS
         private void HandleRotationWithAcceleration(Filter entity)
         {
-            // If the user is aiming to the UI, we don't activate the system
-            if (!entity.RaycastComp.RaycastHitVar.isNull && entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
-            {
-                return;
-            }
-            else
+            // If the user is not aiming to the UI
+            if (!entity.RaycastComp.RaycastHitVar.RaycastHitIsOnUI())
             {
                 // isAccelerating : The user is Rotating (touching/clicking the thumbstick) and the currentSpeed is < (maxSpeed / 5)
                 bool isAccelerating = entity.RotationComp.IsRotating && entity.RotationComp.CurrentSpeed < (entity.RotationComp.MaxSpeed / 20);

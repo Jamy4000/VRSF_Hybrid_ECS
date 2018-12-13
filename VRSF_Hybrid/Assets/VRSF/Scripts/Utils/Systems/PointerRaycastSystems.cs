@@ -165,11 +165,11 @@ namespace VRSF.Utils.Systems
             {
                 var first3DHit = hits.OrderBy(x => x.distance).First();
                 hitVariable.SetValue(first3DHit);
-                hitVariable.isNull = false;
+                hitVariable.SetIsNull(false);
             }
             else
             {
-                hitVariable.isNull = true;
+                hitVariable.SetIsNull(true);
             }
         }
         #endregion PRIVATE_METHODS

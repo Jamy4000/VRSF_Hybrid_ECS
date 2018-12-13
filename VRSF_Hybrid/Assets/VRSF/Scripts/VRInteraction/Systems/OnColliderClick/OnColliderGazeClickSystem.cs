@@ -55,19 +55,16 @@ namespace VRSF.Interactions.Systems
         private void HandleClick(Filter entity)
         {
             //If nothing is hit, we set the isOver value to false
-            if (entity.ScriptableSingletons.InteractionsContainer.GazeHit.isNull)
+            if (entity.ScriptableSingletons.InteractionsContainer.GazeHit.IsNull)
             {
                 entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(false);
             }
             else
             {
-                if (entity.ScriptableSingletons.InteractionsContainer.GazeHit.Value.collider != null)
-                {
-                    entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(true);
+                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(true);
 
-                    var objectClicked = entity.ScriptableSingletons.InteractionsContainer.GazeHit.Value.collider.transform;
-                    new ObjectWasClickedEvent(EHand.GAZE, objectClicked);
-                }
+                var objectClicked = entity.ScriptableSingletons.InteractionsContainer.GazeHit.Value.collider.transform;
+                new ObjectWasClickedEvent(EHand.GAZE, objectClicked);
             }
         }
         #endregion PRIVATE_METHODS

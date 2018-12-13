@@ -142,28 +142,16 @@ namespace VRSF.Editor
             switch (hand)
             {
                 case (EHand.RIGHT):
-                    _controllersParameters.RightPointerState = (EPointerState)EditorGUILayout.EnumPopup("Right Pointer State", _controllersParameters.RightPointerState);
-
                     LayerMask rightTempMask = EditorGUILayout.MaskField("Excluded layer Right", InternalEditorUtility.LayerMaskToConcatenatedLayersMask(_controllersParameters.RightExclusionLayer), InternalEditorUtility.layers);
                     _controllersParameters.RightExclusionLayer = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(rightTempMask);
-
-                    _controllersParameters.ColorMatOnRight = EditorGUILayout.ColorField("Color On Right", _controllersParameters.ColorMatOnRight);
-                    _controllersParameters.ColorMatOffRight = EditorGUILayout.ColorField("Color Off Right", _controllersParameters.ColorMatOffRight);
-                    _controllersParameters.ColorMatSelectableRight = EditorGUILayout.ColorField("Color Selectable Right", _controllersParameters.ColorMatSelectableRight);
-
+                    
                     _controllersParameters.MaxDistancePointerRight = EditorGUILayout.FloatField("Max Distance Right Pointer", _controllersParameters.MaxDistancePointerRight);
                     break;
 
                 case (EHand.LEFT):
-                    _controllersParameters.LeftPointerState = (EPointerState)EditorGUILayout.EnumPopup("Left Pointer State", _controllersParameters.LeftPointerState);
-
                     LayerMask leftTempMask = EditorGUILayout.MaskField("Excluded layer Left", InternalEditorUtility.LayerMaskToConcatenatedLayersMask(_controllersParameters.LeftExclusionLayer), InternalEditorUtility.layers);
                     _controllersParameters.LeftExclusionLayer = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(leftTempMask);
-
-                    _controllersParameters.ColorMatOnLeft = EditorGUILayout.ColorField("Color On Left", _controllersParameters.ColorMatOnLeft);
-                    _controllersParameters.ColorMatOffLeft = EditorGUILayout.ColorField("Color Off Left", _controllersParameters.ColorMatOffLeft);
-                    _controllersParameters.ColorMatSelectableLeft = EditorGUILayout.ColorField("Color Selectable Left", _controllersParameters.ColorMatSelectableLeft);
-
+                    
                     _controllersParameters.MaxDistancePointerLeft = EditorGUILayout.FloatField("Max Distance Left Pointer", _controllersParameters.MaxDistancePointerLeft);
                     break;
 

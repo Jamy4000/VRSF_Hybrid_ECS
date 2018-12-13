@@ -29,9 +29,7 @@ namespace VRSF.MoveAround.Systems
                 SetupListenersResponses(e);
             }
         }
-
-        protected override void OnUpdate() { }
-
+        
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();

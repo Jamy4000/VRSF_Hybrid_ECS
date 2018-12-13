@@ -2,50 +2,54 @@
 using UnityEngine.SceneManagement;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
-using VRSF.MoveAround.Teleport.Interfaces;
-using VRSF.Utils;
-using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport.Systems
 {
     /// <summary>
-    /// Using the ButtonActionChoser, this System allow the user to move Step by Step, ie in the direction of its laser to which this feature is linked.
+    /// Used to display a Slider and Text on the User's controller when loading the LongRangeTeleport feature
     /// </summary>
-    public class StepByStepSystem : BACListenersSetupSystem, ITeleportSystem
+    public class LongRangeUISystem : BACListenersSetupSystem
     {
-        public struct Filter : ITeleportFilter
+        struct Filter
         {
-            public StepByStepComponent SBS_Comp;
-            public ScriptableRaycastComponent RayComp;
+            public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;
             public TeleportGeneralComponent TeleportGeneral;
-            public SceneObjectsComponent SceneObjects;
         }
-
-        private Controllers.ControllersParametersVariable _controllersVariable;
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            _controllersVariable = Controllers.ControllersParametersVariable.Instance;
+
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            bool isUsingSystem = false;
+
             foreach (var e in GetEntities<Filter>())
             {
-                SetupListenersResponses(e);
+                if (e.LRT_Comp.UseLoadingTimer && (e.LRT_Comp.TeleportText != null || e.LRT_Comp.FillRect != null))
+                {
+                    isUsingSystem = true;
+                    SetupListenersResponses(e);
+                    OnStopInteractingCallback(e);
+                }
             }
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-        }
 
+            this.Enabled = isUsingSystem;
+        }
+        
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
+
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
+
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
@@ -57,15 +61,18 @@ namespace VRSF.MoveAround.Teleport.Systems
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
+
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
                 e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
                 e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
             }
         }
@@ -73,75 +80,83 @@ namespace VRSF.MoveAround.Teleport.Systems
         public override void RemoveListeners(object entity)
         {
             var e = (Filter)entity;
+
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
                 e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
                 e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
                 e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
         #endregion Listeners_Setup
-
-
-        #region Teleport_Interface
-        /// <summary>
-        /// Method to call from StopTouching, teleport the user in the direction of its controller.
-        /// </summary>
-        public void TeleportUser(ITeleportFilter teleportFilter)
-        {
-            Filter e = (Filter)teleportFilter;
-            
-            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
-                VRSF_Components.SetCameraRigPosition(newUsersPos);
-
-            e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-        }
-        #endregion
-
+        
         #endregion
 
 
         #region PRIVATE_METHODS
         /// <summary>
-        /// Callback for when the user start to interact with the button link to this feature.
-        /// Take account of the BAC Timer if the component is attached to this Entity.
+        /// Method to call from the StartTouching or StartClicking Method, set the Loading Slider values if used.
         /// </summary>
-        /// <param name="e"></param>
-        private void OnStartInteractingCallback(Filter e)
+        private void OnStartInteractingCallback(Filter entity)
         {
-            if (e.BAC_Comp.BACTimer != null)
+            // If we use the loading slider, we set the fillRect value and the TeleportText value
+            if (entity.LRT_Comp.FillRect != null)
             {
-                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
+                entity.LRT_Comp.FillRect.gameObject.SetActive(true);
+                entity.LRT_Comp.FillRect.fillAmount = 0.0f;
             }
-            // If the user is not aimaing at anything OR is not aiming at the UI, we try to teleport the user
-            else if (!e.RayComp.RaycastHitVar.RaycastHitIsOnUI())
+
+            // If we use the teleport text, we set the text to Preparing
+            if (entity.LRT_Comp.TeleportText != null)
             {
-                TeleportUser(e);
+                entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
+                entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
             }
         }
 
         /// <summary>
-        /// Callback for when the user stop to interact with the button link to this feature.
-        /// Take account of the BAC Timer if the component is attached to this Entity.
+        /// To call from the IsClicking or IsTouching event
         /// </summary>
-        /// <param name="e"></param>
-        private void OnStopInteractingCallback(Filter e)
+        private void OnIsInteractingCallback(Filter e)
         {
-            if (UserCanTeleport())
-                TeleportUser(e);
+            Color32 fillRectColor = e.TeleportGeneral.CanTeleport ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
 
-            bool UserCanTeleport()
+            // If we use a loading slider and the fillRect to give the user a visual feedback is not null
+            if (e.LRT_Comp.UseLoadingTimer && e.LRT_Comp.FillRect != null)
             {
-                // If we use a BACTimer (if not, teleported on Start Interacting) AND that the timer is ready AND
-                // If the user is not aiming at the UI, we try to teleport the user
-                return e.BAC_Comp.BACTimer != null && BACTimerUpdateSystem.TimerIsReady(e.BAC_Comp.BACTimer) && !e.RayComp.RaycastHitVar.RaycastHitIsOnUI();
+                e.LRT_Comp.FillRect.color = fillRectColor;
+
+                // If the loading slider is still not full
+                if (e.LRT_Comp.FillRect.fillAmount < 1.0f)
+                    e.LRT_Comp.FillRect.fillAmount += Time.deltaTime / e.LRT_Comp.LoadingTime;
+            }
+
+            // If we use a loading slider and the Text to give the user a visual feedback is not null
+            if (e.LRT_Comp.UseLoadingTimer && e.LRT_Comp.TeleportText != null)
+            {
+                // If we use a text to give a feedback to the user
+                e.LRT_Comp.TeleportText.color = fillRectColor;
+                e.LRT_Comp.TeleportText.text = e.TeleportGeneral.CanTeleport ? "Release To Teleport !" : "Waiting for ground ...";
             }
         }
+
+
+        /// <summary>
+        /// If used it, we deactivate the Teleport Slider and Text when the user release the button.
+        /// </summary>
+        private void OnStopInteractingCallback(Filter e)
+        {
+            e.LRT_Comp.FillRect?.gameObject.SetActive(false);
+            e.LRT_Comp.TeleportText?.gameObject.SetActive(false);
+        }
+
 
         /// <summary>
         /// Reactivate the System when switching to another Scene.
@@ -152,6 +167,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 SetupListenersResponses(e);
+                OnStopInteractingCallback(e);
             }
         }
         #endregion

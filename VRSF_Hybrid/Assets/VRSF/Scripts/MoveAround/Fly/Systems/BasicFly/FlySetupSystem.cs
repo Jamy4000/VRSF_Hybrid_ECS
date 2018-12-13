@@ -111,11 +111,8 @@ namespace VRSF.MoveAround.Systems
         public void ButtonIsInteracting(Filter entity)
         {
             // If the user is aiming to the UI, we don't activate the system
-            if (!entity.RaycastComp.RaycastHitVar.isNull && 
-                entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer == LayerMask.NameToLayer("UI"))
-                return;
-
-            entity.FlyComponent._IsInteracting = true;
+            if (!entity.RaycastComp.RaycastHitVar.RaycastHitIsOnUI())
+                entity.FlyComponent._IsInteracting = true;
         }
         #endregion PUBLIC_METHODS
 

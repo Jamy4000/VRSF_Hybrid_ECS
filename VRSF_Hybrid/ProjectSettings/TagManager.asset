@@ -6,11 +6,10 @@ TagManager:
   tags:
   - UIBorder
   - KeyboardKey
-  - RightController
-  - LeftController
-  - CameraRig
-  - MovableCanvas
   - Toggle
+  - RESERVED_RightController
+  - RESERVED_LeftController
+  - RESERVED_CameraRig
   layers:
   - Default
   - TransparentFX

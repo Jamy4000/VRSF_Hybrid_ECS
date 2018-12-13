@@ -27,16 +27,7 @@ namespace VRSF.Controllers
 
         [Tooltip("OPTIONAL : Layer(s) to exclude from the raycast with the Left controller Pointer. Use the Layer number given in the Layer list.")]
         public LayerMask LeftExclusionLayer = 0;
-
-        [Tooltip("The basic color of the left controllers ray.")]
-        public Color ColorMatOnLeft = Color.blue;
-
-        [Tooltip("The basic color of the left controllers ray.")]
-        public Color ColorMatOffLeft = Color.red;
-
-        [Tooltip("The basic color of the left controllers ray.")]
-        public Color ColorMatSelectableLeft = Color.green;
-
+        
         [Tooltip("Themaximum distance at which the left pointer is going.")]
         public float MaxDistancePointerLeft = 1000f;
 
@@ -50,16 +41,7 @@ namespace VRSF.Controllers
 
         [Tooltip("OPTIONAL : Layer(s) to exclude from the raycast with the Right controller Pointer. Use the Layer number given in the Layer list.")]
         public LayerMask RightExclusionLayer = 0;
-
-        [Tooltip("The basic color of the right controllers ray.")]
-        public Color ColorMatOnRight = Color.blue;
-
-        [Tooltip("The basic color of the right controllers ray.")]
-        public Color ColorMatOffRight = Color.red;
-
-        [Tooltip("The basic color of the right controllers ray.")]
-        public Color ColorMatSelectableRight = Color.green;
-
+        
         [Tooltip("Themaximum distance at which the right pointer is going.")]
         public float MaxDistancePointerRight = 1000f;
         #endregion PUBLIC_VARIABLE
@@ -74,18 +56,14 @@ namespace VRSF.Controllers
             UseControllers = true;
 
             UsePointerLeft = true;
+            LeftPointerState = EPointerState.ON;
             LeftExclusionLayer = 0;
-            ColorMatOnLeft = Color.blue;
-            ColorMatOffLeft = Color.red;
-            ColorMatSelectableLeft = Color.green;
-            MaxDistancePointerLeft = 1000f;
+            MaxDistancePointerLeft = 20f;
 
             UsePointerRight = true;
+            RightPointerState = EPointerState.ON;
             RightExclusionLayer = 0;
-            ColorMatOnRight = Color.blue;
-            ColorMatOffRight = Color.red;
-            ColorMatSelectableRight = Color.green;
-            MaxDistancePointerRight = 1000f;
+            MaxDistancePointerRight = 20f;
         }
 
         /// <summary>
