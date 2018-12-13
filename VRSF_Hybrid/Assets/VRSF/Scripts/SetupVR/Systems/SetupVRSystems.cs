@@ -43,13 +43,9 @@ namespace VRSF.Utils.Systems
             foreach (var e in GetEntities<Filter>())
             {
                 if (!VRSF_Components.SetupVRIsReady)
-                {
                     SetupVRInScene(e.SetupVR);
-                }
                 else
-                {
                     this.Enabled = false;
-                }
             }
         }
 
@@ -205,8 +201,8 @@ namespace VRSF.Utils.Systems
             {
                 try
                 {
-                    VRSF_Components.LeftController = GameObject.FindGameObjectWithTag("LeftController");
-                    VRSF_Components.RightController = GameObject.FindGameObjectWithTag("RightController");
+                    VRSF_Components.LeftController = GameObject.FindGameObjectWithTag("RESERVED_LeftController");
+                    VRSF_Components.RightController = GameObject.FindGameObjectWithTag("RESERVED_RightController");
 
                     return VRSF_Components.LeftController != null && VRSF_Components.RightController != null;
                 }

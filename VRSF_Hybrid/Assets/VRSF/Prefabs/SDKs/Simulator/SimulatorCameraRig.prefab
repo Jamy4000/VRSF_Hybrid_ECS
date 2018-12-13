@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4589119857231446}
   m_Layer: 0
   m_Name: Controller (left)
-  m_TagString: LeftController
+  m_TagString: RESERVED_LeftController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4048908168106772}
   m_Layer: 0
   m_Name: Controller (right)
-  m_TagString: RightController
+  m_TagString: RESERVED_RightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 114113482233076910}
   m_Layer: 0
   m_Name: SimulatorCameraRig
-  m_TagString: CameraRig
+  m_TagString: RESERVED_CameraRig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

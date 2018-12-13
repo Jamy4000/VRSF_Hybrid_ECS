@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 4607483101584848}
   m_Layer: 0
   m_Name: LeftHandAnchor
-  m_TagString: LeftController
+  m_TagString: RESERVED_LeftController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 114533925968930356}
   m_Layer: 0
   m_Name: OculusRiftCameraRig
-  m_TagString: CameraRig
+  m_TagString: RESERVED_CameraRig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 4360295369166706}
   m_Layer: 0
   m_Name: RightHandAnchor
-  m_TagString: RightController
+  m_TagString: RESERVED_RightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

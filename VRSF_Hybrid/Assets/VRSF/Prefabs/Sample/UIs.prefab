@@ -893,7 +893,7 @@ GameObject:
   - component: {fileID: 114452706484548874}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Toggle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -998,7 +998,7 @@ GameObject:
   - component: {fileID: 65501351082022638}
   m_Layer: 5
   m_Name: Border
-  m_TagString: UIBorder
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1032,7 +1032,7 @@ GameObject:
   - component: {fileID: 114696695312955980}
   m_Layer: 5
   m_Name: Background
-  m_TagString: Toggle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1267,7 +1267,7 @@ GameObject:
   - component: {fileID: 65985711208916478}
   m_Layer: 5
   m_Name: Border
-  m_TagString: UIBorder
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1356,7 +1356,7 @@ GameObject:
   - component: {fileID: 65746813742196820}
   m_Layer: 5
   m_Name: Border
-  m_TagString: UIBorder
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1900,7 +1900,7 @@ GameObject:
   - component: {fileID: 65875449213346218}
   m_Layer: 5
   m_Name: Border
-  m_TagString: UIBorder
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2112,7 +2112,7 @@ GameObject:
   - component: {fileID: 114226464407831198}
   m_Layer: 5
   m_Name: VRToggle
-  m_TagString: Toggle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2907,7 +2907,7 @@ GameObject:
   - component: {fileID: 114834890956955506}
   m_Layer: 5
   m_Name: Checkmark
-  m_TagString: Toggle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

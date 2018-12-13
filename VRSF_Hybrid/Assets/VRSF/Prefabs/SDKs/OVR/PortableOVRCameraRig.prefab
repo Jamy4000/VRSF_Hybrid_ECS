@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 120104050895337074}
   m_Layer: 0
   m_Name: LeftHandAnchor
-  m_TagString: LeftController
+  m_TagString: RESERVED_LeftController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 114533925968930356}
   m_Layer: 0
   m_Name: PortableOVRCameraRig
-  m_TagString: CameraRig
+  m_TagString: RESERVED_CameraRig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 120507079112646520}
   m_Layer: 0
   m_Name: RightHandAnchor
-  m_TagString: RightController
+  m_TagString: RESERVED_RightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

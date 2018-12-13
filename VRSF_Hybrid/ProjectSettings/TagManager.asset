@@ -4,12 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - UIBorder
   - KeyboardKey
-  - Toggle
   - RESERVED_RightController
   - RESERVED_LeftController
   - RESERVED_CameraRig
+  - CameraRig
+  - RightController
+  - LeftController
   layers:
   - Default
   - TransparentFX

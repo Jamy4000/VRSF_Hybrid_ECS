@@ -56,6 +56,8 @@ namespace VRSF.UI
 
                 // We setup the BoxCollider size and center
                 StartCoroutine(SetupBoxCollider());
+
+                CheckContentStatus();
             }
         }
 
@@ -67,13 +69,8 @@ namespace VRSF.UI
 
         private void Update()
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying && _boxColliderSetup)
             {
-                if (!_boxColliderSetup)
-                {
-                    return;
-                }
-
                 CheckClickDown();
 
                 if (_HandHoldingHandle != EHand.NONE)
@@ -83,6 +80,8 @@ namespace VRSF.UI
 
                     if (horizontal && horizontalScrollbar)
                         horizontalScrollbar.value = _ScrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
+
+                    CheckContentStatus();
                 }
             }
         }
@@ -205,6 +204,30 @@ namespace VRSF.UI
             _boxColliderSetup = true;
         }
 
+        void CheckContentStatus()
+        {
+            var maxYViewport = viewport.transform.position.y + (viewport.rect.height / 2);
+            var minYViewport = viewport.transform.position.y - (viewport.rect.height / 2);
+            var maxXViewport = viewport.transform.position.x + (viewport.rect.width / 2);
+            var minXViewport = viewport.transform.position.x - (viewport.rect.width / 2);
+
+            foreach (var collider in content.GetComponentsInChildren<Collider>())
+            {
+                bool finalStatus = false;
+                Vector3 pos = collider.GetComponent<RectTransform>().position;
+
+                if (vertical && pos.y < maxYViewport && pos.y > minYViewport)
+                    finalStatus = true;
+
+                if (horizontal && pos.x < maxXViewport && pos.y > minXViewport)
+                    finalStatus = true;
+                else
+                    finalStatus = false;
+                        
+                collider.enabled = finalStatus;
+            }
+        }
+
         /// <summary>
         /// Set the scrollRect references (scrollbar, content and viewport) by looking in the DeepChildren
         /// </summary>
@@ -213,7 +236,7 @@ namespace VRSF.UI
             // get VRScrollBarVertical if we use the scrollrect as vertical
             try
             {
-                if (vertical)
+                if (vertical && verticalScrollbar == null)
                     verticalScrollbar = transform.FindDeepChild("VRScrollbarVertical").GetComponent<VRScrollBar>();
             }
             catch { /* No vertical Scrollbar was found. */ }
@@ -221,18 +244,18 @@ namespace VRSF.UI
             // get VRScrollBarHorizontal if we use the scrollrect as horizontal
             try
             {
-                if (horizontal)
+                if (horizontal && horizontalScrollbar == null)
                     horizontalScrollbar = transform.FindDeepChild("VRScrollbarHorizontal").GetComponent<VRScrollBar>();
             }
             catch { /* No horizontal Scrollbar was found. */ }
 
             // get the viewport
-            try { viewport = transform.FindDeepChild("Viewport").GetComponent<RectTransform>(); }
+            try { if (viewport == null) viewport = transform.FindDeepChild("Viewport").GetComponent<RectTransform>(); }
             catch { /* No Viewport was found.*/ }
 
 
             // get the content
-            try { content = transform.FindDeepChild("Content").GetComponent<RectTransform>(); }
+            try { if (content == null) content = transform.FindDeepChild("Content").GetComponent<RectTransform>(); }
             catch { /* No Content was found.*/ }
         }
         #endregion

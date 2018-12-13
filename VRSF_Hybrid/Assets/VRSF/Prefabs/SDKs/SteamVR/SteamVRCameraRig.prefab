@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 114362647696192826}
   m_Layer: 0
   m_Name: SteamVRCameraRig
-  m_TagString: CameraRig
+  m_TagString: RESERVED_CameraRig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 114854272374558628}
   m_Layer: 0
   m_Name: Controller (right)
-  m_TagString: RightController
+  m_TagString: RESERVED_RightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 114589108609959534}
   m_Layer: 0
   m_Name: Controller (left)
-  m_TagString: LeftController
+  m_TagString: RESERVED_LeftController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
