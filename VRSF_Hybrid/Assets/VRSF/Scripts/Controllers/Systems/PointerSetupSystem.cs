@@ -68,9 +68,7 @@ namespace VRSF.Controllers.Systems
             try
             {
                 if (_controllersParameters.UseControllers)
-                {
                     SetupPointers(comp);
-                }
 
                 comp._IsSetup = true;
             }
@@ -87,31 +85,34 @@ namespace VRSF.Controllers.Systems
         {
             // We setup the right pointer
             comp._RightHandPointer = VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
-            comp._RightHandPointer.material.color = _controllersParameters.RightPointerState != EPointerState.OFF ?
-                _controllersParameters.ColorMatOnRight : _controllersParameters.ColorMatOffRight;
             comp._RightParticles = comp._RightHandPointer.GetComponentsInChildren<ParticleSystem>();
 
             if (!_controllersParameters.UsePointerRight || VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
-            {
-                comp._RightHandPointer.enabled = false;
-                foreach (var particleSystem in comp._RightParticles)
-                {
-                    particleSystem.Stop();
-                }
-            }
+                RemovePointer(comp._RightHandPointer, comp._RightParticles);
 
             // We setup the left pointer
             comp._LeftHandPointer = VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>();
-            comp._LeftHandPointer.material.color = _controllersParameters.LeftPointerState != EPointerState.OFF ?
-                _controllersParameters.ColorMatOnLeft : _controllersParameters.ColorMatOffLeft;
             comp._LeftParticles = comp._LeftHandPointer.GetComponentsInChildren<ParticleSystem>();
 
             if (!_controllersParameters.UsePointerLeft || VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
+                RemovePointer(comp._LeftHandPointer, comp._LeftParticles);
+
+
+            /// <summary>
+            /// Disable the LineRenderer and the particle System used on the Pointer
+            /// </summary>
+            /// <param name="lineRenderer">The line Renderer to disable</param>
+            /// <param name="particleSystems">The particle systems to stop</param>
+            void RemovePointer(LineRenderer lineRenderer, ParticleSystem[] particleSystems)
             {
-                comp._LeftHandPointer.enabled = false;
-                foreach (var particleSystem in comp._LeftParticles)
+                lineRenderer.enabled = false;
+                if (particleSystems != null)
                 {
-                    particleSystem.Stop();
+                    foreach (var particleSystem in particleSystems)
+                    {
+                        particleSystem.Stop();
+                        particleSystem.Clear();
+                    }
                 }
             }
         }
