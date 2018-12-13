@@ -9,16 +9,18 @@ TagManager:
   - RightController
   - LeftController
   - CameraRig
+  - MovableCanvas
+  - Toggle
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
   - 
+  - Water
+  - UI
   - 
   - 
   - 
-  - 
-  - Teleport
   - 
   - 
   - 

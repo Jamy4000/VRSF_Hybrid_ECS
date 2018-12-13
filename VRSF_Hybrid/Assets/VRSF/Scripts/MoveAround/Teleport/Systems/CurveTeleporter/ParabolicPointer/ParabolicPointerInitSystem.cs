@@ -29,7 +29,6 @@ namespace VRSF.MoveAround.Teleport
 
             foreach (var e in GetEntities<Filter>())
             {
-                e.PointerObjects.StartCoroutine(CheckHand(e));
                 InitValues(e);
             }
         }
@@ -62,45 +61,6 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerObjects._invalidPadObject = GameObject.Instantiate(e.PointerObjects._invalidPadPrefab);
                 e.PointerObjects._invalidPadObject.transform.SetParent(e.PointerObjects.transform);
                 e.PointerObjects._invalidPadObject.SetActive(false);
-            }
-        }
-
-
-        /// <summary>
-        /// Set the ExclusionLayer and the ControllerPointer (LineRederer) reference depending on the Hand holding the script.
-        /// </summary>
-        /// <param name="e">The entity to check in the scene</param>
-        private IEnumerator<WaitForEndOfFrame> CheckHand(Filter entity)
-        {
-            // We wait until the controllers are set
-            while (VRSF_Components.RightController == null)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-
-            switch (entity.BACGeneral.ButtonHand)
-            {
-                case (EHand.LEFT):
-                    entity.TeleportGeneral.ExclusionLayer = ControllersParametersVariable.Instance.GetExclusionsLayer(EHand.LEFT);
-
-                    if (ControllersParametersVariable.Instance.UsePointerLeft)
-                        entity.PointerObjects._ControllerPointer = VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>();
-                    break;
-
-                case (EHand.RIGHT):
-                    entity.TeleportGeneral.ExclusionLayer = ControllersParametersVariable.Instance.GetExclusionsLayer(EHand.RIGHT);
-
-                    if (ControllersParametersVariable.Instance.UsePointerRight)
-                        entity.PointerObjects._ControllerPointer = VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
-                    break;
-
-                case (EHand.GAZE):
-                    entity.TeleportGeneral.ExclusionLayer = Gaze.GazeParametersVariable.Instance.GetGazeExclusionsLayer();
-                    break;
-
-                default:
-                    Debug.LogError("Please specify a valid hand in the BezierTeleport script. The Gaze cannot be used.");
-                    break;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace VRSF.Utils.Systems
     /// System used to set the only controller used by the GearVR and the Oculus GO depending on 
     /// whether the user is left handed or right handed
     /// </summary>
-    public class OVRControllerSetupSystem : ComponentSystem
+    public class PortableOVRControllerSetupSystem : ComponentSystem
     {
         struct Filter
         {

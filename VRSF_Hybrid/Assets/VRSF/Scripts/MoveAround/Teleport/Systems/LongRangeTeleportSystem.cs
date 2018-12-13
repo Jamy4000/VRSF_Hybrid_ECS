@@ -131,23 +131,23 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <summary>
         /// To call from the IsClicking or IsTouching event
         /// </summary>
-        private void OnIsInteractingCallback(Filter entity)
+        private void OnIsInteractingCallback(Filter e)
         {
-            entity.LRT_Comp._LoadingTimer += Time.deltaTime;
+            e.LRT_Comp._LoadingTimer += Time.deltaTime;
 
             // We check that the user can actually teleport himself
             CheckTeleport();
             
             // If the loading slider is still not full
-            if (entity.LRT_Comp.UseLoadingTimer && entity.LRT_Comp.FillRect != null)
+            if (e.LRT_Comp.UseLoadingTimer && e.LRT_Comp.FillRect != null)
             {
-                if (entity.LRT_Comp.FillRect.fillAmount < 1.0f)
-                    entity.LRT_Comp.FillRect.fillAmount += Time.deltaTime / entity.LRT_Comp.LoadingTime;
+                if (e.LRT_Comp.FillRect.fillAmount < 1.0f)
+                    e.LRT_Comp.FillRect.fillAmount += Time.deltaTime / e.LRT_Comp.LoadingTime;
             }
 
             // If we use a text to give a feedback to the user
-            if (entity.LRT_Comp.TeleportText != null)
-                entity.LRT_Comp.TeleportText.text = entity.TeleportGeneral.CanTeleport ? "Release To Teleport !" : "Waiting for ground ...";
+            if (e.LRT_Comp.TeleportText != null)
+                e.LRT_Comp.TeleportText.text = e.TeleportGeneral.CanTeleport ? "Release To Teleport !" : "Waiting for ground ...";
             
 
 
@@ -160,26 +160,22 @@ namespace VRSF.MoveAround.Teleport.Systems
                 bool endOnNavmesh = false;
 
                 // If the raycast is hitting something and it's not a UI Element
-                if (entity.RaycastComp.RaycastHitVar.isNull || entity.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
+                if (e.RaycastComp.RaycastHitVar.isNull || e.RaycastComp.RaycastHitVar.Value.collider.gameObject.layer != LayerMask.NameToLayer("UI"))
                 {
-                    TeleportNavMeshHelper.Linecast(entity.RaycastComp.RayVar.Value.origin, entity.RaycastComp.RaycastHitVar.Value.point, out endOnNavmesh,
-                                               entity.TeleportGeneral.ExclusionLayer, out entity.TeleportGeneral.PointToGoTo, out Vector3 norm, entity.SceneObjects._TeleportNavMesh);
+                    TeleportNavMeshHelper.Linecast(e.RaycastComp.RayVar.Value.origin, e.RaycastComp.RaycastHitVar.Value.point, out endOnNavmesh,
+                                               _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand), out e.TeleportGeneral.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
                 }
 
-                entity.TeleportGeneral.CanTeleport = entity.LRT_Comp.UseLoadingTimer ? (endOnNavmesh && entity.LRT_Comp._LoadingTimer > entity.LRT_Comp.LoadingTime) : endOnNavmesh;
-                fillRectColor = entity.TeleportGeneral.CanTeleport ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
+                e.TeleportGeneral.CanTeleport = e.LRT_Comp.UseLoadingTimer ? (endOnNavmesh && e.LRT_Comp._LoadingTimer > e.LRT_Comp.LoadingTime) : endOnNavmesh;
+                fillRectColor = e.TeleportGeneral.CanTeleport ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
 
                 // If we use a loading slider and the fillRect to give the user a visual feedback is not null
-                if (entity.LRT_Comp.UseLoadingTimer && entity.LRT_Comp.FillRect != null)
-                {
-                    entity.LRT_Comp.FillRect.color = fillRectColor;
-                }
+                if (e.LRT_Comp.UseLoadingTimer && e.LRT_Comp.FillRect != null)
+                    e.LRT_Comp.FillRect.color = fillRectColor;
 
                 // If we use a loading slider and the Text to give the user a visual feedback is not null
-                if (entity.LRT_Comp.UseLoadingTimer && entity.LRT_Comp.TeleportText != null)
-                {
-                    entity.LRT_Comp.TeleportText.color = fillRectColor;
-                }
+                if (e.LRT_Comp.UseLoadingTimer && e.LRT_Comp.TeleportText != null)
+                    e.LRT_Comp.TeleportText.color = fillRectColor;
             }
         }
 

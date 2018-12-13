@@ -17,7 +17,7 @@ namespace VRSF.MoveAround.Teleport
     {
         private struct Filter
         {
-            public BACGeneralComponent BACGeneral;
+            public BACGeneralComponent BAC_Comp;
             public ParabolObjectsComponent PointerObjects;
             public ParabolCalculationsComponent PointerCalculations;
             public SceneObjectsComponent SceneObjects;
@@ -48,36 +48,36 @@ namespace VRSF.MoveAround.Teleport
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
-                e.BACGeneral.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
+                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
             }
 
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
-                e.BACGeneral.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
+                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
+                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
             }
         }
 
         public override void RemoveListeners(object entity)
         {
             var e = (Filter)entity;
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
-                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
-                e.BACGeneral.OnButtonStopClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
             }
 
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
-                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
-                e.BACGeneral.OnButtonStopTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
             }
         }
 
@@ -143,11 +143,11 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.PointSpacing,
                 e.PointerCalculations.PointCount,
                 e.SceneObjects._TeleportNavMesh,
-                e.TeleportGeneral.ExclusionLayer,
+                _controllersParameters.GetExclusionsLayer(e.BAC_Comp.ButtonHand),
                 e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );
-            
+
             e.TeleportGeneral.PointToGoTo = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
             return normal;
         }
@@ -163,7 +163,7 @@ namespace VRSF.MoveAround.Teleport
             if (e.PointerObjects._selectionPadObject != null)
             {
                 e.PointerObjects._selectionPadObject.SetActive(e.PointerCalculations.PointOnNavMesh);
-                e.PointerObjects._selectionPadObject.transform.position = e.TeleportGeneral.PointToGoTo + Vector3.one * 0.005f;
+                e.PointerObjects._selectionPadObject.transform.position = e.TeleportGeneral.PointToGoTo + (Vector3.one * 0.005f);
                 if (e.PointerCalculations.PointOnNavMesh)
                 {
                     e.PointerObjects._selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
@@ -175,7 +175,7 @@ namespace VRSF.MoveAround.Teleport
             if (e.PointerObjects._invalidPadObject != null)
             {
                 e.PointerObjects._invalidPadObject.SetActive(!e.PointerCalculations.PointOnNavMesh);
-                e.PointerObjects._invalidPadObject.transform.position = e.TeleportGeneral.PointToGoTo + Vector3.one * 0.005f;
+                e.PointerObjects._invalidPadObject.transform.position = e.TeleportGeneral.PointToGoTo + (Vector3.one * 0.005f);
                 if (!e.PointerCalculations.PointOnNavMesh)
                 {
                     e.PointerObjects._invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
@@ -193,8 +193,8 @@ namespace VRSF.MoveAround.Teleport
             if (Utils.VRSF_Components.DeviceLoaded != Utils.EDevice.SIMULATOR)
             {
                 // Change pointer activation if the user is using it
-                if ((entity.BACGeneral.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) ||
-                    (entity.BACGeneral.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
+                if ((entity.BAC_Comp.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) ||
+                    (entity.BAC_Comp.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
                 {
                     entity.PointerObjects._ControllerPointer.enabled = active;
                     foreach(var particleSystem in entity.PointerObjects._ControllerPointer.GetComponentsInChildren<ParticleSystem>())

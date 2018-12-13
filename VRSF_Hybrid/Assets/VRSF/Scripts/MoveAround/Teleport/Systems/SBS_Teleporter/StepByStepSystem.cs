@@ -24,12 +24,14 @@ namespace VRSF.MoveAround.Teleport.Systems
             public SceneObjectsComponent SceneObjects;
         }
 
+        private Controllers.ControllersParametersVariable _controllersVariable;
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+            _controllersVariable = Controllers.ControllersParametersVariable.Instance;
             foreach (var e in GetEntities<Filter>())
             {
                 SetupListenersResponses(e);
@@ -94,7 +96,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter e = (Filter)teleportFilter;
             
-            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos))
+            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
                 VRSF_Components.SetCameraRigPosition(newUsersPos);
 
             e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;

@@ -43,13 +43,15 @@ namespace VRSF.MoveAround.Teleport
                 }
                 
                 pointOnNavmesh = NavMesh.SamplePosition(hitPoint, out NavMeshHit navHit, teleportNavMesh._SampleRadius, teleportNavMesh._NavAreaMask);
-
                 return true;
             }
-            pointOnNavmesh = false;
-            hitPoint = Vector3.zero;
-            normal = Vector3.up;
-            return false;
+            else
+            {
+                pointOnNavmesh = false;
+                hitPoint = Vector3.zero;
+                normal = Vector3.up;
+                return false;
+            }
         }
         #endregion PUBLIC_METHODS
 

@@ -6,42 +6,32 @@ namespace VRSF.MoveAround.Teleport.Systems
     public static class SBSCalculationsHelper
     {
 
-        public static bool UserIsOnNavMesh(StepByStepSystem.Filter e, out Vector3 newTheoriticPos)
+        public static bool UserIsOnNavMesh(StepByStepSystem.Filter e, out Vector3 newTheoriticPos, LayerMask excludedLayer)
         {
             var directionVector = CheckHandForward(e);
+            
+            // We check the theoritic new user pos
+            newTheoriticPos = VRSF_Components.VRCamera.transform.position + new Vector3(directionVector.x, 0.0f, directionVector.z);
+                
+            // We calculate a vector down based on the new User Pos. 
+            var downVector = newTheoriticPos + (Vector3.down * Mathf.Abs(newTheoriticPos.y));
+            
+            // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
+            TeleportNavMeshHelper.Linecast
+            (
+                newTheoriticPos,
+                downVector,
+                out bool endOnNavmesh,
+                excludedLayer,
+                out e.TeleportGeneral.PointToGoTo,
+                out Vector3 norm,
+                e.SceneObjects._TeleportNavMesh
+            );
 
-            // If the new theoritic position is null, an error as occured, so we stop the method
-            if (directionVector != Vector3.zero)
-            {
-                // We check the theoritic new user pos
-                newTheoriticPos = VRSF_Components.CameraRig.transform.position + new Vector3(directionVector.x, 0.0f, directionVector.z);
+            //As the CameraRig is placed on the NavMesh (it's basically the floor), we set the newUser Pos to the downVector
+            newTheoriticPos = e.TeleportGeneral.PointToGoTo;
 
-                // We launch a Vector directed to the floor to check if the new position is on the Teleport NavMesh
-                // And multiply it by the current height of the user
-                var vectorDownFactor = Vector3.down * newTheoriticPos.y;
-
-                // We calculate a vector down based on the new User Pos
-                var downVector = newTheoriticPos + vectorDownFactor;
-
-                // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
-                TeleportNavMeshHelper.Linecast
-                (
-                    newTheoriticPos,
-                    downVector,
-                    out bool endOnNavmesh,
-                    e.TeleportGeneral.ExclusionLayer,
-                    out e.TeleportGeneral.PointToGoTo,
-                    out Vector3 norm,
-                    e.SceneObjects._TeleportNavMesh
-                );
-
-                return endOnNavmesh;
-            }
-            else
-            {
-                newTheoriticPos = Vector3.zero;
-                return false;
-            }
+            return endOnNavmesh;
         }
 
 

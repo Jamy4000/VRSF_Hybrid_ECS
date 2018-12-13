@@ -317,7 +317,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1327966388754566}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -23.5, y: 1.8, z: 0}
+  m_LocalPosition: {x: -23.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4899502866265192}
@@ -360,7 +360,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1873019281804272}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4249235784960038}
@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseLoadingTimer: 1
-  LoadingTime: 1.5
+  LoadingTime: 0.5
   _LoadingTimer: 0
   FillRect: {fileID: 114881348120732182}
   TeleportText: {fileID: 114817954679358654}
@@ -816,8 +816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeleportLayer: -1
-  ExclusionLayer: -1
   CanTeleport: 0
   PointToGoTo: {x: 0, y: 0, z: 0}
 --- !u!114 &114482401957061992
@@ -831,8 +829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeleportLayer: -1
-  ExclusionLayer: -1
   CanTeleport: 0
   PointToGoTo: {x: 0, y: 0, z: 0}
 --- !u!114 &114516360561480400
@@ -1064,8 +1060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeleportLayer: -1
-  ExclusionLayer: -1
   CanTeleport: 0
   PointToGoTo: {x: 0, y: 0, z: 0}
 --- !u!114 &114780232955249544

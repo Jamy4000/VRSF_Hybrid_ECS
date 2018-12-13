@@ -9,7 +9,6 @@ namespace VRSF.MoveAround.Teleport
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class TeleportGeneralComponent : MonoBehaviour
     {
-        [HideInInspector] public int ExclusionLayer = -1;
         [HideInInspector] public bool CanTeleport = false;
 
         /// <summary>

@@ -64,13 +64,15 @@ namespace VRSF.Utils
 
         /// <summary>
         /// Method to set the CameraRig position by taking account of the SDK loaded
+        /// We suggest you to give a position situated on a plane, as we're adding the height of the user in Y axis
+        /// when setYPos is true and we're not using OpenVR.
         /// </summary>
         /// <param name="newPos">The new Pos where the user should be in World coordinate</param>
         /// <param name="setYPos">Wheter we have to change the Y position</param>
-        public static void SetCameraRigPosition(Vector3 newPos, bool setYPos = true)
+        public static void SetCameraRigPosition(Vector3 newPos, bool setYPos = true, float userHeight = 1.8f)
         {
-            if (setYPos && DeviceLoaded == EDevice.OPENVR)
-                newPos.y -= VRCamera.transform.localPosition.y;
+            //if (setYPos && DeviceLoaded == EDevice.SIMULATOR)
+            //    newPos.y += userHeight;
 
             CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
         }

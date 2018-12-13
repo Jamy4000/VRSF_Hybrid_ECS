@@ -4,6 +4,9 @@ using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
 {
+    /// <summary>
+    /// Used by The LongRangeTeleportSystem and the CurveTeleporter Systems to Teleport the user using a Fade effect if there's one
+    /// </summary>
     public class TeleportUserSystem : ComponentSystem
     {
         private struct Filter
