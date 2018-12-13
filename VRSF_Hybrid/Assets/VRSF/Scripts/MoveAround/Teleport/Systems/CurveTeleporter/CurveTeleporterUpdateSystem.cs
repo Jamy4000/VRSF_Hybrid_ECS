@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using VRSF.Inputs;
+﻿using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
@@ -93,13 +92,9 @@ namespace VRSF.MoveAround.Teleport
             // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
             // related to selecting things and actually teleport
             if (e.PointerCalculations.PointOnNavMesh)
-            {
-                SetTeleportState(e, ETeleportState.Teleporting);
-            }
+                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Teleporting);
             else
-            {
-                SetTeleportState(e, ETeleportState.None);
-            }
+                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.None);
         }
         #endregion
 
@@ -114,24 +109,12 @@ namespace VRSF.MoveAround.Teleport
         private void OnStartInteractingCallback(Filter e)
         {
             // We reset the current State to Selecting
-            SetTeleportState(e, ETeleportState.Selecting);
+            TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
         }
 
         private void OnStopInteractingCallback(Filter e)
         {
             TeleportUser(e);
-        }
-        
-        private void SetTeleportState(Filter e, ETeleportState newState)
-        {
-            e.TeleportGeneral.CurrentTeleportState = newState;
-
-            // If we use a fade effect, we set the info necessary to use this effect.
-            if (e.SceneObjects.FadeComponent != null)
-            {
-                e.SceneObjects.FadeComponent.TeleportState = newState;
-                e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
-            }
         }
         #endregion
     }

@@ -112,8 +112,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
             Filter entity = (Filter)teleportFilter;
-
-            SetTeleportState(entity, ETeleportState.Teleporting);
+            TeleportUserSystem.SetTeleportState(entity.TeleportGeneral, entity.SceneObjects, ETeleportState.Teleporting);
         }
         #endregion
 
@@ -195,7 +194,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             if (entity.TeleportGeneral.CanTeleport)
                 TeleportUser(entity);
             else
-                SetTeleportState(entity, ETeleportState.None);
+                TeleportUserSystem.SetTeleportState(entity.TeleportGeneral, entity.SceneObjects, ETeleportState.None);
 
             DeactivateTeleportSlider(entity);
         }
@@ -204,7 +203,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void Initvariables(Filter entity)
         {
             // We set the current state as Selecting
-            SetTeleportState(entity, ETeleportState.Selecting);
+            TeleportUserSystem.SetTeleportState(entity.TeleportGeneral, entity.SceneObjects, ETeleportState.Selecting);
             
             // If we use the loading slider, we set the fillRect value and the TeleportText value
             if (entity.LRT_Comp.FillRect != null)
@@ -217,20 +216,6 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 entity.LRT_Comp.TeleportText.gameObject.SetActive(true);
                 entity.LRT_Comp.TeleportText.text = "Preparing Teleport ...";
-            }
-        }
-
-
-        private void SetTeleportState(Filter entity, ETeleportState newState)
-        {
-            // We set the teleporting state to teleporting
-            entity.TeleportGeneral.CurrentTeleportState = newState;
-
-            // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
-            if (entity.SceneObjects.FadeComponent != null)
-            { 
-                entity.SceneObjects.FadeComponent.TeleportState = newState;
-                entity.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
             }
         }
 

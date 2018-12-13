@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
@@ -59,6 +60,20 @@ namespace VRSF.MoveAround.Teleport
 
                 e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
                 e.SceneObjects.FadeComponent._fadingIn = !e.SceneObjects.FadeComponent._fadingIn;
+            }
+        }
+
+
+        public static void SetTeleportState(TeleportGeneralComponent teleportGeneral, SceneObjectsComponent sceneObjects, ETeleportState newState)
+        {
+            // We set the teleporting state to teleporting
+            teleportGeneral.CurrentTeleportState = newState;
+
+            // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
+            if (sceneObjects.FadeComponent != null)
+            {
+                sceneObjects.FadeComponent.TeleportState = newState;
+                sceneObjects.FadeComponent._teleportTimeMarker = Time.time;
             }
         }
     }

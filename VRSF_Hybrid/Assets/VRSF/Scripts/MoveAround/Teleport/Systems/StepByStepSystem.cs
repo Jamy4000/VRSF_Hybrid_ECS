@@ -15,7 +15,7 @@ namespace VRSF.MoveAround.Teleport.Systems
     /// </summary>
     public class StepByStepSystem : BACListenersSetupSystem, ITeleportSystem
     {
-        struct Filter : ITeleportFilter
+        public struct Filter : ITeleportFilter
         {
             public StepByStepComponent SBS_Comp;
             public ScriptableRaycastComponent RayComp;
@@ -95,7 +95,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             Filter e = (Filter)teleportFilter;
 
             // We check where the user should be when teleported one meter away.
-            Vector3 newPos = CheckHandForward(e);
+            Vector3 newPos = SBSCalculationsHelper.CheckHandForward(e);
 
             // If the new pos returned is null, an error as occured, so we stop the method
             if (newPos != Vector3.zero)
@@ -147,7 +147,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            SetTeleportState(e, ETeleportState.Selecting);
+            TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
         }
 
         /// <summary>
@@ -163,43 +163,6 @@ namespace VRSF.MoveAround.Teleport.Systems
 
             TeleportUser(e);
         }
-
-        /// <summary>
-        /// Check, depending on the RayOrigin and the User's size, the forward vector to use.
-        /// </summary>
-        /// <returns>The new theoritical position of the user</returns>
-        private Vector3 CheckHandForward(Filter entity)
-        {
-            float distanceWithScale = VRSF_Components.CameraRig.transform.localScale.x * entity.SBS_Comp.DistanceStepByStep;
-
-            switch (entity.BAC_Comp.ButtonHand)
-            {
-                case Controllers.EHand.LEFT:
-                    return VRSF_Components.LeftController.transform.forward * distanceWithScale;
-                case Controllers.EHand.RIGHT:
-                    return VRSF_Components.RightController.transform.forward * distanceWithScale;
-                case Controllers.EHand.GAZE:
-                    return VRSF_Components.VRCamera.transform.forward * distanceWithScale;
-                default:
-                    Debug.LogError("Please specify a valid RayOrigin in the Inspector to be able to use the Teleport StepByStep feature.");
-                    return Vector3.zero;
-            }
-        }
-
-
-        private void SetTeleportState(Filter entity, ETeleportState newState)
-        {
-            // We set the teleporting state to teleporting
-            entity.TeleportGeneral.CurrentTeleportState = newState;
-
-            // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
-            if (entity.SceneObjects.FadeComponent != null)
-            {
-                entity.SceneObjects.FadeComponent.TeleportState = newState;
-                entity.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
-            }
-        }
-
 
         /// <summary>
         /// Reactivate the System when switching to another Scene.
