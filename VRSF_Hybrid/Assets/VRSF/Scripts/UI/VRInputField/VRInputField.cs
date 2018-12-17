@@ -22,11 +22,6 @@ namespace VRSF.UI
         #endregion PUBLIC_VARIABLES
 
 
-        #region PRIVATE_VARIABLES
-        private bool _boxColliderSetup;
-        #endregion PRIVATE_VARIABLES
-
-
         #region MONOBEHAVIOUR_METHODS
         protected override void OnEnable()
         {
@@ -37,7 +32,8 @@ namespace VRSF.UI
                 SetupUIElement();
 
                 // We setup the BoxCollider size and center
-                StartCoroutine(SetupBoxCollider());
+                if (SetColliderAuto)
+                    StartCoroutine(SetupBoxCollider());
             }
         }
 
@@ -132,12 +128,8 @@ namespace VRSF.UI
         {
             yield return new WaitForEndOfFrame();
             
-            if (SetColliderAuto)
-            {
-                BoxCollider box = GetComponent<BoxCollider>();
-                box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
-            }
-            _boxColliderSetup = true;
+            BoxCollider box = GetComponent<BoxCollider>();
+            box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
         }
         #endregion PRIVATE_METHODS
     }
