@@ -31,15 +31,17 @@ public class OculusSpatializerReflectionCustomGUI : IAudioEffectPluginGUI
 
 		Separator();
 
+		Label ("REFLECTION ENGINE");
+		Label("");
 		// Treat these floats as bools in the inspector
 		plugin.GetFloatParameter("E.Rflt On", out fval);
 		bval = (fval == 0.0f) ? false : true;
-		bval = EditorGUILayout.Toggle("Reflections Engine On", bval);
+		bval = EditorGUILayout.Toggle("Enable Early Reflections", bval);
 		plugin.SetFloatParameter("E.Rflt On", (bval == false) ? 0.0f : 1.0f);
 
 		plugin.GetFloatParameter("E.Rflt Rev On", out fval);
 		bval = (fval == 0.0f) ? false : true;
-		bval = EditorGUILayout.Toggle("Late Reverberation", bval);
+		bval = EditorGUILayout.Toggle("Enable Reverberation", bval);
 		plugin.SetFloatParameter("E.Rflt Rev On", (bval == false) ? 0.0f : 1.0f);
 
 		Separator();

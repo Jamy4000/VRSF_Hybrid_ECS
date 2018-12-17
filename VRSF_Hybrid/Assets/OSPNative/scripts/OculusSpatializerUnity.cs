@@ -2,18 +2,18 @@
 Filename    :   OculusSpatializerUnity.cs
 Content     :   Interface into real-time geometry reflection engine for native Unity
 Created     :   November 27, 2017
-Copyright   :   Copyright 2017 Oculus VR, Inc. All Rights reserved.
+Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.1 (the "License"); 
-you may not use the Oculus VR Rift SDK except in compliance with the License, 
+Licensed under the Oculus SDK Version 3.5 (the "License"); 
+you may not use the Oculus SDK except in compliance with the License, 
 which is provided at the time of installation or download, or which 
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculusvr.com/licenses/LICENSE-3.1 
+https://developer.oculus.com/licenses/sdk-3.5/
 
-Unless required by applicable law or agreed to in writing, the Oculus VR SDK 
+Unless required by applicable law or agreed to in writing, the Oculus SDK 
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
@@ -35,9 +35,7 @@ public class OculusSpatializerUnity : MonoBehaviour
     public float maxWallDistance = 50.0f;
     public int rayCacheSize = 512;
 
-    // Debug parameters
     public bool dynamicReflectionsEnabled = true;
-    public bool legacyReverb = false;
 
     AudioRaycastCallback _raycastCallback; // cache an instance of the delegate so the GC doesn't nuke it!
 

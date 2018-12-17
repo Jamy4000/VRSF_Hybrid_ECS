@@ -111,6 +111,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1173882640046784
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4307746073035582}
+  m_Layer: 0
+  m_Name: LeftControllerAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1179748918133476
 GameObject:
   m_ObjectHideFlags: 1
@@ -287,6 +302,21 @@ GameObject:
   - component: {fileID: 23443064804980680}
   m_Layer: 0
   m_Name: button_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1442554672017290
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4209001570479336}
+  m_Layer: 0
+  m_Name: RightControllerAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -615,6 +645,19 @@ Transform:
   m_Father: {fileID: 4088411365306376}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4209001570479336
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1442554672017290}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4360295369166706}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4232285189144068
 Transform:
   m_ObjectHideFlags: 1
@@ -667,6 +710,19 @@ Transform:
   m_Father: {fileID: 4821707436470916}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4307746073035582
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1173882640046784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4607483101584848}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4350658468798170
 Transform:
   m_ObjectHideFlags: 1
@@ -692,6 +748,7 @@ Transform:
   m_Children:
   - {fileID: 4497402044538720}
   - {fileID: 4012268425671350}
+  - {fileID: 4209001570479336}
   m_Father: {fileID: 4088411365306376}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -819,6 +876,7 @@ Transform:
   m_Children:
   - {fileID: 4821707436470916}
   - {fileID: 4743698136174048}
+  - {fileID: 4307746073035582}
   m_Father: {fileID: 4088411365306376}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1050,7 +1108,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1834,6 +1892,9 @@ MonoBehaviour:
   enableAdaptiveResolution: 0
   minRenderScale: 0.7
   maxRenderScale: 1
+  _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
+  _headPoseRelativeOffsetTranslation: {x: 0, y: 0, z: 0}
+  profilerTcpPort: 32419
   expandMixedRealityCapturePropertySheet: 0
   enableMixedReality: 0
   compositionMethod: 0
@@ -1865,6 +1926,7 @@ MonoBehaviour:
   useIPDInPositionTracking: 1
   resetTrackerOnLoad: 0
   AllowRecenter: 1
+  _reorientHMDOnControllerRecenter: 1
 --- !u!114 &114310046356330390
 MonoBehaviour:
   m_ObjectHideFlags: 1
