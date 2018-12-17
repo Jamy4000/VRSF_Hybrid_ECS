@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,14 +28,7 @@ namespace VRSF.Utils.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            
             _controllersParameters = ControllersParametersVariable.Instance;
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                SetupVRInScene(e.SetupVR);
-            }
-            
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
@@ -42,9 +36,11 @@ namespace VRSF.Utils.Systems
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (!VRSF_Components.SetupVRIsReady)
+                if (!e.SetupVR.IsLoaded && XRDevice.model != String.Empty)
+                    LoadCorrespondingSDK(e.SetupVR);
+                else if (e.SetupVR.IsLoaded && !VRSF_Components.SetupVRIsReady)
                     SetupVRInScene(e.SetupVR);
-                else
+                else if (VRSF_Components.SetupVRIsReady)
                     this.Enabled = false;
             }
         }
@@ -65,26 +61,12 @@ namespace VRSF.Utils.Systems
         /// </summary>
         private void SetupVRInScene(SetupVRComponents setupVR)
         {
-            // If the SDK is not loaded, we load it
-            if (!setupVR.Loaded)
-            {
-                LoadCorrespondingSDK(setupVR);
-            }
-
             // We check if the ActiveSDK is correctly set (set normally in LoadCorrespondingSDK())
             if (VRSF_Components.CameraRig == null)
             {
-                setupVR.Loaded = false;
+                setupVR.IsLoaded = false;
                 return;
             }
-
-            // Check references for the controllers
-            if (!CheckControllersReferences(setupVR))
-                return;
-
-            // If the user is not using the controllers and we cannot disable them
-            if (!_controllersParameters.UseControllers && !DisableControllers())
-                return;
 
             // We set the references to the VRCamera
             if (!CheckCameraReference())
@@ -94,7 +76,16 @@ namespace VRSF.Utils.Systems
             VRSF_Components.SetupTransformFromContainer(setupVR.CameraRigScripts.transform, ref VRSF_Components.CameraRig);
             VRSF_Components.SetupTransformFromContainer(setupVR.VRCameraScripts.transform, ref VRSF_Components.VRCamera);
 
-            if (_controllersParameters.UseControllers)
+            // Check references for the controllers
+            if (!CheckControllersReferences(setupVR))
+                return;
+
+            // If the user is not using the controllers and we cannot disable them
+            if (!_controllersParameters.UseControllers && !DisableControllers())
+            {
+                return;
+            }
+            else if (_controllersParameters.UseControllers)
             {
                 VRSF_Components.SetupTransformFromContainer(setupVR.LeftControllerScripts.transform, ref VRSF_Components.LeftController);
                 VRSF_Components.SetupTransformFromContainer(setupVR.RightControllerScripts.transform, ref VRSF_Components.RightController);
@@ -150,8 +141,8 @@ namespace VRSF.Utils.Systems
                     VRSF_Components.DeviceLoaded = EDevice.SIMULATOR;
                     break;
             }
-
-            setupVR.Loaded = true;
+            
+            setupVR.IsLoaded = true;
         }
 
 
@@ -197,7 +188,7 @@ namespace VRSF.Utils.Systems
         /// </summary>
         bool CheckControllersReferences(SetupVRComponents setupVR)
         {
-            if (setupVR.Loaded && (VRSF_Components.RightController == null || VRSF_Components.LeftController == null))
+            if (setupVR.IsLoaded && (VRSF_Components.RightController == null || VRSF_Components.LeftController == null))
             {
                 try
                 {
