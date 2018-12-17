@@ -38,7 +38,7 @@ namespace VRSF.Utils
         public static void SetupTransformFromContainer(Transform scriptsContainer, ref GameObject newInstance)
         {
             if (newInstance.tag.Contains("CameraRig"))
-                SetCameraRigPositionOnStart(scriptsContainer.position);
+                newInstance.transform.position = scriptsContainer.position;
 
             // We copy the transform values of the scriptsContainer to the newInstance
             newInstance.transform.localScale = scriptsContainer.localScale;
@@ -49,17 +49,6 @@ namespace VRSF.Utils
             scriptsContainer.transform.localPosition = Vector3.zero;
             scriptsContainer.transform.localRotation = Quaternion.identity;
             scriptsContainer.transform.localScale = Vector3.one;
-
-
-            /// <summary>
-            /// Method to set the CameraRig position when launching the app.
-            /// </summary>
-            /// <param name="newWorldPos">The new Pos where the user should be in World coordinate</param>
-            void SetCameraRigPositionOnStart(Vector3 newWorldPos)
-            {
-                CameraRig.transform.position = DeviceLoaded == EDevice.OPENVR ? 
-                    (newWorldPos - VRCamera.transform.localPosition) : newWorldPos;
-            }
         }
 
         /// <summary>
@@ -71,9 +60,6 @@ namespace VRSF.Utils
         /// <param name="setYPos">Wheter we have to change the Y position</param>
         public static void SetCameraRigPosition(Vector3 newPos, bool setYPos = true, float userHeight = 1.8f)
         {
-            //if (setYPos && DeviceLoaded == EDevice.SIMULATOR)
-            //    newPos.y += userHeight;
-
             CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
         }
         #endregion

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
-using VRSF.Controllers;
-using VRSF.Utils;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -29,7 +27,7 @@ namespace VRSF.MoveAround.Teleport
 
             foreach (var e in GetEntities<Filter>())
             {
-                InitValues(e);
+                e.PointerCalculations.StartCoroutine(InitValues(e));
             }
         }
 
@@ -39,8 +37,17 @@ namespace VRSF.MoveAround.Teleport
         /// Initialize the values for the Parabolic Pointer feature.
         /// </summary>
         /// <param name="e">The entity to check in the scene</param>
-        private void InitValues(Filter e)
+        private IEnumerator<WaitForEndOfFrame> InitValues(Filter e)
         {
+            while (!Utils.VRSF_Components.SetupVRIsReady)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            e.PointerObjects._ControllerPointer = e.BACGeneral.ButtonHand == Controllers.EHand.LEFT ?
+                Utils.VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>() :
+                Utils.VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
+
             e.PointerObjects.ParabolaPoints = new List<Vector3>(e.PointerCalculations.PointCount);
 
             e.PointerObjects._parabolaMesh = new Mesh();
