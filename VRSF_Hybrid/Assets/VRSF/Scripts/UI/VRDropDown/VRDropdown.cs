@@ -23,8 +23,6 @@ namespace VRSF.UI
         #region PRIVATE_VARIABLES
         GameObject _template;
         bool _isShown = false;
-
-        private bool _isBoxColliderSetup;
         #endregion PRIVATE_VARIABLES
 
 
@@ -38,7 +36,8 @@ namespace VRSF.UI
                 SetupUIElement();
 
                 // We setup the BoxCollider size and center
-                StartCoroutine(SetupBoxCollider());
+                if (SetColliderAuto)
+                    StartCoroutine(SetupBoxCollider());
             }
         }
 
@@ -114,12 +113,8 @@ namespace VRSF.UI
         {
             yield return new WaitForEndOfFrame();
             
-            if (SetColliderAuto)
-            {
-                BoxCollider box = GetComponent<BoxCollider>();
-                box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
-            }
-            _isBoxColliderSetup = true;
+            BoxCollider box = GetComponent<BoxCollider>();
+            box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
         }
 
         /// <summary>
