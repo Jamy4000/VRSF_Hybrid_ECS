@@ -36,7 +36,7 @@ namespace VRSF.UI
         
         Dictionary<string, RaycastHitVariable> _RaycastHitDictionary;
 
-        IUISetupScrollable _ScrollableSetup;
+        IUISetupScrollable _scrollableSetup;
 
         private bool _boxColliderSetup;
         #endregion
@@ -64,18 +64,13 @@ namespace VRSF.UI
 
         private void Update()
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying && _boxColliderSetup)
             {
-                if (!_boxColliderSetup)
-                {
-                    return;
-                }
-
                 CheckClickDown();
 
                 if (_HandHoldingHandle != EHand.NONE)
                 {
-                    value = _ScrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
+                    value = _scrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
                 }
             }
         }
@@ -95,7 +90,7 @@ namespace VRSF.UI
             _rightTriggerDown = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
             _leftTriggerDown = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
 
-            _ScrollableSetup = new VRUIScrollableSetup(UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(direction));
+            _scrollableSetup = new VRUIScrollableSetup(UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(direction));
 
             GetHandleRectReference();
 
@@ -118,8 +113,8 @@ namespace VRSF.UI
             ObjectWasClickedEvent.RegisterListener(CheckBarClick);
 
             // Check if the Min and Max object are already created, and set there references
-            _ScrollableSetup.CheckMinMaxGameObjects(handleRect.parent, UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(direction));
-            _ScrollableSetup.SetMinMaxPos(ref _MinPosBar, ref _MaxPosBar, handleRect.parent);
+            _scrollableSetup.CheckMinMaxGameObjects(handleRect.parent, UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(direction));
+            _scrollableSetup.SetMinMaxPos(ref _MinPosBar, ref _MaxPosBar, handleRect.parent);
 
             value = 1;
         }
@@ -144,13 +139,13 @@ namespace VRSF.UI
             switch (_HandHoldingHandle)
             {
                 case (EHand.GAZE):
-                    _ScrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _inputContainer.GazeIsCliking.Value);
+                    _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _inputContainer.GazeIsCliking.Value);
                     break;
                 case (EHand.LEFT):
-                    _ScrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _leftTriggerDown.Value);
+                    _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _leftTriggerDown.Value);
                     break;
                 case (EHand.RIGHT):
-                    _ScrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _rightTriggerDown.Value);
+                    _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _rightTriggerDown.Value);
                     break;
             }
         }
@@ -168,6 +163,7 @@ namespace VRSF.UI
                 BoxCollider box = GetComponent<BoxCollider>();
                 box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
             }
+            
             _boxColliderSetup = true;
         }
 

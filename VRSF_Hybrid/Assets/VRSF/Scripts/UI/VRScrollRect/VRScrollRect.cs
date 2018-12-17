@@ -32,14 +32,14 @@ namespace VRSF.UI
         private BoolVariable _rightTriggerDown;
         private BoolVariable _leftTriggerDown;
 
-        Transform _MinPosBar;
-        Transform _MaxPosBar;
+        Transform _minPosBar;
+        Transform _maxPosBar;
         
-        EHand _HandHoldingHandle = EHand.NONE;
+        EHand _handHoldingHandle = EHand.NONE;
         
-        Dictionary<string, RaycastHitVariable> _RaycastHitDictionary;
+        Dictionary<string, RaycastHitVariable> _raycastHitDictionary;
 
-        IUISetupScrollable _ScrollableSetup;
+        IUISetupScrollable _scrollableSetup;
 
         private bool _boxColliderSetup;
         #endregion
@@ -56,14 +56,14 @@ namespace VRSF.UI
 
                 // We setup the BoxCollider size and center
                 StartCoroutine(SetupBoxCollider());
-
-                CheckContentStatus();
             }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+            horizontalScrollbar.onValueChanged.RemoveAllListeners();
+            verticalScrollbar.onValueChanged.RemoveAllListeners();
             ObjectWasClickedEvent.UnregisterListener(CheckRectClick);
         }
 
@@ -73,15 +73,13 @@ namespace VRSF.UI
             {
                 CheckClickDown();
 
-                if (_HandHoldingHandle != EHand.NONE)
+                if (_handHoldingHandle != EHand.NONE)
                 {
                     if (vertical && verticalScrollbar)
-                        verticalScrollbar.value = _ScrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
+                        verticalScrollbar.value = _scrollableSetup.MoveComponent(_handHoldingHandle, _minPosBar, _maxPosBar, _raycastHitDictionary);
 
                     if (horizontal && horizontalScrollbar)
-                        horizontalScrollbar.value = _ScrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
-
-                    CheckContentStatus();
+                        horizontalScrollbar.value = _scrollableSetup.MoveComponent(_handHoldingHandle, _minPosBar, _maxPosBar, _raycastHitDictionary);
                 }
             }
         }
@@ -109,13 +107,15 @@ namespace VRSF.UI
             if (vertical && verticalScrollbar.gameObject != null)
             {
                 Direction = UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(verticalScrollbar.direction);
+                verticalScrollbar.onValueChanged.AddListener(delegate { OnValueChangedCallback(); });
             }
             else if (horizontal && horizontalScrollbar.gameObject != null)
             {
                 Direction = UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(horizontalScrollbar.direction);
+                horizontalScrollbar.onValueChanged.AddListener(delegate { OnValueChangedCallback(); });
             }
 
-            _ScrollableSetup = new VRUIScrollableSetup(Direction);
+            _scrollableSetup = new VRUIScrollableSetup(Direction);
 
             // If the controllers are not used, we cannot click on a Scroll Bar
             if (!ControllersParametersVariable.Instance.UseControllers)
@@ -127,7 +127,7 @@ namespace VRSF.UI
             ObjectWasClickedEvent.RegisterListener(CheckRectClick);
             
             // We initialize the _RaycastHitDictionary
-            _RaycastHitDictionary = new Dictionary<string, RaycastHitVariable>
+            _raycastHitDictionary = new Dictionary<string, RaycastHitVariable>
             {
                 { "Right", InteractionVariableContainer.Instance.RightHit },
                 { "Left", InteractionVariableContainer.Instance.LeftHit },
@@ -135,8 +135,8 @@ namespace VRSF.UI
             };
             
             // We setup the Min and Max pos transform
-            _ScrollableSetup.CheckMinMaxGameObjects(transform, Direction);
-            _ScrollableSetup.SetMinMaxPos(ref _MinPosBar, ref _MaxPosBar, GetComponent<Transform>());
+            _scrollableSetup.CheckMinMaxGameObjects(transform, Direction);
+            _scrollableSetup.SetMinMaxPos(ref _minPosBar, ref _maxPosBar, GetComponent<Transform>());
         }
 
         /// <summary>
@@ -145,9 +145,9 @@ namespace VRSF.UI
         /// <param name="clickEvent">The event raised when something is clicked</param>
         void CheckRectClick(ObjectWasClickedEvent clickEvent)
         {
-            if (clickEvent.ObjectClicked == transform && _HandHoldingHandle == EHand.NONE)
+            if (clickEvent.ObjectClicked == transform && _handHoldingHandle == EHand.NONE)
             {
-                _HandHoldingHandle = clickEvent.HandClicking;
+                _handHoldingHandle = clickEvent.HandClicking;
             }
         }
 
@@ -156,16 +156,16 @@ namespace VRSF.UI
         /// </summary>
         void CheckClickDown()
         {
-            switch (_HandHoldingHandle)
+            switch (_handHoldingHandle)
             {
                 case (EHand.GAZE):
-                    _ScrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _inputContainer.GazeIsCliking.Value);
+                    _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _inputContainer.GazeIsCliking.Value);
                     break;
                 case (EHand.LEFT):
-                    _ScrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _leftTriggerDown.Value);
+                    _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _leftTriggerDown.Value);
                     break;
                 case (EHand.RIGHT):
-                    _ScrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _rightTriggerDown.Value);
+                    _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _rightTriggerDown.Value);
                     break;
             }
         }
@@ -200,32 +200,8 @@ namespace VRSF.UI
                     box.center = new Vector3(box.center.x, barCollider.size.y / 2, box.center.z);
                 }
             }
-
+            _scrollableSetup.CheckContentStatus(viewport, content, vertical, horizontal);
             _boxColliderSetup = true;
-        }
-
-        void CheckContentStatus()
-        {
-            var maxYViewport = viewport.transform.position.y + (viewport.rect.height / 2);
-            var minYViewport = viewport.transform.position.y - (viewport.rect.height / 2);
-            var maxXViewport = viewport.transform.position.x + (viewport.rect.width / 2);
-            var minXViewport = viewport.transform.position.x - (viewport.rect.width / 2);
-
-            foreach (var collider in content.GetComponentsInChildren<Collider>())
-            {
-                bool finalStatus = false;
-                Vector3 pos = collider.GetComponent<RectTransform>().position;
-
-                if (vertical && pos.y < maxYViewport && pos.y > minYViewport)
-                    finalStatus = true;
-
-                if (horizontal && pos.x < maxXViewport && pos.y > minXViewport)
-                    finalStatus = true;
-                else
-                    finalStatus = false;
-                        
-                collider.enabled = finalStatus;
-            }
         }
 
         /// <summary>
@@ -257,6 +233,11 @@ namespace VRSF.UI
             // get the content
             try { if (content == null) content = transform.FindDeepChild("Content").GetComponent<RectTransform>(); }
             catch { /* No Content was found.*/ }
+        }
+
+        private void OnValueChangedCallback()
+        {
+            _scrollableSetup.CheckContentStatus(viewport, content, vertical, horizontal);
         }
         #endregion
 

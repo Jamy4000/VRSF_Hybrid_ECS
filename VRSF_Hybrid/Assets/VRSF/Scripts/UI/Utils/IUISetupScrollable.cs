@@ -74,5 +74,10 @@ namespace VRSF.UI
         /// <param name="rect">The rect to check, passed as reference</param>
         /// <param name="anchor">The Vector2 to which we set the pivot, anchor min and anchor max</param>
         void CheckRectTrans(ref RectTransform rect, Vector2 anchor);
+
+        /// <summary>
+        /// Check whether the Items present in the scrollview should be active or not
+        /// </summary>
+        void CheckContentStatus(RectTransform viewport, RectTransform content, bool vertical, bool horizontal);
     }
 }

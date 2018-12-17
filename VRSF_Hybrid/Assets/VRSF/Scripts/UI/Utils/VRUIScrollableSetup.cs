@@ -104,15 +104,7 @@ namespace VRSF.UI
             }
 
             float toReturn = CheckHitPointInsideComponent(distanceMinMax, distanceMinHitPoint, distanceMaxHitPoint);
-
-            if (_WholeNumbers)
-            {
-                return (int)toReturn;
-            }
-            else
-            {
-                return toReturn;
-            }
+            return _WholeNumbers ? (int)toReturn : toReturn;
         }
 
 
@@ -207,6 +199,23 @@ namespace VRSF.UI
             rect.sizeDelta = Vector2.zero;
             rect.localRotation = Quaternion.Euler(Vector3.zero);
             rect.anchoredPosition3D = Vector3.zero;
+        }
+
+
+        public void CheckContentStatus(RectTransform viewport, RectTransform content, bool vertical, bool horizontal)
+        {
+            foreach (var collider in content.GetComponentsInChildren<Collider>())
+            {
+                try
+                {
+                    collider.enabled = RectTransformUtility.RectangleContainsScreenPoint(viewport, collider.transform.position);
+                }
+                catch (System.Exception e)
+                {
+                    Debug.Log("VRSF UI : Cannot check if collider in scrollview is visible. Setting the colldier at true. Error is as follow :\n" + e.ToString());
+                    collider.enabled = true;
+                }
+            }
         }
         #endregion
 
