@@ -62,8 +62,10 @@ namespace VRSF.UI
         protected override void OnDisable()
         {
             base.OnDisable();
-            verticalScrollbar?.onValueChanged.RemoveAllListeners();
-            horizontalScrollbar?.onValueChanged.RemoveAllListeners();
+            if (verticalScrollbar != null)
+                verticalScrollbar.onValueChanged.RemoveAllListeners();
+            if (horizontalScrollbar != null)
+                horizontalScrollbar.onValueChanged.RemoveAllListeners();
             ObjectWasClickedEvent.UnregisterListener(CheckRectClick);
         }
 
