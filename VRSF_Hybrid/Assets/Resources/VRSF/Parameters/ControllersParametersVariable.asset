@@ -19,16 +19,10 @@ MonoBehaviour:
   LeftExclusionLayer:
     serializedVersion: 2
     m_Bits: 4
-  ColorMatOnLeft: {r: 0, g: 0, b: 1, a: 1}
-  ColorMatOffLeft: {r: 1, g: 0, b: 0, a: 1}
-  ColorMatSelectableLeft: {r: 0, g: 1, b: 0, a: 1}
   MaxDistancePointerLeft: 1000
   UsePointerRight: 1
   RightPointerState: 0
   RightExclusionLayer:
     serializedVersion: 2
     m_Bits: 4
-  ColorMatOnRight: {r: 0, g: 0, b: 1, a: 1}
-  ColorMatOffRight: {r: 1, g: 0, b: 0, a: 1}
-  ColorMatSelectableRight: {r: 0, g: 1, b: 0, a: 1}
   MaxDistancePointerRight: 1000
