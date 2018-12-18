@@ -49,6 +49,6 @@ namespace VRSF.Utils.Components
 
         // Check if we already instantiated the SDK in the past, useful if the SDK is re-instantiated after a new scene has been loaded
         [HideInInspector] public bool SDKHasBeenInstantiated;
-        [HideInInspector] public bool Loaded;
+        [HideInInspector] public bool IsLoaded;
     }
 }
