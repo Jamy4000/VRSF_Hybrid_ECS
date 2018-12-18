@@ -21,11 +21,15 @@ namespace VRSF.MoveAround.Teleport
             {
                 e.SceneObjects.StartCoroutine(InitValues(e));
             }
-
-            this.Enabled = false;
         }
 
         protected override void OnUpdate() { }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
 
         IEnumerator InitValues(Filter e)
         {
@@ -37,7 +41,7 @@ namespace VRSF.MoveAround.Teleport
             try
             {
                 e.SceneObjects.FadeComponent = Utils.VRSF_Components.VRCamera.GetComponentInChildren<TeleportFadeComponent>();
-                e.SceneObjects.FadeComponent.TeleportState = ETeleportState.None;
+                e.SceneObjects.FadeComponent._FadingImage = e.SceneObjects.FadeComponent.GetComponent<UnityEngine.UI.Image>();
             }
             catch (System.Exception exception)
             {
@@ -49,6 +53,8 @@ namespace VRSF.MoveAround.Teleport
             {
                 Debug.LogError("VRSF : You need to add a TeleportNavMeshComponent in your scene to be able to use the Teleport Feature.");
             }
+
+            this.Enabled = false;
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)

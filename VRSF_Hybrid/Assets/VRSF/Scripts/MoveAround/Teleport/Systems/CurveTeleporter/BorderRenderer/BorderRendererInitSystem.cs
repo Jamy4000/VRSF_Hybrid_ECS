@@ -30,6 +30,10 @@ namespace VRSF.MoveAround.Teleport
         {
             if (VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
             {
+                foreach (var e in GetEntities<Filter>())
+                {
+                    e.BorderRenderer.Points = new Vector3[0];
+                }
                 // We deactivate the system if we load the simulator, as we cannot have access to any chaperone
                 this.Enabled = false;
                 return;

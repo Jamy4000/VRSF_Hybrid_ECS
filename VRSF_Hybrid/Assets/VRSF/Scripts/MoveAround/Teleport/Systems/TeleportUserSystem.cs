@@ -24,8 +24,7 @@ namespace VRSF.MoveAround.Teleport
                     // If we use a fade effect
                     if (e.SceneObjects.FadeComponent != null)
                     {
-                        // We then Check if the user can teleport
-                        HandleTeleportingState(e);
+                        HandleTeleportingStateAndAlpha(e);
                     }
                     // If not, we teleport directly the user
                     else
@@ -37,46 +36,42 @@ namespace VRSF.MoveAround.Teleport
             }
         }
 
-        /// <summary>
-        /// Called in Update when the user is teleporting.
-        /// CHeck the Fading status and teleport the user when the Fading out is done.
-        /// </summary>
-        private void HandleTeleportingState(Filter e)
+        private void HandleTeleportingStateAndAlpha(Filter e)
         {
-            // If we are currently teleporting (ie handling the fade in/out transition)...
-            // Wait until half of the teleport time has passed before the next event (note: both the switch from fade
-            // out to fade in and the switch from fade in to stop the animation is half of the fade duration)
-            if (Time.time - e.SceneObjects.FadeComponent._teleportTimeMarker >= e.SceneObjects.FadeComponent.TeleportFadeDuration / 2)
+            var alpha = e.SceneObjects.FadeComponent._FadingImage.color.a;
+
+            // If we are in a fadingOut state and the alpha is still not set at one
+            if (!e.SceneObjects.FadeComponent._IsFadingIn && alpha < 1)
             {
-                if (e.SceneObjects.FadeComponent._fadingIn)
-                {
-                    // We have finished fading in
-                    e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-                    e.SceneObjects.FadeComponent.TeleportState = ETeleportState.None;
-                }
-                else
-                {
-                    // We have finished fading out - time to teleport!
-                    VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);
-                }
-
-                e.SceneObjects.FadeComponent._teleportTimeMarker = Time.time;
-                e.SceneObjects.FadeComponent._fadingIn = !e.SceneObjects.FadeComponent._fadingIn;
+                alpha += Time.deltaTime * e.SceneObjects.FadeComponent.TeleportFadeSpeed;
             }
-        }
+            // If we are in a fadingOut state and the screen is already black, we teleport the user
+            else if (!e.SceneObjects.FadeComponent._IsFadingIn && alpha >= 1)
+            {
+                e.SceneObjects.FadeComponent._IsFadingIn = true;
+                // We have finished fading out - time to teleport!
+                VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);
+            }
+            // If we are in a fadingIn state and the screen is still black
+            else if (e.SceneObjects.FadeComponent._IsFadingIn && alpha > 0)
+            {
+                alpha -= Time.deltaTime * e.SceneObjects.FadeComponent.TeleportFadeSpeed;
+            }
+            // If the fadingIn is finished
+            else
+            {
+                e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
+                e.SceneObjects.FadeComponent._IsFadingIn = false;
+            }
 
+            // We set the new alpha of the black image
+            e.SceneObjects.FadeComponent._FadingImage.color = new Color(0, 0, 0, alpha);
+        }
 
         public static void SetTeleportState(TeleportGeneralComponent teleportGeneral, SceneObjectsComponent sceneObjects, ETeleportState newState)
         {
             // We set the teleporting state to teleporting
             teleportGeneral.CurrentTeleportState = newState;
-
-            // We do the same for the Fading component if it exist. The TeleportUserSystem will handle the teleporting feature
-            if (sceneObjects.FadeComponent != null)
-            {
-                sceneObjects.FadeComponent.TeleportState = newState;
-                sceneObjects.FadeComponent._teleportTimeMarker = Time.time;
-            }
         }
     }
 }
