@@ -3,69 +3,56 @@ using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport.Systems
 {
+    /// <summary>
+    /// Calculations helper for the Step by Step feature.
+    /// </summary>
     public static class SBSCalculationsHelper
     {
-        public static bool UserIsOnNavMesh(StepByStepSystem.Filter e, out Vector3 newTheoriticPos, LayerMask excludedLayer)
+        public static bool UserIsOnNavMesh(StepByStepSystem.Filter e, out Vector3 newCameraRigPos, LayerMask excludedLayer)
         {
+            // We calculate the direction vector and multiply the distance to it
+            var directionVector = e.RayComp.RayVar.Value.direction;
+            float distanceDotScale = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
+            directionVector *= distanceDotScale;
+
             // We check the theoritic new user pos
-            newTheoriticPos = GetNewPosWithObstacle(e, excludedLayer);
-                
-            // We calculate a vector down based on the new User Pos. 
-            var downVector = newTheoriticPos + (Vector3.down * Mathf.Abs(newTheoriticPos.y));
-            
+            var newCameraPos = GetNewTheoriticPos(directionVector, false);
+
+            // We check the theoritic position for the cameraRig
+            newCameraRigPos = GetNewTheoriticPos(directionVector, true);
+
+            // We calculate a vector down based on the new Camera Pos. 
+            var downVectorDistance = Mathf.Abs(newCameraPos.y) + 0.1f;
+            var downVector = newCameraPos + (Vector3.down * downVectorDistance);
+
             // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
             TeleportNavMeshHelper.Linecast
             (
-                newTheoriticPos,
+                newCameraPos,
                 downVector,
                 out bool endOnNavmesh,
                 excludedLayer,
-                out e.TeleportGeneral.PointToGoTo,
+                out newCameraPos,
                 out Vector3 norm,
                 e.SceneObjects._TeleportNavMesh
             );
 
-            //As the CameraRig is placed on the NavMesh (it's basically the floor), we set the newUser Pos to the downVector
-            newTheoriticPos = e.TeleportGeneral.PointToGoTo;
+            // We substract the camera pos in y to the CameraRig pos in y
+            newCameraRigPos.y = newCameraPos.y;
 
             return endOnNavmesh;
         }
 
-        private static Vector3 GetNewPosWithObstacle(StepByStepSystem.Filter e, LayerMask excludedLayer)
-        {
-            var origin = VRSF_Components.VRCamera.transform.position;
-            var directionVector = CheckHandForward(e);
-            float distanceWithScale = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
-
-            if (Physics.Raycast(origin, directionVector, out RaycastHit hit, distanceWithScale, excludedLayer))
-            {
-                return hit.point - (directionVector / 2);
-            }
-            else
-            {
-                directionVector *= distanceWithScale;
-                return origin + new Vector3(directionVector.x, 0.0f, directionVector.z);
-            }
-        }
-
         /// <summary>
-        /// Check, depending on the RayOrigin and the User's size, the forward vector to use.
+        /// We get the theoritic position for the CameraRig and the VRCamera based on the scaled direction (direction * distance)
         /// </summary>
-        /// <returns>The new theoritical position of the user</returns>
-        private static Vector3 CheckHandForward(StepByStepSystem.Filter entity)
+        /// <param name="scaledDirection">The direction multiplied by the distance to go to</param>
+        /// <param name="isCheckingCameraRig">Whether the check is for the CameraRig or the VRCamera</param>
+        /// <returns>The new Theoritic position</returns>
+        private static Vector3 GetNewTheoriticPos(Vector3 scaledDirection, bool isCheckingCameraRig)
         {
-            switch (entity.BAC_Comp.ButtonHand)
-            {
-                case Controllers.EHand.LEFT:
-                    return VRSF_Components.LeftController.transform.forward;
-                case Controllers.EHand.RIGHT:
-                    return VRSF_Components.RightController.transform.forward;
-                case Controllers.EHand.GAZE:
-                    return VRSF_Components.VRCamera.transform.forward;
-                default:
-                    Debug.LogError("Please specify a valid RayOrigin in the Inspector to be able to use the Teleport StepByStep feature.");
-                    return Vector3.zero;
-            }
+            var origin = isCheckingCameraRig ? VRSF_Components.CameraRig.transform.position : VRSF_Components.VRCamera.transform.position;
+            return origin + new Vector3(scaledDirection.x, 0.0f, scaledDirection.z);
         }
     }
 }

@@ -43,6 +43,8 @@ namespace VRSF.MoveAround.Teleport
                 }
                 
                 pointOnNavmesh = NavMesh.SamplePosition(hitPoint, out NavMeshHit navHit, teleportNavMesh._SampleRadius, teleportNavMesh._NavAreaMask);
+                // Get the closest position on the navMesh
+                hitPoint = navHit.position;
                 return true;
             }
             else

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using VRSF.Controllers;
 using VRSF.Inputs;
 using VRSF.MoveAround.Teleport.Components;
 using VRSF.MoveAround.Teleport.Interfaces;
@@ -24,14 +25,11 @@ namespace VRSF.MoveAround.Teleport.Systems
             public SceneObjectsComponent SceneObjects;
         }
 
-        private Controllers.ControllersParametersVariable _controllersVariable;
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            _controllersVariable = Controllers.ControllersParametersVariable.Instance;
             foreach (var e in GetEntities<Filter>())
             {
                 SetupListenersResponses(e);
@@ -96,8 +94,8 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter e = (Filter)teleportFilter;
             
-            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
-                VRSF_Components.SetCameraRigPosition(newUsersPos);
+            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.RayComp.RayOrigin)))
+                VRSF_Components.CameraRig.transform.position = newUsersPos;
 
             e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
         }

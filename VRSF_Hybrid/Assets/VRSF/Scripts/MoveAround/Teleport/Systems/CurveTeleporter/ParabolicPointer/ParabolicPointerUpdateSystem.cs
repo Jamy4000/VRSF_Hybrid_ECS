@@ -98,6 +98,10 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
+            // Deactivate laser if it's still active
+            if (e.PointerObjects._ControllerPointer.enabled)
+                ToggleNormalLaser(e, false);
+
             // 1. Calculate Parabola Points
             var velocity = ForceUpdateCurrentAngle(e);
             var normal = ParabolaPointsCalculations(e, velocity);
