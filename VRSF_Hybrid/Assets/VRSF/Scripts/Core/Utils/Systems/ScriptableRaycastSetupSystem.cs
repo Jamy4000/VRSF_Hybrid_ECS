@@ -34,7 +34,7 @@ namespace VRSF.Utils.Systems
             foreach (var entity in GetEntities<Filter>())
             {
                 // We check which hit to use for this feature with the RayOrigin
-                SetupRayAndHit(entity);
+                SetupVariables(entity);
             }
 
             this.Enabled = false;
@@ -55,23 +55,26 @@ namespace VRSF.Utils.Systems
         /// <summary>
         /// Check which RaycastHitVariable is used depending on the RayOrigin specified
         /// </summary>
-        private void SetupRayAndHit(Filter entity)
+        private void SetupVariables(Filter entity)
         {
             switch (entity.RayVarComp.RayOrigin)
             {
                 case (EHand.LEFT):
                     entity.RayVarComp.RaycastHitVar = _interactionsContainer.LeftHit;
                     entity.RayVarComp.RayVar = _interactionsContainer.LeftRay;
+                    entity.RayVarComp.IgnoredLayers = ControllersParametersVariable.Instance.LeftExclusionLayer;
                     break;
 
                 case (EHand.RIGHT):
                     entity.RayVarComp.RaycastHitVar = _interactionsContainer.RightHit;
                     entity.RayVarComp.RayVar = _interactionsContainer.RightRay;
+                    entity.RayVarComp.IgnoredLayers = ControllersParametersVariable.Instance.RightExclusionLayer;
                     break;
 
                 case (EHand.GAZE):
                     entity.RayVarComp.RaycastHitVar = _interactionsContainer.GazeHit;
                     entity.RayVarComp.RayVar = _interactionsContainer.GazeRay;
+                    entity.RayVarComp.IgnoredLayers = VRSF.Gaze.GazeParametersVariable.Instance.GazeExclusionLayer;
                     break;
             }
         }

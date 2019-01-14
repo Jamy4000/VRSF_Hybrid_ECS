@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,6 +28,13 @@ namespace VRSF.Utils.Systems
         {
             base.OnStartRunning();
             _controllersParameters = ControllersParametersVariable.Instance;
+
+            foreach (var e in GetEntities<Filter>())
+            {
+                LoadCorrespondingSDK(e.SetupVR);
+                SetupVRInScene(e.SetupVR);
+            }
+
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 

@@ -8,6 +8,7 @@ namespace VRSF.Utils.Components
     {
         [Header("The Raycast Origin for this script")]
         public EHand RayOrigin = EHand.NONE;
+        [HideInInspector] public LayerMask IgnoredLayers;
 
         // The RaycastHitVariable and Ray to check for this feature
         [HideInInspector] public RaycastHitVariable RaycastHitVar;

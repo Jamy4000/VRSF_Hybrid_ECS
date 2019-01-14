@@ -10,19 +10,24 @@ namespace VRSF.MoveAround.Teleport.Systems
     {
         public static bool UserIsOnNavMesh(StepByStepSystem.Filter e, out Vector3 newCameraRigPos, LayerMask excludedLayer)
         {
-            // We calculate the direction vector and multiply the distance to it
+            // We calculate the direction and the distance Vectors
             var directionVector = e.RayComp.RayVar.Value.direction;
-            float distanceDotScale = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
-            directionVector *= distanceDotScale;
+            float distanceVector = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
+
+            // Check if we hit a collider on the way. If it's the case, we reduce the distance.
+            if (Physics.Raycast(VRSF_Components.VRCamera.transform.position, directionVector, out RaycastHit hit, distanceVector, ~e.RayComp.IgnoredLayers))
+                distanceVector = 0;
+
+            // We multiply the direction vector by the distance to which the user should be going
+            directionVector *= distanceVector;
 
             // We check the theoritic new user pos
             var newCameraPos = GetNewTheoriticPos(directionVector, false);
-
             // We check the theoritic position for the cameraRig
             newCameraRigPos = GetNewTheoriticPos(directionVector, true);
 
             // We calculate a vector down based on the new Camera Pos. 
-            var downVectorDistance = Mathf.Abs(newCameraPos.y) + 0.1f;
+            var downVectorDistance = Mathf.Abs(VRSF_Components.VRCamera.transform.localPosition.y) + e.SBS_Comp.StepHeight;
             var downVector = newCameraPos + (Vector3.down * downVectorDistance);
 
             // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
