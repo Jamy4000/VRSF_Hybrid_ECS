@@ -13,6 +13,7 @@ namespace ScriptableFramework.UI.Editor
         public object Variable;
         public PrefabType PrefabType;
     }
+
     public class VariableEditorBase : UnityEditor.Editor
     {
         private List<VariableSubscriber> _subscribers;

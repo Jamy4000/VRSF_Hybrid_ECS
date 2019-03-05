@@ -6,8 +6,7 @@
     public enum EDevice
     {
         SIMULATOR,
-        OPENVR,
-        PORTABLE_OVR,
+        HTC_VIVE,
         OCULUS_RIFT,
         NULL    //To handle errors
     }

@@ -1,7 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Valve.VR;
 using VRSF.Utils;
 
 namespace VRSF.MoveAround.Teleport
@@ -84,20 +83,12 @@ namespace VRSF.MoveAround.Teleport
         /// <returns>If the play area retrieval was successful</returns>
         public bool GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
         {
-            switch (VRSF_Components.DeviceLoaded)
-            {
-                case EDevice.OPENVR:
-                    return GetViveChaperone(out p0, out p1, out p2, out p3);
-                case EDevice.OCULUS_RIFT:
-                case EDevice.PORTABLE_OVR:
-                    return GetOVRBoundaries(out p0, out p1, out p2, out p3);
-                default:
-                    p0 = Vector3.zero;
-                    p1 = Vector3.zero;
-                    p2 = Vector3.zero;
-                    p3 = Vector3.zero;
-                    return false;
-            }
+            p0 = Vector3.zero;
+            p1 = Vector3.zero;
+            p2 = Vector3.zero;
+            p3 = Vector3.zero;
+            
+            return VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? false : GetOpenVRChaperone(out p0, out p1, out p2, out p3);
         }
 
 
@@ -109,67 +100,37 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="p2">The third point of the border</param>
         /// <param name="p3">The fourth point of the border</param>
         /// <returns>true if the boundaries of OpenVR could be correctly get</returns>
-        private bool GetViveChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
+        private bool GetOpenVRChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
         {
-            var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
-            if (initOpenVR)
-            {
-                var error = EVRInitError.None;
-                OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
-            }
+            //var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
+            //if (initOpenVR)
+            //{
+            //    var error = EVRInitError.None;
+            //    OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
+            //}
 
-            var chaperone = OpenVR.Chaperone;
-            HmdQuad_t rect = new HmdQuad_t();
-            bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref rect);
-            p0 = new Vector3(rect.vCorners0.v0, rect.vCorners0.v1, rect.vCorners0.v2);
-            p1 = new Vector3(rect.vCorners1.v0, rect.vCorners1.v1, rect.vCorners1.v2);
-            p2 = new Vector3(rect.vCorners2.v0, rect.vCorners2.v1, rect.vCorners2.v2);
-            p3 = new Vector3(rect.vCorners3.v0, rect.vCorners3.v1, rect.vCorners3.v2);
+            //var chaperone = OpenVR.Chaperone;
+            //HmdQuad_t rect = new HmdQuad_t();
+            //bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref rect);
+            //p0 = new Vector3(rect.vCorners0.v0, rect.vCorners0.v1, rect.vCorners0.v2);
+            //p1 = new Vector3(rect.vCorners1.v0, rect.vCorners1.v1, rect.vCorners1.v2);
+            //p2 = new Vector3(rect.vCorners2.v0, rect.vCorners2.v1, rect.vCorners2.v2);
+            //p3 = new Vector3(rect.vCorners3.v0, rect.vCorners3.v1, rect.vCorners3.v2);
 
-            if (!success)
-                Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
+            //if (!success)
+            //    Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
 
-            if (initOpenVR)
-                OpenVR.Shutdown();
+            //if (initOpenVR)
+            //    OpenVR.Shutdown();
 
-            return success;
-        }
+            //return success;
 
-        /// <summary>
-        /// Get the OVR (Oculus) Boundaries to display the borders
-        /// </summary>
-        /// <param name="p0">The first point of the border</param>
-        /// <param name="p1">The second point of the border</param>
-        /// <param name="p2">The third point of the border</param>
-        /// <param name="p3">The fourth point of the border</param>
-        /// <returns>true if the boundaries of OVR could be correctly get</returns>
-        private bool GetOVRBoundaries(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
-        {
-            var chaperone = OVRManager.boundary;
-
-            if (chaperone.GetConfigured())
-            {
-                var geometry = chaperone.GetGeometry(OVRBoundary.BoundaryType.PlayArea);
-                bool success = (chaperone != null) && (geometry.Length > 0);
-
-                p0 = new Vector3(geometry[0].x, geometry[0].y + 1.8f, geometry[0].z);
-                p1 = new Vector3(geometry[1].x, geometry[1].y + 1.8f, geometry[1].z);
-                p2 = new Vector3(geometry[2].x, geometry[2].y + 1.8f, geometry[2].z);
-                p3 = new Vector3(geometry[3].x, geometry[3].y + 1.8f, geometry[3].z);
-
-                if (!success)
-                    Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
-
-                return success;
-            }
-            else
-            {
-                p0 = Vector3.zero;
-                p1 = Vector3.zero;
-                p2 = Vector3.zero;
-                p3 = Vector3.zero;
-                return true;
-            }
+            Debug.LogError("TODO : Redo Chaperone SteamVR");
+            p0 = Vector3.zero;
+            p1 = Vector3.zero;
+            p2 = Vector3.zero;
+            p3 = Vector3.zero;
+            return false;
         }
 
         /// <summary>

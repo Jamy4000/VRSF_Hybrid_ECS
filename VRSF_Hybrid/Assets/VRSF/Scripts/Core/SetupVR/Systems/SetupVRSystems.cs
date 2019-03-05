@@ -117,19 +117,12 @@ namespace VRSF.Utils.Systems
                     VRSF_Components.CameraRig.transform.name = setupVR.Rift_SDK.name;
                     VRSF_Components.DeviceLoaded = EDevice.OCULUS_RIFT;
                     break;
-                    
-                case (EDevice.PORTABLE_OVR):
-                    XRSettings.enabled = true;
-                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.PortableOVR_SDK);
-                    VRSF_Components.CameraRig.transform.name = setupVR.PortableOVR_SDK.name;
-                    VRSF_Components.DeviceLoaded = EDevice.PORTABLE_OVR;
-                    break;
 
-                case (EDevice.OPENVR):
+                case (EDevice.HTC_VIVE):
                     XRSettings.enabled = true;
                     VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OpenVR_SDK);
                     VRSF_Components.CameraRig.transform.name = setupVR.OpenVR_SDK.name;
-                    VRSF_Components.DeviceLoaded = EDevice.OPENVR;
+                    VRSF_Components.DeviceLoaded = EDevice.HTC_VIVE;
                     break;
 
                 case (EDevice.SIMULATOR):
@@ -165,15 +158,11 @@ namespace VRSF.Utils.Systems
 
                 if (detectedHmd.ToLower().Contains("vive"))
                 {
-                    return EDevice.OPENVR;
+                    return EDevice.HTC_VIVE;
                 }
                 else if (detectedHmd.ToLower().Contains("rift"))
                 {
                     return EDevice.OCULUS_RIFT;
-                }
-                else if (detectedHmd.ToLower().Contains("gear") || detectedHmd.ToLower().Contains("oculus go"))
-                {
-                    return EDevice.PORTABLE_OVR;
                 }
                 else
                 {
@@ -244,12 +233,10 @@ namespace VRSF.Utils.Systems
             {
                 switch (VRSF_Components.DeviceLoaded)
                 {
-                    case (EDevice.OPENVR):
+                    case (EDevice.HTC_VIVE):
                         VRSF_Components.CameraRig.GetComponent<ViveControllersInputCaptureComponent>().enabled = false;
-                        VRSF_Components.CameraRig.GetComponent<SteamVR_ControllerManager>().enabled = false;
-                        break;
-                    case (EDevice.OCULUS_RIFT):
-                        VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
+                        Debug.LogError("TODO : Redo Disable of SteamVR");
+                        //VRSF_Components.CameraRig.GetComponent<SteamVR_ControllerManager>().enabled = false;
                         break;
                     case (EDevice.SIMULATOR):
                         VRSF_Components.CameraRig.GetComponent<SimulatorControllersInputCaptureComponent>().enabled = false;

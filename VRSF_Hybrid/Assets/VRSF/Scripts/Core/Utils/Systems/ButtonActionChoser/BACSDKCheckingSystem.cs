@@ -53,7 +53,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <returns>true if the current loaded SDK is selected in the inspector</returns>
         private bool CheckUseSDKToggles(Filter entity)
         {
-            if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseRift && !entity.SDKComp.UseSimulator && !entity.SDKComp.UsePortableOVR)
+            if (!entity.SDKComp.UseVive && !entity.SDKComp.UseRift && !entity.SDKComp.UseSimulator)
             {
                 Debug.LogError("VRSF : You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 entity.SDKComp.gameObject.SetActive(false);
@@ -62,14 +62,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             switch (VRSF_Components.DeviceLoaded)
             {
-                case EDevice.OPENVR:
-                    return entity.SDKComp.UseOpenVR;
+                case EDevice.HTC_VIVE:
+                    return entity.SDKComp.UseVive;
 
                 case EDevice.OCULUS_RIFT:
                     return entity.SDKComp.UseRift;
-
-                case EDevice.PORTABLE_OVR:
-                    return entity.SDKComp.UsePortableOVR;
 
                 case EDevice.SIMULATOR:
                     return entity.SDKComp.UseSimulator;

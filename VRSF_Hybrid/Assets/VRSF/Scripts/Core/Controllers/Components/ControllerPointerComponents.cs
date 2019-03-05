@@ -12,7 +12,7 @@ namespace VRSF.Controllers.Components
         public EPointerState _PointerState = EPointerState.ON;
         
         // LineRenderer attached to the right and left controllers
-        [SerializeField] public OptionalLaserObjects OptionalLasersObjects;
+        public OptionalLaserObjects OptionalLasersObjects;
 
         [HideInInspector] public bool IsSetup = false;
     }

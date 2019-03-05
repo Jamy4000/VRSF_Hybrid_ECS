@@ -78,8 +78,6 @@ namespace VRSF.Gaze
         [Header("Gaze Click Buttons")]
         [Tooltip("The Button you wanna use to click with the Rift SDK")]
         public EControllersButton GazeButtonRift = EControllersButton.NONE;
-        [Tooltip("The Button you wanna use to click with the Portable OVR SDK")]
-        public EControllersButton GazeButtonPortableOVR = EControllersButton.NONE;
         [Tooltip("The Button you wanna use to click with the OpenVR SDK")]
         public EControllersButton GazeButtonOpenVR = EControllersButton.NONE;
         [Tooltip("The Button you wanna use to click with the Simulator SDK")]
@@ -116,7 +114,6 @@ namespace VRSF.Gaze
             UseDifferentStates = false;
 
             GazeButtonRift = EControllersButton.NONE;
-            GazeButtonPortableOVR = EControllersButton.NONE;
             GazeButtonOpenVR = EControllersButton.NONE;
             GazeButtonSimulator = EControllersButton.NONE;
         }

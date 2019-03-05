@@ -12,7 +12,8 @@ namespace VRSF.Inputs.Components.Vive
         public EHand Hand;
         public VRInputsBoolean ClickBools;
         public VRInputsBoolean TouchBools;
-        public SteamVR_Controller.Device Controller;
+        // TODO
+        //public SteamVR_Controller.Device Controller;
         public Vector2Variable ThumbPosition;
     }
 }

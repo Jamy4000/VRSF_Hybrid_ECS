@@ -21,7 +21,7 @@ namespace VRSF.Utils.Editor
 
         public override void OnInspectorGUI()
         {
-            serializedObject.Update();
+            serializedObject.Update(); 
 
             base.DrawDefaultInspector();
 
@@ -39,8 +39,7 @@ namespace VRSF.Utils.Editor
 
             EditorGUILayout.BeginHorizontal();
 
-            _component.UseOpenVR = EditorGUILayout.ToggleLeft("OpenVR", _component.UseOpenVR, options);
-            _component.UsePortableOVR = EditorGUILayout.ToggleLeft("Portable VR", _component.UsePortableOVR, options);
+            _component.UseVive = EditorGUILayout.ToggleLeft("OpenVR", _component.UseVive, options);
             _component.UseSimulator = EditorGUILayout.ToggleLeft("Simulator", _component.UseSimulator, options);
             _component.UseRift = EditorGUILayout.ToggleLeft("OVR", _component.UseRift, options);
 

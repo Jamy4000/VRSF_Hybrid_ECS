@@ -62,29 +62,30 @@ namespace VRSF.Inputs.Systems
         /// </summary>
         private void CheckGazeInputs()
         {
+            Debug.LogError("TODO : Redo Gaze Input Capture for Oculus");
             // Checking Click event
-            if (!_inputContainer.GazeIsCliking.Value && OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
-            {
-                _inputContainer.GazeIsCliking.SetValue(true);
-                new ButtonClickEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
-            }
-            else if (_inputContainer.GazeIsCliking.Value && !OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
-            {
-                _inputContainer.GazeIsCliking.SetValue(false);
-                new ButtonUnclickEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
-            }
+            //if (!_inputContainer.GazeIsCliking.Value && OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            //{
+            //    _inputContainer.GazeIsCliking.SetValue(true);
+            //    new ButtonClickEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
+            //}
+            //else if (_inputContainer.GazeIsCliking.Value && !OVRInput.Get(GazeInteractionRift.ClickDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            //{
+            //    _inputContainer.GazeIsCliking.SetValue(false);
+            //    new ButtonUnclickEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
+            //}
 
-            // Checking Touch event
-            if (!_inputContainer.GazeIsTouching.Value && OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
-            {
-                _inputContainer.GazeIsTouching.SetValue(true);
-                new ButtonTouchEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
-            }
-            else if (_inputContainer.GazeIsTouching.Value && !OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
-            {
-                _inputContainer.GazeIsTouching.SetValue(false);
-                new ButtonUntouchEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
-            }
+            //// Checking Touch event
+            //if (!_inputContainer.GazeIsTouching.Value && OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            //{
+            //    _inputContainer.GazeIsTouching.SetValue(true);
+            //    new ButtonTouchEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
+            //}
+            //else if (_inputContainer.GazeIsTouching.Value && !OVRInput.Get(GazeInteractionRift.TouchDictionnary[new STuples<EControllersButton, EHand>(_gazeParameters.GazeButtonRift, EHand.GAZE)]))
+            //{
+            //    _inputContainer.GazeIsTouching.SetValue(false);
+            //    new ButtonUntouchEvent(EHand.GAZE, _gazeParameters.GazeButtonRift);
+            //}
         }
 
 

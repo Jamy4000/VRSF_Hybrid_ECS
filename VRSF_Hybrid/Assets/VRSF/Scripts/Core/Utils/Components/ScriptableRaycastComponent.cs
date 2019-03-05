@@ -69,10 +69,8 @@ namespace VRSF.Utils.Components
                             return Mathf.Max(_controllersParameters.MaxDistancePointerLeft, _controllersParameters.MaxDistancePointerRight);
                     }
                 }
-                catch (System.Exception e)
+                catch
                 {
-                    //Debug.Log("VRSF : Raycasting not ready yet, waiting for next frame.\n" + e.ToString());
-
                     if (RayOrigin == EHand.GAZE)
                         _gazeParameters = Gaze.GazeParametersVariable.Instance;
                     else

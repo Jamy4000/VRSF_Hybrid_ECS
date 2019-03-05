@@ -20,7 +20,6 @@ namespace VRSF.Utils.Components.ButtonActionChoser
 
         // For SDKs Specific ActionButton 
         [HideInInspector] public bool IsUsingOculusButton;
-        [HideInInspector] public bool IsUsingPortableOVRButton;
         [HideInInspector] public bool IsUsingViveButton;
         [HideInInspector] public bool IsUsingWheelButton;
 

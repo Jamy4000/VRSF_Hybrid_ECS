@@ -35,13 +35,14 @@ namespace VRSF.Controllers.Haptic
         /// <param name="onHapticRequested"></param>
         private void OnHapticEventCallback(OnHapticRequestedEvent onHapticRequested)
         {
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (onHapticRequested.Hand == EHand.LEFT)
-                    e.ViveInputCaptureComp.LeftController.TriggerHapticPulse((ushort)onHapticRequested.HapticForce);
-                else
-                    e.ViveInputCaptureComp.RightController.TriggerHapticPulse((ushort)onHapticRequested.HapticForce);
-            }
+            //foreach (var e in GetEntities<Filter>())
+            //{
+            //    if (onHapticRequested.Hand == EHand.LEFT)
+            //        e.ViveInputCaptureComp.LeftController.TriggerHapticPulse((ushort)onHapticRequested.HapticForce);
+            //    else
+            //        e.ViveInputCaptureComp.RightController.TriggerHapticPulse((ushort)onHapticRequested.HapticForce);
+            //}
+            UnityEngine.Debug.LogError("TODO : Redo HAPTIC SteamVR");
         }
     }
 }

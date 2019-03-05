@@ -76,92 +76,94 @@ namespace VRSF.Inputs.Systems.Vive
             tempClick = controllerParameters.ClickBools.Get("TriggerIsDown");
             tempTouch = controllerParameters.TouchBools.Get("TriggerIsTouching");
 
-            // Check Click Events
-            if (!tempClick.Value && controllerParameters.Controller.GetHairTriggerDown())
-            {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
-                new ButtonClickEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
-            }
-            else if (tempClick.Value && controllerParameters.Controller.GetHairTriggerUp())
-            {
-                tempClick.SetValue(false);
-                new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
-            }
-            // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && controllerParameters.Controller.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
-            {
-                tempTouch.SetValue(true);
-                new ButtonTouchEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
-            }
-            else if (tempTouch.Value && controllerParameters.Controller.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
-            {
-                tempTouch.SetValue(false);
-                new ButtonUntouchEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
-            }
-            #endregion TRIGGER
-
-            #region TOUCHPAD
-            controllerParameters.ThumbPosition.SetValue(controllerParameters.Controller.GetAxis());
-
-            tempClick = controllerParameters.ClickBools.Get("ThumbIsDown");
-            tempTouch = controllerParameters.TouchBools.Get("ThumbIsTouching");
+            Debug.LogError("TODO : Redo Input Capture SteamVR");
 
             // Check Click Events
-            if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
-            {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
-                new ButtonClickEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
-            }
-            else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
-            {
-                tempClick.SetValue(false);
-                new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
-            }
-            // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && controllerParameters.Controller.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad))
-            {
-                tempTouch.SetValue(true);
-                new ButtonTouchEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
-            }
-            else if (tempTouch.Value && controllerParameters.Controller.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad))
-            {
-                tempTouch.SetValue(false);
-                new ButtonUntouchEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
-            }
-            #endregion TOUCHPAD
+            //if (!tempClick.Value && controllerParameters.Controller.GetHairTriggerDown())
+            //{
+            //    tempClick.SetValue(true);
+            //    tempTouch.SetValue(false);
+            //    new ButtonClickEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
+            //}
+            //else if (tempClick.Value && controllerParameters.Controller.GetHairTriggerUp())
+            //{
+            //    tempClick.SetValue(false);
+            //    new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
+            //}
+            //// Check Touch Events if user is not clicking
+            //else if (!tempClick.Value && !tempTouch.Value && controllerParameters.Controller.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
+            //{
+            //    tempTouch.SetValue(true);
+            //    new ButtonTouchEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
+            //}
+            //else if (tempTouch.Value && controllerParameters.Controller.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
+            //{
+            //    tempTouch.SetValue(false);
+            //    new ButtonUntouchEvent(controllerParameters.Hand, EControllersButton.TRIGGER);
+            //}
+            //#endregion TRIGGER
 
-            #region GRIP
-            tempClick = controllerParameters.ClickBools.Get("GripIsDown");
+            //#region TOUCHPAD
+            //controllerParameters.ThumbPosition.SetValue(controllerParameters.Controller.GetAxis());
 
-            // Check Click Events
-            if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
-            {
-                tempClick.SetValue(true);
-                new ButtonClickEvent(controllerParameters.Hand, EControllersButton.GRIP);
-            }
-            else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
-            {
-                tempClick.SetValue(false);
-                new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.GRIP);
-            }
-            #endregion GRIP
+            //tempClick = controllerParameters.ClickBools.Get("ThumbIsDown");
+            //tempTouch = controllerParameters.TouchBools.Get("ThumbIsTouching");
 
-            #region MENU
-            tempClick = controllerParameters.ClickBools.Get("MenuIsDown");
+            //// Check Click Events
+            //if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
+            //{
+            //    tempClick.SetValue(true);
+            //    tempTouch.SetValue(false);
+            //    new ButtonClickEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
+            //}
+            //else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
+            //{
+            //    tempClick.SetValue(false);
+            //    new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
+            //}
+            //// Check Touch Events if user is not clicking
+            //else if (!tempClick.Value && !tempTouch.Value && controllerParameters.Controller.GetTouchDown(SteamVR_Controller.ButtonMask.Touchpad))
+            //{
+            //    tempTouch.SetValue(true);
+            //    new ButtonTouchEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
+            //}
+            //else if (tempTouch.Value && controllerParameters.Controller.GetTouchUp(SteamVR_Controller.ButtonMask.Touchpad))
+            //{
+            //    tempTouch.SetValue(false);
+            //    new ButtonUntouchEvent(controllerParameters.Hand, EControllersButton.THUMBSTICK);
+            //}
+            //#endregion TOUCHPAD
 
-            // Check Click Events
-            if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
-            {
-                tempClick.SetValue(true);
-                new ButtonClickEvent(controllerParameters.Hand, EControllersButton.MENU);
-            }
-            else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
-            {
-                tempClick.SetValue(false);
-                new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.MENU);
-            }
+            //#region GRIP
+            //tempClick = controllerParameters.ClickBools.Get("GripIsDown");
+
+            //// Check Click Events
+            //if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+            //{
+            //    tempClick.SetValue(true);
+            //    new ButtonClickEvent(controllerParameters.Hand, EControllersButton.GRIP);
+            //}
+            //else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+            //{
+            //    tempClick.SetValue(false);
+            //    new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.GRIP);
+            //}
+            //#endregion GRIP
+
+            //#region MENU
+            //tempClick = controllerParameters.ClickBools.Get("MenuIsDown");
+
+            //// Check Click Events
+            //if (!tempClick.Value && controllerParameters.Controller.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu))
+            //{
+            //    tempClick.SetValue(true);
+            //    new ButtonClickEvent(controllerParameters.Hand, EControllersButton.MENU);
+            //}
+            //else if (tempClick.Value && controllerParameters.Controller.GetPressUp(SteamVR_Controller.ButtonMask.ApplicationMenu))
+            //{
+            //    tempClick.SetValue(false);
+            //    new ButtonUnclickEvent(controllerParameters.Hand, EControllersButton.MENU);
+            //}
             #endregion MENU
         }
 
@@ -176,7 +178,6 @@ namespace VRSF.Inputs.Systems.Vive
                 Hand = EHand.LEFT,
                 ClickBools = _inputContainer.LeftClickBoolean,
                 TouchBools = _inputContainer.LeftTouchBoolean,
-                Controller = viveInputCapture.LeftController,
                 ThumbPosition = _inputContainer.LeftThumbPosition
             };
 
@@ -185,7 +186,6 @@ namespace VRSF.Inputs.Systems.Vive
                 Hand = EHand.RIGHT,
                 ClickBools = _inputContainer.RightClickBoolean,
                 TouchBools = _inputContainer.RightTouchBoolean,
-                Controller = viveInputCapture.RightController,
                 ThumbPosition = _inputContainer.RightThumbPosition
             };
 
