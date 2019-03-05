@@ -18,9 +18,9 @@ namespace VRSF.UI
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
 
             if (Application.isPlaying)
             {
@@ -32,9 +32,9 @@ namespace VRSF.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnDisable();
+            base.OnDestroy();
             ObjectWasClickedEvent.UnregisterListener(CheckObjectClicked);
         }
         #endregion MONOBEHAVIOUR_METHODS
@@ -46,7 +46,7 @@ namespace VRSF.UI
             // If the controllers are not used, we cannot click on a button
             if (!ControllersParametersVariable.Instance.UseControllers)
             {
-                Debug.Log("VRSF : You won't be able to use the VR Button if you're not using the Controllers. To change that,\n" +
+                Debug.LogWarning("VRSF : You won't be able to use the VR Button if you're not using the Controllers. To change that,\n" +
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
@@ -72,6 +72,7 @@ namespace VRSF.UI
         /// <returns></returns>
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
+            yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
 
             BoxCollider box = GetComponent<BoxCollider>();

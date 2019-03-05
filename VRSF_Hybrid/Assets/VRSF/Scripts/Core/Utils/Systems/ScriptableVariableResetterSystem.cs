@@ -96,8 +96,11 @@ namespace VRSF.Utils.Systems
 
         private void OnSceneLoaded(Scene newScene, LoadSceneMode loadMode)
         {
-            ResetInputContainer();
-            ResetInteractionContainer();
+            if (loadMode == LoadSceneMode.Single)
+            {
+                ResetInputContainer();
+                ResetInteractionContainer();
+            }
         }
     }
 }

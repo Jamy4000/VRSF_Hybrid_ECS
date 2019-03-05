@@ -28,13 +28,19 @@ namespace VRSF.UI
         [SerializeField] public bool FillWithClick;
 
         [Tooltip("The time it takes to fill the slider.")]
-        [SerializeField] public float FillTime = 3f;
+        [SerializeField] public float FillTime;
+
+        [SerializeField] public bool ResetFillOnRelease = true;
+
+        [Header("Whether the value should go down when user is not clicking")]
+        [SerializeField] public bool ValueIsGoingDown = true;
 
         [Header("Unity Events for bar filled and released.")]
         [SerializeField] public UnityEvent OnBarFilled;
         [Tooltip("The OnBarReleased will only be called if the bar was filled before the user release it.")]
         [SerializeField] public UnityEvent OnBarReleased;
 
+        [HideInInspector] public float Timer;                                              // Used to determine how much of the bar should be filled.
         #endregion
 
 
@@ -46,7 +52,6 @@ namespace VRSF.UI
         private BoolVariable _rightIsClicking;
 
         private bool _barFilled;                                           // Whether the bar is currently filled.
-        private float _timer;                                              // Used to determine how much of the bar should be filled.
         private Coroutine _fillBarRoutine;                                 // Reference to the coroutine that controls the bar filling up, used to stop it if required.
 
         private EHand _handFilling = EHand.NONE;                              // Reference to the type of Hand that is filling the slider
@@ -88,8 +93,12 @@ namespace VRSF.UI
 
                 // if the bar is being filled
                 if (_fillBarRoutine != null)
-                {
                     CheckHandStillOver();
+                else if (ValueIsGoingDown && value < 1 && value > 0)
+                {
+                    Timer -= Time.deltaTime;
+                    // Set the value of the slider or the UV based on the normalised time.
+                    value = (Timer / FillTime);
                 }
             }
         }
@@ -124,7 +133,7 @@ namespace VRSF.UI
         /// <param name="hoverEvent">The event raised when an object is hovered</param>
         public void CheckSliderHovered(ObjectWasHoveredEvent hoverEvent)
         {
-            if (IsInteractable() && !FillWithClick)
+            if (!FillWithClick && IsInteractable() && hoverEvent.HandHovering == EHand.GAZE)
             {
                 // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
                 if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
@@ -150,7 +159,7 @@ namespace VRSF.UI
             _rightIsClicking = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
             _leftIsClicking = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
 
-            GetFillRectReference();
+            //GetFillRectReference();
             
             ObjectWasClickedEvent.RegisterListener(CheckSliderClick);
             ObjectWasHoveredEvent.RegisterListener(CheckSliderHovered);
@@ -182,17 +191,14 @@ namespace VRSF.UI
         /// <returns>a new IEnumerator</returns>
         private IEnumerator FillBar()
         {
-            // When the bar starts to fill, reset the timer.
-            _timer = 0f;
-
             // Until the timer is greater than the fill time...
-            while (_timer < FillTime)
+            while (Timer < FillTime)
             {
                 // ... add to the timer the difference between frames.
-                _timer += Time.deltaTime;
+                Timer += Time.deltaTime;
 
                 // Set the value of the slider or the UV based on the normalised time.
-                value = (_timer / FillTime);
+                value = (Timer / FillTime);
 
                 onValueChanged.Invoke(value);
 
@@ -207,7 +213,6 @@ namespace VRSF.UI
                 value = 0f;
                 yield break;
             }
-
             // If the loop has finished the bar is now full.
             _barFilled = true;
             OnBarFilled.Invoke();
@@ -221,7 +226,8 @@ namespace VRSF.UI
             // If the bar was filled and the user is releasing it, we invoke the OnBarReleased event
             if (_barFilled)
             {
-                OnBarReleased.Invoke();
+                if (OnBarReleased != null)
+                    OnBarReleased.Invoke();
                 _barFilled = false;
             }
 
@@ -232,9 +238,12 @@ namespace VRSF.UI
                 _fillBarRoutine = null;
             }
 
-            // Reset the timer and bar values.
-            _timer = 0f;
-            value = 0.0f;
+            if (ResetFillOnRelease)
+            {
+                // Reset the timer and bar values.
+                Timer = 0f;
+                value = 0.0f;
+            }
 
             // Set the Hand filling at null
             _handFilling = EHand.NONE;

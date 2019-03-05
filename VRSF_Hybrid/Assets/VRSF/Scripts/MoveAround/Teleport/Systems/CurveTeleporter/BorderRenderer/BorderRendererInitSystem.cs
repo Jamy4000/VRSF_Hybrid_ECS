@@ -176,12 +176,15 @@ namespace VRSF.MoveAround.Teleport
         /// Relaunch the system everytime we enter in a new scene
         /// </summary>
         /// <param name="sceneLoaded"></param>
-        /// <param name="sceneMode"></param>
-        private void OnSceneLoaded(Scene sceneLoaded, LoadSceneMode sceneMode)
+        /// <param name="loadMode"></param>
+        private void OnSceneLoaded(Scene sceneLoaded, LoadSceneMode loadMode)
         {
-            // We remove the previous vallback to avoid adding multiple callback
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            this.Enabled = true;
+            if (loadMode == LoadSceneMode.Single)
+            {
+                // We remove the previous vallback to avoid adding multiple callback
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+                this.Enabled = true;
+            }
         }
     }
 }

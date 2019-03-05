@@ -5,7 +5,7 @@ using VRSF.Inputs;
 
 namespace VRSF.Utils.Components.ButtonActionChoser
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACCalculationsComponent))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class BACGeneralComponent : MonoBehaviour
     {
         [Header("The type of Interaction you want to use")]

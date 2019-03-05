@@ -11,7 +11,7 @@ namespace VRSF.Interactions.Systems
         struct Filter
         {
             public OnColliderClickComponent OnClickComp;
-            public PointerRaycastComponent PointerRaycast;
+            public ScriptableRaycastComponent PointerRaycast;
             public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
@@ -21,12 +21,11 @@ namespace VRSF.Interactions.Systems
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers &&
-                    entity.PointerRaycast.CheckRaycast)
+                if (entity.ScriptableSingletons._IsSetup && entity.PointerRaycast.CheckRaycast)
                 {
                     CheckResetClick(entity);
 
-                    if (entity.OnClickComp.RightClickBool.Value && !entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.Value)
+                    if (OnColliderClickComponent.RightTriggerCanClick && entity.OnClickComp.RightClickBool.Value && !entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.Value)
                     {
                         HandleClick(entity);
                     }

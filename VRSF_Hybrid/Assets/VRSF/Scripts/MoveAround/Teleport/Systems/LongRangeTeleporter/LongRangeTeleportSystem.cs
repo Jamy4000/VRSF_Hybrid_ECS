@@ -109,7 +109,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
             Filter entity = (Filter)teleportFilter;
-            TeleportUserSystem.SetTeleportState(entity.TeleportGeneral, entity.SceneObjects, ETeleportState.Teleporting);
+            TeleportUserSystem.SetTeleportState(ETeleportState.Teleporting, entity.TeleportGeneral);
         }
         #endregion
 
@@ -123,7 +123,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         private void OnStartInteractingCallback(Filter entity)
         {
             // We set the current state as Selecting
-            TeleportUserSystem.SetTeleportState(entity.TeleportGeneral, entity.SceneObjects, ETeleportState.Selecting);
+            TeleportUserSystem.SetTeleportState(ETeleportState.Selecting, entity.TeleportGeneral);
         }
 
         /// <summary>
@@ -137,13 +137,13 @@ namespace VRSF.MoveAround.Teleport.Systems
             if (e.RaycastComp.RaycastHitVar.RaycastHitIsNotOnUI())
             {
                 TeleportNavMeshHelper.Linecast(e.RaycastComp.RayVar.Value.origin, e.RaycastComp.RaycastHitVar.Value.point, out bool endOnNavmesh,
-                                           _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand), out e.TeleportGeneral.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
+                                           _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand), out TeleportGeneralComponent.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
 
-                e.TeleportGeneral.CanTeleport = e.LRT_Comp.UseLoadingTimer ? (endOnNavmesh && e.LRT_Comp._LoadingTimer > e.LRT_Comp.LoadingTime) : endOnNavmesh;
+                TeleportGeneralComponent.CanTeleport = e.LRT_Comp.UseLoadingTimer ? (endOnNavmesh && e.LRT_Comp._LoadingTimer > e.LRT_Comp.LoadingTime) : endOnNavmesh;
             }
             else
             {
-                e.TeleportGeneral.CanTeleport = false;
+                TeleportGeneralComponent.CanTeleport = false;
             }
         }
 
@@ -153,10 +153,10 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void OnStopInteractingCallback(Filter entity)
         {
-            if (entity.TeleportGeneral.CanTeleport)
+            if (TeleportGeneralComponent.CanTeleport)
                 TeleportUser(entity);
             else
-                TeleportUserSystem.SetTeleportState(entity.TeleportGeneral, entity.SceneObjects, ETeleportState.None);
+                TeleportUserSystem.SetTeleportState(ETeleportState.None, entity.TeleportGeneral);
         }
 
         /// <summary>

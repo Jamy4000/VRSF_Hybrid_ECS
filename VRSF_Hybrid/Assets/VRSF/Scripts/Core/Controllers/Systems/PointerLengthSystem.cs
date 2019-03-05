@@ -4,6 +4,7 @@ using UnityEngine;
 using VRSF.Controllers.Components;
 using VRSF.Interactions;
 using VRSF.Utils;
+using VRSF.Utils.Components;
 
 namespace VRSF.Controllers.Systems
 {
@@ -15,40 +16,20 @@ namespace VRSF.Controllers.Systems
     {
         struct Filter
         {
-            public ControllerPointerComponents ControllerPointerComp;
+            public ControllerPointerComponents PointerComp;
+            public ScriptableRaycastComponent RaycastComp;
+            public LineRenderer PointerRenderer;
         }
-
-
-        #region PRIVATE_VARIABLE
-        private ControllersParametersVariable _controllersParameters;
-        private InteractionVariableContainer _interactionsContainer;
-        #endregion PRIVATE_VARIABLE
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-
-            _controllersParameters = ControllersParametersVariable.Instance;
-            _interactionsContainer = InteractionVariableContainer.Instance;
-        }
-
         // Update is called once per frame
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
-                // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.ControllerPointerComp._IsSetup)
-                {
-                    if (_controllersParameters.UseControllers)
-                    {
-                        SetControllerRayLength(_interactionsContainer.LeftHit, VRSF_Components.LeftController.transform, e.ControllerPointerComp._LeftHandPointer, EHand.LEFT, e.ControllerPointerComp);
-                        SetControllerRayLength(_interactionsContainer.RightHit, VRSF_Components.RightController.transform, e.ControllerPointerComp._RightHandPointer, EHand.RIGHT, e.ControllerPointerComp);
-                    }
-                }
+                if (e.PointerComp.IsSetup && e.PointerComp._PointerState != EPointerState.OFF)
+                    SetControllerRayLength(e);
             }
         }
         #endregion ComponentSystem_Methods
@@ -61,37 +42,51 @@ namespace VRSF.Controllers.Systems
         /// <param name="hit">The RaycastHitVariable containing the RaycastHit for the controller</param>
         /// <param name="controller">The controller GameObject from which the ray started</param>
         /// <param name="hand">The hand rom which we are checking the raycastHit</param>
-        private void SetControllerRayLength(RaycastHitVariable hit, Transform controller, LineRenderer pointer, EHand hand, ControllerPointerComponents comp)
+        private void SetControllerRayLength(Filter e)
         {
             try
             {
-                if (!hit.IsNull)
+                if (!e.RaycastComp.RaycastHitVar.IsNull)
                 {
                     //Reduce lineRenderer from the controllers position to the object that was hit
-                    pointer.SetPositions(new Vector3[]
+                    e.PointerRenderer.SetPositions(new Vector3[]
                     {
                         Vector3.zero,
-                        controller.InverseTransformPoint(hit.Value.point),
+                        e.RaycastComp.RayOriginTransform.InverseTransformPoint(e.RaycastComp.RaycastHitVar.Value.point),
                     });
+
+                    if (e.PointerComp.OptionalLasersObjects.PointersEndPoint != null)
+                        CheckEndPoint();
                 }
                 else
                 {
-                    // Checking max distance of Line renderer depending on the Hand Variable
-                    var maxDistanceLr = (hand == EHand.LEFT
-                        ? _controllersParameters.MaxDistancePointerLeft
-                        : _controllersParameters.MaxDistancePointerRight);
-
                     //put back lineRenderer to its normal length if nothing was hit
-                    pointer.SetPositions(new Vector3[]
+                    e.PointerRenderer.SetPositions(new Vector3[]
                     {
                         Vector3.zero,
-                        new Vector3(0, 0, maxDistanceLr),
+                        new Vector3(0, 0, e.RaycastComp.RaycastMaxDistance),
                     });
+
+                    e.PointerComp.OptionalLasersObjects.PointersEndPoint?.gameObject.SetActive(false);
                 }
             }
-            catch (System.Exception e)
+            catch (System.Exception exception)
             {
-                Debug.Log("VRSF : VR Components not setup yet, waiting for next frame.\n" + e);
+                Debug.Log("VRSF : VR Components not setup yet, waiting for next frame.\n" + exception.ToString());
+            }
+
+
+            void CheckEndPoint()
+            {
+                if (e.RaycastComp.RaycastHitVar.RaycastHitIsOnUI())
+                {
+                    e.PointerComp.OptionalLasersObjects.PointersEndPoint.gameObject.SetActive(true);
+                    e.PointerComp.OptionalLasersObjects.PointersEndPoint.position = e.RaycastComp.RaycastHitVar.Value.point;
+                }
+                else
+                {
+                    e.PointerComp.OptionalLasersObjects.PointersEndPoint?.gameObject.SetActive(false);
+                }
             }
         }
         #endregion PRIVATE_METHODS

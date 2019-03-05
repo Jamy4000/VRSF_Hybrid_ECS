@@ -28,7 +28,7 @@ namespace VRSF.Gaze.Systems
             base.OnStartRunning();
 
             _gazeParameters = GazeParametersVariable.Instance;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
             if (_gazeParameters.UseGaze)
             {
@@ -36,8 +36,7 @@ namespace VRSF.Gaze.Systems
                 {
                     if (VRSF_Components.CameraRig != null)
                     {
-                        CheckGazeParameters();
-                        GeneralGazeSetup(e);
+                        GazeCalculationsSetup(e);
                     }
                 }
             }
@@ -56,8 +55,7 @@ namespace VRSF.Gaze.Systems
                 {
                     if (!e.GazeCalculations._IsSetup)
                     {
-                        CheckGazeParameters();
-                        GeneralGazeSetup(e);
+                        GazeCalculationsSetup(e);
                     }
                     else
                     {
@@ -72,86 +70,19 @@ namespace VRSF.Gaze.Systems
         {
             base.OnDestroyManager();
 
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion ComponentSystem_Methods
 
 
         #region PRIVATE_METHODS
-        private bool CheckGazeParameters()
-        {
-            // If we don't use the gaze, no need to check the rest of the Objects
-            if (!_gazeParameters.UseGaze)
-                return true;
-
-            if (GameObject.FindObjectsOfType<GazeParametersComponent>().Length == 0)
-            {
-                Debug.LogError("VRSF : If you want to use the Gaze feature, please add a GazeParametersComponent on a GameObject, or place the Gaze Prefab in the scene." +
-                    "(Assets/VRSF/Prefabs/UI/ReticleCanvas.prefab).\n Setting UseGaze in GazeParameters to false.");
-                _gazeParameters.UseGaze = false;
-                return false;
-            }
-
-            CheckGazeInputComponent();
-
-            return true;
-        }
-
-
-        private void CheckGazeInputComponent()
-        {
-            switch (VRSF_Components.DeviceLoaded)
-            {
-                case EDevice.OPENVR:
-                    if (VRSF_Components.CameraRig.GetComponent<ViveGazeInputCaptureComponent>() == null)
-                    {
-                        VRSF_Components.CameraRig.AddComponent<ViveGazeInputCaptureComponent>();
-                    }
-                    break;
-
-                case EDevice.OCULUS_RIFT:
-                    if (VRSF_Components.CameraRig.GetComponent<RiftGazeInputCaptureComponent>() == null)
-                    {
-                        VRSF_Components.CameraRig.AddComponent<RiftGazeInputCaptureComponent>();
-                    }
-                    break;
-
-                case EDevice.PORTABLE_OVR:
-                    if (VRSF_Components.CameraRig.GetComponent<PortableOVRGazeInputCaptureComponent>() == null)
-                    {
-                        VRSF_Components.CameraRig.AddComponent<PortableOVRGazeInputCaptureComponent>();
-                    }
-                    break;
-
-                case EDevice.SIMULATOR:
-                    if (VRSF_Components.CameraRig.GetComponent<SimulatorGazeInputCaptureComponent>() == null)
-                    {
-                        VRSF_Components.CameraRig.AddComponent<SimulatorGazeInputCaptureComponent>();
-                    }
-                    break;
-            }
-        }
-
-
         /// <summary>
         /// Setup the Gaze Parameters based on the ScriptableSingleton, set in the VRSF Interaction Parameters Window
         /// </summary>
-        private void GeneralGazeSetup(Filter entity)
+        private void GazeCalculationsSetup(Filter entity)
         {
             try
             {
-                if (_gazeParameters.ReticleSprite != null)
-                {
-                    entity.GazeParameters.ReticleBackground.sprite = _gazeParameters.ReticleSprite;
-                }
-
-                if (_gazeParameters.ReticleTargetSprite != null)
-                {
-                    entity.GazeParameters.ReticleTarget.sprite = _gazeParameters.ReticleTargetSprite;
-                }
-
-                entity.GazeParameters.transform.localScale = _gazeParameters.ReticleSize;
-
                 // Store the original scale and rotation.
                 entity.GazeCalculations._OriginalScale = entity.GazeParameters.ReticleTransform.localScale;
                 entity.GazeCalculations._OriginalRotation = entity.GazeParameters.ReticleTransform.localRotation;
@@ -169,9 +100,9 @@ namespace VRSF.Gaze.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
         {
-            this.Enabled = true;
+            this.Enabled = loadMode == LoadSceneMode.Single;
         }
         #endregion PRIVATE_METHODS
     }

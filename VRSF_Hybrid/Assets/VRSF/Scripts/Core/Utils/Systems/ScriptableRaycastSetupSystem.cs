@@ -14,12 +14,8 @@ namespace VRSF.Utils.Systems
     {
         struct Filter
         {
-            public ScriptableRaycastComponent RayVarComp;
+            public ScriptableRaycastComponent RaycastComp;
         }
-
-        #region PRIVATE_VARIABLES
-        private InteractionVariableContainer _interactionsContainer;
-        #endregion
 
 
         #region ComponentSystem_Methods
@@ -27,26 +23,33 @@ namespace VRSF.Utils.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            _interactionsContainer = InteractionVariableContainer.Instance;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-
-            foreach (var entity in GetEntities<Filter>())
-            {
-                // We check which hit to use for this feature with the RayOrigin
-                SetupVariables(entity);
-            }
-
-            this.Enabled = false;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
 
-        protected override void OnUpdate() { }
+        protected override void OnUpdate()
+        {
+            if (!VRSF_Components.SetupVRIsReady)
+                return;
+
+            var systemStillRunning = false;
+
+            foreach (var entity in GetEntities<Filter>())
+            {
+                if (!entity.RaycastComp.IsSetup)
+                {
+                    // We check which hit to use for this feature with the RayOrigin
+                    SetupVariables(entity);
+                    systemStillRunning = true;
+                }
+            }
+            this.Enabled = systemStillRunning;
+        }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion
 
@@ -55,28 +58,43 @@ namespace VRSF.Utils.Systems
         /// <summary>
         /// Check which RaycastHitVariable is used depending on the RayOrigin specified
         /// </summary>
-        private void SetupVariables(Filter entity)
+        private void SetupVariables(Filter e)
         {
-            switch (entity.RayVarComp.RayOrigin)
+            var controllersParameters = ControllersParametersVariable.Instance;
+            var interactionsContainer = InteractionVariableContainer.Instance;
+
+            // We check the raycast if we use the controllers or we use the gaze
+            e.RaycastComp.CheckRaycast = controllersParameters.UseControllers || Gaze.GazeParametersVariable.Instance.UseGaze;
+            
+            switch (e.RaycastComp.RayOrigin)
             {
                 case (EHand.LEFT):
-                    entity.RayVarComp.RaycastHitVar = _interactionsContainer.LeftHit;
-                    entity.RayVarComp.RayVar = _interactionsContainer.LeftRay;
-                    entity.RayVarComp.IgnoredLayers = ControllersParametersVariable.Instance.LeftExclusionLayer;
+
+                    e.RaycastComp.RayVar = interactionsContainer.LeftRay;
+                    e.RaycastComp.RaycastHitVar = interactionsContainer.LeftHit;
+                    e.RaycastComp.IgnoredLayers = controllersParameters.GetExclusionsLayer(EHand.LEFT);
+                    e.RaycastComp.RayOriginTransform = VRSF_Components.LeftController.transform;
+                    e.RaycastComp.RaycastMaxDistance = controllersParameters.MaxDistancePointerLeft;
                     break;
 
                 case (EHand.RIGHT):
-                    entity.RayVarComp.RaycastHitVar = _interactionsContainer.RightHit;
-                    entity.RayVarComp.RayVar = _interactionsContainer.RightRay;
-                    entity.RayVarComp.IgnoredLayers = ControllersParametersVariable.Instance.RightExclusionLayer;
+                    e.RaycastComp.RayVar = interactionsContainer.RightRay;
+                    e.RaycastComp.RaycastHitVar = interactionsContainer.RightHit;
+                    e.RaycastComp.IgnoredLayers = controllersParameters.GetExclusionsLayer(EHand.RIGHT);
+                    e.RaycastComp.RayOriginTransform = VRSF_Components.RightController.transform;
+                    e.RaycastComp.RaycastMaxDistance = controllersParameters.MaxDistancePointerRight;
                     break;
 
                 case (EHand.GAZE):
-                    entity.RayVarComp.RaycastHitVar = _interactionsContainer.GazeHit;
-                    entity.RayVarComp.RayVar = _interactionsContainer.GazeRay;
-                    entity.RayVarComp.IgnoredLayers = VRSF.Gaze.GazeParametersVariable.Instance.GazeExclusionLayer;
+                    e.RaycastComp.RayVar = interactionsContainer.GazeRay;
+                    e.RaycastComp.RaycastHitVar = interactionsContainer.GazeHit;
+                    e.RaycastComp.IgnoredLayers = ~Gaze.GazeParametersVariable.Instance.GazeExclusionLayer;
+                    e.RaycastComp.RayOriginTransform = VRSF_Components.VRCamera.transform;
+                    e.RaycastComp.RaycastMaxDistance = Gaze.GazeParametersVariable.Instance.DefaultDistance;
                     break;
             }
+
+            e.RaycastComp.IsSetup = true;
         }
 
 
@@ -84,9 +102,13 @@ namespace VRSF.Utils.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
         {
             this.Enabled = true;
+            foreach (var e in GetEntities<Filter>())
+            {
+                e.RaycastComp.IsSetup = false;
+            }
         }
         #endregion PRIVATES_METHODS
     }

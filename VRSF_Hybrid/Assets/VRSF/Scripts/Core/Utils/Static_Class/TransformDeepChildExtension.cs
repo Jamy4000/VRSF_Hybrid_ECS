@@ -14,31 +14,9 @@ namespace ScriptableFramework.Util
         /// <param name="aParent">The parent of the transform to find</param>
         /// <param name="aDeepChild">The name of the Transform to find</param>
         /// <returns></returns>
-        public static Transform FindDeepChild(this Transform aParent, string aDeepChild)
+        public static Transform FindDeepChild(this Transform aParent, string aDeepChild, bool nameShouldExactlyMatch = false)
         {
             var result = aParent.Find(aDeepChild);
-
-            if (result != null)
-                return result;
-
-            foreach (Transform child in aParent)
-            {
-                result = child.FindDeepChild(aDeepChild);
-                if (result != null)
-                    return result;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Breadth-first search with Transform as parameter
-        /// </summary>
-        /// <param name="aParent">The parent of the transform to find</param>
-        /// <param name="aDeepChild">The name of the Transform to find</param>
-        /// <returns></returns>
-        public static Transform FindDeepChild(this Transform aParent, Transform aDeepChild)
-        {
-            var result = aParent.Find(aDeepChild.name);
 
             if (result != null)
                 return result;

@@ -208,7 +208,7 @@ namespace VRSF.UI
             {
                 try
                 {
-                    collider.enabled = RectTransformUtility.RectangleContainsScreenPoint(viewport, collider.transform.position);
+                    collider.enabled = RectTransformUtility.RectangleContainsScreenPoint(viewport, new Vector2(collider.transform.position.x, collider.transform.position.y));
                 }
                 catch (System.Exception e)
                 {

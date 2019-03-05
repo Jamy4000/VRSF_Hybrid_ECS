@@ -18,7 +18,6 @@ namespace VRSF.MoveAround.Teleport
             public ParabolObjectsComponent PointerObjects;
             public ParabolCalculationsComponent PointerCalculations;
             public BACGeneralComponent BACGeneral;
-            public TeleportGeneralComponent TeleportGeneral;
         }
 
         protected override void OnStartRunning()

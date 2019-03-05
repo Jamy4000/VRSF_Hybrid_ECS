@@ -21,16 +21,29 @@ namespace VRSF.MoveAround.Teleport
             {
                 if (e.TeleportGeneral.CurrentTeleportState == ETeleportState.Teleporting)
                 {
-                    // If we use a fade effect
-                    if (e.SceneObjects.FadeComponent != null)
+                    if (TeleportGeneralComponent.CanTeleport)
+                    {
+                        // If we use a fade effect
+                        if (e.TeleportGeneral.IsUsingFadingEffect)
+                        {
+                            // the fade component is present And the fading out is in progress
+                            if (e.SceneObjects.FadeComponent != null && !TeleportGeneralComponent.FadingInProgress)
+                                ChangeTeleportStatus(false);
+                            // If we use a fade effect and the fade component is NOT present
+                            else if (e.SceneObjects.FadeComponent == null)
+                                Debug.LogError("VRSF : You cannot use a fade effect if the FadeComponent is not placed on the VRCamera of your VR SDKs Prefabs.");
+                        }
+                        // If not, we teleport directly the user
+                        else
+                        {
+                            SetTeleportState(ETeleportState.None, e.TeleportGeneral);
+                            VRSF_Components.SetCameraRigPosition(TeleportGeneralComponent.PointToGoTo);
+                            ChangeTeleportStatus(true);
+                        }
+                    }
+                    else if (TeleportGeneralComponent.FadingInProgress)
                     {
                         HandleTeleportingStateAndAlpha(e);
-                    }
-                    // If not, we teleport directly the user
-                    else
-                    {
-                        e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-                        VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);
                     }
                 }
             }
@@ -40,17 +53,21 @@ namespace VRSF.MoveAround.Teleport
         {
             var alpha = e.SceneObjects.FadeComponent._FadingImage.color.a;
 
-            // If we are in a fadingOut state and the alpha is still not set at one
-            if (!e.SceneObjects.FadeComponent._IsFadingIn && alpha < 1)
+            // If we are in a fadingOut state
+            if (!e.SceneObjects.FadeComponent._IsFadingIn)
             {
-                alpha += Time.deltaTime * e.SceneObjects.FadeComponent.TeleportFadeSpeed;
-            }
-            // If we are in a fadingOut state and the screen is already black, we teleport the user
-            else if (!e.SceneObjects.FadeComponent._IsFadingIn && alpha >= 1)
-            {
-                e.SceneObjects.FadeComponent._IsFadingIn = true;
-                // We have finished fading out - time to teleport!
-                VRSF_Components.SetCameraRigPosition(e.TeleportGeneral.PointToGoTo);
+                // if the alpha is still not set at one
+                if (alpha < 1)
+                {
+                    alpha += Time.deltaTime * e.SceneObjects.FadeComponent.TeleportFadeSpeed;
+                }
+                // If we are in a fadingOut state and the screen is already black, we teleport the user
+                else
+                {
+                    e.SceneObjects.FadeComponent._IsFadingIn = true;
+                    // We have finished fading out - time to teleport!
+                    VRSF_Components.SetCameraRigPosition(TeleportGeneralComponent.PointToGoTo);
+                }
             }
             // If we are in a fadingIn state and the screen is still black
             else if (e.SceneObjects.FadeComponent._IsFadingIn && alpha > 0)
@@ -60,18 +77,25 @@ namespace VRSF.MoveAround.Teleport
             // If the fadingIn is finished
             else
             {
-                e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
+                SetTeleportState(ETeleportState.None, e.TeleportGeneral);
                 e.SceneObjects.FadeComponent._IsFadingIn = false;
+                ChangeTeleportStatus(true);
             }
 
             // We set the new alpha of the black image
             e.SceneObjects.FadeComponent._FadingImage.color = new Color(0, 0, 0, alpha);
         }
 
-        public static void SetTeleportState(TeleportGeneralComponent teleportGeneral, SceneObjectsComponent sceneObjects, ETeleportState newState)
+        public static void SetTeleportState(ETeleportState newState, TeleportGeneralComponent teleportGeneral)
         {
-            // We set the teleporting state to teleporting
+            // We set the teleporting state to the new state
             teleportGeneral.CurrentTeleportState = newState;
+        }
+
+        private void ChangeTeleportStatus(bool newStatus)
+        {
+            TeleportGeneralComponent.CanTeleport = newStatus;
+            TeleportGeneralComponent.FadingInProgress = !newStatus;
         }
     }
 }

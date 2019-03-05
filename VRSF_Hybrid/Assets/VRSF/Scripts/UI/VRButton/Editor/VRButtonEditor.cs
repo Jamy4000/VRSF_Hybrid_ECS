@@ -65,6 +65,15 @@ namespace VRSF.UI.Editor
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
+            // Add a button to call the OnClick Event
+            if (GUILayout.Button("Invoke OnClick Event"))
+            {
+                button.onClick.Invoke();
+            }
+            
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+
             EditorGUILayout.LabelField("Basic Button Parameters", EditorStyles.boldLabel);
 
             EditorGUILayout.Space();

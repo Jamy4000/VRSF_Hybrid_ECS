@@ -62,10 +62,13 @@ namespace VRSF.UI
         protected override void OnDisable()
         {
             base.OnDisable();
+
             if (verticalScrollbar != null)
                 verticalScrollbar.onValueChanged.RemoveAllListeners();
+
             if (horizontalScrollbar != null)
                 horizontalScrollbar.onValueChanged.RemoveAllListeners();
+
             ObjectWasClickedEvent.UnregisterListener(CheckRectClick);
         }
 
@@ -106,12 +109,12 @@ namespace VRSF.UI
 
             // We override the directio selected in the inspector by the scrollbar direction if we use one
             // The vertical direction will always have top priority on the horizontal direction
-            if (vertical && verticalScrollbar.gameObject != null)
+            if (vertical && verticalScrollbar != null)
             {
                 Direction = UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(verticalScrollbar.direction);
                 verticalScrollbar.onValueChanged.AddListener(delegate { OnValueChangedCallback(); });
             }
-            else if (horizontal && horizontalScrollbar.gameObject != null)
+            else if (horizontal && horizontalScrollbar != null)
             {
                 Direction = UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(horizontalScrollbar.direction);
                 horizontalScrollbar.onValueChanged.AddListener(delegate { OnValueChangedCallback(); });
@@ -191,7 +194,7 @@ namespace VRSF.UI
                     var barCollider = verticalScrollbar.GetComponent<BoxCollider>();
                     float x = (box.size.x - barCollider.size.x);
                     box.size = new Vector3(x, box.size.y, box.size.z);
-                    box.center = new Vector3(-barCollider.size.x / 2, box.center.y, box.center.z);
+                    box.center = new Vector3(-barCollider.size.x / 2, box.center.y, box.center.z + 0.1f);
                 }
 
                 if (horizontal)
@@ -199,9 +202,10 @@ namespace VRSF.UI
                     var barCollider = horizontalScrollbar.GetComponent<BoxCollider>();
                     float y = (box.size.y - barCollider.size.y);
                     box.size = new Vector3(box.size.x, y, box.size.z);
-                    box.center = new Vector3(box.center.x, barCollider.size.y / 2, box.center.z);
+                    box.center = new Vector3(box.center.x, barCollider.size.y / 2, box.center.z + 0.1f);
                 }
             }
+
             _scrollableSetup.CheckContentStatus(viewport, content, vertical, horizontal);
             _boxColliderSetup = true;
         }

@@ -21,10 +21,7 @@ namespace VRSF.Controllers
         [Header("Left Controllers Parameters")]
         [Tooltip("Wheter you wanna use the Ray Pointers on the Left Controller or not.")]
         public bool UsePointerLeft = true;
-
-        [Tooltip("The current state of the Right Pointer.")]
-        public EPointerState LeftPointerState = EPointerState.ON;
-
+        
         [Tooltip("OPTIONAL : Layer(s) to exclude from the raycast with the Left controller Pointer. Use the Layer number given in the Layer list.")]
         public LayerMask LeftExclusionLayer = 0;
         
@@ -35,9 +32,6 @@ namespace VRSF.Controllers
         [Header("Right Controller Parameters")]
         [Tooltip("Wheter you wanna use the Ray Pointers on the Right Controller or not.")]
         public bool UsePointerRight = true;
-
-        [Tooltip("The current state of the Right Pointer.")]
-        public EPointerState RightPointerState = EPointerState.ON;
 
         [Tooltip("OPTIONAL : Layer(s) to exclude from the raycast with the Right controller Pointer. Use the Layer number given in the Layer list.")]
         public LayerMask RightExclusionLayer = 0;
@@ -56,12 +50,10 @@ namespace VRSF.Controllers
             UseControllers = true;
 
             UsePointerLeft = true;
-            LeftPointerState = EPointerState.ON;
             LeftExclusionLayer = 0;
             MaxDistancePointerLeft = 20f;
 
             UsePointerRight = true;
-            RightPointerState = EPointerState.ON;
             RightExclusionLayer = 0;
             MaxDistancePointerRight = 20f;
         }

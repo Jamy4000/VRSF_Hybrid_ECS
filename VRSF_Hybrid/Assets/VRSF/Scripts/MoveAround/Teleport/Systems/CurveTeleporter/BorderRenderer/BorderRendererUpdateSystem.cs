@@ -19,7 +19,6 @@ namespace VRSF.MoveAround.Teleport
         {
             public BorderRendererComponent BorderRenderer;
             public SceneObjectsComponent SceneObjects;
-            public TeleportGeneralComponent TeleportGeneral;
             public BACGeneralComponent BACGeneral;
             public ParabolCalculationsComponent PointerCalculations;
         }
@@ -83,25 +82,28 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
-            // We regenerate the mesh base on the pointer position
-            RegenerateMesh(e.BorderRenderer, e.TeleportGeneral.PointToGoTo);
-
-            // Render representation of where the chaperone bounds will be after teleporting
-            e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
-                
-            // Quick check to avoid NullReferenceException
-            if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
-                return;
-
-            // Check if alpha of border's material has changed
-            if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
+            if (TeleportGeneralComponent.CanTeleport)
             {
-                e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
-                e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
-            }
+                // We regenerate the mesh base on the pointer position
+                RegenerateMesh(e.BorderRenderer, TeleportGeneralComponent.PointToGoTo);
 
-            // Draw the generated mesh
-            Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
+                // Render representation of where the chaperone bounds will be after teleporting
+                e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
+
+                // Quick check to avoid NullReferenceException
+                if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
+                    return;
+
+                // Check if alpha of border's material has changed
+                if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
+                {
+                    e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
+                    e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
+                }
+
+                // Draw the generated mesh
+                Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
+            }
         }
 
         /// <summary>

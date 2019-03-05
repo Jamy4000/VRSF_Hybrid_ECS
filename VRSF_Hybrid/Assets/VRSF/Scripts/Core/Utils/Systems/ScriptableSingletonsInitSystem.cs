@@ -19,7 +19,7 @@ namespace VRSF.Utils.Systems
         {
             base.OnStartRunning();
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -41,7 +41,7 @@ namespace VRSF.Utils.Systems
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
 
@@ -49,9 +49,9 @@ namespace VRSF.Utils.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
         {
-            this.Enabled = true;
+            this.Enabled = loadMode == LoadSceneMode.Single;
         }
     }
 }

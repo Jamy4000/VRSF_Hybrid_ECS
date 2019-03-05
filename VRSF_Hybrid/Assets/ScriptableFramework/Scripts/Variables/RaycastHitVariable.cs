@@ -19,7 +19,7 @@ namespace ScriptableFramework.Variables
 
         public bool RaycastHitIsNotOnUI()
         {
-            return Value.collider != null && Value.collider.gameObject.layer != LayerMask.NameToLayer("UI");
+            return Value.collider == null || Value.collider.gameObject.layer != LayerMask.NameToLayer("UI");
         }
     }
 }

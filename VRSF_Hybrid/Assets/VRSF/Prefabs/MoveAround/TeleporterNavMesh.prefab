@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1387114998068350}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -44,13 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de52201ebe74644a9b23fe8163e37fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GroundAlpha: 1
+  GroundAlpha: 0
   _GroundMaterialSource: {fileID: 0}
   _QueryTriggerInteraction: 0
   _SelectableMesh: {fileID: 0}
   _NavAreaMask: -1
-  _IgnoreSlopedSurfaces: 1
-  _SampleRadius: 0.1
+  _IgnoreSlopedSurfaces: 0
+  _SampleRadius: 0.25
   _DewarpingMethod: 0
 --- !u!114 &114067987568865400
 MonoBehaviour:

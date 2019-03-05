@@ -15,16 +15,16 @@ namespace VRSF.MoveAround.Teleport.Systems
             float distanceVector = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
 
             // Check if we hit a collider on the way. If it's the case, we reduce the distance.
-            if (Physics.Raycast(VRSF_Components.VRCamera.transform.position, directionVector, out RaycastHit hit, distanceVector, ~e.RayComp.IgnoredLayers))
-                distanceVector = 0;
+            if (Physics.Raycast(VRSF_Components.VRCamera.transform.position, directionVector, out RaycastHit hit, distanceVector, e.RayComp.IgnoredLayers))
+                distanceVector = hit.distance - 0.1f;
 
             // We multiply the direction vector by the distance to which the user should be going
             directionVector *= distanceVector;
 
-            // We check the theoritic new user pos
-            var newCameraPos = GetNewTheoriticPos(directionVector, false);
             // We check the theoritic position for the cameraRig
             newCameraRigPos = GetNewTheoriticPos(directionVector, true);
+            // We check the theoritic new user pos
+            var newCameraPos = GetNewTheoriticPos(directionVector, false);
 
             // We calculate a vector down based on the new Camera Pos. 
             var downVectorDistance = Mathf.Abs(VRSF_Components.VRCamera.transform.localPosition.y) + e.SBS_Comp.StepHeight;
@@ -42,7 +42,7 @@ namespace VRSF.MoveAround.Teleport.Systems
                 e.SceneObjects._TeleportNavMesh
             );
 
-            // We substract the camera pos in y to the CameraRig pos in y
+            // We set the camera rig pos in y to the camera pos in y
             newCameraRigPos.y = newCameraPos.y;
 
             return endOnNavmesh;

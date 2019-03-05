@@ -44,7 +44,8 @@ namespace VRSF.MoveAround.Teleport
                 
                 pointOnNavmesh = NavMesh.SamplePosition(hitPoint, out NavMeshHit navHit, teleportNavMesh._SampleRadius, teleportNavMesh._NavAreaMask);
                 // Get the closest position on the navMesh
-                hitPoint = navHit.position;
+                if (Vector3IsCorrect(navHit.position))
+                    hitPoint = navHit.position;
                 return true;
             }
             else
@@ -53,6 +54,11 @@ namespace VRSF.MoveAround.Teleport
                 hitPoint = Vector3.zero;
                 normal = Vector3.up;
                 return false;
+            }
+
+            bool Vector3IsCorrect(Vector3 posToTest)
+            {
+                return (posToTest != Vector3.positiveInfinity && posToTest != Vector3.negativeInfinity && float.IsNaN(posToTest.x) && float.IsNaN(posToTest.y) && float.IsNaN(posToTest.z));
             }
         }
         #endregion PUBLIC_METHODS

@@ -37,7 +37,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
 
             _inputsContainer = InputVariableContainer.Instance;
             
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneUnloaded;
 
             foreach (var entity in GetEntities<Filter>())
             {
@@ -69,7 +69,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
                 ButtonUntouchEvent.UnregisterListener(delegatesHandler.StartActionUntouched);
             }
 
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneUnloaded;
         }
         #endregion
 
@@ -229,6 +229,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
             else
             {
+                // SDK Choser is not using the correct SDK, feature can't be used
+                entity.BACCalculationsComp.gameObject.SetActive(false);
+                entity.BACCalculationsComp.CanBeUsed = false;
                 entity.BACCalculationsComp.IsSetup = true;
             }
         }
@@ -238,9 +241,9 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneUnloaded(Scene oldScene, LoadSceneMode loadMode)
         {
-            this.Enabled = true;
+            this.Enabled = (loadMode == LoadSceneMode.Single);
         }
         #endregion
     }

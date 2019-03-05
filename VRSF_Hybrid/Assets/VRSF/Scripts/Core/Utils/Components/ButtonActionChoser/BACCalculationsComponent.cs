@@ -10,7 +10,7 @@ namespace VRSF.Utils.Components.ButtonActionChoser
         [HideInInspector] public bool ParametersAreInvalid = false;
         [HideInInspector] public bool CorrectSDK = true;
         [HideInInspector] public bool IsSetup = false;
-        [HideInInspector] public bool CanBeUsed = true;
+        public bool CanBeUsed = true;
 
         // To keep track of the event that were raised, used for the features that use the Thumbstick
         [HideInInspector] public bool ClickActionBeyondThreshold;

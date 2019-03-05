@@ -87,7 +87,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
             if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
-                // Check if we use a timer
                 if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
                     BACGeneral.OnButtonStopClicking.Invoke();

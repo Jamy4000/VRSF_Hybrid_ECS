@@ -11,7 +11,7 @@ namespace VRSF.Interactions.Systems
         struct Filter
         {
             public OnColliderClickComponent OnClickComp;
-            public PointerRaycastComponent PointerRaycast;
+            public ScriptableRaycastComponent PointerRaycast;
             public ScriptableSingletonsComponent ScriptableSingletons;
         }
         

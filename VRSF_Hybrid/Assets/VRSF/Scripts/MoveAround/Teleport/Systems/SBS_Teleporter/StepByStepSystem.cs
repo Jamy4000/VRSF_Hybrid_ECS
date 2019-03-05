@@ -21,8 +21,8 @@ namespace VRSF.MoveAround.Teleport.Systems
             public StepByStepComponent SBS_Comp;
             public ScriptableRaycastComponent RayComp;
             public BACGeneralComponent BAC_Comp;
-            public TeleportGeneralComponent TeleportGeneral;
             public SceneObjectsComponent SceneObjects;
+            public TeleportGeneralComponent TeleportGeneral;
         }
 
         #region ComponentSystem_Methods
@@ -34,7 +34,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 SetupListenersResponses(e);
             }
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         protected override void OnDestroyManager()
@@ -44,7 +44,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 RemoveListeners(e);
             }
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -94,10 +94,11 @@ namespace VRSF.MoveAround.Teleport.Systems
         {
             Filter e = (Filter)teleportFilter;
             
-            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.RayComp.RayOrigin)))
-                VRSF_Components.CameraRig.transform.position = newUsersPos;
+            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
+                VRSF_Components.SetCameraRigPosition(newUsersPos, false);
 
             e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
+            
         }
         #endregion
 
@@ -112,14 +113,13 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            if (e.BAC_Comp.BACTimer != null)
+            if (TeleportGeneralComponent.CanTeleport)
             {
-                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
-            }
-            // If the user is not aimaing at anything OR is not aiming at the UI, we try to teleport the user
-            else if (!e.RayComp.RaycastHitVar.RaycastHitIsOnUI())
-            {
-                TeleportUser(e);
+                if (e.BAC_Comp.BACTimer != null)
+                    TeleportUserSystem.SetTeleportState(ETeleportState.Selecting, e.TeleportGeneral);
+                // If the user is not aimaing at anything OR is not aiming at the UI, we try to teleport the user
+                else if (!e.RayComp.RaycastHitVar.RaycastHitIsOnUI())
+                    TeleportUser(e);
             }
         }
 
@@ -136,20 +136,23 @@ namespace VRSF.MoveAround.Teleport.Systems
             bool UserCanTeleport()
             {
                 // If we use a BACTimer (if not, teleported on Start Interacting) AND that the timer is ready AND
-                // If the user is not aiming at the UI, we try to teleport the user
-                return e.BAC_Comp.BACTimer != null && BACTimerUpdateSystem.TimerIsReady(e.BAC_Comp.BACTimer) && !e.RayComp.RaycastHitVar.RaycastHitIsOnUI();
+                // If the user can teleport && If the user is not aiming at the UI, we try to teleport the user
+                return e.BAC_Comp.BACTimer != null && BACTimerUpdateSystem.TimerIsReady(e.BAC_Comp.BACTimer) && TeleportGeneralComponent.CanTeleport && !e.RayComp.RaycastHitVar.RaycastHitIsOnUI();
             }
         }
 
         /// <summary>
         /// Reactivate the System when switching to another Scene.
         /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        /// <param name="scene">The previous scene before switching</param>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            foreach (var e in GetEntities<Filter>())
+            if (loadMode == LoadSceneMode.Single)
             {
-                SetupListenersResponses(e);
+                foreach (var e in GetEntities<Filter>())
+                {
+                    SetupListenersResponses(e);
+                }
             }
         }
         #endregion

@@ -1,5 +1,4 @@
 ﻿using Unity.Entities;
-using UnityEngine;
 using VRSF.Controllers.Components;
 
 namespace VRSF.Controllers.Systems
@@ -12,30 +11,19 @@ namespace VRSF.Controllers.Systems
         struct Filter
         {
             public ControllerPointerComponents ControllerPointerComp;
+            public UnityEngine.LineRenderer PointerRenderer;
         }
-
-        private ControllersParametersVariable _controllersParameters;
-
+        
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            _controllersParameters = ControllersParametersVariable.Instance;
-        }
-
-
         // Update is called once per frame
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
                 // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                if (e.ControllerPointerComp._IsSetup && _controllersParameters.UseControllers)
-                {
-                    CheckPointersScale(e.ControllerPointerComp);
-                }
+                if (e.ControllerPointerComp.IsSetup && e.ControllerPointerComp._PointerState != EPointerState.OFF)
+                    CheckPointersScale(e);
             }
         }
         #endregion ComponentSystem_Methods
@@ -45,15 +33,12 @@ namespace VRSF.Controllers.Systems
         /// Check the scale of the pointer, if the user is going bigger for some reason
         /// transform here is the CameraRig object
         /// </summary>
-        private void CheckPointersScale(ControllerPointerComponents comp)
+        private void CheckPointersScale(Filter e)
         {
             var cameraRigScale = Utils.VRSF_Components.CameraRig.transform.lossyScale;
 
-            comp._RightHandPointer.startWidth = cameraRigScale.x / 500;
-            comp._RightHandPointer.endWidth = cameraRigScale.x / 500;
-
-            comp._LeftHandPointer.startWidth = cameraRigScale.x / 500;
-            comp._LeftHandPointer.endWidth = cameraRigScale.x / 500;
+            e.PointerRenderer.startWidth = cameraRigScale.x / 500;
+            e.PointerRenderer.endWidth = cameraRigScale.x / 500;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace ScriptableFramework.Util
         {
             get
             {
-                return "VRSF/Parameters/" + FileName;
+                return "ScriptableSingletons_Parameters/" + FileName;
             }
         }
 

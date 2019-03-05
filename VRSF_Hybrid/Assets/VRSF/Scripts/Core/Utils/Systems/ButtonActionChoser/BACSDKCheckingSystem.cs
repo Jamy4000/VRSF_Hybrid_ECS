@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System.Collections;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Utils.Components;
@@ -25,13 +26,11 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         {
             base.OnStartRunning();
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            
             foreach (var entity in GetEntities<Filter>())
             {
-                // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-                entity.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(entity);
-                entity.SDKComp.IsSetup = true;
+                entity.SDKComp.StartCoroutine(WaitForSetupVR(entity));
             }
 
             this.Enabled = false;
@@ -42,7 +41,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion
 
@@ -54,7 +53,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         /// <returns>true if the current loaded SDK is selected in the inspector</returns>
         private bool CheckUseSDKToggles(Filter entity)
         {
-            if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseRift && !entity.SDKComp.UseSimulator)
+            if (!entity.SDKComp.UseOpenVR && !entity.SDKComp.UseRift && !entity.SDKComp.UseSimulator && !entity.SDKComp.UsePortableOVR)
             {
                 Debug.LogError("VRSF : You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 entity.SDKComp.gameObject.SetActive(false);
@@ -80,14 +79,25 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
         }
 
+        private IEnumerator WaitForSetupVR(Filter entity)
+        {
+            while (!VRSF_Components.SetupVRIsReady)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
+            // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
+            entity.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(entity);
+            entity.SDKComp.IsSetup = true;
+        }
 
         /// <summary>
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
         {
-            this.Enabled = true;
+            this.Enabled = loadMode == LoadSceneMode.Single;
         }
         #endregion PRIVATES_METHODS
     }

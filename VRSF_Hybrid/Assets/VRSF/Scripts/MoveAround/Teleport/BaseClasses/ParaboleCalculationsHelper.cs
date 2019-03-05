@@ -25,10 +25,10 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="normal">normal of hit point</param>
         /// 
         /// <returns>true if the the parabole is at the end of the NavMesh</returns>
-        public static bool CalculateParabolicCurve(Vector3 p0, Vector3 v0, Vector3 a, float dist, int points, TeleportNavMeshComponent nav, int excludedLayer, List<Vector3> outPts, out Vector3 normal)
+        public static bool CalculateParabolicCurve(Vector3 p0, Vector3 v0, Vector3 a, float dist, int points, TeleportNavMeshComponent nav, int excludedLayer, out List<Vector3> outPts, out Vector3 normal)
         {
-            outPts.Clear();
-            outPts.Add(p0);
+            // Init new list of points with p0 as the first point
+            outPts = new List<Vector3> { p0 };
 
             Vector3 last = p0;
             float t = 0;

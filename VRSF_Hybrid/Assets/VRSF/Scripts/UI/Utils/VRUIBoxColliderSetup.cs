@@ -27,12 +27,12 @@ namespace VRSF.UI
         public static BoxCollider CheckBoxColliderSize(BoxCollider box, RectTransform rect)
         {
             // Set box size
-            box.size = new Vector3(rect.rect.width, rect.rect.height, 0.001f);
+            box.size = new Vector3(rect.rect.width * rect.localScale.x, rect.rect.height * rect.localScale.x, 0.001f);
 
             // Set box center
             float x = GetBoxCenter(rect.pivot.x, box.size.x);
             float y = GetBoxCenter(rect.pivot.y, box.size.y);
-            box.center = new Vector3(x, y, 0.0f);
+            box.center = new Vector3(x, y, box.center.z);
 
             return box;
         }

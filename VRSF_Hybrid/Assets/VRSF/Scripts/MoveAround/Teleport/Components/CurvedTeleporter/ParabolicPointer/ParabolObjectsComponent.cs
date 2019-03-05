@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using VRSF.Controllers.Components;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -28,6 +29,11 @@ namespace VRSF.MoveAround.Teleport
         /// Reference to the pointer placed on the end of the user
         /// </summary>
         [System.NonSerialized] public LineRenderer _ControllerPointer;
+
+        /// <summary>
+        /// Reference to the pointer's distance
+        /// </summary>
+        [System.NonSerialized] public float _ControllerPointerDistance;
 
 #if UNITY_EDITOR
         // Only used for the OnDrawGizmos method

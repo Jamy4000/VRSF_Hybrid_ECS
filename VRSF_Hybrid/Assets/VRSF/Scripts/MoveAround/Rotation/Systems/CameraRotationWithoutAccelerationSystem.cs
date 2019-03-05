@@ -24,7 +24,7 @@ namespace VRSF.MoveAround.Systems
         {
             base.OnStartRunning();
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -44,7 +44,7 @@ namespace VRSF.MoveAround.Systems
                 RemoveListeners(e);
             }
 
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion
 
@@ -106,13 +106,16 @@ namespace VRSF.MoveAround.Systems
             }
         }
 
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            foreach (var e in GetEntities<Filter>())
+            if (loadMode == LoadSceneMode.Single)
             {
-                if (!e.RotationComp.UseAccelerationEffect)
+                foreach (var e in GetEntities<Filter>())
                 {
-                    SetupListenersResponses(e);
+                    if (!e.RotationComp.UseAccelerationEffect)
+                    {
+                        SetupListenersResponses(e);
+                    }
                 }
             }
         }

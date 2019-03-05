@@ -9,7 +9,7 @@ namespace VRSF.Interactions.Systems
     {
         struct Filter
         {
-            public PointerRaycastComponent PointerRaycast;
+            public ScriptableRaycastComponent PointerRaycast;
             public ScriptableSingletonsComponent ScriptableSingletons;
         }
 

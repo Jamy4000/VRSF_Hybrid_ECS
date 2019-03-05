@@ -126,7 +126,7 @@ namespace VRSF.MoveAround.Teleport.Systems
         /// </summary>
         private void OnIsInteractingCallback(Filter e)
         {
-            Color32 fillRectColor = e.TeleportGeneral.CanTeleport ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
+            Color32 fillRectColor = TeleportGeneralComponent.CanTeleport ? new Color32(100, 255, 100, 255) : new Color32(0, 180, 255, 255);
 
             // If we use a loading slider and the fillRect to give the user a visual feedback is not null
             if (e.LRT_Comp.UseLoadingTimer && e.LRT_Comp.FillRect != null)
@@ -143,7 +143,7 @@ namespace VRSF.MoveAround.Teleport.Systems
             {
                 // If we use a text to give a feedback to the user
                 e.LRT_Comp.TeleportText.color = fillRectColor;
-                e.LRT_Comp.TeleportText.text = e.TeleportGeneral.CanTeleport ? "Release To Teleport !" : "Waiting for ground ...";
+                e.LRT_Comp.TeleportText.text = TeleportGeneralComponent.CanTeleport ? "Release To Teleport !" : "Waiting for ground ...";
             }
         }
 

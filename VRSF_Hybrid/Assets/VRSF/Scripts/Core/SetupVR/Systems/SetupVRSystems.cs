@@ -35,7 +35,7 @@ namespace VRSF.Utils.Systems
                 SetupVRInScene(e.SetupVR);
             }
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         protected override void OnUpdate()
@@ -55,7 +55,7 @@ namespace VRSF.Utils.Systems
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion
 
@@ -251,9 +251,6 @@ namespace VRSF.Utils.Systems
                     case (EDevice.OCULUS_RIFT):
                         VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
                         break;
-                    case (EDevice.PORTABLE_OVR):
-                        VRSF_Components.CameraRig.GetComponent<PortableOVRRemoteInputCaptureComponent>().enabled = false;
-                        break;
                     case (EDevice.SIMULATOR):
                         VRSF_Components.CameraRig.GetComponent<SimulatorControllersInputCaptureComponent>().enabled = false;
                         break;
@@ -279,10 +276,13 @@ namespace VRSF.Utils.Systems
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
         {
-            VRSF_Components.SetupVRIsReady = false;
-            this.Enabled = true;
+            if (loadMode == LoadSceneMode.Single)
+            {
+                VRSF_Components.SetupVRIsReady = false;
+                this.Enabled = true;
+            }
         }
         #endregion
 

@@ -1,8 +1,7 @@
-﻿using ScriptableFramework.Variables;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers.Components;
-using VRSF.Interactions;
+using VRSF.Utils.Components;
 
 namespace VRSF.Controllers.Systems
 {
@@ -13,14 +12,10 @@ namespace VRSF.Controllers.Systems
     {
         struct Filter
         {
+            public ScriptableRaycastComponent RaycastComp;
             public ControllerPointerComponents ControllerPointerComp;
+            public LineRenderer PointerRenderer;
         }
-
-
-        #region PRIVATE_VARIABLE
-        private ControllersParametersVariable _controllersParameters;
-        private InteractionVariableContainer _interactionsContainer;
-        #endregion PRIVATE_VARIABLE
 
 
         #region ComponentSystem_Methods
@@ -28,31 +23,16 @@ namespace VRSF.Controllers.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            _controllersParameters = ControllersParametersVariable.Instance;
-            _interactionsContainer = InteractionVariableContainer.Instance;
-            _controllersParameters.RightPointerState = _controllersParameters.UsePointerRight ? EPointerState.ON : EPointerState.OFF;
-            _controllersParameters.LeftPointerState = _controllersParameters.UsePointerLeft ? EPointerState.ON : EPointerState.OFF;
+            this.Enabled = false;
         }
 
         // Update is called once per frame
         protected override void OnUpdate()
         {
-            // If we use the controllers, we check their PointerStates
-            if (_controllersParameters.UseControllers)
+            foreach (var e in GetEntities<Filter>())
             {
-                foreach (var e in GetEntities<Filter>())
-                {
-                    // As the vive send errors if the controller are not seen on the first frame, we need to put that in the update method
-                    if (e.ControllerPointerComp._IsSetup)
-                    {
-                        if (_controllersParameters.RightPointerState != EPointerState.OFF)
-                            CheckPointerState(ref _controllersParameters.RightPointerState, e.ControllerPointerComp._RightHandPointer, e.ControllerPointerComp._LeftParticles, _interactionsContainer.RightHit);
-
-                        if (_controllersParameters.LeftPointerState != EPointerState.OFF)
-                            CheckPointerState(ref _controllersParameters.LeftPointerState, e.ControllerPointerComp._LeftHandPointer, e.ControllerPointerComp._LeftParticles, _interactionsContainer.LeftHit);
-                    }
-                }
+                if (e.ControllerPointerComp.IsSetup && e.ControllerPointerComp._PointerState != EPointerState.OFF)
+                    CheckPointerState(ref e.ControllerPointerComp._PointerState, e);
             }
         }
         #endregion ComponentSystem_Methods
@@ -66,15 +46,15 @@ namespace VRSF.Controllers.Systems
         /// <param name="pointerState">The current state of the pointer</param>
         /// <param name="pointer">The linerenderer to which the material is attached</param>
         /// <returns>The new state of the pointer</returns>
-        private void CheckPointerState(ref EPointerState pointerState, LineRenderer pointer, ParticleSystem[] particleSystem, RaycastHitVariable hitVariable)
+        private void CheckPointerState(ref EPointerState pointerState, Filter e)
         {
             // If the pointer is over something and it's state is not at Selectable
-            if (pointerState != EPointerState.SELECTABLE && hitVariable.RaycastHitIsOnUI())
+            if (pointerState != EPointerState.SELECTABLE)
             {
-                pointer.enabled = true;
-                if (particleSystem != null)
+                e.PointerRenderer.enabled = true;
+                if (e.ControllerPointerComp.OptionalLasersObjects.PointersParticles != null)
                 {
-                    foreach (var ps in particleSystem)
+                    foreach (var ps in e.ControllerPointerComp.OptionalLasersObjects.PointersParticles)
                     {
                         ps.Play();
                     }
@@ -83,10 +63,10 @@ namespace VRSF.Controllers.Systems
             }
             else if (pointerState != EPointerState.ON)
             {
-                pointer.enabled = false;
-                if (particleSystem != null)
+                e.PointerRenderer.enabled = false;
+                if (e.ControllerPointerComp.OptionalLasersObjects.PointersParticles != null)
                 {
-                    foreach (var ps in particleSystem)
+                    foreach (var ps in e.ControllerPointerComp.OptionalLasersObjects.PointersParticles)
                     {
                         ps.Stop();
                         ps.Clear();

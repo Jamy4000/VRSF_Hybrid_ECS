@@ -22,7 +22,7 @@ namespace VRSF.MoveAround.Systems
         {
             base.OnStartRunning();
 
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -34,7 +34,7 @@ namespace VRSF.MoveAround.Systems
         {
             base.OnDestroyManager();
 
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -107,13 +107,17 @@ namespace VRSF.MoveAround.Systems
         /// <summary>
         /// Reactivate the System when switching to another Scene.
         /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        /// <param name="scene">The previous scene before switching</param>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            foreach (var e in GetEntities<Filter>())
+            if (loadMode == LoadSceneMode.Single)
             {
-                SetupListenersResponses(e);
+                foreach (var e in GetEntities<Filter>())
+                {
+                    SetupListenersResponses(e);
+                }
             }
+            
         }
         #endregion
     }

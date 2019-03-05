@@ -18,8 +18,8 @@ namespace VRSF.MoveAround.Teleport
         {
             public BACGeneralComponent BACGeneral;
             public SceneObjectsComponent SceneObjects;
-            public TeleportGeneralComponent TeleportGeneral;
             public ParabolCalculationsComponent PointerCalculations;
+            public TeleportGeneralComponent TeleportGeneral;
         }
 
 
@@ -92,9 +92,9 @@ namespace VRSF.MoveAround.Teleport
             // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
             // related to selecting things and actually teleport
             if (e.PointerCalculations.PointOnNavMesh)
-                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Teleporting);
+                TeleportUserSystem.SetTeleportState(ETeleportState.Teleporting, e.TeleportGeneral);
             else
-                TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.None);
+                TeleportUserSystem.SetTeleportState(ETeleportState.None, e.TeleportGeneral);
         }
         #endregion
 
@@ -108,13 +108,15 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            // We reset the current State to Selecting
-            TeleportUserSystem.SetTeleportState(e.TeleportGeneral, e.SceneObjects, ETeleportState.Selecting);
+            if (TeleportGeneralComponent.CanTeleport)
+                // We reset the current State to Selecting
+                TeleportUserSystem.SetTeleportState(ETeleportState.Selecting, e.TeleportGeneral);
         }
 
         private void OnStopInteractingCallback(Filter e)
         {
-            TeleportUser(e);
+            if (TeleportGeneralComponent.CanTeleport)
+                TeleportUser(e);
         }
         #endregion
     }

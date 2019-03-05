@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using VRSF.Controllers;
+using VRSF.Controllers.Components;
 using VRSF.Inputs;
+using VRSF.Interactions.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -21,7 +23,6 @@ namespace VRSF.MoveAround.Teleport
             public ParabolObjectsComponent PointerObjects;
             public ParabolCalculationsComponent PointerCalculations;
             public SceneObjectsComponent SceneObjects;
-            public TeleportGeneralComponent TeleportGeneral;
         }
 
         private ControllersParametersVariable _controllersParameters;
@@ -88,8 +89,11 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            ToggleNormalLaser(e, false);
-            ForceUpdateCurrentAngle(e);
+            if (TeleportGeneralComponent.CanTeleport)
+            {
+                ToggleHandLaser(e, false);
+                ForceUpdateCurrentAngle(e);
+            }
         }
 
         /// <summary>
@@ -98,20 +102,23 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
-            // Deactivate laser if it's still active
-            if (e.PointerObjects._ControllerPointer.enabled)
-                ToggleNormalLaser(e, false);
+            if (TeleportGeneralComponent.CanTeleport)
+            {
+                // Deactivate laser if it's still active
+                if (e.PointerObjects._ControllerPointer.enabled)
+                    ToggleHandLaser(e, false);
 
-            // 1. Calculate Parabola Points
-            var velocity = ForceUpdateCurrentAngle(e);
-            var normal = ParabolaPointsCalculations(e, velocity);
+                // 1. Calculate Parabola Points
+                var velocity = ForceUpdateCurrentAngle(e);
+                var normal = ParabolaPointsCalculations(e, velocity);
 
-            // 2. Render the Parabole's pads, aka the targets at the end of the parabole
-            RenderParabolePads(e, normal);
+                // 2. Render the Parabole's pads, aka the targets at the end of the parabole
+                RenderParabolePads(e, normal);
 
-            // 3. Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
-            ParaboleCalculationsHelper.GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
-            Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
+                // 3. Draw parabola (BEFORE the outside faces of the selection pad, to avoid depth issues)
+                ParaboleCalculationsHelper.GenerateMesh(ref e.PointerObjects._parabolaMesh, e.PointerObjects.ParabolaPoints, velocity, Time.time % 1, e.PointerCalculations.GraphicThickness);
+                Graphics.DrawMesh(e.PointerObjects._parabolaMesh, Matrix4x4.identity, e.PointerCalculations.GraphicMaterial, e.PointerObjects.gameObject.layer);
+            }
         }
 
         /// <summary>
@@ -120,12 +127,9 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
-            ToggleNormalLaser(e, true);
-
-            if (e.PointerObjects._selectionPadObject != null)
-                e.PointerObjects._selectionPadObject.SetActive(false);
-            if (e.PointerObjects._invalidPadObject != null)
-                e.PointerObjects._invalidPadObject.SetActive(false);
+            ToggleHandLaser(e, true);
+            e.PointerObjects._selectionPadObject?.SetActive(false);
+            e.PointerObjects._invalidPadObject?.SetActive(false);
         }
         #endregion
 
@@ -148,11 +152,11 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.PointCount,
                 e.SceneObjects._TeleportNavMesh,
                 _controllersParameters.GetExclusionsLayer(e.BAC_Comp.ButtonHand),
-                e.PointerObjects.ParabolaPoints,
+                out e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );
 
-            e.TeleportGeneral.PointToGoTo = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
+            TeleportGeneralComponent.PointToGoTo = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
             return normal;
         }
 
@@ -167,9 +171,9 @@ namespace VRSF.MoveAround.Teleport
             if (e.PointerObjects._selectionPadObject != null)
             {
                 e.PointerObjects._selectionPadObject.SetActive(e.PointerCalculations.PointOnNavMesh);
-                e.PointerObjects._selectionPadObject.transform.position = e.TeleportGeneral.PointToGoTo + (Vector3.one * 0.005f);
                 if (e.PointerCalculations.PointOnNavMesh)
                 {
+                    e.PointerObjects._selectionPadObject.transform.position = TeleportGeneralComponent.PointToGoTo + (Vector3.one * 0.005f);
                     e.PointerObjects._selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
                     e.PointerObjects._selectionPadObject.transform.Rotate(90, 0, 0);
                 }
@@ -179,9 +183,9 @@ namespace VRSF.MoveAround.Teleport
             if (e.PointerObjects._invalidPadObject != null)
             {
                 e.PointerObjects._invalidPadObject.SetActive(!e.PointerCalculations.PointOnNavMesh);
-                e.PointerObjects._invalidPadObject.transform.position = e.TeleportGeneral.PointToGoTo + (Vector3.one * 0.005f);
                 if (!e.PointerCalculations.PointOnNavMesh)
                 {
+                    e.PointerObjects._invalidPadObject.transform.position = TeleportGeneralComponent.PointToGoTo + (Vector3.one * 0.005f);
                     e.PointerObjects._invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
                     e.PointerObjects._invalidPadObject.transform.Rotate(90, 0, 0);
                 }
@@ -189,30 +193,32 @@ namespace VRSF.MoveAround.Teleport
         }
 
         /// <summary>
-        /// Active Teleporter Arc Path
+        /// Activate/Deactivate the pointer on the left hand
         /// </summary>
         /// <param name="active"></param>
-        private void ToggleNormalLaser(Filter entity, bool active)
+        private void ToggleHandLaser(Filter e, bool active)
         {
-            if (Utils.VRSF_Components.DeviceLoaded != Utils.EDevice.SIMULATOR)
+            // Change pointer activation if the user is using it
+            if ((e.BAC_Comp.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) ||
+                (e.BAC_Comp.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
             {
-                // Change pointer activation if the user is using it
-                if ((entity.BAC_Comp.ButtonHand == EHand.LEFT && _controllersParameters.UsePointerLeft) ||
-                    (entity.BAC_Comp.ButtonHand == EHand.RIGHT && _controllersParameters.UsePointerRight))
+                // We deactivate the fact that the user is able to click on stuffs as long as the curve teleport is on
+                if (e.BAC_Comp.ButtonHand == EHand.LEFT)
+                    OnColliderClickComponent.LeftTriggerCanClick = active;
+                else
+                    OnColliderClickComponent.RightTriggerCanClick = active;
+
+                if (e.PointerObjects._ControllerPointer != null)
                 {
-                    entity.PointerObjects._ControllerPointer.enabled = active;
-                    foreach(var particleSystem in entity.PointerObjects._ControllerPointer.GetComponentsInChildren<ParticleSystem>())
-                    {
-                        if (active)
-                        {
-                            particleSystem.Play();
-                        }
-                        else
-                        {
-                            particleSystem.Stop();
-                            particleSystem.Clear();
-                        }
-                    }
+                    // We change the status of the laser gameObject
+                    e.PointerObjects._ControllerPointer.enabled = active;
+                    var optionalObjects = e.PointerObjects._ControllerPointer.GetComponent<ControllerPointerComponents>().OptionalLasersObjects;
+
+                    foreach (var ps in optionalObjects.PointersParticles)
+                        ps.gameObject.SetActive(active);
+
+                    if (optionalObjects.PointersEndPoint != null)
+                        optionalObjects.PointersEndPoint.GetComponent<MeshRenderer>().enabled = active;
                 }
             }
         }

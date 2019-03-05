@@ -59,9 +59,12 @@ namespace VRSF.MoveAround.Teleport
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
         {
-            foreach (var e in GetEntities<Filter>())
+            if (loadMode == LoadSceneMode.Single)
             {
-                e.SceneObjects.StartCoroutine(InitValues(e));
+                foreach (var e in GetEntities<Filter>())
+                {
+                    e.SceneObjects.StartCoroutine(InitValues(e));
+                }
             }
         }
     }
