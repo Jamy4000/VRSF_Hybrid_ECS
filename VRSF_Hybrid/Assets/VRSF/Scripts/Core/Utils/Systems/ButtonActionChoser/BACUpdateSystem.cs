@@ -1,4 +1,5 @@
 ﻿using Unity.Entities;
+using VRSF.Core.Inputs;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
@@ -11,9 +12,6 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             public BACCalculationsComponent BAC_Calc;
         }
 
-        // EMPTY
-        #region PRIVATE_VARIBALES
-        #endregion PRIVATE_VARIABLES
 
         #region ComponentSystem_Methods
         protected override void OnUpdate()
@@ -53,7 +51,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 entity.BAC_Calc.UnclickEventWasRaised = CheckThumbstick
                 (
-                    new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, Inputs.EControllerInteractionType.CLICK), 
+                    new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, EControllerInteractionType.CLICK), 
                     ref entity.BAC_Calc.ClickActionBeyondThreshold
                 );
             }
@@ -78,7 +76,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             {
                 entity.BAC_Calc.UntouchedEventWasRaised = CheckThumbstick
                 (
-                    new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, Inputs.EControllerInteractionType.TOUCH), 
+                    new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, EControllerInteractionType.TOUCH), 
                     ref entity.BAC_Calc.TouchActionBeyondThreshold
                 );
             }

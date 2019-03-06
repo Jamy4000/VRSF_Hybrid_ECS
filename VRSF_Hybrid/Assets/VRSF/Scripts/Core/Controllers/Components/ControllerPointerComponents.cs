@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using VRSF.Utils.Components;
+using VRSF.Core.Raycast;
 
-namespace VRSF.Controllers.Components
+namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// Contains all the variable for the ControllerPointer Systems

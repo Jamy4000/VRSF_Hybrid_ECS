@@ -1,7 +1,8 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using VRSF.Utils;
+using VRSF.Core.SetupVR;
+using Valve.VR;
+using VRSF.Core.Utils;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -22,10 +23,18 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            OnSetupVRReady.RegisterListener(Init);
         }
 
-        protected override void OnUpdate()
+        protected override void OnDestroyManager()
+        {
+            base.OnStartRunning();
+            OnSetupVRReady.UnregisterListener(Init);
+        }
+
+        protected override void OnUpdate() { }
+
+        private void Init(OnSetupVRReady setupVRReady)
         {
             if (VRSF_Components.DeviceLoaded == EDevice.SIMULATOR)
             {
@@ -34,12 +43,11 @@ namespace VRSF.MoveAround.Teleport
                     e.BorderRenderer.Points = new Vector3[0];
                 }
                 // We deactivate the system if we load the simulator, as we cannot have access to any chaperone
+                OnSetupVRReady.UnregisterListener(Init);
                 this.Enabled = false;
                 return;
             }
-
-            bool systemStillRunning = false;
-
+            
             foreach (var e in GetEntities<Filter>())
             {
                 // We check if a Play Area was set by the user
@@ -64,13 +72,11 @@ namespace VRSF.MoveAround.Teleport
                     e.BorderRenderer.ChaperoneIsSetup = true;
                     e.BorderRenderer.BorderAreShown = false;
                 }
-                else if (!success)
+                else
                 {
-                    systemStillRunning = true;
+                    Debug.LogError("Couldn't set the chaperonne for the teleport properly. Returning.");
                 }
             }
-
-            this.Enabled = systemStillRunning;
         }
 
         /// <summary>
@@ -102,50 +108,28 @@ namespace VRSF.MoveAround.Teleport
         /// <returns>true if the boundaries of OpenVR could be correctly get</returns>
         private bool GetOpenVRChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
         {
-            //var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
-            //if (initOpenVR)
-            //{
-            //    var error = EVRInitError.None;
-            //    OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
-            //}
-
-            //var chaperone = OpenVR.Chaperone;
-            //HmdQuad_t rect = new HmdQuad_t();
-            //bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref rect);
-            //p0 = new Vector3(rect.vCorners0.v0, rect.vCorners0.v1, rect.vCorners0.v2);
-            //p1 = new Vector3(rect.vCorners1.v0, rect.vCorners1.v1, rect.vCorners1.v2);
-            //p2 = new Vector3(rect.vCorners2.v0, rect.vCorners2.v1, rect.vCorners2.v2);
-            //p3 = new Vector3(rect.vCorners3.v0, rect.vCorners3.v1, rect.vCorners3.v2);
-
-            //if (!success)
-            //    Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
-
-            //if (initOpenVR)
-            //    OpenVR.Shutdown();
-
-            //return success;
-
-            Debug.LogError("TODO : Redo Chaperone SteamVR");
-            p0 = Vector3.zero;
-            p1 = Vector3.zero;
-            p2 = Vector3.zero;
-            p3 = Vector3.zero;
-            return false;
-        }
-
-        /// <summary>
-        /// Relaunch the system everytime we enter in a new scene
-        /// </summary>
-        /// <param name="sceneLoaded"></param>
-        /// <param name="loadMode"></param>
-        private void OnSceneLoaded(Scene sceneLoaded, LoadSceneMode loadMode)
-        {
-            if (loadMode == LoadSceneMode.Single)
+            var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
+            if (initOpenVR)
             {
-                // We remove the previous vallback to avoid adding multiple callback
-                SceneManager.sceneLoaded -= OnSceneLoaded;
-                this.Enabled = true;
+                var error = EVRInitError.None;
+                OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
             }
+
+            var chaperone = OpenVR.Chaperone;
+            HmdQuad_t rect = new HmdQuad_t();
+            bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref rect);
+            p0 = new Vector3(rect.vCorners0.v0, rect.vCorners0.v1, rect.vCorners0.v2);
+            p1 = new Vector3(rect.vCorners1.v0, rect.vCorners1.v1, rect.vCorners1.v2);
+            p2 = new Vector3(rect.vCorners2.v0, rect.vCorners2.v1, rect.vCorners2.v2);
+            p3 = new Vector3(rect.vCorners3.v0, rect.vCorners3.v1, rect.vCorners3.v2);
+
+            if (!success)
+                Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
+
+            if (initOpenVR)
+                OpenVR.Shutdown();
+
+            return success;
         }
     }
 }

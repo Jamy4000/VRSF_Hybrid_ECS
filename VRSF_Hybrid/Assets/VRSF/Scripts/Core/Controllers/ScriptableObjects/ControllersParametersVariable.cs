@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace VRSF.Controllers
+namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// Contain all the parameters for the Controllers

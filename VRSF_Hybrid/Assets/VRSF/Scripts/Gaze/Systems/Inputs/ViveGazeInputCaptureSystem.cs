@@ -2,10 +2,8 @@
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
-using VRSF.Inputs.Components.Vive;
-using VRSF.Inputs.Events;
 
-namespace VRSF.Inputs.Systems.Vive
+namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Script attached to the ViveSDK Prefab.

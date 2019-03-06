@@ -1,5 +1,5 @@
-﻿using VRSF.Inputs;
-using UnityEngine;
+﻿using UnityEngine;
+using VRSF.Core.Inputs;
 
 public static class ControllerInputToSO
 {

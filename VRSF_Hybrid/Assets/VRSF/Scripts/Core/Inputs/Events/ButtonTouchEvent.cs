@@ -1,7 +1,7 @@
 ﻿using EventCallbacks;
 using VRSF.Controllers;
 
-namespace VRSF.Inputs.Events
+namespace VRSF.Core.Inputs
 {
     public class ButtonTouchEvent : Event<ButtonTouchEvent>
     {

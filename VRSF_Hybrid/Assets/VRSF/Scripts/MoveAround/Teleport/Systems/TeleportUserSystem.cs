@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Utils;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.MoveAround.Teleport
 {

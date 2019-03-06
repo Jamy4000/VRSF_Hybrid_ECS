@@ -1,4 +1,4 @@
-﻿namespace VRSF.Controllers
+﻿namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// List the possible state for the Left and Right pointers and the Gaze

@@ -2,10 +2,8 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Controllers;
-using VRSF.Inputs.Components;
-using VRSF.Inputs.Events;
 
-namespace VRSF.Inputs
+namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Script attached to the SimulatorSDK Prefab.

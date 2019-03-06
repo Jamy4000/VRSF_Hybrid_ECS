@@ -1,4 +1,4 @@
-﻿namespace VRSF.Utils
+﻿namespace VRSF.Core.Utils
 {
     /// <summary>
     /// Group all type of Devices supported by the VRSF

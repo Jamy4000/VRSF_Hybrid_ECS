@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {

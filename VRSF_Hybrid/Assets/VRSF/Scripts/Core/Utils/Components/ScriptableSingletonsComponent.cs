@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.Controllers;
+using VRSF.Core.Inputs;
 using VRSF.Gaze;
-using VRSF.Inputs;
 using VRSF.Interactions;
 
 namespace VRSF.Utils.Components

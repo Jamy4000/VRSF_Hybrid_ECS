@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 
-namespace VRSF.Inputs.Simulator
+namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Script attached to the Camera rig of the SimulatorSDK.

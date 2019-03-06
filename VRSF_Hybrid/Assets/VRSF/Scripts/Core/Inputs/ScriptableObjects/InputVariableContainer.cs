@@ -3,7 +3,7 @@ using ScriptableFramework.Util;
 using ScriptableFramework.Variables;
 using UnityEngine;
 
-namespace VRSF.Inputs
+namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Contain all the references to Variables, RuntimeSets and GameEvents for the Inputs in VR

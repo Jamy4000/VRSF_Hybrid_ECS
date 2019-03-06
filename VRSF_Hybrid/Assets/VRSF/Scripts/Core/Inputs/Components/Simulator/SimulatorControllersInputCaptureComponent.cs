@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRSF.Inputs.Components
+namespace VRSF.Core.Inputs
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class SimulatorControllersInputCaptureComponent : MonoBehaviour

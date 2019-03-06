@@ -2,9 +2,10 @@
 using System.Linq;
 using Unity.Entities;
 using UnityEngine;
-using VRSF.Utils.Components;
+using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 
-namespace VRSF.Utils.Systems
+namespace VRSF.Core.Raycast
 {
     /// <summary>
     /// Check the Raycast of the two controllers and the Gaze and reference them in RaycastHit and Ray ScriptableVariable

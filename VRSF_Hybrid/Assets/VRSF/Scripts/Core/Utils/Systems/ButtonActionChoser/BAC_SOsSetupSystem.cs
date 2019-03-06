@@ -4,8 +4,7 @@ using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
-using VRSF.Inputs;
-using VRSF.Inputs.Events;
+using VRSF.Core.Inputs;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRSF.Inputs.Simulator
+namespace VRSF.Core.Inputs
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class LookAtMouseComponent : MonoBehaviour

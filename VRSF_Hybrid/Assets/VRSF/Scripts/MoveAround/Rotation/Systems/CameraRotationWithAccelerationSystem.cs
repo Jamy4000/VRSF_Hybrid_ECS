@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using VRSF.Core.SetupVR;
 using VRSF.MoveAround.Components;
-using VRSF.Utils;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 

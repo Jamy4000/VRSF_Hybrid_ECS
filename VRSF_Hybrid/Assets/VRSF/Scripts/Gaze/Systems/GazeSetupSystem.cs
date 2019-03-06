@@ -1,9 +1,8 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VRSF.Core.SetupVR;
 using VRSF.Gaze.Components;
-using VRSF.Inputs.Components;
-using VRSF.Utils;
 
 namespace VRSF.Gaze.Systems
 {

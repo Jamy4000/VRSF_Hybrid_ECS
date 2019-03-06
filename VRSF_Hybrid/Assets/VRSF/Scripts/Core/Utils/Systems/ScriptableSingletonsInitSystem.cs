@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Gaze;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 using VRSF.Interactions;
 using VRSF.Utils.Components;
 

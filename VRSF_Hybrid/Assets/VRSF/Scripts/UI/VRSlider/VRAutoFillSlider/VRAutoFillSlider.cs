@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using VRSF.Interactions;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 using VRSF.Utils.Events;
 
 namespace VRSF.UI

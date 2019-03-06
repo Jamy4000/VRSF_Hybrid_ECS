@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using VRSF.Controllers.Components;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Controllers.Systems
 {
@@ -35,7 +36,7 @@ namespace VRSF.Controllers.Systems
         /// </summary>
         private void CheckPointersScale(Filter e)
         {
-            var cameraRigScale = Utils.VRSF_Components.CameraRig.transform.lossyScale;
+            var cameraRigScale = VRSF_Components.CameraRig.transform.lossyScale;
 
             e.PointerRenderer.startWidth = cameraRigScale.x / 500;
             e.PointerRenderer.endWidth = cameraRigScale.x / 500;

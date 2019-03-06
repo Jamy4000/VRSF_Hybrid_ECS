@@ -1,4 +1,4 @@
-﻿namespace VRSF.Inputs
+﻿namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Contain all possible position of the thumb for the VR Interactions and ButtonActionChoser

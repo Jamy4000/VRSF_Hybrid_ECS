@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using VRSF.Inputs;
-using VRSF.Utils;
+using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Utils.Systems.ButtonActionChoser;
 
@@ -27,7 +27,7 @@ namespace VRSF.MoveAround.Teleport
         {
             base.OnStartRunning();
 
-            if (VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
+            if (VRSF_Components.DeviceLoaded != Core.Utils.EDevice.SIMULATOR)
             {
                 foreach (var e in GetEntities<Filter>())
                 {

@@ -1,4 +1,4 @@
-﻿namespace VRSF.Controllers
+﻿namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// List the possible "Hand" with which the user can click or over on things.

@@ -2,11 +2,8 @@
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
-using VRSF.Inputs.Events;
-using VRSF.Inputs.Gaze;
-using VRSF.Utils;
 
-namespace VRSF.Inputs.Systems
+namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Script attached to the OculusSDK Prefab.

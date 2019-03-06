@@ -1,4 +1,4 @@
-﻿namespace VRSF.Inputs
+﻿namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Contain all possible interaction type for Oculus and Vive controllers

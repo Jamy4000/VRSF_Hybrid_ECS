@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using VRSF.Controllers;
+using VRSF.Core.Inputs;
 using VRSF.Utils;
 
-namespace VRSF.Inputs.Gaze
+namespace VRSF.Gaze.Inputs
 {
     /// <summary>
     /// Contain the dictionary for all keys corresponding to the possible gaze click with the Simulator

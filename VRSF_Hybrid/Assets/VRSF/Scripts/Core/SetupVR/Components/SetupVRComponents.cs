@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRSF.Utils.Components
+namespace VRSF.Core.SetupVR
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class SetupVRComponents : MonoBehaviour
@@ -30,7 +30,7 @@ namespace VRSF.Utils.Components
         [Header("VR Device Parameters.")]
         [Tooltip("The Device you want to load.")]
         [SerializeField]
-        public EDevice DeviceToLoad = EDevice.NULL;
+        public Utils.EDevice DeviceToLoad = Utils.EDevice.NULL;
 
         [Tooltip("If false, the device to load will be set with your Editor choice or with a potential starting screen choice.")]
         [SerializeField]

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using VRSF.Controllers;
+using VRSF.Core.Utils;
 
-namespace VRSF.Utils
+namespace VRSF.Core.SetupVR
 {
     /// <summary>
     /// Contains all the static references for the VRSF Objects

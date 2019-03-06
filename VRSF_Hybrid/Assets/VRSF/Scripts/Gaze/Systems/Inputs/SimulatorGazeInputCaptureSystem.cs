@@ -2,12 +2,10 @@
 using UnityEngine;
 using VRSF.Controllers;
 using VRSF.Gaze;
-using VRSF.Inputs.Components;
-using VRSF.Inputs.Events;
-using VRSF.Inputs.Gaze;
+using VRSF.Gaze.Inputs;
 using VRSF.Utils;
 
-namespace VRSF.Inputs
+namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Script attached to the SimulatorSDK Prefab.

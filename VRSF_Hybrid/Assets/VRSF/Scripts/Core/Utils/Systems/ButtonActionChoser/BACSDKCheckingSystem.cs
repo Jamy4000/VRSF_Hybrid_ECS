@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
 
@@ -25,15 +25,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            
-            foreach (var entity in GetEntities<Filter>())
-            {
-                entity.SDKComp.StartCoroutine(WaitForSetupVR(entity));
-            }
-
-            this.Enabled = false;
+            OnSetupVRReady.RegisterListener(Init);
         }
         
         protected override void OnUpdate() { }
@@ -41,7 +33,7 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            OnSetupVRReady.UnregisterListener(Init);
         }
         #endregion
 
@@ -76,25 +68,14 @@ namespace VRSF.Utils.Systems.ButtonActionChoser
             }
         }
 
-        private IEnumerator WaitForSetupVR(Filter entity)
+        private void Init(OnSetupVRReady setupVRReady)
         {
-            while (!VRSF_Components.SetupVRIsReady)
+            foreach (var e in GetEntities<Filter>())
             {
-                yield return new WaitForEndOfFrame();
+                // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
+                e.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(e);
+                e.SDKComp.IsSetup = true;
             }
-
-            // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
-            entity.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(entity);
-            entity.SDKComp.IsSetup = true;
-        }
-
-        /// <summary>
-        /// Reactivate the System when switching to another Scene.
-        /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
-        {
-            this.Enabled = loadMode == LoadSceneMode.Single;
         }
         #endregion PRIVATES_METHODS
     }

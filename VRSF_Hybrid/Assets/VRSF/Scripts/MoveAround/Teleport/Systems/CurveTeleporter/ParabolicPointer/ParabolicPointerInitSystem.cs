@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
+using VRSF.Core.SetupVR;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -23,50 +24,50 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.PointerCalculations.StartCoroutine(InitValues(e));
-            }
+            OnSetupVRReady.RegisterListener(InitValues);
         }
 
         protected override void OnUpdate() { }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            OnSetupVRReady.UnregisterListener(InitValues);
+        }
 
         /// <summary>
         /// Initialize the values for the Parabolic Pointer feature.
         /// </summary>
         /// <param name="e">The entity to check in the scene</param>
-        private IEnumerator<WaitForEndOfFrame> InitValues(Filter e)
+        private void InitValues(OnSetupVRReady setupVRReady)
         {
-            while (!Utils.VRSF_Components.SetupVRIsReady)
+            foreach (var e in GetEntities<Filter>())
             {
-                yield return new WaitForEndOfFrame();
-            }
+                e.PointerObjects._ControllerPointer = e.BACGeneral.ButtonHand == Controllers.EHand.LEFT ?
+                    VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>() :
+                    VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
 
-            e.PointerObjects._ControllerPointer = e.BACGeneral.ButtonHand == Controllers.EHand.LEFT ?
-                Utils.VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>() :
-                Utils.VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
+                e.PointerObjects.ParabolaPoints = new List<Vector3>(e.PointerCalculations.PointCount);
 
-            e.PointerObjects.ParabolaPoints = new List<Vector3>(e.PointerCalculations.PointCount);
+                e.PointerObjects._parabolaMesh = new Mesh();
+                e.PointerObjects._parabolaMesh.MarkDynamic();
+                e.PointerObjects._parabolaMesh.name = "Parabolic Pointer";
+                e.PointerObjects._parabolaMesh.vertices = new Vector3[0];
+                e.PointerObjects._parabolaMesh.triangles = new int[0];
 
-            e.PointerObjects._parabolaMesh = new Mesh();
-            e.PointerObjects._parabolaMesh.MarkDynamic();
-            e.PointerObjects._parabolaMesh.name = "Parabolic Pointer";
-            e.PointerObjects._parabolaMesh.vertices = new Vector3[0];
-            e.PointerObjects._parabolaMesh.triangles = new int[0];
+                if (e.PointerObjects._selectionPadPrefab != null)
+                {
+                    e.PointerObjects._selectionPadObject = GameObject.Instantiate(e.PointerObjects._selectionPadPrefab);
+                    e.PointerObjects._selectionPadObject.transform.SetParent(e.PointerObjects.transform);
+                    e.PointerObjects._selectionPadObject.SetActive(false);
+                }
 
-            if (e.PointerObjects._selectionPadPrefab != null)
-            {
-                e.PointerObjects._selectionPadObject = GameObject.Instantiate(e.PointerObjects._selectionPadPrefab);
-                e.PointerObjects._selectionPadObject.transform.SetParent(e.PointerObjects.transform);
-                e.PointerObjects._selectionPadObject.SetActive(false);
-            }
-
-            if (e.PointerObjects._invalidPadPrefab != null)
-            {
-                e.PointerObjects._invalidPadObject = GameObject.Instantiate(e.PointerObjects._invalidPadPrefab);
-                e.PointerObjects._invalidPadObject.transform.SetParent(e.PointerObjects.transform);
-                e.PointerObjects._invalidPadObject.SetActive(false);
+                if (e.PointerObjects._invalidPadPrefab != null)
+                {
+                    e.PointerObjects._invalidPadObject = GameObject.Instantiate(e.PointerObjects._invalidPadPrefab);
+                    e.PointerObjects._invalidPadObject.transform.SetParent(e.PointerObjects.transform);
+                    e.PointerObjects._invalidPadObject.SetActive(false);
+                }
             }
         }
     }

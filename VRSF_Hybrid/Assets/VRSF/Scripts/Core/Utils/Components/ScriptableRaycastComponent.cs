@@ -2,7 +2,7 @@
 using UnityEngine;
 using VRSF.Controllers;
 
-namespace VRSF.Utils.Components
+namespace VRSF.Core.Raycast
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ScriptableRaycastComponent : MonoBehaviour

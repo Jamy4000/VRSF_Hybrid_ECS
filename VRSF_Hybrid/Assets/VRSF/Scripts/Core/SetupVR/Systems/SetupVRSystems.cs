@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using VRSF.Controllers;
-using VRSF.Inputs.Components;
-using VRSF.Inputs.Components.Vive;
-using VRSF.Utils.Components;
+using VRSF.Core.Inputs;
+using VRSF.Core.Utils;
 
-namespace VRSF.Utils.Systems
+namespace VRSF.Core.SetupVR
 {
     public class SetupVRSystems : ComponentSystem
     {
@@ -99,6 +98,7 @@ namespace VRSF.Utils.Systems
 
             setupVR.SDKHasBeenInstantiated = true;
             VRSF_Components.SetupVRIsReady = true;
+            new OnSetupVRReady();
         }
 
         /// <summary>

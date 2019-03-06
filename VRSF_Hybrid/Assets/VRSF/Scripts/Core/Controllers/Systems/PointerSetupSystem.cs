@@ -1,9 +1,8 @@
 ﻿using Unity.Entities;
-using UnityEngine.SceneManagement;
-using VRSF.Controllers.Components;
-using VRSF.Utils.Components;
+using VRSF.Core.Raycast;
+using VRSF.Core.SetupVR;
 
-namespace VRSF.Controllers.Systems
+namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// handle the references for the controller pointers
@@ -21,59 +20,33 @@ namespace VRSF.Controllers.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            OnSetupVRReady.RegisterListener(Init);
         }
-
-
-        // Update is called once per frame
-        protected override void OnUpdate()
-        {
-            if (!Utils.VRSF_Components.SetupVRIsReady)
-                return;
-
-            bool systemStillRunning = false;
-            var controllersParameters = ControllersParametersVariable.Instance;
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (!e.ControllerPointerComp.IsSetup)
-                {
-                    systemStillRunning = true;
-
-                    bool isUsingController = controllersParameters.UseControllers &&
-                        (e.RaycastComp.RayOrigin == EHand.LEFT && controllersParameters.UsePointerLeft) ||
-                        (e.RaycastComp.RayOrigin == EHand.RIGHT && controllersParameters.UsePointerRight);
-
-                    e.ControllerPointerComp._PointerState = isUsingController ? EPointerState.ON : EPointerState.OFF;
-                    e.ControllerPointerComp.gameObject.SetActive(isUsingController);
-                    e.ControllerPointerComp.IsSetup = true;
-                }
-            }
-
-            this.Enabled = systemStillRunning;
-        }
+        
+        protected override void OnUpdate() {}
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            OnSetupVRReady.RegisterListener(Init);
         }
         #endregion ComponentSystem_Methods
 
-
-        /// <summary>
-        /// Reactivate the System when switching to another Scene.
-        /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
+        private void Init(OnSetupVRReady setupVRReady)
         {
-            if (loadMode == LoadSceneMode.Single)
+            var controllersParameters = ControllersParametersVariable.Instance;
+
+            foreach (var e in GetEntities<Filter>())
             {
-                this.Enabled = true;
-                foreach (var e in GetEntities<Filter>())
-                {
-                    e.ControllerPointerComp.IsSetup = false;
-                }
+                e.ControllerPointerComp.IsSetup = false;
+
+                bool isUsingController = controllersParameters.UseControllers &&
+                    (e.RaycastComp.RayOrigin == EHand.LEFT && controllersParameters.UsePointerLeft) ||
+                    (e.RaycastComp.RayOrigin == EHand.RIGHT && controllersParameters.UsePointerRight);
+
+                e.ControllerPointerComp._PointerState = isUsingController ? EPointerState.ON : EPointerState.OFF;
+                e.ControllerPointerComp.gameObject.SetActive(isUsingController);
+                e.ControllerPointerComp.IsSetup = true;
             }
         }
     }

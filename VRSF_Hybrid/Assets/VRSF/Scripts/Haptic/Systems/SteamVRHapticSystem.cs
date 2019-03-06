@@ -1,5 +1,5 @@
 ﻿using Unity.Entities;
-using VRSF.Inputs.Components.Vive;
+using VRSF.Core.Inputs;
 
 namespace VRSF.Controllers.Haptic
 {

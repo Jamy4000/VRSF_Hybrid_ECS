@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using VRSF.Controllers;
+using VRSF.Core.Inputs;
 using VRSF.Utils;
 
-namespace VRSF.Inputs.Gaze
+namespace VRSF.Gaze.Inputs
 {
     /// <summary>
     /// Contain the two dictionnary for all Inputs corresponding to the possible gaze click with Rift

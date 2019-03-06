@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Controllers;
 using VRSF.Gaze;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 using VRSF.Utils.Components;
 using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser
 {

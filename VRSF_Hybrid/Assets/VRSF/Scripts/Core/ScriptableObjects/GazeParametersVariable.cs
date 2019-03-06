@@ -1,7 +1,7 @@
 ﻿using ScriptableFramework.Util;
 using VRSF.Controllers;
 using UnityEngine;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 
 namespace VRSF.Gaze
 {

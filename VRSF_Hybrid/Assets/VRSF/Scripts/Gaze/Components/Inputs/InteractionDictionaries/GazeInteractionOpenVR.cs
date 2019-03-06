@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using VRSF.Core.Inputs;
 
-namespace VRSF.Inputs.Gaze
+namespace VRSF.Gaze.Inputs
 {
     /// <summary>
     /// Dictionnary for all Inputs corresponding to the possible gaze Interaction with OpenVR

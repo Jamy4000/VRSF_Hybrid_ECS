@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRSF.Controllers.Components
+namespace VRSF.Core.Controllers
 {
     [System.Serializable]
     public struct OptionalLaserObjects

@@ -2,7 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Events;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 using VRSF.Utils.Components.ButtonActionChoser;
 
 namespace VRSF.Utils.Systems.ButtonActionChoser

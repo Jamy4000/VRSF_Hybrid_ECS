@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using VRSF.Inputs;
+using VRSF.Core.Inputs;
 using VRSF.Interactions;
 
 namespace VRSF.Utils.Systems
