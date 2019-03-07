@@ -1816,7 +1816,7 @@ GameObject:
   - component: {fileID: 3845097517285178592}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1890,7 +1890,7 @@ GameObject:
   - component: {fileID: 3787114275119892060}
   m_Layer: 0
   m_Name: Controller (right)
-  m_TagString: Untagged
+  m_TagString: RESERVED_RightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1971,7 +1971,7 @@ GameObject:
   - component: {fileID: 4914150922732082406}
   m_Layer: 0
   m_Name: ViveCameraRig
-  m_TagString: Untagged
+  m_TagString: RESERVED_CameraRig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2126,7 +2126,7 @@ GameObject:
   - component: {fileID: 3787114274374162900}
   m_Layer: 0
   m_Name: Controller (left)
-  m_TagString: Untagged
+  m_TagString: RESERVED_LeftController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2245,6 +2245,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: RayOrigin
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
 --- !u!4 &2801180112678902733 stripped
@@ -2307,6 +2312,11 @@ PrefabInstance:
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: RayOrigin
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}

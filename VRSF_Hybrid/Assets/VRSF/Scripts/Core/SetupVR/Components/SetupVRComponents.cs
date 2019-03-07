@@ -6,19 +6,15 @@ namespace VRSF.Core.SetupVR
     public class SetupVRComponents : MonoBehaviour
     {
         #region SDKS_PREFABS
-        [Header("The 3 prefabs to load for the Vive, Oculus and Simulator.")]
+        [Header("The 3 prefabs to load for the Vive, Rift and Simulator.")]
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        public GameObject OpenVR_SDK;
+        public GameObject Vive_SDK;
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
         public GameObject Rift_SDK;
-
-        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
-            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        public GameObject PortableOVR_SDK;
 
         [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
             "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]

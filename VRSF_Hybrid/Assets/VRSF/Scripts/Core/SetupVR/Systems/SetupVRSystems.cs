@@ -127,8 +127,8 @@ namespace VRSF.Core.SetupVR
 
                 case (EDevice.HTC_VIVE):
                     XRSettings.enabled = true;
-                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OpenVR_SDK);
-                    VRSF_Components.CameraRig.transform.name = setupVR.OpenVR_SDK.name;
+                    VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.Vive_SDK);
+                    VRSF_Components.CameraRig.transform.name = setupVR.Vive_SDK.name;
                     VRSF_Components.DeviceLoaded = EDevice.HTC_VIVE;
                     ViveControllersInputCaptureSystem.SetupControllersParameters(VRSF_Components.CameraRig.GetComponent<ViveControllersInputCaptureComponent>());
                     break;

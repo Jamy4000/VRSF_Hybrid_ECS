@@ -111,7 +111,7 @@ namespace VRSF.MoveAround.Teleport
         private void RegenerateMesh(BorderRendererComponent borderRenderer, Vector3 selectedPoint)
         {
             // We check that the points are not null. 
-            if (borderRenderer.Points != null || borderRenderer.Points.Length > 0)
+            if (borderRenderer.Points != null && borderRenderer.Points.Length > 0)
             {
                 // The user is still deciding where to teleport and has the touchpad held down.
                 // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
@@ -122,6 +122,10 @@ namespace VRSF.MoveAround.Teleport
                 borderRenderer.Transpose = Matrix4x4.TRS(selectedPoint - offset, Quaternion.identity, Vector3.one);
 
                 borderRenderer.CachedBorderMesh = GenerateMeshForPoints(borderRenderer.Points, borderRenderer.BorderHeight);
+            }
+            else
+            {
+                Debug.Log("<b>[VRSF] :</b> BorderRenderer points are null");
             }
         }
 

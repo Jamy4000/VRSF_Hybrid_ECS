@@ -21,13 +21,13 @@ namespace VRSF.MoveAround.Teleport
 
         protected override void OnStartRunning()
         {
-            base.OnStartRunning();
             OnSetupVRReady.RegisterListener(Init);
+            base.OnStartRunning();
         }
 
         protected override void OnDestroyManager()
         {
-            base.OnStartRunning();
+            base.OnDestroyManager();
             OnSetupVRReady.UnregisterListener(Init);
         }
 
@@ -50,7 +50,7 @@ namespace VRSF.MoveAround.Teleport
             foreach (var e in GetEntities<Filter>())
             {
                 // We check if a Play Area was set by the user
-                bool success = GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3);
+                bool success = GetOpenVRChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3);
 
                 // If we didn't set the chaperone yet and we could correctly get it
                 if (!e.BorderRenderer.ChaperoneIsSetup && success)
@@ -73,29 +73,10 @@ namespace VRSF.MoveAround.Teleport
                 }
                 else
                 {
-                    Debug.LogError("Couldn't set the chaperonne for the teleport properly. Returning.");
+                    Debug.LogError("<b>[VRSF] :</b> Couldn't set the chaperonne for the teleport properly. Returning.");
                 }
             }
         }
-
-        /// <summary>
-        /// Requests the chaperone boundaries of the SteamVR play area.  This doesn't work if you haven't performed Room Setup.
-        /// </summary>
-        /// <param name="p0">Point 0 that make up the chaperone boundaries.</param>
-        /// <param name="p1">Point 1 that make up the chaperone boundaries.</param>
-        /// <param name="p2">Point 2 that make up the chaperone boundaries.</param>
-        /// <param name="p3">Point 3 that make up the chaperone boundaries.</param>
-        /// <returns>If the play area retrieval was successful</returns>
-        public bool GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
-        {
-            p0 = Vector3.zero;
-            p1 = Vector3.zero;
-            p2 = Vector3.zero;
-            p3 = Vector3.zero;
-            
-            return VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? false : GetOpenVRChaperone(out p0, out p1, out p2, out p3);
-        }
-
 
         /// <summary>
         /// Get the OpenVR Boundaries to display the borders
@@ -107,7 +88,7 @@ namespace VRSF.MoveAround.Teleport
         /// <returns>true if the boundaries of OpenVR could be correctly get</returns>
         private bool GetOpenVRChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
         {
-            var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
+            var initOpenVR = !SteamVR.active && !SteamVR.usingNativeSupport;
             if (initOpenVR)
             {
                 var error = EVRInitError.None;
@@ -127,7 +108,7 @@ namespace VRSF.MoveAround.Teleport
 
             if (initOpenVR)
                 OpenVR.Shutdown();
-
+            
             return success;
         }
     }

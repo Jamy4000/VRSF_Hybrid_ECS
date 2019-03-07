@@ -839,7 +839,7 @@ PrefabInstance:
     - target: {fileID: 224258118695773350, guid: 802611e2c9d8ac849a811aab1afc7de4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00013724939
+      value: -0.00018233647
       objectReference: {fileID: 0}
     - target: {fileID: 224888426292562834, guid: 802611e2c9d8ac849a811aab1afc7de4,
         type: 3}
@@ -1265,11 +1265,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4507708942917884, guid: 15c49152d158fa24cbb15dd78b6eab8d, type: 3}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114476718934775886, guid: 15c49152d158fa24cbb15dd78b6eab8d,
-        type: 3}
-      propertyPath: CheckDeviceAtRuntime
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
