@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 
 namespace VRSF.Core.Inputs
 {
@@ -39,7 +39,7 @@ namespace VRSF.Core.Inputs
         protected override void OnUpdate()
         {
             // If we doesn't use the controllers, we don't check for the inputs.
-            if (ControllersParametersVariable.Instance.UseControllers)
+            if (SetupVR.VRSF_Components.DeviceLoaded == SetupVR.EDevice.SIMULATOR && ControllersParametersVariable.Instance.UseControllers)
             {
                 CheckWheelClick();
             }

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using VRSF.Gaze;
-using VRSF.Controllers;
-using VRSF.Inputs;
+using VRSF.Core.Gaze;
+using VRSF.Core.Controllers;
+using VRSF.Core.Inputs;
 using UnityEditorInternal;
 
 namespace VRSF.Editor

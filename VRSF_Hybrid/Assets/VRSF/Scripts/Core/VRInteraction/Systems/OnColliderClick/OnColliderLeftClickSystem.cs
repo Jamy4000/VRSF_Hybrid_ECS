@@ -1,17 +1,15 @@
 ﻿using Unity.Entities;
-using VRSF.Interactions.Components;
-using VRSF.Utils.Components;
-using VRSF.Utils.Events;
+using VRSF.Core.Events;
 
-namespace VRSF.Interactions.Systems
+namespace VRSF.Core.Interactions
 {
     public class OnColliderLeftClickSystem : ComponentSystem
     {
         struct Filter
         {
             public OnColliderClickComponent OnClickComp;
-            public ScriptableRaycastComponent PointerRaycast;
-            public ScriptableSingletonsComponent ScriptableSingletons;
+            public Raycast.ScriptableRaycastComponent PointerRaycast;
+            public SetupVR.ScriptableSingletonsComponent ScriptableSingletons;
         }
 
 

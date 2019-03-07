@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 
-namespace VRSF.Utils.Components.ButtonActionChoser
+namespace VRSF.Utils.ButtonActionChoser
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACCalculationsComponent))]
     public class BACGeneralComponent : MonoBehaviour
     {
         [Header("The type of Interaction you want to use")]

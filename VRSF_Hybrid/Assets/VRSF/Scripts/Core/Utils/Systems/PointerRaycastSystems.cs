@@ -3,7 +3,6 @@ using System.Linq;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.SetupVR;
-using VRSF.Core.Utils;
 
 namespace VRSF.Core.Raycast
 {

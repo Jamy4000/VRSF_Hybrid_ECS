@@ -1,68 +1,67 @@
 ﻿using UnityEngine;
-using VRSF.Core.Inputs;
 
-public static class ControllerInputToSO
+namespace VRSF.Core.Inputs
 {
-    public static string GetClickVariableFor(EControllersButton input)
+    public static class ControllerInputToSO
     {
-        switch (input)
+        public static string GetClickVariableFor(EControllersButton input)
         {
-            case (EControllersButton.TRIGGER):
-                return "TriggerIsDown";
+            switch (input)
+            {
+                case (EControllersButton.TRIGGER):
+                    return "TriggerIsDown";
 
-            case (EControllersButton.GRIP):
-                return "GripIsDown";
+                case (EControllersButton.GRIP):
+                    return "GripIsDown";
 
-            case (EControllersButton.MENU):
-                return "MenuIsDown";
+                case (EControllersButton.MENU):
+                    return "MenuIsDown";
 
-            case (EControllersButton.THUMBSTICK):
-                return "ThumbIsDown";
+                case (EControllersButton.THUMBSTICK):
+                    return "ThumbIsDown";
 
-            case (EControllersButton.A_BUTTON):
-                return "AButtonIsDown";
-            case (EControllersButton.B_BUTTON):
-                return "BButtonIsDown";
-            case (EControllersButton.X_BUTTON):
-                return "XButtonIsDown";
-            case (EControllersButton.Y_BUTTON):
-                return "YButtonIsDown";
+                case (EControllersButton.A_BUTTON):
+                    return "AButtonIsDown";
+                case (EControllersButton.B_BUTTON):
+                    return "BButtonIsDown";
+                case (EControllersButton.X_BUTTON):
+                    return "XButtonIsDown";
+                case (EControllersButton.Y_BUTTON):
+                    return "YButtonIsDown";
 
-            case (EControllersButton.BACK_BUTTON):
-                return "BackButtonIsDown";
+                case (EControllersButton.BACK_BUTTON):
+                    return "BackButtonIsDown";
 
-            default:
-                Debug.LogError("The EControllersInput provided is null.");
-                return null;
+                default:
+                    Debug.LogError("The EControllersInput provided is null.");
+                    return null;
+            }
         }
-    }
 
-    
-    public static string GetTouchVariableFor(EControllersButton input)
-    {
-        switch (input)
+
+        public static string GetTouchVariableFor(EControllersButton input)
         {
-            case (EControllersButton.TRIGGER):
-                return "TriggerIsTouching";
+            switch (input)
+            {
+                case (EControllersButton.THUMBSTICK):
+                    return "ThumbIsTouching";
 
-            case (EControllersButton.THUMBSTICK):
-                return "ThumbIsTouching";
+                case (EControllersButton.A_BUTTON):
+                    return "AButtonIsTouching";
+                case (EControllersButton.B_BUTTON):
+                    return "BButtonIsTouching";
+                case (EControllersButton.X_BUTTON):
+                    return "XButtonIsTouching";
+                case (EControllersButton.Y_BUTTON):
+                    return "YButtonIsTouching";
 
-            case (EControllersButton.A_BUTTON):
-                return "AButtonIsTouching";
-            case (EControllersButton.B_BUTTON):
-                return "BButtonIsTouching";
-            case (EControllersButton.X_BUTTON):
-                return "XButtonIsTouching";
-            case (EControllersButton.Y_BUTTON):
-                return "YButtonIsTouching";
+                case (EControllersButton.THUMBREST):
+                    return "ThumbrestIsTouching";
 
-            case (EControllersButton.THUMBREST):
-                return "ThumbrestIsTouching";
-
-            default:
-                Debug.LogError("The EControllersInput provided is null.");
-                return null;
+                default:
+                    Debug.LogError("The EControllersInput provided is not correct.");
+                    return null;
+            }
         }
     }
 }

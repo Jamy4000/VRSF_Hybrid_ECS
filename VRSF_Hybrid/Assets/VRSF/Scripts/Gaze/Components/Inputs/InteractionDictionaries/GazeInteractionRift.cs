@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Utils;
 

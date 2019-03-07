@@ -1,10 +1,10 @@
 ﻿using Unity.Entities;
 using UnityEngine.SceneManagement;
-using VRSF.Controllers;
-using VRSF.Gaze;
+using VRSF.Core.Controllers;
+using VRSF.Core.Gaze;
 using VRSF.Core.Inputs;
 using VRSF.Interactions;
-using VRSF.Utils.Components;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Utils.Systems
 {

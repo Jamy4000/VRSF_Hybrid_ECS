@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.MoveAround.Teleport.Components;
-using VRSF.MoveAround.Teleport.Interfaces;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
+using VRSF.Core.Raycast;
+using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.MoveAround.Teleport.Systems
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Using the ButtonActionChoser, this System allow the user to move Step by Step, ie in the direction of its laser to which this feature is linked.

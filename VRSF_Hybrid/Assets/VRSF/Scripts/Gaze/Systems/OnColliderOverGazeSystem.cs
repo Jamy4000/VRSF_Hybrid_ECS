@@ -1,10 +1,14 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers;
-using VRSF.Utils.Components;
-using VRSF.Utils.Events;
+using VRSF.Core.Raycast;
+using VRSF.Core.Events;
+using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
-namespace VRSF.Interactions.Systems
+namespace VRSF.Gaze.Raycast
 {
+    /// <summary>
+    /// System running to check if the user is looking at something
+    /// </summary>
     public class OnColliderOverGazeSystem : ComponentSystem
     {
         struct Filter

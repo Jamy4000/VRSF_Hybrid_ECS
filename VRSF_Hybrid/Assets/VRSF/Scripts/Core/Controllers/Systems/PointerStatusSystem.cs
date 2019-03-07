@@ -1,12 +1,12 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Controllers.Components;
-using VRSF.Utils.Components;
+using VRSF.Core.Raycast;
 
-namespace VRSF.Controllers.Systems
+namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// Make the Pointer appear only when it's not on Exluded Layer
+    /// TODO : Refactor, not really working
     /// </summary>
     public class PointerStatusSystem : ComponentSystem
     {
@@ -23,6 +23,7 @@ namespace VRSF.Controllers.Systems
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+            // TODO : Remove this line
             this.Enabled = false;
         }
 

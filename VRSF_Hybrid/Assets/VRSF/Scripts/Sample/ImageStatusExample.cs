@@ -1,26 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using VRSF.Utils.Events;
+using VRSF.Core.Events;
 
 namespace VRSF.UI.Example
 {
 	public class ImageStatusExample : MonoBehaviour 
 	{
-        // EMPTY
-        #region PUBLIC_VARIABLES
-        #endregion PUBLIC_VARIABLES
-
-
-        // EMPTY
         #region PRIVATE_VARIABLES
-        Image image;
+        Image _image;
         #endregion PRIVATE_VARIABLES
 
         
         #region MONOBEHAVIOUR_METHODS
         private void Start()
         {
-            image = GetComponent<Image>();
+            _image = GetComponent<Image>();
             ObjectWasHoveredEvent.RegisterListener(CheckRayCastGaze);
         }
 
@@ -31,22 +25,11 @@ namespace VRSF.UI.Example
         #endregion MONOBEHAVIOUR_METHODS
 
 
-        // EMPTY
-        #region PUBLIC_METHODS
-
-        #endregion PUBLIC_METHODS
-
-
         #region PRIVATE_METHODS
         public void CheckRayCastGaze(ObjectWasHoveredEvent value)
         {
-            image.enabled = (value.ObjectHovered == transform);
+            _image.enabled = (value.ObjectHovered == transform);
         }
         #endregion PRIVATE_METHODS
-
-
-        // EMPTY
-        #region GETTERS_SETTERS
-        #endregion GETTERS_SETTERS
     }
 }

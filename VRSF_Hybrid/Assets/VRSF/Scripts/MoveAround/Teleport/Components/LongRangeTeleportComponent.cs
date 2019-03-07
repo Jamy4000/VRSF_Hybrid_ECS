@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using VRSF.Utils.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Raycast;
 
-namespace VRSF.MoveAround.Teleport.Components
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Contains all variable necessary for the LongRangeTeleportSystems to work.

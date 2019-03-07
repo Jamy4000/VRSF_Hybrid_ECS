@@ -1,9 +1,9 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Gaze.Components;
+using VRSF.Core.Gaze;
 using VRSF.Interactions;
 
-namespace VRSF.Gaze.Systems
+namespace VRSF.Gaze
 {
     public class GazeReticlePositionSystem : ComponentSystem
     {

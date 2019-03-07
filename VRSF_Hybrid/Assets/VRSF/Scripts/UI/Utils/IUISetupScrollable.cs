@@ -1,7 +1,7 @@
 ﻿using ScriptableFramework.Variables;
-using VRSF.Controllers;
 using System.Collections.Generic;
 using UnityEngine;
+using VRSF.Core.Controllers;
 
 namespace VRSF.UI
 {

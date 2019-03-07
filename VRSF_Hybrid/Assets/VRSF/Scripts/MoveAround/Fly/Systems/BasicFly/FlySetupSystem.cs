@@ -4,11 +4,10 @@ using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
 using VRSF.MoveAround.Components;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Raycast;
 
-namespace VRSF.MoveAround.Systems
+namespace VRSF.MoveAround.Fly
 {
     /// <summary>
     /// System Allowing the user to fly with the thumbstick / touchpad. 

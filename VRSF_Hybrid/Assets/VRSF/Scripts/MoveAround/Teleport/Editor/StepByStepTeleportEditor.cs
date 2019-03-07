@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
-using VRSF.MoveAround.Teleport.Components;
 
-namespace VRSF.MoveAround.Teleport.Editor
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Just add a message to the user to let him know where the parameters are set.

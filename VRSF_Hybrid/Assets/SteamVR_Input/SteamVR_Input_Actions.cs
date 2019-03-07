@@ -17,26 +17,6 @@ namespace Valve.VR
     public partial class SteamVR_Actions
     {
         
-        private static SteamVR_Action_Boolean p_default_InteractUI;
-        
-        private static SteamVR_Action_Boolean p_default_Teleport;
-        
-        private static SteamVR_Action_Boolean p_default_GrabPinch;
-        
-        private static SteamVR_Action_Boolean p_default_GrabGrip;
-        
-        private static SteamVR_Action_Pose p_default_Pose;
-        
-        private static SteamVR_Action_Skeleton p_default_SkeletonLeftHand;
-        
-        private static SteamVR_Action_Skeleton p_default_SkeletonRightHand;
-        
-        private static SteamVR_Action_Single p_default_Squeeze;
-        
-        private static SteamVR_Action_Boolean p_default_HeadsetOnHead;
-        
-        private static SteamVR_Action_Vibration p_default_Haptic;
-        
         private static SteamVR_Action_Boolean p_vRSF_Vive_LeftTriggerClick;
         
         private static SteamVR_Action_Vector2 p_vRSF_Vive_LeftTouchpadPosition;
@@ -65,89 +45,13 @@ namespace Valve.VR
         
         private static SteamVR_Action_Single p_vRSF_Vive_LeftTriggerPull;
         
+        private static SteamVR_Action_Pose p_vRSF_Vive_LeftPose;
+        
+        private static SteamVR_Action_Pose p_vRSF_Vive_RightPose;
+        
         private static SteamVR_Action_Vibration p_vRSF_Vive_LeftHaptic;
         
         private static SteamVR_Action_Vibration p_vRSF_Vive_RightHaptic;
-        
-        public static SteamVR_Action_Boolean default_InteractUI
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_InteractUI.GetCopy<SteamVR_Action_Boolean>();
-            }
-        }
-        
-        public static SteamVR_Action_Boolean default_Teleport
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_Teleport.GetCopy<SteamVR_Action_Boolean>();
-            }
-        }
-        
-        public static SteamVR_Action_Boolean default_GrabPinch
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_GrabPinch.GetCopy<SteamVR_Action_Boolean>();
-            }
-        }
-        
-        public static SteamVR_Action_Boolean default_GrabGrip
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_GrabGrip.GetCopy<SteamVR_Action_Boolean>();
-            }
-        }
-        
-        public static SteamVR_Action_Pose default_Pose
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_Pose.GetCopy<SteamVR_Action_Pose>();
-            }
-        }
-        
-        public static SteamVR_Action_Skeleton default_SkeletonLeftHand
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_SkeletonLeftHand.GetCopy<SteamVR_Action_Skeleton>();
-            }
-        }
-        
-        public static SteamVR_Action_Skeleton default_SkeletonRightHand
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_SkeletonRightHand.GetCopy<SteamVR_Action_Skeleton>();
-            }
-        }
-        
-        public static SteamVR_Action_Single default_Squeeze
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_Squeeze.GetCopy<SteamVR_Action_Single>();
-            }
-        }
-        
-        public static SteamVR_Action_Boolean default_HeadsetOnHead
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_HeadsetOnHead.GetCopy<SteamVR_Action_Boolean>();
-            }
-        }
-        
-        public static SteamVR_Action_Vibration default_Haptic
-        {
-            get
-            {
-                return SteamVR_Actions.p_default_Haptic.GetCopy<SteamVR_Action_Vibration>();
-            }
-        }
         
         public static SteamVR_Action_Boolean vRSF_Vive_LeftTriggerClick
         {
@@ -261,6 +165,22 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Pose vRSF_Vive_LeftPose
+        {
+            get
+            {
+                return SteamVR_Actions.p_vRSF_Vive_LeftPose.GetCopy<SteamVR_Action_Pose>();
+            }
+        }
+        
+        public static SteamVR_Action_Pose vRSF_Vive_RightPose
+        {
+            get
+            {
+                return SteamVR_Actions.p_vRSF_Vive_RightPose.GetCopy<SteamVR_Action_Pose>();
+            }
+        }
+        
         public static SteamVR_Action_Vibration vRSF_Vive_LeftHaptic
         {
             get
@@ -280,16 +200,6 @@ namespace Valve.VR
         private static void InitializeActionArrays()
         {
             Valve.VR.SteamVR_Input.actions = new Valve.VR.SteamVR_Action[] {
-                    SteamVR_Actions.default_InteractUI,
-                    SteamVR_Actions.default_Teleport,
-                    SteamVR_Actions.default_GrabPinch,
-                    SteamVR_Actions.default_GrabGrip,
-                    SteamVR_Actions.default_Pose,
-                    SteamVR_Actions.default_SkeletonLeftHand,
-                    SteamVR_Actions.default_SkeletonRightHand,
-                    SteamVR_Actions.default_Squeeze,
-                    SteamVR_Actions.default_HeadsetOnHead,
-                    SteamVR_Actions.default_Haptic,
                     SteamVR_Actions.vRSF_Vive_LeftTriggerClick,
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadPosition,
                     SteamVR_Actions.vRSF_Vive_LeftGrip,
@@ -304,18 +214,11 @@ namespace Valve.VR
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadTouch,
                     SteamVR_Actions.vRSF_Vive_RightTriggerPull,
                     SteamVR_Actions.vRSF_Vive_LeftTriggerPull,
+                    SteamVR_Actions.vRSF_Vive_LeftPose,
+                    SteamVR_Actions.vRSF_Vive_RightPose,
                     SteamVR_Actions.vRSF_Vive_LeftHaptic,
                     SteamVR_Actions.vRSF_Vive_RightHaptic};
             Valve.VR.SteamVR_Input.actionsIn = new Valve.VR.ISteamVR_Action_In[] {
-                    SteamVR_Actions.default_InteractUI,
-                    SteamVR_Actions.default_Teleport,
-                    SteamVR_Actions.default_GrabPinch,
-                    SteamVR_Actions.default_GrabGrip,
-                    SteamVR_Actions.default_Pose,
-                    SteamVR_Actions.default_SkeletonLeftHand,
-                    SteamVR_Actions.default_SkeletonRightHand,
-                    SteamVR_Actions.default_Squeeze,
-                    SteamVR_Actions.default_HeadsetOnHead,
                     SteamVR_Actions.vRSF_Vive_LeftTriggerClick,
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadPosition,
                     SteamVR_Actions.vRSF_Vive_LeftGrip,
@@ -329,23 +232,19 @@ namespace Valve.VR
                     SteamVR_Actions.vRSF_Vive_RightTouchpadTouch,
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadTouch,
                     SteamVR_Actions.vRSF_Vive_RightTriggerPull,
-                    SteamVR_Actions.vRSF_Vive_LeftTriggerPull};
+                    SteamVR_Actions.vRSF_Vive_LeftTriggerPull,
+                    SteamVR_Actions.vRSF_Vive_LeftPose,
+                    SteamVR_Actions.vRSF_Vive_RightPose};
             Valve.VR.SteamVR_Input.actionsOut = new Valve.VR.ISteamVR_Action_Out[] {
-                    SteamVR_Actions.default_Haptic,
                     SteamVR_Actions.vRSF_Vive_LeftHaptic,
                     SteamVR_Actions.vRSF_Vive_RightHaptic};
             Valve.VR.SteamVR_Input.actionsVibration = new Valve.VR.SteamVR_Action_Vibration[] {
-                    SteamVR_Actions.default_Haptic,
                     SteamVR_Actions.vRSF_Vive_LeftHaptic,
                     SteamVR_Actions.vRSF_Vive_RightHaptic};
             Valve.VR.SteamVR_Input.actionsPose = new Valve.VR.SteamVR_Action_Pose[] {
-                    SteamVR_Actions.default_Pose};
+                    SteamVR_Actions.vRSF_Vive_LeftPose,
+                    SteamVR_Actions.vRSF_Vive_RightPose};
             Valve.VR.SteamVR_Input.actionsBoolean = new Valve.VR.SteamVR_Action_Boolean[] {
-                    SteamVR_Actions.default_InteractUI,
-                    SteamVR_Actions.default_Teleport,
-                    SteamVR_Actions.default_GrabPinch,
-                    SteamVR_Actions.default_GrabGrip,
-                    SteamVR_Actions.default_HeadsetOnHead,
                     SteamVR_Actions.vRSF_Vive_LeftTriggerClick,
                     SteamVR_Actions.vRSF_Vive_LeftGrip,
                     SteamVR_Actions.vRSF_Vive_LeftMenu,
@@ -357,23 +256,14 @@ namespace Valve.VR
                     SteamVR_Actions.vRSF_Vive_RightTouchpadTouch,
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadTouch};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[] {
-                    SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.vRSF_Vive_RightTriggerPull,
                     SteamVR_Actions.vRSF_Vive_LeftTriggerPull};
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadPosition,
                     SteamVR_Actions.vRSF_Vive_RightTouchpadPosition};
             Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
-            Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[] {
-                    SteamVR_Actions.default_SkeletonLeftHand,
-                    SteamVR_Actions.default_SkeletonRightHand};
+            Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[0];
             Valve.VR.SteamVR_Input.actionsNonPoseNonSkeletonIn = new Valve.VR.ISteamVR_Action_In[] {
-                    SteamVR_Actions.default_InteractUI,
-                    SteamVR_Actions.default_Teleport,
-                    SteamVR_Actions.default_GrabPinch,
-                    SteamVR_Actions.default_GrabGrip,
-                    SteamVR_Actions.default_Squeeze,
-                    SteamVR_Actions.default_HeadsetOnHead,
                     SteamVR_Actions.vRSF_Vive_LeftTriggerClick,
                     SteamVR_Actions.vRSF_Vive_LeftTouchpadPosition,
                     SteamVR_Actions.vRSF_Vive_LeftGrip,
@@ -392,16 +282,6 @@ namespace Valve.VR
         
         private static void PreInitActions()
         {
-            SteamVR_Actions.p_default_InteractUI = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/InteractUI")));
-            SteamVR_Actions.p_default_Teleport = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/Teleport")));
-            SteamVR_Actions.p_default_GrabPinch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/GrabPinch")));
-            SteamVR_Actions.p_default_GrabGrip = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/GrabGrip")));
-            SteamVR_Actions.p_default_Pose = ((SteamVR_Action_Pose)(SteamVR_Action.Create<SteamVR_Action_Pose>("/actions/default/in/Pose")));
-            SteamVR_Actions.p_default_SkeletonLeftHand = ((SteamVR_Action_Skeleton)(SteamVR_Action.Create<SteamVR_Action_Skeleton>("/actions/default/in/SkeletonLeftHand")));
-            SteamVR_Actions.p_default_SkeletonRightHand = ((SteamVR_Action_Skeleton)(SteamVR_Action.Create<SteamVR_Action_Skeleton>("/actions/default/in/SkeletonRightHand")));
-            SteamVR_Actions.p_default_Squeeze = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/default/in/Squeeze")));
-            SteamVR_Actions.p_default_HeadsetOnHead = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/HeadsetOnHead")));
-            SteamVR_Actions.p_default_Haptic = ((SteamVR_Action_Vibration)(SteamVR_Action.Create<SteamVR_Action_Vibration>("/actions/default/out/Haptic")));
             SteamVR_Actions.p_vRSF_Vive_LeftTriggerClick = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/VRSF_Vive/in/LeftTriggerClick")));
             SteamVR_Actions.p_vRSF_Vive_LeftTouchpadPosition = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/VRSF_Vive/in/LeftTouchpadPosition")));
             SteamVR_Actions.p_vRSF_Vive_LeftGrip = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/VRSF_Vive/in/LeftGrip")));
@@ -416,6 +296,8 @@ namespace Valve.VR
             SteamVR_Actions.p_vRSF_Vive_LeftTouchpadTouch = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/VRSF_Vive/in/LeftTouchpadTouch")));
             SteamVR_Actions.p_vRSF_Vive_RightTriggerPull = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/VRSF_Vive/in/RightTriggerPull")));
             SteamVR_Actions.p_vRSF_Vive_LeftTriggerPull = ((SteamVR_Action_Single)(SteamVR_Action.Create<SteamVR_Action_Single>("/actions/VRSF_Vive/in/LeftTriggerPull")));
+            SteamVR_Actions.p_vRSF_Vive_LeftPose = ((SteamVR_Action_Pose)(SteamVR_Action.Create<SteamVR_Action_Pose>("/actions/VRSF_Vive/in/LeftPose")));
+            SteamVR_Actions.p_vRSF_Vive_RightPose = ((SteamVR_Action_Pose)(SteamVR_Action.Create<SteamVR_Action_Pose>("/actions/VRSF_Vive/in/RightPose")));
             SteamVR_Actions.p_vRSF_Vive_LeftHaptic = ((SteamVR_Action_Vibration)(SteamVR_Action.Create<SteamVR_Action_Vibration>("/actions/VRSF_Vive/out/LeftHaptic")));
             SteamVR_Actions.p_vRSF_Vive_RightHaptic = ((SteamVR_Action_Vibration)(SteamVR_Action.Create<SteamVR_Action_Vibration>("/actions/VRSF_Vive/out/RightHaptic")));
         }

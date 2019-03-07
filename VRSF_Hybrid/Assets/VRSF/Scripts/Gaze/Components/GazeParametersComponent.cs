@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace VRSF.Gaze.Components
+namespace VRSF.Gaze
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(GazeCalculationsComponent))]
     public class GazeParametersComponent : MonoBehaviour

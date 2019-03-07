@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using UnityEditorInternal;
 
 namespace VRSF.Editor

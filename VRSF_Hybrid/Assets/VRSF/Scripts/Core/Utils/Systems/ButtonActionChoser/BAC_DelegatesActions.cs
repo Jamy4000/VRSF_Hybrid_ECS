@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Utils.Components.ButtonActionChoser;
 
-namespace VRSF.Utils.Systems.ButtonActionChoser
+namespace VRSF.Utils.ButtonActionChoser
 {
     public class BAC_DelegatesActions
     {

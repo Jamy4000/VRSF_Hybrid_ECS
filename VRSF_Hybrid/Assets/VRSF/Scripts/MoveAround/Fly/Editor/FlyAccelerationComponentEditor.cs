@@ -1,9 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using VRSF.MoveAround.Components;
-using VRSF.Utils.Editor;
 
-namespace VRSF.MoveAround.Editor
+namespace VRSF.MoveAround.Fly
 {
     /// <summary>
     /// Just add a message to the user to let him know where the parameters are set.
@@ -30,7 +28,6 @@ namespace VRSF.MoveAround.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
             ShowFlyingParameters();
         }
 

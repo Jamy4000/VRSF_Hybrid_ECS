@@ -3,9 +3,8 @@ using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Core.Inputs;
-using VRSF.Utils.Components.ButtonActionChoser;
 
-namespace VRSF.Utils.Systems.ButtonActionChoser
+namespace VRSF.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Handle the update for when you want to delay or stop a Button Action Update System feature before or after a timer.

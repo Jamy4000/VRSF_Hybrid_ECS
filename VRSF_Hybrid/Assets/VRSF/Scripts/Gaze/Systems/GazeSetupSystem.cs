@@ -1,10 +1,10 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VRSF.Core.Gaze;
 using VRSF.Core.SetupVR;
-using VRSF.Gaze.Components;
 
-namespace VRSF.Gaze.Systems
+namespace VRSF.Gaze
 {
     public class GazeSetupSystem : ComponentSystem
     {

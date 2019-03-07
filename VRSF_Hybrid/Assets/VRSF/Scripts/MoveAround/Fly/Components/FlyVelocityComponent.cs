@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using VRSF.Utils.Components;
+using VRSF.Core.Raycast;
 
-namespace VRSF.MoveAround.Components
+namespace VRSF.MoveAround.Fly
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ScriptableRaycastComponent), typeof(FlyAccelerationComponent))]
     public class FlyVelocityComponent : MonoBehaviour

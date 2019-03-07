@@ -8,11 +8,12 @@ namespace VRSF.Core.Inputs
     {
         public static ViveInputParameters LeftInputParam;
 
+        private static bool _triggerIsTouching;
+
         #region TRIGGER
         public static void OnLeftTriggerDown(SteamVR_Action_Boolean action, SteamVR_Input_Sources source)
         {
             LeftInputParam.ClickBools.Get("TriggerIsDown").SetValue(true);
-            LeftInputParam.TouchBools.Get("TriggerIsTouching").SetValue(false);
             new ButtonClickEvent(EHand.LEFT, EControllersButton.TRIGGER);
         }
 
@@ -20,22 +21,6 @@ namespace VRSF.Core.Inputs
         {
             LeftInputParam.ClickBools.Get("TriggerIsDown").SetValue(false);
             new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TRIGGER);
-        }
-
-        public static void OnLeftTriggerTouch(SteamVR_Action_Single action, SteamVR_Input_Sources source, float newAxis, float newDelta)
-        {
-            LeftInputParam.ClickBools.Get("TriggerIsDown").SetValue(false);
-
-            if (newAxis > 0)
-            {
-                LeftInputParam.TouchBools.Get("TriggerIsTouching").SetValue(true);
-                new ButtonTouchEvent(EHand.LEFT, EControllersButton.TRIGGER);
-            }
-            else
-            {
-                LeftInputParam.TouchBools.Get("TriggerIsTouching").SetValue(false);
-                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TRIGGER);
-            }
         }
         #endregion TRIGGER
 

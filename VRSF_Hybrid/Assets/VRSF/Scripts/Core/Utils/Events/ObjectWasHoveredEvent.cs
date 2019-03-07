@@ -1,10 +1,12 @@
-﻿using EventCallbacks;
-using UnityEngine;
-using VRSF.Controllers;
+﻿using UnityEngine;
+using VRSF.Core.Controllers;
 
-namespace VRSF.Utils.Events
+namespace VRSF.Core.Events
 {
-    public class ObjectWasHoveredEvent : Event<ObjectWasHoveredEvent>
+    /// <summary>
+    /// Event raised when an object is hovered by the laser
+    /// </summary>
+    public class ObjectWasHoveredEvent : EventCallbacks.Event<ObjectWasHoveredEvent>
     {
         public readonly Transform ObjectHovered;
         public readonly EHand HandHovering;

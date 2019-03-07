@@ -2,7 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -43,7 +43,7 @@ namespace VRSF.MoveAround.Teleport
         {
             foreach (var e in GetEntities<Filter>())
             {
-                e.PointerObjects._ControllerPointer = e.BACGeneral.ButtonHand == Controllers.EHand.LEFT ?
+                e.PointerObjects._ControllerPointer = e.BACGeneral.ButtonHand == Core.Controllers.EHand.LEFT ?
                     VRSF_Components.LeftController.GetComponentInChildren<LineRenderer>() :
                     VRSF_Components.RightController.GetComponentInChildren<LineRenderer>();
 

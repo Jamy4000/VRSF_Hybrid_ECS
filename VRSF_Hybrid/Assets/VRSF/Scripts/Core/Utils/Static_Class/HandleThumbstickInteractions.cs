@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using VRSF.Core.Inputs;
 
-namespace VRSF.Utils.Systems.ButtonActionChoser
+namespace VRSF.Utils.ButtonActionChoser
 {
     public static class HandleThumbPosition
     {

@@ -30,7 +30,7 @@ namespace VRSF.Core.SetupVR
         [Header("VR Device Parameters.")]
         [Tooltip("The Device you want to load.")]
         [SerializeField]
-        public Utils.EDevice DeviceToLoad = Utils.EDevice.NULL;
+        public EDevice DeviceToLoad = EDevice.NULL;
 
         [Tooltip("If false, the device to load will be set with your Editor choice or with a potential starting screen choice.")]
         [SerializeField]

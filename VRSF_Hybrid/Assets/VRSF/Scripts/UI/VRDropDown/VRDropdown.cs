@@ -1,9 +1,9 @@
 ﻿using ScriptableFramework.Util;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
-using VRSF.Utils.Events;
 using System.Collections.Generic;
+using VRSF.Core.Events;
 
 namespace VRSF.UI
 {

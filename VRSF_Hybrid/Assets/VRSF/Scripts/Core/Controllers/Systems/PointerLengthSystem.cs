@@ -1,23 +1,18 @@
-﻿using ScriptableFramework.Variables;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Controllers.Components;
-using VRSF.Interactions;
-using VRSF.Utils;
-using VRSF.Utils.Components;
 
-namespace VRSF.Controllers.Systems
+namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// Handle the Length of the Pointer depending on if the raycast is hitting something
     /// </summary>
-    [UpdateAfter(typeof(Utils.Systems.PointerRaycastSystems))]
+    [UpdateAfter(typeof(Raycast.PointerRaycastSystems))]
     public class PointerLengthSystem : ComponentSystem
     {
         struct Filter
         {
             public ControllerPointerComponents PointerComp;
-            public ScriptableRaycastComponent RaycastComp;
+            public Raycast.ScriptableRaycastComponent RaycastComp;
             public LineRenderer PointerRenderer;
         }
 

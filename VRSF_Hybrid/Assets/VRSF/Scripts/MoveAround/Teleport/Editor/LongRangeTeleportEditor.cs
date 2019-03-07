@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine.UI;
-using VRSF.MoveAround.Teleport.Components;
 
-namespace VRSF.MoveAround.Teleport.Editor
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Display the parameters for the LongRangeTeleport Component

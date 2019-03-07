@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.MoveAround.Components
+namespace VRSF.MoveAround.Fly
 {
     /// <summary>
     /// Contains all references to the fly variables that are not in the FlyingParametersVariable already.

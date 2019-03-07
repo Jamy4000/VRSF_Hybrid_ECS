@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
-using VRSF.MoveAround.Teleport.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.MoveAround.Teleport.Systems
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Used to display a Slider and Text on the User's controller when loading the LongRangeTeleport feature

@@ -1,7 +1,8 @@
-﻿using ScriptableFramework.Variables;
+﻿using ScriptableFramework.RuntimeSet;
+using ScriptableFramework.Variables;
 using UnityEngine;
 
-namespace ScriptableFramework.RuntimeSet
+namespace VRSF.Core.Inputs
 {
     [CreateAssetMenu(menuName = "RuntimeSet/Dictionnary/VRInputsBool")]
     public class VRInputsBoolean : RuntimeDictionnary<string, BoolVariable>

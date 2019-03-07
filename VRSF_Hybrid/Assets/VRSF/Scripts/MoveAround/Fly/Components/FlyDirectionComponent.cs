@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRSF.MoveAround.Components
+namespace VRSF.MoveAround.Fly
 {
     [RequireComponent(typeof(FlyBoundariesComponent))]
     public class FlyDirectionComponent : MonoBehaviour

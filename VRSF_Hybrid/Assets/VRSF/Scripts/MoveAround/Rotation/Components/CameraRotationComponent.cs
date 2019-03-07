@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Components
 {

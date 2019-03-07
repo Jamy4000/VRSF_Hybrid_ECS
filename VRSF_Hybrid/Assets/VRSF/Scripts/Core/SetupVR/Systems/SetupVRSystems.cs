@@ -3,9 +3,8 @@ using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Core.Utils;
 
 namespace VRSF.Core.SetupVR
 {
@@ -20,6 +19,7 @@ namespace VRSF.Core.SetupVR
         }
 
         private ControllersParametersVariable _controllersParameters;
+
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -55,6 +55,13 @@ namespace VRSF.Core.SetupVR
         {
             base.OnDestroyManager();
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            switch (VRSF_Components.DeviceLoaded)
+            {
+                case EDevice.HTC_VIVE:
+                    ViveControllersInputCaptureSystem.UnregisterLeftListeners();
+                    ViveControllersInputCaptureSystem.UnregisterRightListeners();
+                    break;
+            }
         }
         #endregion
 
@@ -123,6 +130,7 @@ namespace VRSF.Core.SetupVR
                     VRSF_Components.CameraRig = GameObject.Instantiate(setupVR.OpenVR_SDK);
                     VRSF_Components.CameraRig.transform.name = setupVR.OpenVR_SDK.name;
                     VRSF_Components.DeviceLoaded = EDevice.HTC_VIVE;
+                    ViveControllersInputCaptureSystem.SetupControllersParameters(VRSF_Components.CameraRig.GetComponent<ViveControllersInputCaptureComponent>());
                     break;
 
                 case (EDevice.SIMULATOR):

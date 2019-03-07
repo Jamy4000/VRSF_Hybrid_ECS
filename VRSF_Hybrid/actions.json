@@ -1,50 +1,6 @@
 {
   "actions": [
     {
-      "name": "/actions/default/in/InteractUI",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/Teleport",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/GrabPinch",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/GrabGrip",
-      "type": "boolean"
-    },
-    {
-      "name": "/actions/default/in/Pose",
-      "type": "pose"
-    },
-    {
-      "name": "/actions/default/in/SkeletonLeftHand",
-      "type": "skeleton",
-      "skeleton": "/skeleton/hand/left"
-    },
-    {
-      "name": "/actions/default/in/SkeletonRightHand",
-      "type": "skeleton",
-      "skeleton": "/skeleton/hand/right"
-    },
-    {
-      "name": "/actions/default/in/Squeeze",
-      "type": "vector1",
-      "requirement": "optional"
-    },
-    {
-      "name": "/actions/default/in/HeadsetOnHead",
-      "type": "boolean",
-      "requirement": "optional"
-    },
-    {
-      "name": "/actions/default/out/Haptic",
-      "type": "vibration"
-    },
-    {
       "name": "/actions/VRSF_Vive/in/LeftTriggerClick",
       "type": "boolean",
       "requirement": "mandatory"
@@ -105,6 +61,16 @@
       "type": "vector1"
     },
     {
+      "name": "/actions/VRSF_Vive/in/LeftPose",
+      "type": "pose",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/VRSF_Vive/in/RightPose",
+      "type": "pose",
+      "requirement": "mandatory"
+    },
+    {
       "name": "/actions/VRSF_Vive/out/LeftHaptic",
       "type": "vibration"
     },
@@ -114,10 +80,6 @@
     }
   ],
   "action_sets": [
-    {
-      "name": "/actions/default",
-      "usage": "single"
-    },
     {
       "name": "/actions/VRSF_Vive",
       "usage": "leftright"

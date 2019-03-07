@@ -1,7 +1,4 @@
-﻿using Unity.Entities;
-using UnityEngine;
-using VRSF.Core.SetupVR;
-using Valve.VR;
+﻿using Valve.VR;
 
 namespace VRSF.Core.Inputs
 {
@@ -9,63 +6,35 @@ namespace VRSF.Core.Inputs
     /// Script attached to the ViveSDK Prefab.
     /// Set the GameEvent depending on the Vive Inputs.
     /// </summary>
-    public class ViveControllersInputCaptureSystem : ComponentSystem
+    public static class ViveControllersInputCaptureSystem
     {
-        struct ViveFilter
-        {
-            public ViveControllersInputCaptureComponent ViveInputCapture;
-        }
-
-        #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            OnSetupVRReady.RegisterListener(SetupControllersParameters);
-        }
-
-        protected override void OnDestroyManager()
-        {
-            base.OnDestroyManager();
-            OnSetupVRReady.UnregisterListener(SetupControllersParameters);
-            UnregisterLeftListeners();
-            UnregisterRightListeners();
-        }
-
-        protected override void OnUpdate() {}
-        #endregion
-
-
         #region PRIVATE_METHODS
         /// <summary>
         /// Setup the two controllers parameters to use in the CheckControllersInput method.
         /// </summary>
         /// <param name="viveInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
-        private void SetupControllersParameters(OnSetupVRReady setupVREnded)
+        public static void SetupControllersParameters(ViveControllersInputCaptureComponent InputCaptureComp)
         {
-            foreach (var e in GetEntities<ViveFilter>())
+            // We give the references to the Scriptable variable containers in the Left Parameters variable
+            InputCaptureComp.LeftParameters = new ViveInputParameters
             {
-                // We give the references to the Scriptable variable containers in the Left Parameters variable
-                e.ViveInputCapture.LeftParameters = new ViveInputParameters
-                {
-                    ClickBools = InputVariableContainer.Instance.LeftClickBoolean,
-                    TouchBools = InputVariableContainer.Instance.LeftTouchBoolean,
-                    ThumbPosition = InputVariableContainer.Instance.LeftThumbPosition
-                };
+                ClickBools = InputVariableContainer.Instance.LeftClickBoolean,
+                TouchBools = InputVariableContainer.Instance.LeftTouchBoolean,
+                ThumbPosition = InputVariableContainer.Instance.LeftThumbPosition
+            };
 
-                // We give the references to the Scriptable variable containers in the Right Parameters variable
-                e.ViveInputCapture.RightParameters = new ViveInputParameters
-                {
-                    ClickBools = InputVariableContainer.Instance.RightClickBoolean,
-                    TouchBools = InputVariableContainer.Instance.RightTouchBoolean,
-                    ThumbPosition = InputVariableContainer.Instance.RightThumbPosition
-                };
+            // We give the references to the Scriptable variable containers in the Right Parameters variable
+            InputCaptureComp.RightParameters = new ViveInputParameters
+            {
+                ClickBools = InputVariableContainer.Instance.RightClickBoolean,
+                TouchBools = InputVariableContainer.Instance.RightTouchBoolean,
+                ThumbPosition = InputVariableContainer.Instance.RightThumbPosition
+            };
 
-                RegisterLeftListeners(e.ViveInputCapture.LeftParameters);
-                RegisterRightListeners(e.ViveInputCapture.RightParameters);
+            RegisterLeftListeners(InputCaptureComp.LeftParameters);
+            RegisterRightListeners(InputCaptureComp.RightParameters);
 
-                e.ViveInputCapture.ControllersParametersSetup = true;
-            }
+            InputCaptureComp.ControllersParametersSetup = true;
 
             void RegisterLeftListeners(ViveInputParameters viveInputParam)
             {
@@ -74,7 +43,6 @@ namespace VRSF.Core.Inputs
                 #region TRIGGER
                 SteamVR_Actions.vRSF_Vive_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftTriggerDown;
                 SteamVR_Actions.vRSF_Vive_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftTriggerUp;
-                SteamVR_Actions.vRSF_Vive_LeftTriggerPull[SteamVR_Input_Sources.Any].onAxis += ViveLeftHandInputListeners.OnLeftTriggerTouch;
                 #endregion TRIGGER
 
                 #region GRIP
@@ -105,7 +73,6 @@ namespace VRSF.Core.Inputs
                 #region TRIGGER
                 SteamVR_Actions.vRSF_Vive_RightTriggerClick[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightTriggerDown;
                 SteamVR_Actions.vRSF_Vive_RightTriggerClick[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightTriggerUp;
-                SteamVR_Actions.vRSF_Vive_RightTriggerPull[SteamVR_Input_Sources.Any].onAxis += ViveRightHandInputListeners.OnRightTriggerTouch;
                 #endregion TRIGGER
 
                 #region GRIP
@@ -131,12 +98,11 @@ namespace VRSF.Core.Inputs
         }
 
 
-        void UnregisterLeftListeners()
+        public static void UnregisterLeftListeners()
         {
             #region TRIGGER
             SteamVR_Actions.vRSF_Vive_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftTriggerDown;
             SteamVR_Actions.vRSF_Vive_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftTriggerUp;
-            SteamVR_Actions.vRSF_Vive_LeftTriggerPull[SteamVR_Input_Sources.Any].onAxis -= ViveLeftHandInputListeners.OnLeftTriggerTouch;
             #endregion TRIGGER
 
             #region GRIP
@@ -160,12 +126,11 @@ namespace VRSF.Core.Inputs
             #endregion MENU
         }
 
-        void UnregisterRightListeners()
+        public static void UnregisterRightListeners()
         {
             #region TRIGGER
             SteamVR_Actions.vRSF_Vive_RightTriggerClick[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightTriggerDown;
             SteamVR_Actions.vRSF_Vive_RightTriggerClick[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightTriggerUp;
-            SteamVR_Actions.vRSF_Vive_RightTriggerPull[SteamVR_Input_Sources.Any].onAxis -= ViveRightHandInputListeners.OnRightTriggerTouch;
             #endregion TRIGGER
 
             #region GRIP

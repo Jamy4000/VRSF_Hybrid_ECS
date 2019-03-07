@@ -1,5 +1,4 @@
-﻿using ScriptableFramework.RuntimeSet;
-using ScriptableFramework.Variables;
+﻿using ScriptableFramework.Variables;
 
 namespace VRSF.Core.Inputs
 {

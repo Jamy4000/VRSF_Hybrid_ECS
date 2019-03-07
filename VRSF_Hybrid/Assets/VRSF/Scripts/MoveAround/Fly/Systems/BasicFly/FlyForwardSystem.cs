@@ -1,8 +1,7 @@
 ﻿using Unity.Entities;
-using VRSF.MoveAround.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.MoveAround.Systems
+namespace VRSF.MoveAround.Fly
 {
     /// <summary>
     /// If the user is interacting, calculate if we fly forward or backward

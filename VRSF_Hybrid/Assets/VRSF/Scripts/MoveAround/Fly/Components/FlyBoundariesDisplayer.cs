@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using VRSF.MoveAround.Components;
 
-namespace VRSF.MoveAround
+namespace VRSF.MoveAround.Fly
 {
     /// <summary>
     /// Display lines for the Fly Boundaries in Edit Mode.

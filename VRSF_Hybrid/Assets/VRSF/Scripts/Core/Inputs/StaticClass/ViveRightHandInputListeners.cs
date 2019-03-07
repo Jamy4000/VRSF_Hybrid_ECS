@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Valve.VR;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 
 namespace VRSF.Core.Inputs
 {
@@ -12,7 +12,6 @@ namespace VRSF.Core.Inputs
         public static void OnRightTriggerDown(SteamVR_Action_Boolean action, SteamVR_Input_Sources source)
         {
             RightInputParam.ClickBools.Get("TriggerIsDown").SetValue(true);
-            RightInputParam.TouchBools.Get("TriggerIsTouching").SetValue(false);
             new ButtonClickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
         }
 
@@ -20,22 +19,6 @@ namespace VRSF.Core.Inputs
         {
             RightInputParam.ClickBools.Get("TriggerIsDown").SetValue(false);
             new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
-        }
-
-        public static void OnRightTriggerTouch(SteamVR_Action_Single action, SteamVR_Input_Sources source, float newAxis, float newDelta)
-        {
-            RightInputParam.ClickBools.Get("TriggerIsDown").SetValue(false);
-
-            if (newAxis > 0)
-            {
-                RightInputParam.TouchBools.Get("TriggerIsTouching").SetValue(true);
-                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
-            }
-            else
-            {
-                RightInputParam.TouchBools.Get("TriggerIsTouching").SetValue(false);
-                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
-            }
         }
         #endregion TRIGGER
 

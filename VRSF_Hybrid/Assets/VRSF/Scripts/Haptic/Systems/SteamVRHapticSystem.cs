@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Inputs;
 
-namespace VRSF.Controllers.Haptic
+namespace VRSF.Core.Controllers.Haptic
 {
     /// <summary>
     /// When raising the OnHapticRequestedEvent, if the user is using SteamVR, we trigger an haptic pulse in the requested controller.
@@ -17,8 +17,6 @@ namespace VRSF.Controllers.Haptic
         {
             base.OnStartRunning();
             OnHapticRequestedEvent.RegisterListener(OnHapticEventCallback);
-
-            this.Enabled = false;
         }
 
         protected override void OnUpdate() { }
@@ -35,14 +33,13 @@ namespace VRSF.Controllers.Haptic
         /// <param name="onHapticRequested"></param>
         private void OnHapticEventCallback(OnHapticRequestedEvent onHapticRequested)
         {
-            //foreach (var e in GetEntities<Filter>())
-            //{
-            //    if (onHapticRequested.Hand == EHand.LEFT)
-            //        e.ViveInputCaptureComp.LeftController.TriggerHapticPulse((ushort)onHapticRequested.HapticForce);
-            //    else
-            //        e.ViveInputCaptureComp.RightController.TriggerHapticPulse((ushort)onHapticRequested.HapticForce);
-            //}
-            UnityEngine.Debug.LogError("TODO : Redo HAPTIC SteamVR");
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (onHapticRequested.Hand == EHand.LEFT)
+                    e.ViveInputCaptureComp.LeftControllerHaptic.Execute(0, onHapticRequested.HapticDuration, onHapticRequested.HapticFrequency, onHapticRequested.HapticAmplitude, Valve.VR.SteamVR_Input_Sources.LeftHand);
+                else
+                    e.ViveInputCaptureComp.RightControllerHaptic.Execute(0, onHapticRequested.HapticDuration, onHapticRequested.HapticFrequency, onHapticRequested.HapticAmplitude, Valve.VR.SteamVR_Input_Sources.RightHand);
+            }
         }
     }
 }

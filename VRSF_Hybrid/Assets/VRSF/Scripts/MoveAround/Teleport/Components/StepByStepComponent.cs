@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using VRSF.Utils.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.MoveAround.Teleport.Components
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Contains all variable necessary for the StepByStepSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(BACGeneralComponent), typeof(ScriptableRaycastComponent))]
+    [RequireComponent(typeof(BACGeneralComponent), typeof(Core.Raycast.ScriptableRaycastComponent))]
     public class StepByStepComponent : MonoBehaviour
     {
         [Header("Teleport Step by Step Parameters")]

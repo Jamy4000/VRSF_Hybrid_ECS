@@ -2,8 +2,7 @@
 using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
 using VRSF.MoveAround.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Systems
 {

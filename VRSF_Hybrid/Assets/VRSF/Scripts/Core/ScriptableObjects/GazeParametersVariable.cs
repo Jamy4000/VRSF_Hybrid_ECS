@@ -1,9 +1,9 @@
 ﻿using ScriptableFramework.Util;
-using VRSF.Controllers;
 using UnityEngine;
 using VRSF.Core.Inputs;
+using VRSF.Core.Controllers;
 
-namespace VRSF.Gaze
+namespace VRSF.Core.Gaze
 {
     /// <summary>
     /// Contain all the parameters for the Gaze Reticle 

@@ -356,7 +356,6 @@ MonoBehaviour:
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
@@ -374,8 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanTeleport: 0
-  PointToGoTo: {x: 0, y: 0, z: 0}
+  IsUsingFadingEffect: 1
 --- !u!1 &1327966388754566
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,11 +545,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce57b6e5818785648a04257bc130caec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _RightHandPointer: {fileID: 0}
-  _LeftHandPointer: {fileID: 0}
-  _RightParticles: []
-  _LeftParticles: []
-  _IsSetup: 0
+  _PointerState: 0
+  OptionalLasersObjects:
+    PointersParticles: []
+    PointersEndPoint: {fileID: 0}
+  IsSetup: 0
 --- !u!114 &114219099687469600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,8 +774,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RayOrigin: 2
+  RayOriginTransform: {fileID: 0}
+  IgnoredLayers:
+    serializedVersion: 2
+    m_Bits: 0
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+  CheckRaycast: 0
+  IsSetup: 0
 --- !u!114 &114166374848619496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,7 +804,6 @@ MonoBehaviour:
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
@@ -871,8 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanTeleport: 0
-  PointToGoTo: {x: 0, y: 0, z: 0}
+  IsUsingFadingEffect: 1
 --- !u!114 &114071907752965034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +959,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de88c2fe982bf3458ecd418e8e17fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OpenVR_SDK: {fileID: 1408279940332776, guid: 24056e5b3a9112e4ca14413a2e817414, type: 3}
+  OpenVR_SDK: {fileID: 3826804290082629976, guid: dc854d2610fa0334d9a77161578d4ed4,
+    type: 3}
   Rift_SDK: {fileID: 1197328801160216, guid: e8fead88eec9edd4dbc470366c3bdccc, type: 3}
   PortableOVR_SDK: {fileID: 1197328801160216, guid: c6dfd8b628d7a57468a0a866c2141995,
     type: 3}
@@ -1203,6 +1206,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceStepByStep: 1
+  TeleportNavMeshBuildIndex: 0
+  StepHeight: 0.5
 --- !u!114 &114665731632834278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1216,8 +1221,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RayOrigin: 2
+  RayOriginTransform: {fileID: 0}
+  IgnoredLayers:
+    serializedVersion: 2
+    m_Bits: 0
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+  CheckRaycast: 0
+  IsSetup: 0
 --- !u!114 &114420286055954568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,7 +1251,6 @@ MonoBehaviour:
   UntouchedEventWasRaised: 0
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
-  IsUsingPortableOVRButton: 0
   IsUsingViveButton: 0
   IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
@@ -1323,8 +1333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanTeleport: 0
-  PointToGoTo: {x: 0, y: 0, z: 0}
+  IsUsingFadingEffect: 1
 --- !u!114 &114151580137043084
 MonoBehaviour:
   m_ObjectHideFlags: 0

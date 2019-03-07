@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -24,18 +25,12 @@ MonoBehaviour:
     type: 2}
   HasClickSomethingGaze: {fileID: 11400000, guid: d5394cbe21ad8ae45b561f17c385456a,
     type: 2}
-  RightObjectWasClicked: {fileID: 11400000, guid: d950e288b5a70f94e996d9d436b42c57,
-    type: 2}
-  LeftObjectWasClicked: {fileID: 11400000, guid: 15ddfd9adffbaa74da38eada75f74d63,
-    type: 2}
-  GazeObjectWasClicked: {fileID: 11400000, guid: 80b7c4c0489ac954d9c9cf6ab954e431,
-    type: 2}
-  RightOverObject: {fileID: 11400000, guid: 727e4033ea83fee43a190ca7f021c4e2, type: 2}
-  LeftOverObject: {fileID: 11400000, guid: 1d0f1345b760b4d40b2f15fc143005ef, type: 2}
-  GazeOverObject: {fileID: 11400000, guid: 3c6a71e81ab29f24c9b1b0ec66411bdc, type: 2}
   IsOverSomethingRight: {fileID: 11400000, guid: e4af7546d84d07a4eabe05d5d54a7986,
     type: 2}
   IsOverSomethingLeft: {fileID: 11400000, guid: 0daffa7486ad84748897c181625ce7b7,
     type: 2}
   IsOverSomethingGaze: {fileID: 11400000, guid: e02255ccfbf76d948a328cfb0301b382,
     type: 2}
+  PreviousRightHit: {fileID: 0}
+  PreviousLeftHit: {fileID: 0}
+  PreviousGazeHit: {fileID: 0}

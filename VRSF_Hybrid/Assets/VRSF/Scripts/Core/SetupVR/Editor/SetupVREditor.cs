@@ -1,9 +1,8 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
-using VRSF.Utils.Components;
 
-namespace VRSF.Utils.Editor
+namespace VRSF.Core.SetupVR
 {
     /// <summary>
     /// Script to add some Editor feature for the SetupVR GameObject.
@@ -47,7 +46,7 @@ namespace VRSF.Utils.Editor
                 return;
             }
 
-            setupVRPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/SetupVR.prefab");
+            setupVRPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/Core/SetupVR.prefab");
 
             // Create a custom game object
             GameObject setupVR = PrefabUtility.InstantiatePrefab(setupVRPrefab) as GameObject;

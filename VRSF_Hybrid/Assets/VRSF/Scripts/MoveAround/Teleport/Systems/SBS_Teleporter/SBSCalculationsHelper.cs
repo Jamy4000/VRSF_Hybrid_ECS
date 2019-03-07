@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.Core.SetupVR;
 
-namespace VRSF.MoveAround.Teleport.Systems
+namespace VRSF.MoveAround.Teleport
 {
     /// <summary>
     /// Calculations helper for the Step by Step feature.

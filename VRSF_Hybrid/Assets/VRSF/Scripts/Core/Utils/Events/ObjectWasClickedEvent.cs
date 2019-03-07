@@ -1,10 +1,12 @@
-﻿using EventCallbacks;
-using UnityEngine;
-using VRSF.Controllers;
+﻿using UnityEngine;
+using VRSF.Core.Controllers;
 
-namespace VRSF.Utils.Events
+namespace VRSF.Core.Events
 {
-    public class ObjectWasClickedEvent : Event<ObjectWasClickedEvent>
+    /// <summary>
+    /// Event raised when an object is clicked with the Trigger
+    /// </summary>
+    public class ObjectWasClickedEvent : EventCallbacks.Event<ObjectWasClickedEvent>
     {
         public readonly Transform ObjectClicked;
         public readonly EHand HandClicking;

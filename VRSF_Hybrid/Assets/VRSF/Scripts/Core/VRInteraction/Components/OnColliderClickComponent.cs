@@ -1,7 +1,7 @@
 ﻿using ScriptableFramework.Variables;
 using UnityEngine;
 
-namespace VRSF.Interactions.Components
+namespace VRSF.Core.Interactions
 {
     /// <summary>
     /// Contains the variables for the OnColliderClickSystems

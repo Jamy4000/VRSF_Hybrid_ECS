@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-public class RiftGazeInputCaptureComponent : MonoBehaviour
+namespace VRSF.Gaze.Inputs
 {
-    // Wheter we check the Gaze Button or not
-    [HideInInspector] public bool CheckGazeInteractions;
+    public class RiftGazeInputCaptureComponent : MonoBehaviour
+    {
+        // Wheter we check the Gaze Button or not
+        [HideInInspector] public bool CheckGazeInteractions;
+    }
 }

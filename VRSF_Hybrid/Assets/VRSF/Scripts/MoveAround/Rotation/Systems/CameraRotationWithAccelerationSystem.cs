@@ -2,10 +2,10 @@
 using UnityEngine;
 using VRSF.Core.SetupVR;
 using VRSF.MoveAround.Components;
-using VRSF.Utils.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Raycast;
 
-namespace VRSF.MoveAround.Systems
+namespace VRSF.MoveAround.Rotate
 {
     public class CameraRotationWithAccelerationSystem : ComponentSystem
     {

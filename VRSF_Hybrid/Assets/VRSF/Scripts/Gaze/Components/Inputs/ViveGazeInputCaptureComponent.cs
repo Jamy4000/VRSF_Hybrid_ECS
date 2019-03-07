@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 
-public class ViveGazeInputCaptureComponent : MonoBehaviour
+namespace VRSF.Gaze.Inputs
 {
-    // TODO
-    //[Header("The References to the SteamVR Devices")]
-    //[HideInInspector] public SteamVR_Controller.Device GazeController;
-
-    [HideInInspector] public bool CheckGazeInteractions;
-    [HideInInspector] public bool GazeReferencesSetup = false;
+    public class ViveGazeInputCaptureComponent : MonoBehaviour
+    {
+        [HideInInspector] public bool CheckGazeInteractions;
+        [HideInInspector] public bool GazeReferencesSetup = false;
+    }
 }

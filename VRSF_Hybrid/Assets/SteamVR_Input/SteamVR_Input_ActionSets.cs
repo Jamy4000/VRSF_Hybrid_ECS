@@ -17,17 +17,7 @@ namespace Valve.VR
     public partial class SteamVR_Actions
     {
         
-        private static SteamVR_Input_ActionSet_default p__default;
-        
         private static SteamVR_Input_ActionSet_VRSF_Vive p_VRSF_Vive;
-        
-        public static SteamVR_Input_ActionSet_default _default
-        {
-            get
-            {
-                return SteamVR_Actions.p__default.GetCopy<SteamVR_Input_ActionSet_default>();
-            }
-        }
         
         public static SteamVR_Input_ActionSet_VRSF_Vive VRSF_Vive
         {
@@ -39,10 +29,8 @@ namespace Valve.VR
         
         private static void StartPreInitActionSets()
         {
-            SteamVR_Actions.p__default = ((SteamVR_Input_ActionSet_default)(SteamVR_ActionSet.Create<SteamVR_Input_ActionSet_default>("/actions/default")));
             SteamVR_Actions.p_VRSF_Vive = ((SteamVR_Input_ActionSet_VRSF_Vive)(SteamVR_ActionSet.Create<SteamVR_Input_ActionSet_VRSF_Vive>("/actions/VRSF_Vive")));
             Valve.VR.SteamVR_Input.actionSets = new Valve.VR.SteamVR_ActionSet[] {
-                    SteamVR_Actions._default,
                     SteamVR_Actions.VRSF_Vive};
         }
     }

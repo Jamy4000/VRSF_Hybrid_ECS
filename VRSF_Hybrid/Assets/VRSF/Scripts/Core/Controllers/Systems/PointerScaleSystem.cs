@@ -1,8 +1,7 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers.Components;
 using VRSF.Core.SetupVR;
 
-namespace VRSF.Controllers.Systems
+namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// Handle the Scale of the pointer depending on the user's scale.

@@ -2,15 +2,13 @@
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using VRSF.Controllers;
-using VRSF.Gaze;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Utils.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
 using VRSF.Core.SetupVR;
-using VRSF.Core.Utils;
+using VRSF.Core.Gaze;
 
-namespace VRSF.Utils.Systems.ButtonActionChoser
+namespace VRSF.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Setup the Action button Parameter that the user has chosen and check the parameters linked to it (Like the thumb position for a Thumbstick button)

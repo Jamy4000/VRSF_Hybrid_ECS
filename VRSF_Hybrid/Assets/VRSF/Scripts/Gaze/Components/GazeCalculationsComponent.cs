@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRSF.Gaze.Components
+namespace VRSF.Gaze
 {
     /// <summary>
     /// Contains all the variable to calculate the Gaze size, rotation and position.

@@ -1,6 +1,6 @@
 ﻿using ScriptableFramework.Variables;
 using UnityEngine;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 
 namespace VRSF.Core.Raycast
 {

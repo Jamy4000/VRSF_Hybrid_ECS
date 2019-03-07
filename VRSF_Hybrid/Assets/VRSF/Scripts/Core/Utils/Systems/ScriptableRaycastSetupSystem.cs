@@ -1,11 +1,10 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using VRSF.Controllers;
+using VRSF.Core.Controllers;
 using VRSF.Core.SetupVR;
 using VRSF.Interactions;
-using VRSF.Utils.Components;
 
-namespace VRSF.Utils.Systems
+namespace VRSF.Core.Raycast
 {
     /// <summary>
     /// Setup the references for the left, right or gaze Ray and RaycastHit Scriptable Variables depending on the RayOrigin Chosed in the ButtonActionChoserComponent

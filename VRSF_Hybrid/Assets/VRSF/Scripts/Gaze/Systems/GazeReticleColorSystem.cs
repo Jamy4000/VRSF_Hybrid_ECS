@@ -1,9 +1,9 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers;
-using VRSF.Gaze.Components;
+using VRSF.Core.Controllers;
+using VRSF.Core.Gaze;
 using VRSF.Interactions;
 
-namespace VRSF.Gaze.Systems
+namespace VRSF.Gaze.Utils
 {
     /// <summary>
     /// System to handle the color of the gaze if we use different states, like for the controllers (ON, OFF and SELECTABLE)

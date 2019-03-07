@@ -1,11 +1,11 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
-using VRSF.Controllers;
-using VRSF.Gaze;
-using VRSF.Inputs;
-using VRSF.Utils.Components.ButtonActionChoser;
+using VRSF.Core.Controllers;
+using VRSF.Core.Gaze;
+using VRSF.Core.Inputs;
+using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.Utils.Editor
+namespace VRSF.Core.Utils.Editor
 {
     /// <summary>
     /// Handle the Options in the Inspector for the class that extend ButtonActionChoser 
@@ -155,13 +155,7 @@ namespace VRSF.Utils.Editor
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
-
-                case EControllersButton.TRIGGER:
-                    _bacCalculations.ParametersAreInvalid = false;
-                    _leftThumbPosIsShown = false;
-                    _rightThumbPosIsShown = false;
-                    break;
-
+                    
                 case EControllersButton.THUMBSTICK:
                     DisplayThumbPosition(EControllerInteractionType.TOUCH, _buttonActionChoser.ButtonHand);
                     break;

@@ -1,14 +1,17 @@
 ﻿using Unity.Entities;
-using VRSF.Utils.Components;
-using VRSF.Utils.Events;
+using VRSF.Core.Events;
+using VRSF.Core.SetupVR;
 
-namespace VRSF.Interactions.Systems
+namespace VRSF.Core.Interactions
 {
+    /// <summary>
+    /// System raising the events for when the left controller is over something
+    /// </summary>
     public class OnColliderOverLeftSystem : ComponentSystem
     {
         struct Filter
         {
-            public ScriptableRaycastComponent PointerRaycast;
+            public Raycast.ScriptableRaycastComponent PointerRaycast;
             public ScriptableSingletonsComponent ScriptableSingletons;
         }
 

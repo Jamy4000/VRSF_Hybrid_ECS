@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using VRSF.Controllers.Components;
 
 namespace VRSF.MoveAround.Teleport
 {

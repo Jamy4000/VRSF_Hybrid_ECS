@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using VRSF.Controllers;
-using VRSF.Core.Utils;
+using VRSF.Core.Controllers;
 
 namespace VRSF.Core.SetupVR
 {

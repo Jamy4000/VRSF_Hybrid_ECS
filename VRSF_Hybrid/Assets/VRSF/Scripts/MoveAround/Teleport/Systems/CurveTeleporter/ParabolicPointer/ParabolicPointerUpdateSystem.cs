@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using VRSF.Controllers;
-using VRSF.Controllers.Components;
+using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Interactions.Components;
-using VRSF.Utils.Components.ButtonActionChoser;
-using VRSF.Utils.Systems.ButtonActionChoser;
+using VRSF.Core.Interactions;
+using VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {

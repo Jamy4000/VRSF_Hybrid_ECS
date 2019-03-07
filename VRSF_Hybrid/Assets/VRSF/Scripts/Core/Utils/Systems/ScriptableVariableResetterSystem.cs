@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 using VRSF.Interactions;
 
 namespace VRSF.Utils.Systems
@@ -11,13 +11,7 @@ namespace VRSF.Utils.Systems
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
-
-            ResetInputContainer();
-            ResetInteractionContainer();
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-
-            this.Enabled = false;
+            OnSetupVRReady.RegisterListener(Init);
         }
 
         protected override void OnUpdate() { }
@@ -25,39 +19,45 @@ namespace VRSF.Utils.Systems
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            OnSetupVRReady.UnregisterListener(Init);
+        }
+
+        private void Init(OnSetupVRReady setupVRReady)
+        {
+            ResetInputContainer();
+            ResetInteractionContainer();
         }
 
         private void ResetInputContainer()
         {
             var inputContainer = InputVariableContainer.Instance;
 
-            inputContainer?.GazeIsCliking?.SetValue(false);
-            inputContainer?.GazeIsTouching?.SetValue(false);
+            inputContainer.GazeIsCliking?.SetValue(false);
+            inputContainer.GazeIsTouching?.SetValue(false);
 
-            inputContainer?.WheelIsClicking?.SetValue(false);
+            inputContainer.WheelIsClicking?.SetValue(false);
 
-            inputContainer?.RightThumbPosition?.SetValue(new Vector2(0, 0));
-            inputContainer?.LeftThumbPosition?.SetValue(new Vector2(0, 0));
+            inputContainer.RightThumbPosition?.SetValue(new Vector2(0, 0));
+            inputContainer.LeftThumbPosition?.SetValue(new Vector2(0, 0));
             
-            foreach (var entry in inputContainer.RightClickBoolean.Items)
+            foreach (var kvp in inputContainer.RightClickBoolean.Items)
             {
-                entry.Value?.SetValue(false);
+                kvp.Value?.SetValue(false);
             }
 
-            foreach (var entry in inputContainer.LeftClickBoolean.Items)
+            foreach (var kvp in inputContainer.LeftClickBoolean.Items)
             {
-                entry.Value?.SetValue(false);
+                kvp.Value?.SetValue(false);
             }
 
-            foreach (var entry in inputContainer.RightTouchBoolean.Items)
+            foreach (var kvp in inputContainer.RightTouchBoolean.Items)
             {
-                entry.Value?.SetValue(false);
+                kvp.Value?.SetValue(false);
             }
 
-            foreach (var entry in inputContainer.LeftTouchBoolean.Items)
+            foreach (var kvp in inputContainer.LeftTouchBoolean.Items)
             {
-                entry.Value?.SetValue(false);
+                kvp.Value?.SetValue(false);
             }
         }
 
@@ -92,15 +92,6 @@ namespace VRSF.Utils.Systems
             interactionContainer.PreviousRightHit = null;
             interactionContainer.PreviousLeftHit = null;
             interactionContainer.PreviousGazeHit = null;
-        }
-
-        private void OnSceneLoaded(Scene newScene, LoadSceneMode loadMode)
-        {
-            if (loadMode == LoadSceneMode.Single)
-            {
-                ResetInputContainer();
-                ResetInteractionContainer();
-            }
         }
     }
 }

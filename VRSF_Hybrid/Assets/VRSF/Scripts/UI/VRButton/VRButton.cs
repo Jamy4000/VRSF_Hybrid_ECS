@@ -1,7 +1,7 @@
-﻿using VRSF.Controllers;
-using UnityEngine;
-using VRSF.Utils.Events;
+﻿using UnityEngine;
 using System.Collections.Generic;
+using VRSF.Core.Events;
+using VRSF.Core.Controllers;
 
 namespace VRSF.UI
 {

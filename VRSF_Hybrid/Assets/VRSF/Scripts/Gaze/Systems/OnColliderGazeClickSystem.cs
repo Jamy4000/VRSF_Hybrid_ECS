@@ -1,10 +1,11 @@
 ﻿using Unity.Entities;
-using VRSF.Controllers;
-using VRSF.Interactions.Components;
-using VRSF.Utils.Components;
-using VRSF.Utils.Events;
+using VRSF.Core.Controllers;
+using VRSF.Core.Events;
+using VRSF.Core.Interactions;
+using VRSF.Core.Raycast;
+using VRSF.Core.SetupVR;
 
-namespace VRSF.Interactions.Systems
+namespace VRSF.Gaze.Interactions
 {
     public class OnColliderGazeClickSystem : ComponentSystem
     {
