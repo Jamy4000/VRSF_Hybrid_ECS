@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.frameworklab.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "E:\\Arnaud\\VRSF\\VRSF_Hybrid\\VRSF_Hybrid\\actions.json",
+      "action_manifest_path": "F:\\Projects\\VRSF_Hybrid_ECS\\VRSF_Hybrid\\actions.json",
       "strings": {
         "en_us": {
           "name": "FrameworkLab [Testing]"

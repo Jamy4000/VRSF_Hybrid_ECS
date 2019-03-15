@@ -14,14 +14,14 @@ namespace Valve.VR
     using UnityEngine;
     
     
-    public class SteamVR_Input_ActionSet_VRSF_Vive : Valve.VR.SteamVR_ActionSet
+    public class SteamVR_Input_ActionSet_VRSF_Binding : Valve.VR.SteamVR_ActionSet
     {
         
         public virtual SteamVR_Action_Boolean LeftTriggerClick
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftTriggerClick;
+                return SteamVR_Actions.vRSF_Binding_LeftTriggerClick;
             }
         }
         
@@ -29,23 +29,23 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftTouchpadPosition;
+                return SteamVR_Actions.vRSF_Binding_LeftTouchpadPosition;
             }
         }
         
-        public virtual SteamVR_Action_Boolean LeftGrip
+        public virtual SteamVR_Action_Boolean LeftGripClick
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftGrip;
+                return SteamVR_Actions.vRSF_Binding_LeftGripClick;
             }
         }
         
-        public virtual SteamVR_Action_Boolean LeftMenu
+        public virtual SteamVR_Action_Boolean LeftMenuClick
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftMenu;
+                return SteamVR_Actions.vRSF_Binding_LeftMenuClick;
             }
         }
         
@@ -53,15 +53,15 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightTriggerClick;
+                return SteamVR_Actions.vRSF_Binding_RightTriggerClick;
             }
         }
         
-        public virtual SteamVR_Action_Boolean RightGrip
+        public virtual SteamVR_Action_Boolean RightGripClick
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightGrip;
+                return SteamVR_Actions.vRSF_Binding_RightGripClick;
             }
         }
         
@@ -69,7 +69,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightTouchpadPosition;
+                return SteamVR_Actions.vRSF_Binding_RightTouchpadPosition;
             }
         }
         
@@ -77,7 +77,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftTouchpadClick;
+                return SteamVR_Actions.vRSF_Binding_LeftTouchpadClick;
             }
         }
         
@@ -85,7 +85,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightTouchpadClick;
+                return SteamVR_Actions.vRSF_Binding_RightTouchpadClick;
             }
         }
         
@@ -93,7 +93,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightMenu;
+                return SteamVR_Actions.vRSF_Binding_RightMenu;
             }
         }
         
@@ -101,7 +101,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightTouchpadTouch;
+                return SteamVR_Actions.vRSF_Binding_RightTouchpadTouch;
             }
         }
         
@@ -109,7 +109,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftTouchpadTouch;
+                return SteamVR_Actions.vRSF_Binding_LeftTouchpadTouch;
             }
         }
         
@@ -117,7 +117,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightTriggerPull;
+                return SteamVR_Actions.vRSF_Binding_RightTriggerPull;
             }
         }
         
@@ -125,7 +125,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftTriggerPull;
+                return SteamVR_Actions.vRSF_Binding_LeftTriggerPull;
             }
         }
         
@@ -133,7 +133,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftPose;
+                return SteamVR_Actions.vRSF_Binding_LeftPose;
             }
         }
         
@@ -141,7 +141,39 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightPose;
+                return SteamVR_Actions.vRSF_Binding_RightPose;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean YClick
+        {
+            get
+            {
+                return SteamVR_Actions.vRSF_Binding_YClick;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean XClick
+        {
+            get
+            {
+                return SteamVR_Actions.vRSF_Binding_XClick;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean AClick
+        {
+            get
+            {
+                return SteamVR_Actions.vRSF_Binding_AClick;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean BClick
+        {
+            get
+            {
+                return SteamVR_Actions.vRSF_Binding_BClick;
             }
         }
         
@@ -149,7 +181,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_LeftHaptic;
+                return SteamVR_Actions.vRSF_Binding_LeftHaptic;
             }
         }
         
@@ -157,7 +189,7 @@ namespace Valve.VR
         {
             get
             {
-                return SteamVR_Actions.vRSF_Vive_RightHaptic;
+                return SteamVR_Actions.vRSF_Binding_RightHaptic;
             }
         }
     }

@@ -17,21 +17,21 @@ namespace Valve.VR
     public partial class SteamVR_Actions
     {
         
-        private static SteamVR_Input_ActionSet_VRSF_Vive p_VRSF_Vive;
+        private static SteamVR_Input_ActionSet_VRSF_Binding p_VRSF_Binding;
         
-        public static SteamVR_Input_ActionSet_VRSF_Vive VRSF_Vive
+        public static SteamVR_Input_ActionSet_VRSF_Binding VRSF_Binding
         {
             get
             {
-                return SteamVR_Actions.p_VRSF_Vive.GetCopy<SteamVR_Input_ActionSet_VRSF_Vive>();
+                return SteamVR_Actions.p_VRSF_Binding.GetCopy<SteamVR_Input_ActionSet_VRSF_Binding>();
             }
         }
         
         private static void StartPreInitActionSets()
         {
-            SteamVR_Actions.p_VRSF_Vive = ((SteamVR_Input_ActionSet_VRSF_Vive)(SteamVR_ActionSet.Create<SteamVR_Input_ActionSet_VRSF_Vive>("/actions/VRSF_Vive")));
+            SteamVR_Actions.p_VRSF_Binding = ((SteamVR_Input_ActionSet_VRSF_Binding)(SteamVR_ActionSet.Create<SteamVR_Input_ActionSet_VRSF_Binding>("/actions/VRSF_Binding")));
             Valve.VR.SteamVR_Input.actionSets = new Valve.VR.SteamVR_ActionSet[] {
-                    SteamVR_Actions.VRSF_Vive};
+                    SteamVR_Actions.VRSF_Binding};
         }
     }
 }

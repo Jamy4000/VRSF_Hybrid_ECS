@@ -1,128 +1,111 @@
 {
   "actions": [
     {
-      "name": "/actions/VRSF_Vive/in/LeftTriggerClick",
+      "name": "/actions/VRSF_Binding/in/LeftTriggerClick",
       "type": "boolean",
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftTouchpadPosition",
+      "name": "/actions/VRSF_Binding/in/LeftTouchpadPosition",
       "type": "vector2",
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftGrip",
+      "name": "/actions/VRSF_Binding/in/LeftGripClick",
       "type": "boolean",
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftMenu",
+      "name": "/actions/VRSF_Binding/in/LeftMenuClick",
       "type": "boolean",
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightTriggerClick",
+      "name": "/actions/VRSF_Binding/in/RightTriggerClick",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightGrip",
+      "name": "/actions/VRSF_Binding/in/RightGripClick",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightTouchpadPosition",
+      "name": "/actions/VRSF_Binding/in/RightTouchpadPosition",
       "type": "vector2"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftTouchpadClick",
+      "name": "/actions/VRSF_Binding/in/LeftTouchpadClick",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightTouchpadClick",
+      "name": "/actions/VRSF_Binding/in/RightTouchpadClick",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightMenu",
+      "name": "/actions/VRSF_Binding/in/RightMenu",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightTouchpadTouch",
+      "name": "/actions/VRSF_Binding/in/RightTouchpadTouch",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftTouchpadTouch",
+      "name": "/actions/VRSF_Binding/in/LeftTouchpadTouch",
       "type": "boolean"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightTriggerPull",
+      "name": "/actions/VRSF_Binding/in/RightTriggerPull",
       "type": "vector1"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftTriggerPull",
+      "name": "/actions/VRSF_Binding/in/LeftTriggerPull",
       "type": "vector1"
     },
     {
-      "name": "/actions/VRSF_Vive/in/LeftPose",
+      "name": "/actions/VRSF_Binding/in/LeftPose",
       "type": "pose",
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/VRSF_Vive/in/RightPose",
+      "name": "/actions/VRSF_Binding/in/RightPose",
       "type": "pose",
       "requirement": "mandatory"
     },
     {
-      "name": "/actions/VRSF_Vive/out/LeftHaptic",
+      "name": "/actions/VRSF_Binding/in/YClick",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/VRSF_Binding/in/XClick",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/VRSF_Binding/in/AClick",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/VRSF_Binding/in/BClick",
+      "type": "boolean",
+      "requirement": "mandatory"
+    },
+    {
+      "name": "/actions/VRSF_Binding/out/LeftHaptic",
       "type": "vibration"
     },
     {
-      "name": "/actions/VRSF_Vive/out/RightHaptic",
+      "name": "/actions/VRSF_Binding/out/RightHaptic",
       "type": "vibration"
     }
   ],
   "action_sets": [
     {
-      "name": "/actions/VRSF_Vive",
+      "name": "/actions/VRSF_Binding",
       "usage": "leftright"
     }
   ],
-  "default_bindings": [
-    {
-      "controller_type": "vive_controller",
-      "binding_url": "bindings_vive_controller.json"
-    },
-    {
-      "controller_type": "oculus_touch",
-      "binding_url": "bindings_oculus_touch.json"
-    },
-    {
-      "controller_type": "knuckles",
-      "binding_url": "bindings_knuckles.json"
-    },
-    {
-      "controller_type": "holographic_controller",
-      "binding_url": "bindings_holographic_controller.json"
-    },
-    {
-      "controller_type": "vive",
-      "binding_url": "binding_vive.json"
-    },
-    {
-      "controller_type": "vive_pro",
-      "binding_url": "binding_vive_pro.json"
-    },
-    {
-      "controller_type": "rift",
-      "binding_url": "binding_rift.json"
-    },
-    {
-      "controller_type": "holographic_hmd",
-      "binding_url": "binding_holographic_hmd.json"
-    },
-    {
-      "controller_type": "vive_tracker_camera",
-      "binding_url": "binding_vive_tracker_camera.json"
-    }
-  ],
+  "default_bindings": [],
   "localization": [
     {
       "language_tag": "en_en"
