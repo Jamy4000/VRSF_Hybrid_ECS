@@ -90,7 +90,7 @@ namespace VRSF.MoveAround.Teleport
             // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
             // related to selecting things and actually teleport
             if (e.PointerCalculations.PointOnNavMesh)
-                TeleportUserSystem.SetTeleportState(ETeleportState.Teleporting, e.TeleportGeneral);
+                new OnTeleportUser(e.TeleportGeneral, e.SceneObjects);
             else
                 TeleportUserSystem.SetTeleportState(ETeleportState.None, e.TeleportGeneral);
         }

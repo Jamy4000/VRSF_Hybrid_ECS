@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.Raycast;
+using VRSF.Core.SetupVR;
 using VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -30,28 +30,21 @@ namespace VRSF.MoveAround.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
-            base.OnStartRunning();
-
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-
+            OnSetupVRReady.Listeners += Init;
             _controllersVariable = ControllersParametersVariable.Instance;
 
-            foreach (var e in GetEntities<Filter>())
-            {
-                SetupListenersResponses(e);
-            }
+            base.OnStartRunning();
         }
         
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
 
+            OnSetupVRReady.Listeners -= Init;
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
-
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -106,7 +99,7 @@ namespace VRSF.MoveAround.Teleport
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
             Filter entity = (Filter)teleportFilter;
-            TeleportUserSystem.SetTeleportState(ETeleportState.Teleporting, entity.TeleportGeneral);
+            new OnTeleportUser(entity.TeleportGeneral, entity.SceneObjects);
         }
         #endregion
 
@@ -157,10 +150,9 @@ namespace VRSF.MoveAround.Teleport
         }
 
         /// <summary>
-        /// Reactivate the System when switching to another Scene.
+        /// Reactivate the System when setup vr is ready
         /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void Init(OnSetupVRReady setupVRReady)
         {
             foreach (var e in GetEntities<Filter>())
             {

@@ -24,22 +24,15 @@ namespace VRSF.MoveAround.Teleport
 
         protected override void OnStartRunning()
         {
+            OnSetupVRReady.Listeners += Init;
             base.OnStartRunning();
-
-            if (VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
-            {
-                foreach (var e in GetEntities<Filter>())
-                {
-                    SetupListenersResponses(e);
-                    e.BorderRenderer.BorderAreShown = false;
-                }
-            }
         }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
 
+            OnSetupVRReady.Listeners -= Init;
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -191,6 +184,18 @@ namespace VRSF.MoveAround.Teleport
             m.RecalculateNormals();
 
             return m;
+        }
+
+        private void Init(OnSetupVRReady setupVRReady)
+        {
+            if (VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
+            {
+                foreach (var e in GetEntities<Filter>())
+                {
+                    SetupListenersResponses(e);
+                    e.BorderRenderer.BorderAreShown = false;
+                }
+            }
         }
     }
 }

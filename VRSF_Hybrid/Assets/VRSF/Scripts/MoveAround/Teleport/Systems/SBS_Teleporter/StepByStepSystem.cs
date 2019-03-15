@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
@@ -26,22 +25,18 @@ namespace VRSF.MoveAround.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
+            OnSetupVRReady.Listeners += Init;
             base.OnStartRunning();
-            foreach (var e in GetEntities<Filter>())
-            {
-                SetupListenersResponses(e);
-            }
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         protected override void OnDestroyManager()
         {
+            OnSetupVRReady.Listeners -= Init;
             base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
-            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -95,7 +90,6 @@ namespace VRSF.MoveAround.Teleport
                 VRSF_Components.SetCameraRigPosition(newUsersPos, false);
 
             e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
-            
         }
         #endregion
 
@@ -139,17 +133,13 @@ namespace VRSF.MoveAround.Teleport
         }
 
         /// <summary>
-        /// Reactivate the System when switching to another Scene.
+        /// Reactivate the System when we instantiate a new CameraRig
         /// </summary>
-        /// <param name="scene">The previous scene before switching</param>
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
+        private void Init(OnSetupVRReady setupVRReady)
         {
-            if (loadMode == LoadSceneMode.Single)
+            foreach (var e in GetEntities<Filter>())
             {
-                foreach (var e in GetEntities<Filter>())
-                {
-                    SetupListenersResponses(e);
-                }
+                SetupListenersResponses(e);
             }
         }
         #endregion

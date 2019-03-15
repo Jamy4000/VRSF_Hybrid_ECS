@@ -24,8 +24,14 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         [HideInInspector] public static bool CanTeleport = true;
 
+        /// <summary>
+        /// The point where the user needs to be teleported to
+        /// </summary>
         [HideInInspector] public static Vector3 PointToGoTo = Vector3.zero;
 
+        /// <summary>
+        /// Whether the fading effect is currently in progress
+        /// </summary>
         [HideInInspector] public static bool FadingInProgress = false;
     }
 } 

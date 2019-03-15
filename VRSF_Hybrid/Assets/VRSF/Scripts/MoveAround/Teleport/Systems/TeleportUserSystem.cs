@@ -15,40 +15,32 @@ namespace VRSF.MoveAround.Teleport
             public TeleportGeneralComponent TeleportGeneral;
         }
 
+        protected override void OnStartRunning()
+        {
+            OnTeleportUser.Listeners += TeleportUserCallback;
+            base.OnStartRunning();
+        }
+
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.TeleportGeneral.CurrentTeleportState == ETeleportState.Teleporting)
+                if (e.TeleportGeneral.CurrentTeleportState == ETeleportState.Teleporting && TeleportGeneralComponent.FadingInProgress)
                 {
-                    if (TeleportGeneralComponent.CanTeleport)
-                    {
-                        // If we use a fade effect
-                        if (e.TeleportGeneral.IsUsingFadingEffect)
-                        {
-                            // the fade component is present And the fading out is in progress
-                            if (e.SceneObjects.FadeComponent != null && !TeleportGeneralComponent.FadingInProgress)
-                                ChangeTeleportStatus(false);
-                            // If we use a fade effect and the fade component is NOT present
-                            else if (e.SceneObjects.FadeComponent == null)
-                                Debug.LogError("VRSF : You cannot use a fade effect if the FadeComponent is not placed on the VRCamera of your VR SDKs Prefabs.");
-                        }
-                        // If not, we teleport directly the user
-                        else
-                        {
-                            SetTeleportState(ETeleportState.None, e.TeleportGeneral);
-                            VRSF_Components.SetCameraRigPosition(TeleportGeneralComponent.PointToGoTo);
-                            ChangeTeleportStatus(true);
-                        }
-                    }
-                    else if (TeleportGeneralComponent.FadingInProgress)
-                    {
-                        HandleTeleportingStateAndAlpha(e);
-                    }
+                    HandleTeleportingStateAndAlpha(e);
                 }
             }
         }
 
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            OnTeleportUser.Listeners -= TeleportUserCallback;
+        }
+
+        /// <summary>
+        /// Change the alpha of the fading canvas and set the current teleporting state if the fade in/out is done
+        /// </summary>
         private void HandleTeleportingStateAndAlpha(Filter e)
         {
             var alpha = e.SceneObjects.FadeComponent._FadingImage.color.a;
@@ -86,16 +78,44 @@ namespace VRSF.MoveAround.Teleport
             e.SceneObjects.FadeComponent._FadingImage.color = new Color(0, 0, 0, alpha);
         }
 
-        public static void SetTeleportState(ETeleportState newState, TeleportGeneralComponent teleportGeneral)
-        {
-            // We set the teleporting state to the new state
-            teleportGeneral.CurrentTeleportState = newState;
-        }
-
         private void ChangeTeleportStatus(bool newStatus)
         {
             TeleportGeneralComponent.CanTeleport = newStatus;
             TeleportGeneralComponent.FadingInProgress = !newStatus;
+        }
+
+
+        private void TeleportUserCallback(OnTeleportUser teleportUser)
+        {
+            // If we use a fade effect
+            if (teleportUser.TeleportGeneral.IsUsingFadingEffect)
+            {
+                // the fade component is present And the fading out is in progress
+                if (teleportUser.SceneObjects.FadeComponent != null && !TeleportGeneralComponent.FadingInProgress)
+                {
+                    SetTeleportState(ETeleportState.Teleporting, teleportUser.TeleportGeneral);
+                    ChangeTeleportStatus(false);
+                }
+                // If we use a fade effect and the fade component is NOT present
+                else if (teleportUser.SceneObjects.FadeComponent == null)
+                {
+                    Debug.LogError("<b>[VRSF] :</b> You cannot use a fade effect if the FadeComponent is not placed on the VRCamera of your VR SDKs Prefabs.");
+                }
+            }
+            // If not, we teleport directly the user
+            else
+            {
+                SetTeleportState(ETeleportState.None, teleportUser.TeleportGeneral);
+                VRSF_Components.SetCameraRigPosition(TeleportGeneralComponent.PointToGoTo);
+                ChangeTeleportStatus(true);
+            }
+        }
+
+
+        public static void SetTeleportState(ETeleportState newState, TeleportGeneralComponent teleportGeneral)
+        {
+            // We set the teleporting state to the new state
+            teleportGeneral.CurrentTeleportState = newState;
         }
     }
 }

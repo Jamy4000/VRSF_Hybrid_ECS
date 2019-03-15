@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 using VRSF.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -21,34 +21,19 @@ namespace VRSF.MoveAround.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
+            OnSetupVRReady.Listeners += Init;
             base.OnStartRunning();
-
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-            bool isUsingSystem = false;
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (e.LRT_Comp.UseLoadingTimer && (e.LRT_Comp.TeleportText != null || e.LRT_Comp.FillRect != null))
-                {
-                    isUsingSystem = true;
-                    SetupListenersResponses(e);
-                    OnStopInteractingCallback(e);
-                }
-            }
-
-            this.Enabled = isUsingSystem;
         }
         
         protected override void OnDestroyManager()
         {
+            OnSetupVRReady.Listeners -= Init;
             base.OnDestroyManager();
 
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
-
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         #endregion ComponentSystem_Methods
 
@@ -160,13 +145,21 @@ namespace VRSF.MoveAround.Teleport
         /// Reactivate the System when switching to another Scene.
         /// </summary>
         /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene)
+        private void Init(OnSetupVRReady setupVRReady)
         {
+            bool isUsingSystem = false;
+
             foreach (var e in GetEntities<Filter>())
             {
-                SetupListenersResponses(e);
-                OnStopInteractingCallback(e);
+                if (e.LRT_Comp.UseLoadingTimer && (e.LRT_Comp.TeleportText != null || e.LRT_Comp.FillRect != null))
+                {
+                    isUsingSystem = true;
+                    SetupListenersResponses(e);
+                    OnStopInteractingCallback(e);
+                }
             }
+
+            this.Enabled = isUsingSystem;
         }
         #endregion
     }
