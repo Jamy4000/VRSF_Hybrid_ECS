@@ -36,7 +36,7 @@ namespace VRSF.MoveAround.Fly
         /// </summary>
         private void CalculateFlyForward(Filter entity)
         {
-            entity.FlyComponents._FlyForward = (entity.BACCalculations.ThumbPos.Value.y >= 0.0f) ? true : false;
+            entity.FlyComponents._FlyForward = entity.BACCalculations.ThumbPos.Value.y >= 0.0f;
 
             // If user just started to press/touch the thumbstick
             if (!entity.FlyComponents._WantToFly)

@@ -2,7 +2,6 @@
 using UnityEngine;
 using VRSF.Core.Raycast;
 using VRSF.Core.SetupVR;
-using VRSF.MoveAround.Components;
 
 namespace VRSF.MoveAround.Fly
 {
@@ -68,7 +67,6 @@ namespace VRSF.MoveAround.Fly
             if (entity.ParametersComponent._WantToFly)
             {
                 entity.DirectionComponent.FlightDirection = entity.ParametersComponent._FlyForward ? 1.0f : -1.0f;
-
                 entity.DirectionComponent.NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
             }
 
@@ -78,19 +76,15 @@ namespace VRSF.MoveAround.Fly
 
             // if we change the speed depending on the Height of the User
             if (entity.ParametersComponent.ChangeSpeedDependingOnHeight)
-            {
                 entity.VelocityComponent.CurrentFlightVelocity *= MapRangeClamp(cameraRigTransform.position.y, Mathf.Abs(minPosY), Mathf.Abs(maxPosY), 1.0f, maxPosY / 100);
-            }
 
             // if we change the speed depending on the Scale of the User
             if (entity.ParametersComponent.ChangeSpeedDependingOnScale)
-            {
                 entity.VelocityComponent.CurrentFlightVelocity /= MapRangeClamp(cameraRigTransform.lossyScale.y, Mathf.Abs(minPosY), Mathf.Abs(maxPosY), 1.0f, maxPosY / 100);
-            }
 
             entity.DirectionComponent.FinalDirection = entity.DirectionComponent.NormalizedDir * entity.VelocityComponent.CurrentFlightVelocity * entity.DirectionComponent.FlightDirection;
 
-            return (cameraRigTransform.position + entity.DirectionComponent.FinalDirection);
+            return cameraRigTransform.position + entity.DirectionComponent.FinalDirection;
         }
 
         /// <summary>
@@ -109,7 +103,7 @@ namespace VRSF.MoveAround.Fly
 
             float denominator = (srcMax - srcMin) * (dstMax - dstMin);
 
-            denominator = (denominator == 0.0f ? 0.000001f : denominator);
+            denominator = denominator == 0.0f ? 0.000001f : denominator;
 
             return dstMin + (val - srcMin) / denominator;
         }

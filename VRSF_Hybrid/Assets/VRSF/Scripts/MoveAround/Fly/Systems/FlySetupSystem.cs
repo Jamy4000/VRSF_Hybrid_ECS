@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using VRSF.Core.Inputs;
-using VRSF.MoveAround.Components;
 using VRSF.Core.SetupVR;
 using VRSF.Utils.ButtonActionChoser;
 using VRSF.Core.Raycast;
@@ -27,20 +24,8 @@ namespace VRSF.MoveAround.Fly
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
+            OnSetupVRReady.Listeners += OnSetupVRIsReady;
             base.OnStartRunning();
-
-            SceneManager.sceneLoaded += OnSceneUnloaded;
-            
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (e.BACGeneral.ActionButton != EControllersButton.THUMBSTICK)
-                {
-                    Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
-                    e.BACCalculations.CanBeUsed = false;
-                }
-                    
-                e.FlyComponent.StartCoroutine(SetupListernersCoroutine(e));
-            }
         }
 
 
@@ -52,8 +37,8 @@ namespace VRSF.MoveAround.Fly
             {
                 RemoveListeners(e);
             }
-
-            SceneManager.sceneLoaded -= OnSceneUnloaded;
+            
+            OnSetupVRReady.Listeners -= OnSetupVRIsReady;
         }
         #endregion ComponentSystem_Methods
 
@@ -79,6 +64,7 @@ namespace VRSF.MoveAround.Fly
         public override void RemoveListeners(object entity)
         {
             var e = (Filter)entity;
+
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
                 e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
@@ -110,38 +96,28 @@ namespace VRSF.MoveAround.Fly
         public void ButtonIsInteracting(Filter entity)
         {
             // If the user is aiming to the UI, we don't activate the system
-            if (!entity.RaycastComp.RaycastHitVar.RaycastHitIsOnUI())
-                entity.FlyComponent._IsInteracting = true;
+            entity.FlyComponent._IsInteracting = !entity.RaycastComp.RaycastHitVar.RaycastHitIsOnUI();
         }
         #endregion PUBLIC_METHODS
 
 
         #region PRIVATE_METHODS
-        private IEnumerator SetupListernersCoroutine(Filter entity)
-        {
-            while (!VRSF_Components.SetupVRIsReady && entity.BACCalculations.ActionButtonIsReady && entity.BACCalculations.IsSetup)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-
-            SetupListenersResponses(entity);
-        }
-
         /// <summary>
-        /// Reactivate the System when switching to another Scene.
+        /// Callback for when SetupVR is setup. Setup the lsiteners afterward.
         /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene newScene, LoadSceneMode sceneMode)
+        /// <param name="onSetupVR"></param>
+        private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)
         {
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.BACGeneral.ActionButton != EControllersButton.THUMBSTICK)
                 {
-                    Debug.LogError("VRSF : You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Fly script. Setting CanBeUsed at false.");
                     e.BACCalculations.CanBeUsed = false;
+                    return;
                 }
 
-                e.FlyComponent.StartCoroutine(SetupListernersCoroutine(e));
+                SetupListenersResponses(e);
             }
         }
         #endregion PRIVATE_METHODS
