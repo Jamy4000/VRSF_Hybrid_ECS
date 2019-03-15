@@ -21,7 +21,6 @@ namespace VRSF.MoveAround.Fly
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
             OnSetupVRReady.Listeners += OnSetupVRIsReady;
@@ -103,7 +102,7 @@ namespace VRSF.MoveAround.Fly
 
         #region PRIVATE_METHODS
         /// <summary>
-        /// Callback for when SetupVR is setup. Setup the lsiteners afterward.
+        /// Callback for when SetupVR is setup. Setup the lsiteners.
         /// </summary>
         /// <param name="onSetupVR"></param>
         private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)

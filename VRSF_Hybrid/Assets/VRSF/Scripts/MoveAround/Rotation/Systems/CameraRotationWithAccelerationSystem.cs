@@ -1,13 +1,16 @@
-﻿using Unity.Entities;
-using UnityEngine;
+﻿using UnityEngine;
 using VRSF.Core.SetupVR;
-using VRSF.MoveAround.Components;
 using VRSF.Utils.ButtonActionChoser;
 using VRSF.Core.Raycast;
+using VRSF.Core.Inputs;
 
 namespace VRSF.MoveAround.Rotate
 {
-    public class CameraRotationWithAccelerationSystem : ComponentSystem
+    /// <summary>
+    /// Rotate the user based on the Speed parameter using a sliding effect.
+    /// WARNING Can give motion sickness !
+    /// </summary>
+    public class CameraRotationWithAccelerationSystem : BACListenersSetupSystem
     {
 
         struct Filter
@@ -20,18 +23,64 @@ namespace VRSF.MoveAround.Rotate
 
 
         #region ComponentSystem_Methods
-        protected override void OnUpdate()
+        protected override void OnStartRunning()
         {
+            base.OnStartRunning();
+
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.RotationComp.UseAccelerationEffect)
+                if (!e.RotationComp.UseAccelerationEffect)
                 {
-                    HandleRotationWithAcceleration(e);
+                    SetupListenersResponses(e);
                 }
+            }
+        }
+
+        protected override void OnUpdate() {}
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+
+            foreach (var e in GetEntities<Filter>())
+            {
+                RemoveListeners(e);
             }
         }
         #endregion
 
+
+        #region PUBLIC_METHODS
+        public override void SetupListenersResponses(object entity)
+        {
+            var e = (Filter)entity;
+
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            {
+                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { HandleRotationWithAcceleration(e); });
+            }
+
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            {
+                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { HandleRotationWithAcceleration(e); });
+            }
+        }
+
+        public override void RemoveListeners(object entity)
+        {
+            var e = (Filter)entity;
+
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            {
+                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
+            }
+
+            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            {
+                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
+            }
+        }
+        #endregion PUBLIC_METHODS
 
         #region PRIVATE_METHODS
         private void HandleRotationWithAcceleration(Filter entity)
@@ -50,19 +99,13 @@ namespace VRSF.MoveAround.Rotate
 
                 // LastThumbPos : The last thumbPos of the user when rotating (touching/clicking the thumbstick) only 
                 entity.RotationComp.LastThumbPos = entity.RotationComp.IsRotating ? entity.BACCalculations.ThumbPos.Value.x : entity.RotationComp.LastThumbPos;
-
-                if (isAccelerating)
-                {
-                    entity.RotationComp.CurrentSpeed += maxSpeedTimeDeltaTime;
-                }
-                else if (isDecelerating)
-                {
-                    entity.RotationComp.CurrentSpeed -= maxSpeedTimeDeltaTime;
-                }
+                
+                // Setting the current speed of the user
+                entity.RotationComp.CurrentSpeed += isAccelerating ? maxSpeedTimeDeltaTime : -maxSpeedTimeDeltaTime;
 
                 if (entity.RotationComp.CurrentSpeed > 0.0f)
                 {
-                    Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
+                    Vector3 eyesPosition = VRSF_Components.VRCamera.transform.position;
                     Vector3 rotationAxis = new Vector3(0, entity.RotationComp.LastThumbPos, 0);
 
                     VRSF_Components.CameraRig.transform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.CurrentSpeed);

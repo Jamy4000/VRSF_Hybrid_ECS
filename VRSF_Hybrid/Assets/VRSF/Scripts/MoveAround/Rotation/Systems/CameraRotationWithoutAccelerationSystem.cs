@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
-using VRSF.MoveAround.Components;
 using VRSF.Core.SetupVR;
 using VRSF.Utils.ButtonActionChoser;
 using VRSF.Core.Raycast;
@@ -21,29 +19,20 @@ namespace VRSF.MoveAround.Rotate
         #region ComponentSystem_Methods
         protected override void OnStartRunning()
         {
+            OnSetupVRReady.Listeners += OnSetupVRIsReady;
             base.OnStartRunning();
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (!e.RotationComp.UseAccelerationEffect)
-                {
-                    SetupListenersResponses(e);
-                }
-            }
         }
         
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
 
+            OnSetupVRReady.Listeners -= OnSetupVRIsReady;
+
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
-
-            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         #endregion
 
@@ -55,12 +44,12 @@ namespace VRSF.MoveAround.Rotate
             
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
             }
         }
 
@@ -70,12 +59,12 @@ namespace VRSF.MoveAround.Rotate
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
             }
         }
         #endregion PUBLIC_METHODS
@@ -84,38 +73,31 @@ namespace VRSF.MoveAround.Rotate
         #region PRIVATE_METHODS
         private void HandleRotationWithoutAcceleration(Filter entity)
         {
-            if (!entity.RotationComp.HasRotated)
-            {
-                var cameraRigTransform = VRSF_Components.CameraRig.transform;
+            var cameraRigTransform = VRSF_Components.CameraRig.transform;
 
-                Vector3 eyesPosition = VRSF_Components.VRCamera.transform.parent.position;
-                Vector3 rotationAxis = new Vector3(0, entity.BACCalculations.ThumbPos.Value.x, 0);
+            Vector3 eyesPosition = VRSF_Components.VRCamera.transform.position;
+            Vector3 rotationAxis = new Vector3(0, entity.BACCalculations.ThumbPos.Value.x, 0);
 
-                cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
-
-                // We check if the rotation value is not above 180 or below -180. if so, we substract/add 360 degrees to it.
-                var newRot = cameraRigTransform.rotation;
-
-                newRot.y = (newRot.y > 180.0f) ? (newRot.y - 360.0f) : newRot.y;
-                newRot.y = (newRot.y < -180.0f) ? (newRot.y + 360.0f) : newRot.y;
-
-                cameraRigTransform.rotation = newRot;
-
-                entity.RotationComp.HasRotated = true;
-            }
+            cameraRigTransform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.DegreesToTurn);
         }
 
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
+
+        /// <summary>
+        /// Callback for when SetupVR is setup. Setup the lsiteners.
+        /// </summary>
+        /// <param name="onSetupVR"></param>
+        private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)
         {
-            if (loadMode == LoadSceneMode.Single)
+            foreach (var e in GetEntities<Filter>())
             {
-                foreach (var e in GetEntities<Filter>())
+                if (e.BACGeneral.ActionButton != EControllersButton.THUMBSTICK)
                 {
-                    if (!e.RotationComp.UseAccelerationEffect)
-                    {
-                        SetupListenersResponses(e);
-                    }
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");
+                    e.BACCalculations.CanBeUsed = false;
+                    return;
                 }
+
+                SetupListenersResponses(e);
             }
         }
         #endregion

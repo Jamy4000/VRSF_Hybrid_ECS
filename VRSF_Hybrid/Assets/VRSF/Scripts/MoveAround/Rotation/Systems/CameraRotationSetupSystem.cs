@@ -1,39 +1,35 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Inputs;
-using VRSF.MoveAround.Components;
+using VRSF.Core.SetupVR;
 using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.MoveAround.Systems
+namespace VRSF.MoveAround.Rotate
 {
+    /// <summary>
+    /// Setup the camera rotation systems by adding the required listeners
+    /// </summary>
     public class CameraRotationSetupSystem : BACListenersSetupSystem
     {
         struct Filter
         {
             public CameraRotationComponent RotationComp;
             public BACGeneralComponent ButtonComponents;
+            public BACCalculationsComponent BACCalculations;
         }
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
+            OnSetupVRReady.Listeners += OnSetupVRIsReady;
             base.OnStartRunning();
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                SetupListenersResponses(e);
-            }
         }
         
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
 
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            OnSetupVRReady.Listeners -= OnSetupVRIsReady;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -52,13 +48,13 @@ namespace VRSF.MoveAround.Systems
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonIsClicking.AddListener(delegate { StartRotating(e.RotationComp); });
+                e.ButtonComponents.OnButtonStartClicking.AddListener(delegate { StartRotating(e.RotationComp); });
                 e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { StopRotating(e.RotationComp); });
             }
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonIsTouching.AddListener(delegate { StartRotating(e.RotationComp); });
+                e.ButtonComponents.OnButtonStartTouching.AddListener(delegate { StartRotating(e.RotationComp); });
                 e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { StopRotating(e.RotationComp); });
             }
         }
@@ -69,13 +65,13 @@ namespace VRSF.MoveAround.Systems
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonIsClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStartClicking.RemoveAllListeners();
                 e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
             }
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonIsTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStartTouching.RemoveAllListeners();
                 e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
             }
         }
@@ -99,24 +95,26 @@ namespace VRSF.MoveAround.Systems
         private void StopRotating(CameraRotationComponent comp)
         {
             comp.IsRotating = false;
-            comp.HasRotated = false;
         }
 
 
         /// <summary>
-        /// Reactivate the System when switching to another Scene.
+        /// Callback for when SetupVR is setup. Setup the lsiteners.
         /// </summary>
-        /// <param name="scene">The previous scene before switching</param>
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
+        /// <param name="onSetupVR"></param>
+        private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)
         {
-            if (loadMode == LoadSceneMode.Single)
+            foreach (var e in GetEntities<Filter>())
             {
-                foreach (var e in GetEntities<Filter>())
+                if (e.ButtonComponents.ActionButton != EControllersButton.THUMBSTICK)
                 {
-                    SetupListenersResponses(e);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");
+                    e.BACCalculations.CanBeUsed = false;
+                    return;
                 }
+
+                SetupListenersResponses(e);
             }
-            
         }
         #endregion
     }
