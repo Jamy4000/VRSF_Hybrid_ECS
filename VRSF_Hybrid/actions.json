@@ -22,23 +22,28 @@
     },
     {
       "name": "/actions/VRSF_Binding/in/RightTriggerClick",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/RightGripClick",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/RightTouchpadPosition",
-      "type": "vector2"
+      "type": "vector2",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/LeftTouchpadClick",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/RightTouchpadClick",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/RightMenu",
@@ -46,11 +51,13 @@
     },
     {
       "name": "/actions/VRSF_Binding/in/RightTouchpadTouch",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/LeftTouchpadTouch",
-      "type": "boolean"
+      "type": "boolean",
+      "requirement": "mandatory"
     },
     {
       "name": "/actions/VRSF_Binding/in/RightTriggerPull",
@@ -62,33 +69,27 @@
     },
     {
       "name": "/actions/VRSF_Binding/in/LeftPose",
-      "type": "pose",
-      "requirement": "mandatory"
+      "type": "pose"
     },
     {
       "name": "/actions/VRSF_Binding/in/RightPose",
-      "type": "pose",
-      "requirement": "mandatory"
+      "type": "pose"
     },
     {
       "name": "/actions/VRSF_Binding/in/YClick",
-      "type": "boolean",
-      "requirement": "mandatory"
+      "type": "boolean"
     },
     {
       "name": "/actions/VRSF_Binding/in/XClick",
-      "type": "boolean",
-      "requirement": "mandatory"
+      "type": "boolean"
     },
     {
       "name": "/actions/VRSF_Binding/in/AClick",
-      "type": "boolean",
-      "requirement": "mandatory"
+      "type": "boolean"
     },
     {
       "name": "/actions/VRSF_Binding/in/BClick",
-      "type": "boolean",
-      "requirement": "mandatory"
+      "type": "boolean"
     },
     {
       "name": "/actions/VRSF_Binding/out/LeftHaptic",
