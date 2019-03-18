@@ -35,10 +35,10 @@ namespace VRSF.Core.Controllers.Haptic
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (onHapticRequested.Hand == EHand.LEFT)
-                    e.ViveInputCaptureComp.LeftControllerHaptic.Execute(0, onHapticRequested.HapticDuration, onHapticRequested.HapticFrequency, onHapticRequested.HapticAmplitude, Valve.VR.SteamVR_Input_Sources.LeftHand);
-                else
-                    e.ViveInputCaptureComp.RightControllerHaptic.Execute(0, onHapticRequested.HapticDuration, onHapticRequested.HapticFrequency, onHapticRequested.HapticAmplitude, Valve.VR.SteamVR_Input_Sources.RightHand);
+                //if (onHapticRequested.Hand == EHand.LEFT)
+                //    e.ViveInputCaptureComp.LeftControllerHaptic.Execute(0, onHapticRequested.HapticDuration, onHapticRequested.HapticFrequency, onHapticRequested.HapticAmplitude, Valve.VR.SteamVR_Input_Sources.LeftHand);
+                //else
+                //    e.ViveInputCaptureComp.RightControllerHaptic.Execute(0, onHapticRequested.HapticDuration, onHapticRequested.HapticFrequency, onHapticRequested.HapticAmplitude, Valve.VR.SteamVR_Input_Sources.RightHand);
             }
         }
     }

@@ -168,7 +168,7 @@ namespace VRSF.UI
             if (!ControllersParametersVariable.Instance.UseControllers && FillWithClick)
             {
                 FillWithClick = false;
-                Debug.LogError("VRSF : UseController is set at false. The auto fill slider won't use the controller to fill but the gaze.");
+                Debug.LogError("<b>[VRSF] :</b> UseController is set at false. The auto fill slider won't use the controller to fill but the gaze.");
             }
         }
 
@@ -305,7 +305,7 @@ namespace VRSF.UI
             }
             catch
             {
-                Debug.LogError("VRSF : Please add a Fill GameObject with RectTransform as a child or DeepChild of this VR Auto Fill Slider.");
+                Debug.LogError("<b>[VRSF] :</b> Please add a Fill GameObject with RectTransform as a child or DeepChild of this VR Auto Fill Slider.");
             }
         }
         #endregion

@@ -45,7 +45,7 @@ namespace VRSF.Utils.ButtonActionChoser
         {
             if (!entity.SDKComp.UseVive && !entity.SDKComp.UseRift && !entity.SDKComp.UseSimulator)
             {
-                Debug.LogError("VRSF : You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                Debug.LogError("<b>[VRSF] :</b> You need to chose at least one SDK to use the " + GetType().Name + " script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 entity.SDKComp.gameObject.SetActive(false);
                 return false;
             }

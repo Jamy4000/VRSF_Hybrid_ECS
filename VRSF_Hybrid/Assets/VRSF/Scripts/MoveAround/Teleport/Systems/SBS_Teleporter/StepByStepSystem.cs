@@ -84,6 +84,7 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
+            Debug.Log("Telporting user");
             Filter e = (Filter)teleportFilter;
             
             if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
@@ -104,6 +105,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
+            Debug.Log("OnStartInteractingCallback");
             if (TeleportGeneralComponent.CanTeleport)
             {
                 if (e.BAC_Comp.BACTimer != null)

@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceStepByStep: 1
-  TeleportNavMeshBuildIndex: 0
   StepHeight: 0.5
 --- !u!114 &5927799632383259745
 MonoBehaviour:

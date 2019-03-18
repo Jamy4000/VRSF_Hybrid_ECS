@@ -232,7 +232,7 @@ namespace VRSF.Utils.ButtonActionChoser
                 if (entity.BACGeneralComp.LeftClickThumbPosition == EThumbPosition.NONE &&
                     entity.BACGeneralComp.LeftTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("VRSF : You need to assign a Thumb Position for the Left Thumbstick in this script : " + entity.BACGeneralComp.name);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Left Thumbstick in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 
@@ -244,7 +244,7 @@ namespace VRSF.Utils.ButtonActionChoser
                 if (entity.BACGeneralComp.RightClickThumbPosition == EThumbPosition.NONE &&
                     entity.BACGeneralComp.RightTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("VRSF : You need to assign a Thumb Position for the Right Thumbstick in this script : " + entity.BACGeneralComp.name);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Right Thumbstick in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 

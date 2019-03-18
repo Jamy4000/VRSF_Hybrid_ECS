@@ -67,7 +67,7 @@ namespace VRSF.Core.Controllers
             }
             catch (System.Exception exception)
             {
-                Debug.Log("VRSF : VR Components not setup yet, waiting for next frame.\n" + exception.ToString());
+                Debug.Log("<b>[VRSF] :</b> VR Components not setup yet, waiting for next frame.\n" + exception.ToString());
             }
 
 

@@ -99,7 +99,7 @@ namespace VRSF.Gaze.Inputs
             else if (_gazeParameters.GazeButtonRift == EControllersButton.WHEEL_BUTTON)
             {
                 gazeInputCapture.CheckGazeInteractions = false;
-                Debug.LogError("VRSF : Cannot check the Gaze Click with the Wheel Button of the mouse for the Oculus.");
+                Debug.LogError("<b>[VRSF] :</b> Cannot check the Gaze Click with the Wheel Button of the mouse for the Oculus.");
             }
         }
         #endregion

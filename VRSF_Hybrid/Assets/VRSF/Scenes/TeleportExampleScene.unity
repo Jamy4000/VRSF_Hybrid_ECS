@@ -97,15 +97,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.1
-    agentHeight: 2
-    agentSlope: 45
+    agentRadius: 0.01
+    agentHeight: 1.8
+    agentSlope: 60
     agentClimb: 1
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.033333335
+    cellSize: 0.0033333332
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 1
@@ -251,6 +251,41 @@ PrefabInstance:
     - target: {fileID: 1146371578956838763, guid: c7744e4080678eb4cac679cd8fa93883,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144802075822600557, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: m_Name
+      value: CameraRig
+      objectReference: {fileID: 0}
+    - target: {fileID: 1145083215677038593, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: m_Name
+      value: LeftController
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144477276506636905, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: m_Name
+      value: RightController
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144996707645311453, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: m_Name
+      value: CameraEye
+      objectReference: {fileID: 0}
+    - target: {fileID: 5728750917048672734, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ActionButton
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5728750917048672734, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: LeftClickThumbPosition
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5728750917048672734, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ClickThreshold
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

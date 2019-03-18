@@ -1,7 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.SetupVR;
-using Valve.VR;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -88,28 +87,33 @@ namespace VRSF.MoveAround.Teleport
         /// <returns>true if the boundaries of OpenVR could be correctly get</returns>
         private bool GetOpenVRChaperone(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
         {
-            var initOpenVR = !SteamVR.active && !SteamVR.usingNativeSupport;
-            if (initOpenVR)
-            {
-                var error = EVRInitError.None;
-                OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
-            }
+            //var initOpenVR = !SteamVR.active && !SteamVR.usingNativeSupport;
+            //if (initOpenVR)
+            //{
+            //    var error = EVRInitError.None;
+            //    OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
+            //}
 
-            var chaperone = OpenVR.Chaperone;
-            HmdQuad_t rect = new HmdQuad_t();
-            bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref rect);
-            p0 = new Vector3(rect.vCorners0.v0, rect.vCorners0.v1, rect.vCorners0.v2);
-            p1 = new Vector3(rect.vCorners1.v0, rect.vCorners1.v1, rect.vCorners1.v2);
-            p2 = new Vector3(rect.vCorners2.v0, rect.vCorners2.v1, rect.vCorners2.v2);
-            p3 = new Vector3(rect.vCorners3.v0, rect.vCorners3.v1, rect.vCorners3.v2);
+            //var chaperone = OpenVR.Chaperone;
+            //HmdQuad_t rect = new HmdQuad_t();
+            //bool success = (chaperone != null) && chaperone.GetPlayAreaRect(ref rect);
+            //p0 = new Vector3(rect.vCorners0.v0, rect.vCorners0.v1, rect.vCorners0.v2);
+            //p1 = new Vector3(rect.vCorners1.v0, rect.vCorners1.v1, rect.vCorners1.v2);
+            //p2 = new Vector3(rect.vCorners2.v0, rect.vCorners2.v1, rect.vCorners2.v2);
+            //p3 = new Vector3(rect.vCorners3.v0, rect.vCorners3.v1, rect.vCorners3.v2);
 
-            if (!success)
-                Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
+            //if (!success)
+            //    Debug.LogWarning("Failed to get Calibrated Play Area bounds!  Make sure you have tracking first, and that your space is calibrated.");
 
-            if (initOpenVR)
-                OpenVR.Shutdown();
-            
-            return success;
+            //if (initOpenVR)
+            //    OpenVR.Shutdown();
+
+            //return success;
+            p0 = Vector3.back;
+            p1 = Vector3.back;
+            p2 = Vector3.back;
+            p3 = Vector3.back;
+            return true;
         }
     }
 }

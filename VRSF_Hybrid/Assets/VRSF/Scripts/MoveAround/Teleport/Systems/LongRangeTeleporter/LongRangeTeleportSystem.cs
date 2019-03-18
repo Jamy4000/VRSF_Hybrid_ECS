@@ -32,14 +32,12 @@ namespace VRSF.MoveAround.Teleport
         {
             OnSetupVRReady.Listeners += Init;
             _controllersVariable = ControllersParametersVariable.Instance;
-
             base.OnStartRunning();
         }
         
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-
             OnSetupVRReady.Listeners -= Init;
             foreach (var e in GetEntities<Filter>())
             {

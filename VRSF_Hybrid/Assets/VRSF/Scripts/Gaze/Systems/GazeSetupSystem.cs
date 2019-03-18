@@ -90,7 +90,7 @@ namespace VRSF.Gaze
             }
             catch (System.Exception e)
             {
-                Debug.Log("VRSF : The VR Components are not set in the scene yet, waiting for next frame.\n" + e);
+                Debug.Log("<b>[VRSF] :</b> The VR Components are not set in the scene yet, waiting for next frame.\n" + e);
             }
         }
 

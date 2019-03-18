@@ -81,7 +81,7 @@ namespace VRSF.Utils.ButtonActionChoser
             // We check that the interaction type is correct
             if (entity.BACGeneralComp.InteractionType == EControllerInteractionType.NONE)
             {
-                Debug.LogError("VRSF : Please specify a correct InteractionType for the " + this.GetType().Name + " script.\n" +
+                Debug.LogError("<b>[VRSF] :</b> Please specify a correct InteractionType for the " + this.GetType().Name + " script.\n" +
                     "Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 entity.BACCalculationsComp.CanBeUsed = false;
             }
@@ -89,7 +89,7 @@ namespace VRSF.Utils.ButtonActionChoser
             // We init the Scriptable Object references and how they work
             if (!SetupScriptableVariablesReferences(entity))
             {
-                Debug.LogError("VRSF : An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
+                Debug.LogError("<b>[VRSF] :</b> An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
                     "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
                 entity.BACCalculationsComp.CanBeUsed = false;
             }

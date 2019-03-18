@@ -1,27 +1,11 @@
 ﻿using UnityEngine;
+using VRSF.Core.Controllers;
 
 namespace VRSF.Core.SetupVR
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class SetupVRComponents : MonoBehaviour
     {
-        #region SDKS_PREFABS
-        [Header("The 3 prefabs to load for the Vive, Rift and Simulator.")]
-
-        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
-            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        public GameObject Vive_SDK;
-
-        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
-            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        public GameObject Rift_SDK;
-
-        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
-            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
-        public GameObject Simulator_SDK;
-        #endregion SDKS_PREFABS
-
-
         #region SERIALIZED_FIELDS
         [Header("VR Device Parameters.")]
         [Tooltip("The Device you want to load.")]
@@ -33,18 +17,26 @@ namespace VRSF.Core.SetupVR
         public bool CheckDeviceAtRuntime = true;
         #endregion SERIALIZED_FIELDS
 
+        #region CONTROLLERS
+        [Header("The prefabs to load for the Vive and Rift controllers.")]
 
-        #region SCRIPTS_CONTAINERS
-        [Header("The references to the Scripts and Transform Containers.")]
-        public GameObject CameraRigScripts;
-        public GameObject LeftControllerScripts;
-        public GameObject RightControllerScripts;
-        public GameObject VRCameraScripts;
-        #endregion SCRIPTS_CONTAINERS
+        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
+            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
+        public VRController[] Vive_Controllers;
+
+        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
+            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
+        public VRController[] Rift_Controllers;
+        #endregion CONTROLLERS
+
+        [Header("The references to the VR Transforms.")]
+        public GameObject CameraRig;
+        public GameObject LeftController;
+        public GameObject RightController;
+        public GameObject VRCamera;
 
 
         // Check if we already instantiated the SDK in the past, useful if the SDK is re-instantiated after a new scene has been loaded
-        [HideInInspector] public bool SDKHasBeenInstantiated;
         [HideInInspector] public bool IsLoaded;
     }
 }

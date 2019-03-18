@@ -102,14 +102,14 @@ namespace VRSF.Gaze.Inputs
                 else if (_gazeParameters.GazeButtonOpenVR == EControllersButton.WHEEL_BUTTON)
                 {
                     gazeInputCapture.CheckGazeInteractions = false;
-                    Debug.LogError("VRSF : Cannot check the Gaze Click with the Wheel Button of the mouse for the Vive.");
+                    Debug.LogError("<b>[VRSF] :</b> Cannot check the Gaze Click with the Wheel Button of the mouse for the Vive.");
                 }
                 else if (_gazeParameters.GazeButtonOpenVR == EControllersButton.A_BUTTON || _gazeParameters.GazeButtonOpenVR == EControllersButton.B_BUTTON ||
                          _gazeParameters.GazeButtonOpenVR == EControllersButton.X_BUTTON || _gazeParameters.GazeButtonOpenVR == EControllersButton.Y_BUTTON ||
                          _gazeParameters.GazeButtonOpenVR == EControllersButton.THUMBREST)
                 {
                     gazeInputCapture.CheckGazeInteractions = false;
-                    Debug.LogError("VRSF : Cannot check the Gaze Click with the " + _gazeParameters.GazeButtonOpenVR + " button for the Vive.");
+                    Debug.LogError("<b>[VRSF] :</b> Cannot check the Gaze Click with the " + _gazeParameters.GazeButtonOpenVR + " button for the Vive.");
                 }
                 Debug.LogError("TODO : Redo Gaze Input Capture SteamVR");
                 //else if (_gazeParameters.GazeButtonOpenVR.ToString().Contains("RIGHT"))
@@ -125,7 +125,7 @@ namespace VRSF.Gaze.Inputs
             }
             catch (System.Exception e)
             {
-                Debug.Log("VRSF : VR Components not setup yet, waiting for next frame.\n" + e);
+                Debug.Log("<b>[VRSF] :</b> VR Components not setup yet, waiting for next frame.\n" + e);
             }
         }
         #endregion PRIVATE_METHODS

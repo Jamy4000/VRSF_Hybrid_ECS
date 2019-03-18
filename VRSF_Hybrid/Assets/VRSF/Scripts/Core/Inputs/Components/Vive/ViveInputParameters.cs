@@ -3,9 +3,9 @@
 namespace VRSF.Core.Inputs
 {
     /// <summary>
-    /// Used to handle the Right and Left controllers Inputs in the Vive
+    /// Used to handle the Right and Left controllers Inputs
     /// </summary>
-    public struct ViveInputParameters
+    public struct InputParameters
     {
         public VRInputsBoolean ClickBools;
         public VRInputsBoolean TouchBools;

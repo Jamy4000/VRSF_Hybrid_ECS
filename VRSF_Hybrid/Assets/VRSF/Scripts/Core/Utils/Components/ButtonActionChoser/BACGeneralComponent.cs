@@ -31,14 +31,14 @@ namespace VRSF.Utils.ButtonActionChoser
         [HideInInspector] public float ClickThreshold = 0.5f;
         
         [Header("The UnityEvents called when the user is Touching")]
-        [HideInInspector] public UnityEvent OnButtonStartTouching;
-        [HideInInspector] public UnityEvent OnButtonStopTouching;
-        [HideInInspector] public UnityEvent OnButtonIsTouching;
+        [HideInInspector] public UnityEvent OnButtonStartTouching = new UnityEvent();
+        [HideInInspector] public UnityEvent OnButtonStopTouching = new UnityEvent();
+        [HideInInspector] public UnityEvent OnButtonIsTouching = new UnityEvent();
 
         [Header("The UnityEvents called when the user is Clicking")]
-        [HideInInspector] public UnityEvent OnButtonStartClicking;
-        [HideInInspector] public UnityEvent OnButtonStopClicking;
-        [HideInInspector] public UnityEvent OnButtonIsClicking;
+        [HideInInspector] public UnityEvent OnButtonStartClicking = new UnityEvent();
+        [HideInInspector] public UnityEvent OnButtonStopClicking = new UnityEvent();
+        [HideInInspector] public UnityEvent OnButtonIsClicking = new UnityEvent();
 
         // Set within the BACTimerUpdateSystem on Start.
         [HideInInspector] public BACTimerComponent BACTimer;

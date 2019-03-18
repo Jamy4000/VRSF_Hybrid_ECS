@@ -1,156 +1,83 @@
-﻿using Valve.VR;
+﻿using ScriptableFramework.Variables;
+using Unity.Entities;
+using UnityEngine;
+using VRSF.Core.Controllers;
 
 namespace VRSF.Core.Inputs
 {
     /// <summary>
     /// Script attached to the ViveSDK Prefab.
-    /// Set the GameEvent depending on the Binding Inputs.
     /// </summary>
-    public static class ViveControllersInputCaptureSystem
+    public class ViveControllersInputCaptureSystem : ComponentSystem
     {
-        #region PRIVATE_METHODS
-        /// <summary>
-        /// Setup the two controllers parameters to use in the CheckControllersInput method.
-        /// </summary>
-        /// <param name="viveInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
-        public static void SetupControllersParameters(ViveControllersInputCaptureComponent InputCaptureComp)
+        private struct Filter
         {
-            // We give the references to the Scriptable variable containers in the Left Parameters variable
-            InputCaptureComp.LeftParameters = new ViveInputParameters
+            public ViveControllersInputCaptureComponent ViveControllersInput;
+            public CrossplatformInputCapture InputCapture;
+        }
+
+        protected override void OnUpdate()
+        {
+            // If we doesn't use the controllers, we don't check for the inputs.
+            if (ControllersParametersVariable.Instance.UseControllers)
             {
-                ClickBools = InputVariableContainer.Instance.LeftClickBoolean,
-                TouchBools = InputVariableContainer.Instance.LeftTouchBoolean,
-                ThumbPosition = InputVariableContainer.Instance.LeftThumbPosition
-            };
+                foreach (var entity in GetEntities<Filter>())
+                {
+                    // If the Setup for the controllers is not setup, we look for the Vive Controllers
+                    if (!entity.InputCapture.ControllersParametersSetup)
+                        return;
 
-            // We give the references to the Scriptable variable containers in the Right Parameters variable
-            InputCaptureComp.RightParameters = new ViveInputParameters
-            {
-                ClickBools = InputVariableContainer.Instance.RightClickBoolean,
-                TouchBools = InputVariableContainer.Instance.RightTouchBoolean,
-                ThumbPosition = InputVariableContainer.Instance.RightThumbPosition
-            };
+                    // We check the Input for the Right controller
+                    CheckRightControllerInput(entity.InputCapture);
 
-            RegisterLeftListeners(InputCaptureComp.LeftParameters);
-            RegisterRightListeners(InputCaptureComp.RightParameters);
-
-            InputCaptureComp.ControllersParametersSetup = true;
-
-            void RegisterLeftListeners(ViveInputParameters viveInputParam)
-            {
-                ViveLeftHandInputListeners.LeftInputParam = viveInputParam;
-
-                #region TRIGGER
-                SteamVR_Actions.vRSF_Binding_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftTriggerDown;
-                SteamVR_Actions.vRSF_Binding_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftTriggerUp;
-                #endregion TRIGGER
-
-                #region GRIP
-                SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftGripDown;
-                SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftGripUp;
-                #endregion GRIP
-
-                #region TOUCHPAD
-                SteamVR_Actions.vRSF_Binding_LeftTouchpadClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftTouchpadDown;
-                SteamVR_Actions.vRSF_Binding_LeftTouchpadClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftTouchpadUp;
-
-                SteamVR_Actions.vRSF_Binding_LeftTouchpadTouch[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftTouchpadTouch;
-                SteamVR_Actions.vRSF_Binding_LeftTouchpadTouch[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftTouchpadUntouch;
-
-                SteamVR_Actions.vRSF_Binding_LeftTouchpadPosition[SteamVR_Input_Sources.Any].onAxis += ViveLeftHandInputListeners.OnLeftTouchpadAxisChanged;
-                #endregion TOUCHPAD
-
-                #region MENU
-                SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftMenuDown;
-                SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftMenuUp;
-                #endregion MENU
-            }
-
-            void RegisterRightListeners(ViveInputParameters viveInputParam)
-            {
-                ViveRightHandInputListeners.RightInputParam = viveInputParam;
-
-                #region TRIGGER
-                SteamVR_Actions.vRSF_Binding_RightTriggerClick[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightTriggerDown;
-                SteamVR_Actions.vRSF_Binding_RightTriggerClick[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightTriggerUp;
-                #endregion TRIGGER
-
-                #region GRIP
-                SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightGripDown;
-                SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightGripUp;
-                #endregion GRIP
-
-                #region TOUCHPAD
-                SteamVR_Actions.vRSF_Binding_RightTouchpadClick[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightTouchpadDown;
-                SteamVR_Actions.vRSF_Binding_RightTouchpadClick[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightTouchpadUp;
-
-                SteamVR_Actions.vRSF_Binding_RightTouchpadTouch[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightTouchpadTouch;
-                SteamVR_Actions.vRSF_Binding_RightTouchpadTouch[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightTouchpadUntouch;
-
-                SteamVR_Actions.vRSF_Binding_RightTouchpadPosition[SteamVR_Input_Sources.Any].onAxis += ViveRightHandInputListeners.OnRightTouchpadAxisChanged;
-                #endregion TOUCHPAD
-
-                #region MENU
-                SteamVR_Actions.vRSF_Binding_RightMenu[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightMenuDown;
-                SteamVR_Actions.vRSF_Binding_RightMenu[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightMenuUp;
-                #endregion MENU
+                    // We check the Input for the Left controller
+                    CheckLeftControllerInput(entity.InputCapture);
+                }
             }
         }
 
-
-        public static void UnregisterLeftListeners()
+        #region PRIVATE_METHODS
+        /// <summary>
+        /// Handle the Right Controller input and put them in the Events
+        /// </summary>
+        private void CheckRightControllerInput(CrossplatformInputCapture inputCapture)
         {
-            #region TRIGGER
-            SteamVR_Actions.vRSF_Binding_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftTriggerDown;
-            SteamVR_Actions.vRSF_Binding_LeftTriggerClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftTriggerUp;
-            #endregion TRIGGER
-
-            #region GRIP
-            SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftGripDown;
-            SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftGripUp;
-            #endregion GRIP
-
-            #region TOUCHPAD
-            SteamVR_Actions.vRSF_Binding_LeftTouchpadClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftTouchpadDown;
-            SteamVR_Actions.vRSF_Binding_LeftTouchpadClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftTouchpadUp;
-
-            SteamVR_Actions.vRSF_Binding_LeftTouchpadTouch[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftTouchpadTouch;
-            SteamVR_Actions.vRSF_Binding_LeftTouchpadTouch[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftTouchpadUntouch;
-
-            SteamVR_Actions.vRSF_Binding_LeftTouchpadPosition[SteamVR_Input_Sources.Any].onAxis -= ViveLeftHandInputListeners.OnLeftTouchpadAxisChanged;
-            #endregion TOUCHPAD
-
             #region MENU
-            SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftMenuDown;
-            SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftMenuUp;
+            BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
+
+            // Check Click Events
+            if (!tempClick.Value && Input.GetButton("Button0Click"))
+            {
+                tempClick.SetValue(true);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
+            }
+            else if (tempClick.Value && !Input.GetButton("Button0Click"))
+            {
+                tempClick.SetValue(false);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
+            }
             #endregion MENU
         }
 
-        public static void UnregisterRightListeners()
+        /// <summary>
+        /// Handle the Left Controller input and put them in the Events
+        /// </summary>
+        private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
         {
-            #region TRIGGER
-            SteamVR_Actions.vRSF_Binding_RightTriggerClick[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightTriggerDown;
-            SteamVR_Actions.vRSF_Binding_RightTriggerClick[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightTriggerUp;
-            #endregion TRIGGER
-
-            #region GRIP
-            SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightGripDown;
-            SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightGripUp;
-            #endregion GRIP
-
-            #region TOUCHPAD
-            SteamVR_Actions.vRSF_Binding_RightTouchpadClick[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightTouchpadDown;
-            SteamVR_Actions.vRSF_Binding_RightTouchpadClick[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightTouchpadUp;
-
-            SteamVR_Actions.vRSF_Binding_RightTouchpadTouch[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightTouchpadTouch;
-            SteamVR_Actions.vRSF_Binding_RightTouchpadTouch[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightTouchpadUntouch;
-
-            SteamVR_Actions.vRSF_Binding_RightTouchpadPosition[SteamVR_Input_Sources.Any].onAxis -= ViveRightHandInputListeners.OnRightTouchpadAxisChanged;
-            #endregion TOUCHPAD
-
             #region MENU
-            SteamVR_Actions.vRSF_Binding_RightMenu[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightMenuDown;
-            SteamVR_Actions.vRSF_Binding_RightMenu[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightMenuUp;
+            BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
+
+            // Check Click Events
+            if (!tempClick.Value && Input.GetButton("Button2Click"))
+            {
+                tempClick.SetValue(true);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
+            }
+            else if (tempClick.Value && !Input.GetButton("Button2Click"))
+            {
+                tempClick.SetValue(false);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
+            }
             #endregion MENU
         }
         #endregion PRIVATE_METHODS

@@ -46,7 +46,7 @@ namespace VRSF.UI
             // If the controllers are not used, we cannot click on a button
             if (!ControllersParametersVariable.Instance.UseControllers)
             {
-                Debug.LogWarning("VRSF : You won't be able to use the VR Button if you're not using the Controllers. To change that,\n" +
+                Debug.LogWarning("<b>[VRSF] :</b> You won't be able to use the VR Button if you're not using the Controllers. To change that,\n" +
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 

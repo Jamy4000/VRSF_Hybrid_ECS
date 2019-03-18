@@ -36,14 +36,14 @@ namespace VRSF.MoveAround.Teleport
                 }
                 catch (System.Exception exception)
                 {
-                    Debug.Log("VRSF : No Fade Component found on the VRCamera. Teleporting user without fade effect.\n" + exception.ToString());
+                    Debug.Log("<b>[VRSF] :</b> No Fade Component found on the VRCamera. Teleporting user without fade effect.\n" + exception.ToString());
                 }
 
                 e.SceneObjects._TeleportNavMesh = GameObject.FindObjectOfType<TeleportNavMeshComponent>();
 
                 if (e.SceneObjects._TeleportNavMesh == null)
                 {
-                    Debug.LogError("VRSF : You need to add a TeleportNavMeshComponent in your scene to be able to use the Teleport Feature.");
+                    Debug.LogError("<b>[VRSF] :</b> You need to add a TeleportNavMeshComponent in your scene to be able to use the Teleport Feature.");
                 }
             }
         }

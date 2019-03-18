@@ -14,12 +14,7 @@ namespace VRSF.MoveAround.Teleport
         [Tooltip("The distance to move the Camera (in Meters) for the step by step feature.")]
         public float DistanceStepByStep = 1.0f;
 
-        [Tooltip("The NavMesh Build index for the Teleport feature. If you only use the NavMesh for the Teleport feature, let it to 0.")]
-        public int TeleportNavMeshBuildIndex = 0;
-
-        /// <summary>
-        /// Step height, specified in the NavMesh
-        /// </summary>
-        [HideInInspector] public float StepHeight = 0.5f;
+        [Tooltip("The step height of the NavMesh for the Teleport feature.")]
+        public float StepHeight = 1.0f;
     }
 }

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeyList:
   - ThumbIsTouching
-  - ThumbrestIsTouching
+  - TriggerIsTouching
   - AButtonIsTouching
   - BButtonIsTouching
   ValueList:
   - {fileID: 11400000, guid: 565f24335efeae1428c419dd28bf7ce0, type: 2}
-  - {fileID: 11400000, guid: 8572cb6447150214a817960e635bfc16, type: 2}
+  - {fileID: 11400000, guid: e94a30b5a2c1ded41af5a6ebbe2a8b0f, type: 2}
   - {fileID: 11400000, guid: c44de520e9afc8b42bc058f42116bedf, type: 2}
   - {fileID: 11400000, guid: 5e4a5c462eda4a54ebd0a4393d57afa7, type: 2}

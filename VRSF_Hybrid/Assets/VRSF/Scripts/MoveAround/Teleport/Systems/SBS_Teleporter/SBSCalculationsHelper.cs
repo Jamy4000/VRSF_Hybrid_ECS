@@ -27,7 +27,7 @@ namespace VRSF.MoveAround.Teleport
             var newCameraPos = GetNewTheoriticPos(directionVector, false);
 
             // We calculate a vector down based on the new Camera Pos. 
-            var downVectorDistance = Mathf.Abs(VRSF_Components.VRCamera.transform.localPosition.y) + e.SBS_Comp.StepHeight;
+            var downVectorDistance = Mathf.Abs(VRSF_Components.VRCamera.transform.position.y) + e.SBS_Comp.StepHeight;
             var downVector = newCameraPos + (Vector3.down * downVectorDistance);
 
             // We calculate the linecast between the newUserPos and the downVector and check if it hits the NavMesh
@@ -41,10 +41,7 @@ namespace VRSF.MoveAround.Teleport
                 out Vector3 norm,
                 e.SceneObjects._TeleportNavMesh
             );
-
-            // We set the camera rig pos in y to the camera pos in y
-            newCameraRigPos.y = newCameraPos.y;
-
+            
             return endOnNavmesh;
         }
 

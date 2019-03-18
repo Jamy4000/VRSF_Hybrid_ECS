@@ -33,9 +33,11 @@ namespace VRSF.Utils.ButtonActionChoser
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
             if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
             {
+                Debug.Log("StartActionDown");
                 // Check if we use a timer and if the timer is ready
                 if (BACGeneral.BACTimer == null)
                 {
+                    Debug.Log("BACGeneral.BACTimer == null, actionDown");
                     ActionDown();
                 }
                 else
@@ -47,6 +49,7 @@ namespace VRSF.Utils.ButtonActionChoser
                     }
                     else
                     {
+                        Debug.Log("TimerIsReady, actionDown");
                         ActionDown();
                     }
                 } 
