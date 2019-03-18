@@ -46,8 +46,8 @@ namespace VRSF.Core.Inputs
                 #endregion TRIGGER
 
                 #region GRIP
-                SteamVR_Actions.vRSF_Binding_LeftGrip[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftGripDown;
-                SteamVR_Actions.vRSF_Binding_LeftGrip[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftGripUp;
+                SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftGripDown;
+                SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftGripUp;
                 #endregion GRIP
 
                 #region TOUCHPAD
@@ -61,8 +61,8 @@ namespace VRSF.Core.Inputs
                 #endregion TOUCHPAD
 
                 #region MENU
-                SteamVR_Actions.vRSF_Binding_LeftMenu[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftMenuDown;
-                SteamVR_Actions.vRSF_Binding_LeftMenu[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftMenuUp;
+                SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateDown += ViveLeftHandInputListeners.OnLeftMenuDown;
+                SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateUp += ViveLeftHandInputListeners.OnLeftMenuUp;
                 #endregion MENU
             }
 
@@ -76,8 +76,8 @@ namespace VRSF.Core.Inputs
                 #endregion TRIGGER
 
                 #region GRIP
-                SteamVR_Actions.vRSF_Binding_RightGrip[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightGripDown;
-                SteamVR_Actions.vRSF_Binding_RightGrip[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightGripUp;
+                SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateDown += ViveRightHandInputListeners.OnRightGripDown;
+                SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateUp += ViveRightHandInputListeners.OnRightGripUp;
                 #endregion GRIP
 
                 #region TOUCHPAD
@@ -106,8 +106,8 @@ namespace VRSF.Core.Inputs
             #endregion TRIGGER
 
             #region GRIP
-            SteamVR_Actions.vRSF_Binding_LeftGrip[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftGripDown;
-            SteamVR_Actions.vRSF_Binding_LeftGrip[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftGripUp;
+            SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftGripDown;
+            SteamVR_Actions.vRSF_Binding_LeftGripClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftGripUp;
             #endregion GRIP
 
             #region TOUCHPAD
@@ -121,8 +121,8 @@ namespace VRSF.Core.Inputs
             #endregion TOUCHPAD
 
             #region MENU
-            SteamVR_Actions.vRSF_Binding_LeftMenu[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftMenuDown;
-            SteamVR_Actions.vRSF_Binding_LeftMenu[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftMenuUp;
+            SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateDown -= ViveLeftHandInputListeners.OnLeftMenuDown;
+            SteamVR_Actions.vRSF_Binding_LeftMenuClick[SteamVR_Input_Sources.Any].onStateUp -= ViveLeftHandInputListeners.OnLeftMenuUp;
             #endregion MENU
         }
 
@@ -134,8 +134,8 @@ namespace VRSF.Core.Inputs
             #endregion TRIGGER
 
             #region GRIP
-            SteamVR_Actions.vRSF_Binding_RightGrip[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightGripDown;
-            SteamVR_Actions.vRSF_Binding_RightGrip[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightGripUp;
+            SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateDown -= ViveRightHandInputListeners.OnRightGripDown;
+            SteamVR_Actions.vRSF_Binding_RightGripClick[SteamVR_Input_Sources.Any].onStateUp -= ViveRightHandInputListeners.OnRightGripUp;
             #endregion GRIP
 
             #region TOUCHPAD
