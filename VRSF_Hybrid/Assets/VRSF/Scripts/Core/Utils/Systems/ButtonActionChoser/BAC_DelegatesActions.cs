@@ -17,9 +17,9 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             BACCalculations = bacCalcul;
         }
 
-        IEnumerator WaitForTimer(Func<bool> toInvoke)
+        IEnumerator WaitForTimer(Action toInvoke)
         {
-            yield return new WaitForSeconds(BACGeneral.BACTimer.TimerThreshold + 0.1f);
+            yield return new WaitForSeconds(BACGeneral.BACTimer.TimerThreshold + 0.01f);
             
             if (BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 toInvoke.Invoke();
@@ -31,13 +31,13 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         public void StartActionDown(ButtonClickEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
+            if (ParametersAreOK(eventButton.HandInteracting, eventButton.ButtonInteracting))
             {
                 // Check if we use a timer and if the timer is ready
                 if (BACGeneral.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
-                    Func<bool> newFunc = new Func<bool>(() => ActionDown());
-                    BACGeneral.StartCoroutine(WaitForTimer(newFunc));
+                    Action newAction = new Action(() => ActionDown());
+                    BACCalculations.StartCoroutine(WaitForTimer(newAction));
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             }
 
 
-            bool ActionDown()
+            void ActionDown()
             {
                 // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
                 if (BACCalculations.ThumbPos != null && BACGeneral.ClickThreshold > 0.0f)
@@ -56,17 +56,17 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                     switch (BACGeneral.ButtonHand)
                     {
                         case EHand.RIGHT:
-                            return HandleThumbPosition.CheckThumbPosition(BACGeneral.RightClickThumbPosition, BACGeneral.OnButtonStartClicking, BACGeneral.ClickThreshold, BACCalculations.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.RightClickThumbPosition, BACGeneral.OnButtonStartClicking, BACGeneral.ClickThreshold, BACCalculations.ThumbPos.Value);
+                            break;
                         case EHand.LEFT:
-                            return HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftClickThumbPosition, BACGeneral.OnButtonStartClicking, BACGeneral.ClickThreshold, BACCalculations.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftClickThumbPosition, BACGeneral.OnButtonStartClicking, BACGeneral.ClickThreshold, BACCalculations.ThumbPos.Value);
+                            break;
                     }
                 }
                 else
                 {
                     BACGeneral.OnButtonStartClicking.Invoke();
-                    return true;
                 }
-                return false;
             }
         }
 
@@ -77,12 +77,10 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         public void StartActionUp(ButtonUnclickEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
+            if (ParametersAreOK(eventButton.HandInteracting, eventButton.ButtonInteracting) && (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer)))
             {
-                if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
-                {
-                    BACGeneral.OnButtonStopClicking.Invoke();
-                }
+                BACGeneral.OnButtonStopClicking.Invoke();
+                BACCalculations.StopAllCoroutines();
             }
         }
 
@@ -93,31 +91,24 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         public void StartActionTouched(ButtonTouchEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
+            if (ParametersAreOK(eventButton.HandInteracting, eventButton.ButtonInteracting))
             {
                 // Check if we use a timer and if the timer is ready
-                if (BACGeneral.BACTimer == null)
+                if (BACGeneral.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 {
-                    ActionTouched();
+                    Action newAction = new Action(() => ActionTouched());
+                    BACGeneral.StartCoroutine(WaitForTimer(newAction));
                 }
                 else
                 {
-                    if (!BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
-                    {
-                        Func<bool> newFunc = new Func<bool>(() => ActionTouched());
-                        BACGeneral.StartCoroutine(WaitForTimer(newFunc));
-                    }
-                    else
-                    {
-                        ActionTouched();
-                    }
+                    ActionTouched();
                 }
             }
 
             /// <summary>
             /// Actual Method checking if everwting is ok
             /// </summary>
-            bool ActionTouched()
+            void ActionTouched()
             {
                 // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
                 if (BACCalculations.ThumbPos != null && BACGeneral.TouchThreshold > 0.0f)
@@ -127,17 +118,17 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                     switch (BACGeneral.ButtonHand)
                     {
                         case EHand.RIGHT:
-                            return HandleThumbPosition.CheckThumbPosition(BACGeneral.RightTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.RightTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
+                            break;
                         case EHand.LEFT:
-                            return HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
+                             HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
+                            break;
                     }
                 }
                 else
                 {
                     BACGeneral.OnButtonStartTouching.Invoke();
-                    return true;
                 }
-                return false;
             }
         }
 
@@ -148,14 +139,18 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         public void StartActionUntouched(ButtonUntouchEvent eventButton)
         {
             // We check if the button clicked is the one set in the ButtonActionChoser comp and that the BAC can be used
-            if (BACGeneral.ButtonHand == eventButton.HandInteracting && BACGeneral.ActionButton == eventButton.ButtonInteracting && BACCalculations.CanBeUsed)
+            // Check as well if we use a timer and, if so, if the timer is ready
+            if (ParametersAreOK(eventButton.HandInteracting, eventButton.ButtonInteracting) && (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer)))
             {
-                // Check if we use a timer and, if so, if the timer is ready
-                if (BACGeneral.BACTimer == null || BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
-                {
-                    BACGeneral.OnButtonStopTouching.Invoke();
-                }
+                BACGeneral.OnButtonStopTouching.Invoke();
+                BACGeneral.StopAllCoroutines();
             }
+        }
+
+
+        private bool ParametersAreOK(EHand handInteracting, EControllersButton buttonInteracting)
+        {
+            return BACGeneral.ButtonHand == handInteracting && BACGeneral.ActionButton == buttonInteracting && BACCalculations.CanBeUsed;
         }
     }
 }

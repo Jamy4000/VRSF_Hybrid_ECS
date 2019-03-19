@@ -58,7 +58,7 @@ namespace VRSF.Core.Inputs
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
-            else if (tempClick.Value && Input.GetAxis("RightTriggerClick") == 0)
+            else if (tempClick.Value && Input.GetAxis("RightTriggerClick") < 0.95f)
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TRIGGER);

@@ -58,7 +58,7 @@ namespace VRSF.Core.Inputs
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
-            else if (tempClick.Value && Input.GetAxis("LeftTriggerClick") == 0)
+            else if (tempClick.Value && Input.GetAxis("LeftTriggerClick") < 0.95f)
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TRIGGER);
@@ -95,7 +95,7 @@ namespace VRSF.Core.Inputs
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             // Check Touch Events if user is not clicking
-            else if (Input.GetButtonDown("LeftThumbTouch"))
+            else if (!tempClick.Value && Input.GetButtonDown("LeftThumbTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);

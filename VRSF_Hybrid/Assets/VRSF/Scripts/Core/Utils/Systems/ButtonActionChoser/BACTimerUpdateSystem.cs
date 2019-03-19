@@ -103,7 +103,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         private IEnumerator OnStopInteractingCallback(BACTimerComponent timer)
         {
             yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
             // We reset the timers stuffs
             timer._Timer = 0.0f;
         }
