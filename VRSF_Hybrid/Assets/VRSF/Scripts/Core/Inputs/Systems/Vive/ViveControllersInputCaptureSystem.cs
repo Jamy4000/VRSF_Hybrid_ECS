@@ -2,6 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -14,6 +15,12 @@ namespace VRSF.Core.Inputs
         {
             public ViveControllersInputCaptureComponent ViveControllersInput;
             public CrossplatformInputCapture InputCapture;
+        }
+
+        protected override void OnCreateManager()
+        {
+            OnSetupVRReady.Listeners += CheckDevice;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate()
@@ -30,6 +37,12 @@ namespace VRSF.Core.Inputs
                     CheckLeftControllerInput(entity.InputCapture);
                 }
             }
+        }
+
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
         }
 
         #region PRIVATE_METHODS
@@ -75,6 +88,11 @@ namespace VRSF.Core.Inputs
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
+        }
+        
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.HTC_VIVE;
         }
         #endregion PRIVATE_METHODS
     }

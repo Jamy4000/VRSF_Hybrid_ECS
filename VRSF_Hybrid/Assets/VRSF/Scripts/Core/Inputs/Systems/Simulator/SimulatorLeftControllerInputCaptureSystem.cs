@@ -2,6 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -32,8 +33,9 @@ namespace VRSF.Core.Inputs
         /// </summary>
         protected override void OnCreateManager()
         {
-            base.OnCreateManager();
+            OnSetupVRReady.Listeners += CheckDevice;
             _inputContainer = InputVariableContainer.Instance;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate()
@@ -46,6 +48,12 @@ namespace VRSF.Core.Inputs
                     CheckLeftControllerInput(entity.ControllersInputCapture);
                 }
             }
+        }
+
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
         }
         #endregion
 
@@ -245,6 +253,11 @@ namespace VRSF.Core.Inputs
             #endregion Y BUTTON
 
             #endregion OCULUS_PARTICULARITIES
+        }
+
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR;
         }
         #endregion
     }

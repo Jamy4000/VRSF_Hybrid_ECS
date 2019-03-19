@@ -2,6 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -10,7 +11,7 @@ namespace VRSF.Core.Inputs
     /// Set the GameEvent depending on the Keyboard and Mouse Inputs.
     /// You can find a layout of the current mapping in the Wiki of the Repository.
     /// </summary>
-    public class SimulatorControllersInputCaptureSystem : ComponentSystem
+    public class SimulatorRightControllersInputCaptureSystem : ComponentSystem
     {
         /// <summary>
         /// The filter for the entity component.
@@ -33,8 +34,9 @@ namespace VRSF.Core.Inputs
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
-            base.OnCreateManager();
+            OnSetupVRReady.Listeners += CheckDevice;
             _inputContainer = InputVariableContainer.Instance;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate()
@@ -47,6 +49,12 @@ namespace VRSF.Core.Inputs
                     CheckRightControllerInput(entity.ControllersInputCapture);
                 }
             }
+        }
+
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
         }
         #endregion
 
@@ -251,6 +259,11 @@ namespace VRSF.Core.Inputs
             #endregion B BUTTON
 
             #endregion OCULUS_PARTICULARITIES
+        }
+
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR;
         }
         #endregion
     }

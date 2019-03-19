@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -32,17 +33,23 @@ namespace VRSF.Core.Inputs
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
-            base.OnCreateManager();
+            OnSetupVRReady.Listeners += CheckDevice;
             _inputContainer = InputVariableContainer.Instance;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate()
         {
             // If we doesn't use the controllers, we don't check for the inputs.
-            if (SetupVR.VRSF_Components.DeviceLoaded == SetupVR.EDevice.SIMULATOR && ControllersParametersVariable.Instance.UseControllers)
+            if (VRSF_Components.DeviceLoaded == EDevice.SIMULATOR && ControllersParametersVariable.Instance.UseControllers)
             {
                 CheckWheelClick();
             }
+        }
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
         }
         #endregion
 
@@ -65,6 +72,11 @@ namespace VRSF.Core.Inputs
                 _inputContainer.WheelIsClicking.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);
             }
+        }
+
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR;
         }
         #endregion
     }

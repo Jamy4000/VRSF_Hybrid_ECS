@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -15,6 +16,12 @@ namespace VRSF.Core.Inputs
             public Transform transform;
             public LookAtMouseComponent lookAtMouseComponent;
         }
+        
+        protected override void OnCreateManager()
+        {
+            OnSetupVRReady.Listeners += CheckDevice;
+            base.OnCreateManager();
+        }
 
         protected override void OnUpdate()
         {
@@ -26,6 +33,12 @@ namespace VRSF.Core.Inputs
                     CheckRayDirection(entity, time);
                 }
             }
+        }
+
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
         }
 
         private void CheckRayDirection(Components entity, float time)
@@ -41,6 +54,11 @@ namespace VRSF.Core.Inputs
 
             // Smoothly rotate towards the target point.
             entity.transform.rotation = Quaternion.Slerp(entity.transform.rotation, targetRotation, time * entity.lookAtMouseComponent.Speed);
+        }
+
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR;
         }
     }
 }

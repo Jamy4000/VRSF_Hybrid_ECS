@@ -2,6 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -15,7 +16,13 @@ namespace VRSF.Core.Inputs
             public RiftControllersInputCaptureComponent RiftControllersInput;
             public CrossplatformInputCapture InputCapture;
         }
-        
+
+        protected override void OnCreateManager()
+        {
+            OnSetupVRReady.Listeners += CheckDevice;
+            base.OnCreateManager();
+        }
+
         protected override void OnUpdate()
         {
             // If we doesn't use the controllers, we don't check for the inputs.
@@ -31,7 +38,13 @@ namespace VRSF.Core.Inputs
                 }
             }
         }
-        
+
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
+        }
+
         #region PRIVATE_METHODS
         /// <summary>
         /// Handle the Right Controller input and put them in the Events
@@ -164,17 +177,22 @@ namespace VRSF.Core.Inputs
             tempClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
             
             // Check Click Events
-            if (!tempClick.Value && Input.GetButtonDown("LeftMenuRift"))
+            if (!tempClick.Value && Input.GetButton("LeftMenuRift"))
             {
                 tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (tempClick.Value && Input.GetButtonUp("LeftMenuRift"))
+            else if (tempClick.Value && !Input.GetButton("LeftMenuRift"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
+        }
+
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT;
         }
         #endregion PRIVATE_METHODS
     }

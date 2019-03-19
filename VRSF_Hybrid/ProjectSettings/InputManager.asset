@@ -362,7 +362,7 @@ InputManager:
     descriptiveName: Left Menu button (Start) on rift clicked
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 7
+    positiveButton: joystick button 6
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0

@@ -46,6 +46,7 @@ namespace VRSF.Core.Controllers
 
                 e.ControllerPointerComp._PointerState = isUsingController ? EPointerState.ON : EPointerState.OFF;
                 e.ControllerPointerComp.gameObject.SetActive(isUsingController);
+
                 e.ControllerPointerComp.IsSetup = true;
             }
         }
