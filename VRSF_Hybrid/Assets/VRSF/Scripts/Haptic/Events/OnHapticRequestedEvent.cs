@@ -16,7 +16,7 @@
         public readonly float HapticDuration;
 
         /// <summary>
-        /// The Amplitude of the Haptic impulse
+        /// The Amplitude of the Haptic impulse. WARNING : Only Supported on OCULUS
         /// </summary>
         public readonly float HapticAmplitude;
 
