@@ -27,8 +27,8 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         [HideInInspector] public EThumbPosition RightClickThumbPosition = EThumbPosition.NONE;
 
         [Header("The Thresholds for the Thumb on the Controller")]
-        [HideInInspector] public float TouchThreshold = 0.5f;
-        [HideInInspector] public float ClickThreshold = 0.5f;
+        [HideInInspector] public float TouchThreshold = 0.0f;
+        [HideInInspector] public float ClickThreshold = 0.0f;
         
         [Header("The UnityEvents called when the user is Touching")]
         [HideInInspector] public UnityEvent OnButtonStartTouching = new UnityEvent();

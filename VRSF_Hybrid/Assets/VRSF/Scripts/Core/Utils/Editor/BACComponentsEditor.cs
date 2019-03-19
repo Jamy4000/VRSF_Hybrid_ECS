@@ -160,6 +160,12 @@ namespace VRSF.Core.Utils.Editor
                     DisplayThumbPosition(EControllerInteractionType.TOUCH, _buttonActionChoser.ButtonHand);
                     break;
 
+                case EControllersButton.TRIGGER:
+                    _bacCalculations.ParametersAreInvalid = false;
+                    _leftThumbPosIsShown = false;
+                    _rightThumbPosIsShown = false;
+                    break;
+
                 case EControllersButton.NONE:
                     _bacCalculations.ParametersAreInvalid = true;
                     _leftThumbPosIsShown = false;

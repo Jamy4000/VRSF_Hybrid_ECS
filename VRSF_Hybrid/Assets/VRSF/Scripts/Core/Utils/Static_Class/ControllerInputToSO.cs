@@ -46,6 +46,9 @@ namespace VRSF.Core.Inputs
                 case (EControllersButton.THUMBSTICK):
                     return "ThumbIsTouching";
 
+                case (EControllersButton.TRIGGER):
+                    return "TriggerIsTouching";
+
                 case (EControllersButton.A_BUTTON):
                     return "AButtonIsTouching";
                 case (EControllersButton.B_BUTTON):

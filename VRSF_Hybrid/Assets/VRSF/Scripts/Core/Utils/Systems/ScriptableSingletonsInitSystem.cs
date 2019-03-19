@@ -34,9 +34,7 @@ namespace VRSF.Utils.Systems
             this.Enabled = false;
         }
 
-        protected override void OnUpdate()
-        {
-        }
+        protected override void OnUpdate() {}
 
         protected override void OnDestroyManager()
         {

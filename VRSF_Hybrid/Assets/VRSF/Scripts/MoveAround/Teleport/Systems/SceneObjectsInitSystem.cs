@@ -11,9 +11,9 @@ namespace VRSF.MoveAround.Teleport
             public SceneObjectsComponent SceneObjects;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(InitValues);
         }
 

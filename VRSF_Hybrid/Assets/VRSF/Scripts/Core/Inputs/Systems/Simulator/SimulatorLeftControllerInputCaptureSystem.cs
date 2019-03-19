@@ -17,7 +17,7 @@ namespace VRSF.Core.Inputs
         /// </summary>
         struct Filter
         {
-            public SimulatorControllersInputCaptureComponent ControllersInputCapture;
+            public SimulatorInputCaptureComponent ControllersInputCapture;
         }
 
         #region PRIVATE_VARIABLES
@@ -54,7 +54,7 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Left Controller input and put them in the Events
         /// </summary>
-        void CheckLeftControllerInput(SimulatorControllersInputCaptureComponent controllerInputCapture)
+        void CheckLeftControllerInput(SimulatorInputCaptureComponent controllerInputCapture)
         {
             BoolVariable temp;
 

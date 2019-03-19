@@ -24,9 +24,9 @@ namespace VRSF.Gaze.Utils
 
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             _gazeParameters = GazeParametersVariable.Instance;
             _interactionsContainer = InteractionVariableContainer.Instance;
         }

@@ -3,7 +3,7 @@
 namespace VRSF.Core.Inputs
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
-    public class SimulatorControllersInputCaptureComponent : MonoBehaviour
+    public class SimulatorInputCaptureComponent : MonoBehaviour
     {
     }
 }

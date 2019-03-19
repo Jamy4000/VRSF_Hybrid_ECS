@@ -18,9 +18,9 @@ namespace VRSF.Core.Raycast
         
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(SetupVariables);
         }
         

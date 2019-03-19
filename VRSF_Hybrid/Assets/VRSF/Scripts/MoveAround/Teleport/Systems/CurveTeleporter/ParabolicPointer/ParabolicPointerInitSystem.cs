@@ -21,9 +21,9 @@ namespace VRSF.MoveAround.Teleport
             public BACGeneralComponent BACGeneral;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(InitValues);
         }
 

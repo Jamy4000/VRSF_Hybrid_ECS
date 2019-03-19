@@ -79,19 +79,23 @@ namespace VRSF.Core.SetupVR
             switch (VRSF_Components.DeviceLoaded)
             {
                 case (EDevice.OCULUS_RIFT):
-                    //VRSF_Components.CameraRig.AddComponent<RiftControllersInputCaptureComponent>();
+                    GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
                     CheckControllersReferences(setupVR, setupVR.Rift_Controllers);
                     break;
                 case (EDevice.HTC_VIVE):
-                    setupVR.CameraRig.AddComponent<ViveControllersInputCaptureComponent>();
+                    GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
                     CheckControllersReferences(setupVR, setupVR.Vive_Controllers);
                     break;
                 default:
-                    setupVR.CameraRig.AddComponent<SimulatorControllersInputCaptureComponent>();
+                    GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
                     break;
             }
 
-            setupVR.CameraRig.transform.name = "[VRSF]" + VRSF_Components.DeviceLoaded.ToString();
+            setupVR.CameraRig.transform.name = "[VRSF] " + VRSF_Components.DeviceLoaded.ToString();
+            setupVR.CameraRig.transform.SetParent(setupVR.transform.root);
             setupVR.IsLoaded = true;
 
 
@@ -138,6 +142,7 @@ namespace VRSF.Core.SetupVR
             // We check if the ActiveSDK is correctly set (set normally in LoadCorrespondingSDK())
             if (setupVR.CameraRig == null)
             {
+                Debug.LogError("<b>[VRSF] :</b> No VRCamera was references in SetupVR. Trying to fetch it using tag RESERVED_CameraRig.");
                 setupVR.CameraRig = GameObject.FindGameObjectWithTag("RESERVED_CameraRig");
                 return;
             }
@@ -147,7 +152,7 @@ namespace VRSF.Core.SetupVR
             // We set the references to the VRCamera
             if (setupVR.VRCamera == null)
             {
-                Debug.LogError("<b>[VRSF] :</b> No VRCamera were references in SetupVR. Trying to fectch it.");
+                Debug.LogError("<b>[VRSF] :</b> No VRCamera was references in SetupVR. Trying to fetch it using tag MainCamera.");
                 setupVR.VRCamera = GameObject.FindGameObjectWithTag("MainCamera");
                 return;
             }
@@ -174,10 +179,16 @@ namespace VRSF.Core.SetupVR
         /// </summary>
         void CheckControllersReferences(SetupVRComponents setupVR, VRController[] Controllers)
         {
-            if (setupVR.LeftController == null && setupVR.RightController == null)
+            if (setupVR.LeftController == null)
             {
-                Debug.Log("<b>[VRSF] :</b> No controller were references in SetupVR.");
-                return;
+                Debug.LogError("<b>[VRSF] :</b> No Left Controller was references in SetupVR. Trying to fetch it using tag RESERVED_LeftController.");
+                setupVR.LeftController = GameObject.FindGameObjectWithTag("RESERVED_LeftController");
+            }
+
+            if (setupVR.RightController == null)
+            {
+                Debug.LogError("<b>[VRSF] :</b> No Right Controller was references in SetupVR. Trying to fetch it using tag RESERVED_RightController.");
+                setupVR.RightController = GameObject.FindGameObjectWithTag("RESERVED_RightController");
             }
 
             if (setupVR.LeftController != null)
@@ -199,13 +210,13 @@ namespace VRSF.Core.SetupVR
                 switch (VRSF_Components.DeviceLoaded)
                 {
                     case (EDevice.OCULUS_RIFT):
-                        //VRSF_Components.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
+                        setupVR.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
                         break;
                     case (EDevice.HTC_VIVE):
                         setupVR.CameraRig.GetComponent<ViveControllersInputCaptureComponent>().enabled = false;
                         break;
                     case (EDevice.SIMULATOR):
-                        setupVR.CameraRig.GetComponent<SimulatorControllersInputCaptureComponent>().enabled = false;
+                        setupVR.CameraRig.GetComponent<SimulatorInputCaptureComponent>().enabled = false;
                         break;
                     default:
                         Debug.LogError("<b>[VRSF] :</b> Device Loaded is not set to a valid value : " + VRSF_Components.DeviceLoaded);

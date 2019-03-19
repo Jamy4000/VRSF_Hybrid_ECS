@@ -9,11 +9,6 @@ namespace VRSF.Core.Inputs
     public class CrossplatformInputCapture : MonoBehaviour
     {
         /// <summary>
-        /// To handle the setup with the Vive
-        /// </summary>
-        [HideInInspector] public bool ControllersParametersSetup = false;
-
-        /// <summary>
         /// The two parameters struct for the controllers
         /// </summary>
         [HideInInspector] public InputParameters RightParameters;

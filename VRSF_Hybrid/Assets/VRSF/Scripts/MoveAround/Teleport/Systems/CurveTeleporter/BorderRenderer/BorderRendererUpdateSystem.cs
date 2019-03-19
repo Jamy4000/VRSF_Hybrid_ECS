@@ -22,10 +22,10 @@ namespace VRSF.MoveAround.Teleport
             public ParabolCalculationsComponent PointerCalculations;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
+            base.OnCreateManager();
             OnSetupVRReady.Listeners += Init;
-            base.OnStartRunning();
         }
 
         protected override void OnDestroyManager()

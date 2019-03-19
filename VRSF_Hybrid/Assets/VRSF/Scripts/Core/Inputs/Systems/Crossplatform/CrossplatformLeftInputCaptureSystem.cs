@@ -22,10 +22,6 @@ namespace VRSF.Core.Inputs
             {
                 foreach (var entity in GetEntities<Filter>())
                 {
-                    // If the Setup for the controllers is not setup, we wait
-                    if (!entity.InputCapture.ControllersParametersSetup)
-                        return;
-
                     // We check the Input for the Left controller
                     CheckLeftControllerInput(entity.InputCapture);
                 }
@@ -39,15 +35,12 @@ namespace VRSF.Core.Inputs
         /// </summary>
         private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
         {
-            BoolVariable tempClick;
-            BoolVariable tempTouch;
-
             #region TRIGGER
-            tempClick = inputCapture.LeftParameters.ClickBools.Get("TriggerIsDown");
-            tempTouch = inputCapture.LeftParameters.TouchBools.Get("TriggerIsTouching");
+            BoolVariable tempClick = inputCapture.LeftParameters.ClickBools.Get("TriggerIsDown");
+            BoolVariable tempTouch = inputCapture.LeftParameters.TouchBools.Get("TriggerIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetAxis("LeftTriggerClick") > 0)
+            if (!tempClick.Value && Input.GetAxis("LeftTriggerClick") > 0.95f)
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
@@ -106,12 +99,12 @@ namespace VRSF.Core.Inputs
             tempClick = inputCapture.LeftParameters.ClickBools.Get("GripIsDown");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("LeftGripClick"))
+            if (!tempClick.Value && Input.GetAxis("LeftGripClick") > 0.95f)
             {
                 tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.GRIP);
             }
-            else if (tempClick.Value && !Input.GetButton("LeftGripClick"))
+            else if (tempClick.Value && Input.GetAxis("LeftGripClick") == 0)
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.GRIP);

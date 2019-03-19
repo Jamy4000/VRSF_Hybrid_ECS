@@ -18,10 +18,10 @@ namespace VRSF.MoveAround.Teleport
             public BorderRendererComponent BorderRenderer;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
+            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(Init);
-            base.OnStartRunning();
         }
 
         protected override void OnDestroyManager()

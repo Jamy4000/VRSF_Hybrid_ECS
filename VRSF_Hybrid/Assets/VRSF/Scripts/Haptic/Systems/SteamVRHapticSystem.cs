@@ -13,9 +13,9 @@ namespace VRSF.Core.Controllers.Haptic
             public ViveControllersInputCaptureComponent ViveInputCaptureComp;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             OnHapticRequestedEvent.RegisterListener(OnHapticEventCallback);
         }
 

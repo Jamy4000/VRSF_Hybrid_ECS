@@ -23,11 +23,11 @@ namespace VRSF.MoveAround.Teleport
             public SceneObjectsComponent SceneObjects;
         }
         
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
+            base.OnCreateManager();
             ParabolicRendererHelper.ControllersParameters = ControllersParametersVariable.Instance;
             OnSetupVRReady.Listeners += Init;
-            base.OnStartRunning();
         }
 
         protected override void OnDestroyManager()

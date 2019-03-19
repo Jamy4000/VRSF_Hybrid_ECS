@@ -32,7 +32,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             foreach (var e in GetEntities<Filter>())
             {
                 e.BAC_Comp.BACTimer = e.BACTimer;
-
                 // if we use a thumbstick
                 if (e.BAC_Comp.ActionButton == EControllersButton.THUMBSTICK)
                 {
@@ -92,7 +91,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <param name="e"></param>
         private void IsInteractingCallback(BACTimerComponent timer)
         {
-            Debug.Log(timer.name);
             timer._Timer += Time.deltaTime;
         }
 

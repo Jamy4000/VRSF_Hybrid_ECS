@@ -20,9 +20,9 @@ namespace VRSF.Core.Raycast
         private Controllers.ControllersParametersVariable _controllersParameters;
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             _gazeParameters = Gaze.GazeParametersVariable.Instance;
             _controllersParameters = Controllers.ControllersParametersVariable.Instance;
         }

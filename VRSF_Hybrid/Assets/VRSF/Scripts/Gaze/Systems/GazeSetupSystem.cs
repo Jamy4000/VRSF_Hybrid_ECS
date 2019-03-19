@@ -15,61 +15,22 @@ namespace VRSF.Gaze
         }
 
 
-        #region PRIVATE_VARIABLES
-        private GazeParametersVariable _gazeParameters;
-        #endregion PRIVATE_VARIABLES
-
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-
-            _gazeParameters = GazeParametersVariable.Instance;
+            OnSetupVRReady.Listeners += GazeCalculationsSetup;
             SceneManager.sceneLoaded += OnSceneLoaded;
-
-            if (_gazeParameters.UseGaze)
-            {
-                foreach (var e in GetEntities<Filter>())
-                {
-                    if (VRSF_Components.CameraRig != null)
-                    {
-                        GazeCalculationsSetup(e);
-                    }
-                }
-            }
-            else
-            {
-                this.Enabled = false;
-            }
+            base.OnCreateManager();
         }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        protected override void OnUpdate()
-        {
-            if (VRSF_Components.CameraRig != null)
-            {
-                foreach (var e in GetEntities<Filter>())
-                {
-                    if (!e.GazeCalculations._IsSetup)
-                    {
-                        GazeCalculationsSetup(e);
-                    }
-                    else
-                    {
-                        // AS there is only one gaze, we disable this system when it's setup.
-                        this.Enabled = false;
-                    }
-                }
-            }
-        }
+        
+        protected override void OnUpdate() {}
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            OnSetupVRReady.Listeners -= GazeCalculationsSetup;
         }
         #endregion ComponentSystem_Methods
 
@@ -78,19 +39,22 @@ namespace VRSF.Gaze
         /// <summary>
         /// Setup the Gaze Parameters based on the ScriptableSingleton, set in the VRSF Interaction Parameters Window
         /// </summary>
-        private void GazeCalculationsSetup(Filter entity)
+        private void GazeCalculationsSetup(OnSetupVRReady setupVRReady)
         {
-            try
+            if (GazeParametersVariable.Instance.UseGaze)
             {
-                // Store the original scale and rotation.
-                entity.GazeCalculations._OriginalScale = entity.GazeParameters.ReticleTransform.localScale;
-                entity.GazeCalculations._OriginalRotation = entity.GazeParameters.ReticleTransform.localRotation;
-                entity.GazeCalculations._VRCamera = VRSF_Components.VRCamera.transform;
-                entity.GazeCalculations._IsSetup = true;
+                foreach (var e in GetEntities<Filter>())
+                {
+                    // Store the original scale and rotation.
+                    e.GazeCalculations._OriginalScale = e.GazeParameters.ReticleTransform.localScale;
+                    e.GazeCalculations._OriginalRotation = e.GazeParameters.ReticleTransform.localRotation;
+                    e.GazeCalculations._VRCamera = VRSF_Components.VRCamera.transform;
+                    e.GazeCalculations._IsSetup = true;
+                }
             }
-            catch (System.Exception e)
+            else
             {
-                Debug.Log("<b>[VRSF] :</b> The VR Components are not set in the scene yet, waiting for next frame.\n" + e);
+                this.Enabled = false;
             }
         }
 

@@ -23,10 +23,6 @@ namespace VRSF.Core.Inputs
             {
                 foreach (var entity in GetEntities<Filter>())
                 {
-                    // If the Setup for the controllers is not setup, we look for the Vive Controllers
-                    if (!entity.InputCapture.ControllersParametersSetup)
-                        return;
-
                     // We check the Input for the Right controller
                     CheckRightControllerInput(entity.InputCapture);
 
@@ -65,7 +61,7 @@ namespace VRSF.Core.Inputs
         private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
         {
             #region MENU
-            BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
+            BoolVariable tempClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
             if (!tempClick.Value && Input.GetButton("Button2Click"))

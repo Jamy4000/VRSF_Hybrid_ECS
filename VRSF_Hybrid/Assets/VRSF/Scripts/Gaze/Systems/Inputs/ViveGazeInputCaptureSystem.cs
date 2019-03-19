@@ -26,10 +26,9 @@ namespace VRSF.Gaze.Inputs
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             _gazeParameters = GazeParametersVariable.Instance;
             _inputContainer = InputVariableContainer.Instance;
         }
@@ -41,12 +40,8 @@ namespace VRSF.Gaze.Inputs
             {
                 foreach (var entity in GetEntities<ViveFilter>())
                 {
-                    if (entity.GazeInputCapture.GazeReferencesSetup)
-                    {
-                        // If we need to, we check the Gaze Interactions
-                        if (entity.GazeInputCapture.CheckGazeInteractions)
-                            CheckGazeInputs(entity.GazeInputCapture);
-                    }
+                    if (entity.GazeInputCapture.GazeReferencesSetup && entity.GazeInputCapture.CheckGazeInteractions)
+                        CheckGazeInputs(entity.GazeInputCapture);
                 }
             }
         }

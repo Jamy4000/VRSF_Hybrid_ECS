@@ -15,10 +15,10 @@ namespace VRSF.MoveAround.Teleport
             public TeleportGeneralComponent TeleportGeneral;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
+            base.OnCreateManager();
             OnTeleportUser.Listeners += TeleportUserCallback;
-            base.OnStartRunning();
         }
 
         protected override void OnUpdate()

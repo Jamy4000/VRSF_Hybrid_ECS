@@ -16,7 +16,7 @@ namespace VRSF.Core.Inputs
         /// </summary>
         struct Filter
         {
-            public SimulatorControllersInputCaptureComponent VRInputCapture;
+            public SimulatorInputCaptureComponent VRInputCapture;
         }
 
         #region PRIVATE_VARIABLES

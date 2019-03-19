@@ -21,10 +21,10 @@ namespace VRSF.MoveAround.Fly
 
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
+            base.OnCreateManager();
             OnSetupVRReady.Listeners += OnSetupVRIsReady;
-            base.OnStartRunning();
         }
 
 

@@ -28,11 +28,11 @@ namespace VRSF.MoveAround.Teleport
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += Init;
             _controllersVariable = ControllersParametersVariable.Instance;
-            base.OnStartRunning();
+            base.OnCreateManager();
         }
         
         protected override void OnDestroyManager()

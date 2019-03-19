@@ -15,12 +15,6 @@ namespace VRSF.Core.Inputs
             public CrossplatformInputCapture InputCapture;
         }
 
-        protected override void OnCreateManager()
-        {
-            base.OnCreateManager();
-            SetupControllersParameters();
-        }
-
         protected override void OnUpdate()
         {
             // If we doesn't use the controllers, we don't check for the inputs.
@@ -28,10 +22,6 @@ namespace VRSF.Core.Inputs
             {
                 foreach (var entity in GetEntities<Filter>())
                 {
-                    // If the Setup for the controllers is not setup, we wait
-                    if (!entity.InputCapture.ControllersParametersSetup)
-                        return;
-
                     // We check the Input for the Right controller
                     CheckRightControllerInput(entity.InputCapture);
                 }
@@ -50,7 +40,7 @@ namespace VRSF.Core.Inputs
             BoolVariable tempTouch = inputCapture.RightParameters.TouchBools.Get("TriggerIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetAxis("RightTriggerClick") > 0)
+            if (!tempClick.Value && Input.GetAxis("RightTriggerClick") > 0.95f)
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
@@ -62,12 +52,12 @@ namespace VRSF.Core.Inputs
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("LeftTriggerTouch"))
+            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("RightTriggerTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
-            else if (tempTouch.Value && !Input.GetButton("LeftTriggerTouch"))
+            else if (tempTouch.Value && !Input.GetButton("RightTriggerTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
@@ -109,48 +99,18 @@ namespace VRSF.Core.Inputs
             tempClick = inputCapture.RightParameters.ClickBools.Get("GripIsDown");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("RightGripClick"))
+            if (!tempClick.Value && Input.GetAxis("RightGripClick") > 0.95f)
             {
                 tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
-            else if (tempClick.Value && !Input.GetButton("RightGripClick"))
+            else if (tempClick.Value && Input.GetAxis("RightGripClick") == 0)
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
             #endregion GRIP
         }
-
-
-        /// <summary>
-        /// Setup the two controllers parameters to use in the CheckControllersInput method.
-        /// </summary>
-        /// <param name="viveInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
-        public void SetupControllersParameters()
-        {
-            foreach (var e in GetEntities<Filter>())
-            {
-                // We give the references to the Scriptable variable containers in the Left Parameters variable
-                e.InputCapture.LeftParameters = new InputParameters
-                {
-                    ClickBools = InputVariableContainer.Instance.LeftClickBoolean,
-                    TouchBools = InputVariableContainer.Instance.LeftTouchBoolean,
-                    ThumbPosition = InputVariableContainer.Instance.LeftThumbPosition
-                };
-
-                // We give the references to the Scriptable variable containers in the Right Parameters variable
-                e.InputCapture.RightParameters = new InputParameters
-                {
-                    ClickBools = InputVariableContainer.Instance.RightClickBoolean,
-                    TouchBools = InputVariableContainer.Instance.RightTouchBoolean,
-                    ThumbPosition = InputVariableContainer.Instance.RightThumbPosition
-                };
-
-                e.InputCapture.ControllersParametersSetup = true;
-            }
-        }
         #endregion PRIVATE_METHODS
     }
 }
-
