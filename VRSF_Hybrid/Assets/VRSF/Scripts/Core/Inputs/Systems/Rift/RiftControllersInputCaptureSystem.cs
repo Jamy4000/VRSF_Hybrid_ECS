@@ -56,24 +56,24 @@ namespace VRSF.Core.Inputs
             BoolVariable tempTouch = inputCapture.RightParameters.TouchBools.Get("AButtonIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("Button0Click"))
+            if (Input.GetButtonDown("Button0Click"))
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
-            else if (tempClick.Value && !Input.GetButton("Button0Click"))
+            else if (Input.GetButtonUp("Button0Click"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("AButtonTouch"))
+            else if (!tempClick.Value && Input.GetButtonDown("AButtonTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
-            else if (tempTouch.Value && !Input.GetButton("AButtonTouch"))
+            else if (Input.GetButtonUp("AButtonTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
@@ -85,24 +85,24 @@ namespace VRSF.Core.Inputs
             tempTouch = inputCapture.RightParameters.TouchBools.Get("BButtonIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("BButtonClick"))
+            if (Input.GetButtonDown("BButtonClick"))
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
-            else if (tempClick.Value && !Input.GetButton("BButtonClick"))
+            else if (Input.GetButtonUp("BButtonClick"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("BButtonTouch"))
+            else if (!tempClick.Value && Input.GetButtonDown("BButtonTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
-            else if (tempTouch.Value && !Input.GetButton("BButtonTouch"))
+            else if (Input.GetButtonUp("BButtonTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
@@ -118,7 +118,7 @@ namespace VRSF.Core.Inputs
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             }
-            else if (tempTouch.Value && !Input.GetButton("RightThumbrestTouch"))
+            else if (Input.GetButtonUp("RightThumbrestTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
@@ -136,24 +136,24 @@ namespace VRSF.Core.Inputs
             BoolVariable tempTouch = inputCapture.LeftParameters.TouchBools.Get("XButtonIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("Button2Click"))
+            if (Input.GetButtonDown("Button2Click"))
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
-            else if (tempClick.Value && !Input.GetButton("Button2Click"))
+            else if (Input.GetButtonUp("Button2Click"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("XButtonTouch"))
+            else if (!tempClick.Value && Input.GetButtonDown("XButtonTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
-            else if (tempTouch.Value && !Input.GetButton("XButtonTouch"))
+            else if (Input.GetButtonUp("XButtonTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.X_BUTTON);
@@ -165,24 +165,24 @@ namespace VRSF.Core.Inputs
             tempTouch = inputCapture.LeftParameters.TouchBools.Get("YButtonIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("YButtonClick"))
+            if (Input.GetButtonDown("YButtonClick"))
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
-            else if (tempClick.Value && !Input.GetButton("YButtonClick"))
+            else if (Input.GetButtonUp("YButtonClick"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("YButtonTouch"))
+            else if (!tempClick.Value && Input.GetButtonDown("YButtonTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
-            else if (tempTouch.Value && !Input.GetButton("YButtonTouch"))
+            else if (Input.GetButtonUp("YButtonTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
@@ -193,12 +193,12 @@ namespace VRSF.Core.Inputs
             tempClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
             
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("LeftMenuRift"))
+            if (Input.GetButtonDown("LeftMenuRift"))
             {
                 tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (tempClick.Value && !Input.GetButton("LeftMenuRift"))
+            else if (Input.GetButtonUp("LeftMenuRift"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
@@ -214,7 +214,7 @@ namespace VRSF.Core.Inputs
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
             }
-            else if (tempTouch.Value && !Input.GetButton("LeftThumbrestTouch"))
+            else if (Input.GetButtonUp("LeftThumbrestTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);

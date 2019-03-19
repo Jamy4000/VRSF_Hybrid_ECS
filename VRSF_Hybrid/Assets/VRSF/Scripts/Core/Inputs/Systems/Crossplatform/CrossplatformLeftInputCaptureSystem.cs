@@ -64,12 +64,12 @@ namespace VRSF.Core.Inputs
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("LeftTriggerTouch"))
+            else if (Input.GetButtonDown("LeftTriggerTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
-            else if (tempTouch.Value && !Input.GetButton("LeftTriggerTouch"))
+            else if (Input.GetButtonUp("LeftTriggerTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TRIGGER);
@@ -83,24 +83,24 @@ namespace VRSF.Core.Inputs
             tempTouch = inputCapture.LeftParameters.TouchBools.Get("ThumbIsTouching");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("LeftThumbClick"))
+            if (Input.GetButtonDown("LeftThumbClick"))
             {
                 tempClick.SetValue(true);
                 tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
-            else if (tempClick.Value && !Input.GetButton("LeftThumbClick"))
+            else if (Input.GetButtonUp("LeftThumbClick"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && !tempTouch.Value && Input.GetButton("LeftThumbTouch"))
+            else if (Input.GetButtonDown("LeftThumbTouch"))
             {
                 tempTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
-            else if (tempTouch.Value && !Input.GetButton("LeftThumbTouch"))
+            else if (Input.GetButtonUp("LeftThumbTouch"))
             {
                 tempTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);

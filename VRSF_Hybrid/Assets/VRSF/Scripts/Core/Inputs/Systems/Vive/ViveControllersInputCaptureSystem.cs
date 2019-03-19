@@ -55,12 +55,12 @@ namespace VRSF.Core.Inputs
             BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("Button0Click"))
+            if (Input.GetButtonDown("Button0Click"))
             {
                 tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
-            else if (tempClick.Value && !Input.GetButton("Button0Click"))
+            else if (Input.GetButtonUp("Button0Click"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
@@ -77,12 +77,12 @@ namespace VRSF.Core.Inputs
             BoolVariable tempClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetButton("Button2Click"))
+            if (Input.GetButtonDown("Button2Click"))
             {
                 tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (tempClick.Value && !Input.GetButton("Button2Click"))
+            else if (Input.GetButtonUp("Button2Click"))
             {
                 tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
