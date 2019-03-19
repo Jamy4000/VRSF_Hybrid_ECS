@@ -17,6 +17,7 @@ namespace VRSF.Core.Inputs
         /// </summary>
         struct Filter
         {
+            public CrossplatformInputCapture CrossplatformInput;
             public SimulatorInputCaptureComponent VRInputCapture;
         }
 
@@ -41,11 +42,12 @@ namespace VRSF.Core.Inputs
         protected override void OnUpdate()
         {
             // If we doesn't use the controllers, we don't check for the inputs.
-            if (VRSF_Components.DeviceLoaded == EDevice.SIMULATOR && ControllersParametersVariable.Instance.UseControllers)
+            if (ControllersParametersVariable.Instance.UseControllers)
             {
                 CheckWheelClick();
             }
         }
+
         protected override void OnDestroyManager()
         {
             OnSetupVRReady.Listeners -= CheckDevice;
@@ -61,13 +63,13 @@ namespace VRSF.Core.Inputs
         private void CheckWheelClick()
         {
             // If the boolVariable for the wheel is clicking is at false but the user is pressing it
-            if (!_inputContainer.WheelIsClicking.Value && Input.GetKeyDown(KeyCode.Mouse2))
+            if (Input.GetKeyDown(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);
             }
             // If the boolVariable for the wheel is clicking is at true but the user is not pressing it
-            else if (_inputContainer.WheelIsClicking.Value && Input.GetKeyUp(KeyCode.Mouse2))
+            else if (Input.GetKeyUp(KeyCode.Mouse2))
             {
                 _inputContainer.WheelIsClicking.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.WHEEL_BUTTON);

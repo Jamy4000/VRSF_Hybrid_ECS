@@ -198,12 +198,11 @@ namespace VRSF.Core.Utils.Editor
 
                 case EControllersButton.MENU:
                     if (_buttonActionChoser.ButtonHand == EHand.RIGHT)
-                    {
                         DisplayViveWarning();
-                        _bacCalculations.ParametersAreInvalid = false;
-                        _leftThumbPosIsShown = false;
-                        _rightThumbPosIsShown = false;
-                    }
+
+                    _bacCalculations.ParametersAreInvalid = false;
+                    _leftThumbPosIsShown = false;
+                    _rightThumbPosIsShown = false;
                     break;
 
                 case EControllersButton.WHEEL_BUTTON:

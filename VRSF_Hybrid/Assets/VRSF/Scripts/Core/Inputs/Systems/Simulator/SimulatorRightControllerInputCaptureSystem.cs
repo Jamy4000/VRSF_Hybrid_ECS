@@ -18,6 +18,7 @@ namespace VRSF.Core.Inputs
         /// </summary>
         struct Filter
         {
+            public CrossplatformInputCapture CrossplatformInput;
             public SimulatorInputCaptureComponent ControllersInputCapture;
         }
 
@@ -46,7 +47,7 @@ namespace VRSF.Core.Inputs
             {
                 foreach (var entity in GetEntities<Filter>())
                 {
-                    CheckRightControllerInput(entity.ControllersInputCapture);
+                    CheckRightControllerInput(entity.CrossplatformInput);
                 }
             }
         }
@@ -63,198 +64,213 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Right Controller input and put them in the Events
         /// </summary>
-        void CheckRightControllerInput(SimulatorInputCaptureComponent vrInputCapture)
+        void CheckRightControllerInput(CrossplatformInputCapture inputCapture)
         {
-            BoolVariable temp;
-
             //Right Click
             #region TRIGGER
-            temp = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
+            BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("TriggerIsDown");
+            BoolVariable tempTouch = inputCapture.RightParameters.TouchBools.Get("TriggerIsTouching");
 
-            if (!temp.Value && Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
-                temp.SetValue(true);
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
+
+                tempTouch.SetValue(true);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
-            else if (temp.Value && Input.GetMouseButtonUp(1))
+            else if (Input.GetMouseButtonUp(1))
             {
-                temp.SetValue(false);
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TRIGGER);
+
+                tempTouch.SetValue(false);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.TRIGGER);
             }
             #endregion TRIGGER
-        
+
 
             //Up, Down, Left and Right Arrows
             #region THUMB
-            temp = _inputContainer.RightClickBoolean.Get("ThumbIsDown");
+            tempClick = inputCapture.RightParameters.ClickBools.Get("ThumbIsDown");
+            tempTouch = inputCapture.RightParameters.TouchBools.Get("ThumbIsTouching");
+            Vector2 finalDirection = inputCapture.RightParameters.ThumbPosition.Value;
 
             //GO UP
-            if (!temp.Value && Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.up);
-                temp.SetValue(true);
-
+                finalDirection.y = 1.0f;
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                tempTouch.SetValue(true);
             }
-            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.up) && Input.GetKeyUp(KeyCode.UpArrow))
+            else if (Input.GetKeyUp(KeyCode.UpArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
-                temp.SetValue(false);
-
+                finalDirection.y = 0.0f;
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                tempTouch.SetValue(false);
             }
 
-            //GO DOWN
-            if (!temp.Value && Input.GetKeyDown(KeyCode.DownArrow))
+            // GO DOWN
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.down);
-                temp.SetValue(true);
-
+                finalDirection.y = -1.0f;
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                tempTouch.SetValue(true);
             }
-            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.down) && Input.GetKeyUp(KeyCode.DownArrow))
+            else if (Input.GetKeyUp(KeyCode.DownArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
-                temp.SetValue(false);
-
+                finalDirection.y = 0.0f;
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                tempTouch.SetValue(false);
             }
 
             //GO RIGHT
-            if (!temp.Value && Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.right);
-                temp.SetValue(true);
-
+                finalDirection.x = 1.0f;
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                tempTouch.SetValue(true);
             }
-            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.right) && Input.GetKeyUp(KeyCode.RightArrow))
+            else if (Input.GetKeyUp(KeyCode.RightArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
-                temp.SetValue(false);
-
+                finalDirection.x = 0.0f;
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                tempTouch.SetValue(false);
             }
 
-            //GO LEFT
-            if (!temp.Value && Input.GetKeyDown(KeyCode.LeftArrow))
+            //GO Right
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.left);
-                temp.SetValue(true);
-
+                finalDirection.x = -1.0f;
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(true);
+                tempTouch.SetValue(true);
             }
-            else if (temp.Value && _inputContainer.RightThumbPosition.Value.Equals(Vector2.left) && Input.GetKeyUp(KeyCode.LeftArrow))
+            else if (Input.GetKeyUp(KeyCode.LeftArrow))
             {
-                _inputContainer.RightThumbPosition.SetValue(Vector2.zero);
-                temp.SetValue(false);
-
+                finalDirection.x = 0.0f;
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
 
                 // Touching event raise as well
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-                _inputContainer.RightTouchBoolean.Get("ThumbIsTouching").SetValue(false);
+                tempTouch.SetValue(false);
             }
+
+            inputCapture.RightParameters.ThumbPosition.SetValue(finalDirection);
             #endregion THUMB
 
 
             //Right Shift
             #region GRIP
-            temp = _inputContainer.RightClickBoolean.Get("GripIsDown");
+            tempClick = inputCapture.RightParameters.ClickBools.Get("GripIsDown");
 
-            if (!temp.Value && Input.GetKeyDown(KeyCode.RightShift))
+            if (Input.GetKeyDown(KeyCode.RightShift))
             {
-                temp.SetValue(true);
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
-            else if (temp.Value && Input.GetKeyUp(KeyCode.RightShift))
+            else if (Input.GetKeyUp(KeyCode.RightShift))
             {
-                temp.SetValue(false);
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
             #endregion GRIP
 
 
             #region VIVE_PARTICULARITY
-
+            
             //Right Control
             #region MENU
-            temp = _inputContainer.RightClickBoolean.Get("MenuIsDown");
+            tempClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
 
-            if (!temp.Value && Input.GetKeyDown(KeyCode.RightControl))
+            if (Input.GetKeyDown(KeyCode.RightControl))
             {
-                temp.SetValue(true);
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
-            else if (temp.Value && Input.GetKeyUp(KeyCode.RightControl))
+            else if (Input.GetKeyUp(KeyCode.RightControl))
             {
-                temp.SetValue(false);
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
             #endregion MENU
 
             #endregion VIVE_PARTICULARITY
 
-
             #region OCULUS_PARTICULARITIES
 
             //L
             #region A BUTTON
-            temp = _inputContainer.RightClickBoolean.Get("AButtonIsDown");
+            tempClick = inputCapture.RightParameters.ClickBools.Get("AButtonIsDown");
+            tempTouch = inputCapture.RightParameters.TouchBools.Get("AButtonIsTouching");
 
-            if (!temp.Value && Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L))
             {
-                temp.SetValue(true);
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
+
+                tempTouch.SetValue(true);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
-            else if (temp.Value && Input.GetKeyUp(KeyCode.L))
+            else if (Input.GetKeyUp(KeyCode.L))
             {
-                temp.SetValue(false);
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
+
+                tempTouch.SetValue(false);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             #endregion A BUTTON
 
+
             //O
             #region B BUTTON
-            temp = _inputContainer.RightClickBoolean.Get("BButtonIsDown");
+            tempClick = inputCapture.RightParameters.ClickBools.Get("BButtonIsDown");
+            tempTouch = inputCapture.RightParameters.TouchBools.Get("BButtonIsTouching");
 
-            if (!temp.Value && Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O))
             {
-                temp.SetValue(true);
+                tempClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
+
+                tempTouch.SetValue(true);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
-            else if (temp.Value && Input.GetKeyUp(KeyCode.O))
+            else if (Input.GetKeyUp(KeyCode.O))
             {
-                temp.SetValue(false);
+                tempClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
+
+                tempTouch.SetValue(false);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             #endregion B BUTTON
 

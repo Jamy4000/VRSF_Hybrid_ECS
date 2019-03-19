@@ -240,7 +240,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             {
                 // We check on which hand is set the Action Button selected
                 CheckButtonHand(entity);
-
+                
                 // We check that all the parameters are set correctly
                 if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
                 {

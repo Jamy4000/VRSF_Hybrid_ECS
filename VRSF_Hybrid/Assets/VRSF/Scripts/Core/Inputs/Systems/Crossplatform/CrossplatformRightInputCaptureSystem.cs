@@ -2,6 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -13,6 +14,12 @@ namespace VRSF.Core.Inputs
         private struct Filter
         {
             public CrossplatformInputCapture InputCapture;
+        }
+
+        protected override void OnCreateManager()
+        {
+            OnSetupVRReady.Listeners += CheckDevice;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate()
@@ -28,6 +35,11 @@ namespace VRSF.Core.Inputs
             }
         }
 
+        protected override void OnDestroyManager()
+        {
+            OnSetupVRReady.Listeners -= CheckDevice;
+            base.OnDestroyManager();
+        }
 
         #region PRIVATE_METHODS
         /// <summary>
@@ -110,6 +122,11 @@ namespace VRSF.Core.Inputs
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.GRIP);
             }
             #endregion GRIP
+        }
+
+        private void CheckDevice(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded != EDevice.SIMULATOR;
         }
         #endregion PRIVATE_METHODS
     }
