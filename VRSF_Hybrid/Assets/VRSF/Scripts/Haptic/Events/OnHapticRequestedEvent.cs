@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VRSF.Core.Controllers.Haptic
+﻿namespace VRSF.Core.Controllers.Haptic
 {
     /// <summary>
     /// Event to call when you want to launch haptic in the controller of the user
@@ -16,18 +14,13 @@ namespace VRSF.Core.Controllers.Haptic
         /// Time in microseconds the haptic impulse should take place
         /// </summary>
         public readonly float HapticDuration;
-        
-        /// <summary>
-        /// The Frequency of the Haptic
-        /// </summary>
-        public readonly float HapticFrequency;
 
         /// <summary>
         /// The Amplitude of the Haptic impulse
         /// </summary>
         public readonly float HapticAmplitude;
 
-        public OnHapticRequestedEvent(EHand hand, EHapticDuration hapticDuration, EHapticAmplitude hapticAmplitude = EHapticAmplitude.MEDIUM, EHapticFrequency hapticFrequency = EHapticFrequency.MEDIUM) : base("Event to call when you want to launch haptic in the controller of the user.")
+        public OnHapticRequestedEvent(EHand hand, EHapticDuration hapticDuration, EHapticAmplitude hapticAmplitude = EHapticAmplitude.MEDIUM) : base("Event to call when you want to launch haptic in the controller of the user.")
         {
             if (hand.Equals(EHand.GAZE) || hand.Equals(EHand.NONE))
             {
@@ -37,12 +30,11 @@ namespace VRSF.Core.Controllers.Haptic
 
             Hand = hand;
             HapticDuration = GetBaseDuration(hapticDuration);
-            HapticFrequency = (float)hapticFrequency;
             HapticAmplitude = GetBaseAmplitude(hapticAmplitude);
             FireEvent(this);
         }
 
-        public OnHapticRequestedEvent(EHand hand, float hapticDuration = 0.5f, float hapticAmplitude = 0.5f, float hapticFrequency = 150) : base("Event to call when you want to launch haptic in the controller of the user.")
+        public OnHapticRequestedEvent(EHand hand, float hapticDuration = 1.0f, float hapticAmplitude = 1.0f) : base("Event to call when you want to launch haptic in the controller of the user.")
         {
             if (hand.Equals(EHand.GAZE) || hand.Equals(EHand.NONE))
             {
@@ -52,7 +44,6 @@ namespace VRSF.Core.Controllers.Haptic
 
             Hand = hand;
             HapticDuration = hapticDuration;
-            HapticFrequency = hapticFrequency;
             HapticAmplitude = hapticAmplitude;
             FireEvent(this);
         }
@@ -75,11 +66,11 @@ namespace VRSF.Core.Controllers.Haptic
             switch (hapticDuration)
             {
                 case EHapticDuration.SHORT:
-                    return 0.1f;
-                case EHapticDuration.MEDIUM:
                     return 0.5f;
-                default:
+                case EHapticDuration.MEDIUM:
                     return 1.0f;
+                default:
+                    return 2.0f;
             }
         }
     }
