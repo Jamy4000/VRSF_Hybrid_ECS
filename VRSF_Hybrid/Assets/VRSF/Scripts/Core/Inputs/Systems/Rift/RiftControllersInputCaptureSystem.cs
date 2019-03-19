@@ -108,6 +108,22 @@ namespace VRSF.Core.Inputs
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             #endregion B
+
+            #region THUMBREST
+            tempTouch = inputCapture.RightParameters.TouchBools.Get("ThumbrestIsTouching");
+
+            // Check Touch Events
+            if (!tempTouch.Value && Input.GetButton("RightThumbrestTouch"))
+            {
+                tempTouch.SetValue(true);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
+            }
+            else if (tempTouch.Value && !Input.GetButton("RightThumbrestTouch"))
+            {
+                tempTouch.SetValue(false);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
+            }
+            #endregion THUMBREST
         }
 
         /// <summary>
@@ -188,6 +204,22 @@ namespace VRSF.Core.Inputs
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
+
+            #region THUMBREST
+            tempTouch = inputCapture.LeftParameters.TouchBools.Get("ThumbrestIsTouching");
+
+            // Check Touch Events
+            if (!tempTouch.Value && Input.GetButton("LeftThumbrestTouch"))
+            {
+                tempTouch.SetValue(true);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
+            }
+            else if (tempTouch.Value && !Input.GetButton("LeftThumbrestTouch"))
+            {
+                tempTouch.SetValue(false);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
+            }
+            #endregion THUMBREST
         }
 
         private void CheckDevice(OnSetupVRReady info)

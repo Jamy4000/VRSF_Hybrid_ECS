@@ -128,7 +128,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             switch (VRSF_Components.DeviceLoaded)
             {
                 case EDevice.HTC_VIVE:
-                    return _gazeParameters.GazeButtonOpenVR;
+                    return _gazeParameters.GazeButtonVive;
                 case EDevice.OCULUS_RIFT:
                     return _gazeParameters.GazeButtonRift;
                 default:

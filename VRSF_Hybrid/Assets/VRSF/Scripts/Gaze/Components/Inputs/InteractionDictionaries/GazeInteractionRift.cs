@@ -11,55 +11,53 @@ namespace VRSF.Gaze.Inputs
     public static class GazeInteractionRift
     {
         // The dictionary with references to the Rift Buttons
-        public static Dictionary<STuples<EControllersButton, EHand>, /* TODO OVRInput.Button*/bool> ClickDictionnary = new Dictionary<STuples<EControllersButton, EHand>, /* TODO OVRInput.Button*/bool>()
+        public static Dictionary<STuples<EControllersButton, EHand>, string> ClickDictionnary = new Dictionary<STuples<EControllersButton, EHand>, string>()
         {
-            // TODO
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.NONE, EHand.NONE), OVRInput.Button.None },
+            { new STuples<EControllersButton, EHand>(EControllersButton.NONE, EHand.NONE), "NONE" },
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.LEFT), OVRInput.Button.PrimaryIndexTrigger },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.RIGHT), OVRInput.Button.SecondaryIndexTrigger },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.LEFT), "LeftTriggerClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.RIGHT), "RightTriggerClick" },
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.LEFT), OVRInput.Button.PrimaryHandTrigger },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.RIGHT), OVRInput.Button.SecondaryHandTrigger },
+            { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.LEFT), "LeftGripClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.RIGHT), "RightGripClick" },
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), OVRInput.Button.PrimaryThumbstick },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), OVRInput.Button.SecondaryThumbstick },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), "LeftThumbClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), "RightThumbClick" },
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.LEFT), OVRInput.Button.Start },
+            { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.LEFT), "LeftMenuRift" },
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.A_BUTTON, EHand.RIGHT), OVRInput.Button.One },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.B_BUTTON, EHand.RIGHT), OVRInput.Button.Two },
+            { new STuples<EControllersButton, EHand>(EControllersButton.A_BUTTON, EHand.RIGHT), "Button0Click" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.B_BUTTON, EHand.RIGHT), "BButtonClick" },
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.X_BUTTON, EHand.LEFT), OVRInput.Button.Three },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.Y_BUTTON, EHand.LEFT), OVRInput.Button.Four }
+            { new STuples<EControllersButton, EHand>(EControllersButton.X_BUTTON, EHand.LEFT), "Button2Click" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.Y_BUTTON, EHand.LEFT), "YButtonClick" }
         };
 
 
         // The dictionary with references to the OVR Touch
-        public static Dictionary<STuples<EControllersButton, EHand>, /* TODO OVRInput.Button*/bool> TouchDictionnary = new Dictionary<STuples<EControllersButton, EHand>, /* TODO OVRInput.Button*/bool>()
+        public static Dictionary<STuples<EControllersButton, EHand>, string> TouchDictionnary = new Dictionary<STuples<EControllersButton, EHand>, string>()
         {
-            // TODO
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.NONE, EHand.NONE), OVRInput.Touch.None },
+            { new STuples<EControllersButton, EHand>(EControllersButton.NONE, EHand.NONE), "NONE"},
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.LEFT), OVRInput.Touch.PrimaryIndexTrigger },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.RIGHT), OVRInput.Touch.SecondaryIndexTrigger },
-            
-            //// The Grip (HandTrigger) is not checking for touch with Oculus
-            
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), OVRInput.Touch.PrimaryThumbstick },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), OVRInput.Touch.SecondaryThumbstick },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.LEFT), "LeftTriggerTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.RIGHT), "RightTriggerTouch" },
 
-            //// Start is not checking for touch with Oculus
-            
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.A_BUTTON, EHand.RIGHT), OVRInput.Touch.One },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.B_BUTTON, EHand.RIGHT), OVRInput.Touch.Two },
+            // The Grip (HandTrigger) is not checking for touch with Oculus
 
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.X_BUTTON, EHand.LEFT), OVRInput.Touch.Three },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.Y_BUTTON, EHand.LEFT), OVRInput.Touch.Four },
-            
-            //// The Oculus has a ThumbRest touch feature
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.THUMBREST, EHand.LEFT), OVRInput.Touch.PrimaryThumbRest },
-            //{ new STuples<EControllersButton, EHand>(EControllersButton.THUMBREST, EHand.RIGHT), OVRInput.Touch.SecondaryThumbRest },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), "LeftThumbTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), "RightThumbTouch" },
+
+            // Start is not checking for touch with Oculus
+
+            { new STuples<EControllersButton, EHand>(EControllersButton.A_BUTTON, EHand.RIGHT), "AButtonTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.B_BUTTON, EHand.RIGHT), "BButtonTouch" },
+
+            { new STuples<EControllersButton, EHand>(EControllersButton.X_BUTTON, EHand.LEFT), "XButtonTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.Y_BUTTON, EHand.LEFT), "YButtonTouch" },
+
+            // The Oculus has a ThumbRest touch feature
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBREST, EHand.LEFT), "LeftThumbrestTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBREST, EHand.RIGHT), "RightThumbrestTouch" }
         };
     }
 }
