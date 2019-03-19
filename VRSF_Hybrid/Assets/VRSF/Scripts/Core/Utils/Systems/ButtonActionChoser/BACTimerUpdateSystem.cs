@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Core.Inputs;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Handle the update for when you want to delay or stop a Button Action Update System feature before or after a timer.
@@ -24,12 +24,15 @@ namespace VRSF.Utils.ButtonActionChoser
             public BACCalculationsComponent BAC_Calc;
         }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
+
             foreach (var e in GetEntities<Filter>())
             {
                 e.BAC_Comp.BACTimer = e.BACTimer;
+
                 // if we use a thumbstick
                 if (e.BAC_Comp.ActionButton == EControllersButton.THUMBSTICK)
                 {
@@ -47,33 +50,27 @@ namespace VRSF.Utils.ButtonActionChoser
                 if (e.BAC_Calc.ActionButtonIsReady && e.BAC_Calc.CanBeUsed)
                 {
                     // If we use the touch event and the user is touching on the button
-                    if (e.BAC_Calc.IsTouching != null)
+                    if (e.BAC_Calc.IsTouching != null && e.BAC_Calc.IsTouching.Value)
                     {
-                        if (e.BAC_Calc.IsTouching.Value)
-                        {
-                            StartActionIsTouching(e);
-                            e.BACTimer._OldTouchingState = true;
-                        }
-                        else if (e.BACTimer._OldTouchingState)
-                        {
-                            e.BACTimer._OldTouchingState = false;
-                            e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
-                        }
+                        StartActionIsTouching(e);
+                        e.BACTimer._OldTouchingState = true;
+                    }
+                    else if (e.BACTimer._OldTouchingState)
+                    {
+                        e.BACTimer._OldTouchingState = false;
+                        e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
                     }
 
                     // If we use the click event and the user is clicking on the button
-                    if (e.BAC_Calc.IsClicking != null)
+                    if (e.BAC_Calc.IsClicking != null && e.BAC_Calc.IsClicking.Value)
                     {
-                        if (e.BAC_Calc.IsClicking.Value)
-                        {
-                            StartActionIsClicking(e);
-                            e.BACTimer._OldClickingState = true;
-                        }
-                        else if (e.BACTimer._OldClickingState)
-                        {
-                            e.BACTimer._OldClickingState = false;
-                            e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
-                        }
+                        StartActionIsClicking(e);
+                        e.BACTimer._OldClickingState = true;
+                    }
+                    else if (e.BACTimer._OldClickingState)
+                    {
+                        e.BACTimer._OldClickingState = false;
+                        e.BACTimer.StartCoroutine(OnStopInteractingCallback(e.BACTimer));
                     }
                 }
             }
@@ -95,6 +92,7 @@ namespace VRSF.Utils.ButtonActionChoser
         /// <param name="e"></param>
         private void IsInteractingCallback(BACTimerComponent timer)
         {
+            Debug.Log(timer.name);
             timer._Timer += Time.deltaTime;
         }
 
@@ -130,7 +128,7 @@ namespace VRSF.Utils.ButtonActionChoser
             }
             else
             {
-                IsInteractingCallback(e.BAC_Comp.BACTimer);
+                IsInteractingCallback(e.BACTimer);
             }
         }
 

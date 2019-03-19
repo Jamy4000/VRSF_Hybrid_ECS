@@ -2,9 +2,8 @@
 using UnityEngine.Events;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Utils.ButtonActionChoser;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Check if the thumbstick is above a c

@@ -3,7 +3,7 @@ using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.Raycast;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {

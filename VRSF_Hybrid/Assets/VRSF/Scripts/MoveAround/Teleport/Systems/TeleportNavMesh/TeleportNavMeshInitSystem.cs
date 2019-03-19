@@ -17,10 +17,11 @@ namespace VRSF.MoveAround.Teleport
             public TeleportNavMeshComponent TeleportNavMesh;
         }
 
-        protected override void OnStartRunning()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += InitValues;
-            base.OnStartRunning();
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate() { }

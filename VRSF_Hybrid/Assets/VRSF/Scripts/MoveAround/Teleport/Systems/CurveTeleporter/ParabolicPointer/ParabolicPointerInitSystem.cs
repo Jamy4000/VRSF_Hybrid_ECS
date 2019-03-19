@@ -2,7 +2,7 @@
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
 {

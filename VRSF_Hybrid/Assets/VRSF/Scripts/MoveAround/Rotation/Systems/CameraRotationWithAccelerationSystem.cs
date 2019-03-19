@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Utils.ButtonActionChoser;
 using VRSF.Core.Raycast;
 using VRSF.Core.Inputs;
 

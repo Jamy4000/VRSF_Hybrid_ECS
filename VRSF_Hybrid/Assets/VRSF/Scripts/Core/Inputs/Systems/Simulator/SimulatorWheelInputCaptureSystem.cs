@@ -30,9 +30,9 @@ namespace VRSF.Core.Inputs
         /// Called after the scene was loaded, setup the entities variables
         /// </summary>
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             _inputContainer = InputVariableContainer.Instance;
         }
 

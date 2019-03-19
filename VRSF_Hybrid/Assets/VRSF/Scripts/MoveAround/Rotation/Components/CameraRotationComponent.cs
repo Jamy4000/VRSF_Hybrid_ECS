@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Rotate
 {

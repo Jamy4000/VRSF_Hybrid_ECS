@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ScriptableFramework.Util
+namespace VRSF.Core.Utils
 {
     /// <summary>
     /// Allow to make a research from a Transform into the GrandChildren.

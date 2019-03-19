@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Extend this class to be able to setup the listeners of the BAC Systems.

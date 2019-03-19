@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Utils.ButtonActionChoser;
 using VRSF.Core.Raycast;
 
 namespace VRSF.MoveAround.Teleport

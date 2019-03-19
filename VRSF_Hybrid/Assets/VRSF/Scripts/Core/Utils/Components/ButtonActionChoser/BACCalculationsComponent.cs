@@ -1,7 +1,7 @@
 ﻿using ScriptableFramework.Variables;
 using UnityEngine;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACGeneralComponent))]
     public class BACCalculationsComponent : MonoBehaviour

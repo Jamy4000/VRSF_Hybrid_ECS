@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
-using VRSF.Utils.Components;
+using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.Utils.Editor
 {

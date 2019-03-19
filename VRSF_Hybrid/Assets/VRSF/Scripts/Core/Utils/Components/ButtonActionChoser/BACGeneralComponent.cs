@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACCalculationsComponent))]
     public class BACGeneralComponent : MonoBehaviour

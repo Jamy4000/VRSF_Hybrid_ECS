@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Utils.Components;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Setup the Scriptable Objects and Everything they need (Listeners Container, Listeners, Responses, ...) for a button action choser
@@ -35,21 +33,10 @@ namespace VRSF.Utils.ButtonActionChoser
 
             _inputsContainer = InputVariableContainer.Instance;
             
-            SceneManager.sceneLoaded += OnSceneUnloaded;
-
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.BACCalculationsComp.ActionButtonIsReady)
-                {
-                    CheckInitSOs(entity);
-                }
-                else
-                {
-                    entity.BACGeneralComp.StartCoroutine(WaitForActionButton(entity));
-                }
+                entity.BACGeneralComp.StartCoroutine(WaitForActionButton(entity));
             }
-
-            this.Enabled = false;
         }
 
         protected override void OnUpdate() { }
@@ -66,8 +53,6 @@ namespace VRSF.Utils.ButtonActionChoser
                 ButtonTouchEvent.UnregisterListener(delegatesHandler.StartActionTouched);
                 ButtonUntouchEvent.UnregisterListener(delegatesHandler.StartActionUntouched);
             }
-
-            SceneManager.sceneLoaded -= OnSceneUnloaded;
         }
         #endregion
 
@@ -232,16 +217,6 @@ namespace VRSF.Utils.ButtonActionChoser
                 entity.BACCalculationsComp.CanBeUsed = false;
                 entity.BACCalculationsComp.IsSetup = true;
             }
-        }
-
-
-        /// <summary>
-        /// Reactivate the System when switching to another Scene.
-        /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneUnloaded(Scene oldScene, LoadSceneMode loadMode)
-        {
-            this.Enabled = (loadMode == LoadSceneMode.Single);
         }
         #endregion
     }

@@ -288,6 +288,16 @@ PrefabInstance:
       propertyPath: ClickThreshold
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1040693131071878665, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: CheckDeviceAtRuntime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040693131071878665, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: DeviceToLoad
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7744e4080678eb4cac679cd8fa93883, type: 3}
 --- !u!1 &521340456

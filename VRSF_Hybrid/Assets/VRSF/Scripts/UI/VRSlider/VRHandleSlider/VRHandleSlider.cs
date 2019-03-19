@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ScriptableFramework.Util;
+using VRSF.Core.Utils;
 using ScriptableFramework.Variables;
 using VRSF.Core.Controllers;
 using UnityEngine;

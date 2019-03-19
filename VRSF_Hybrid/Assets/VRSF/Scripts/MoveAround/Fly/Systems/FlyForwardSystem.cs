@@ -1,5 +1,5 @@
 ﻿using Unity.Entities;
-using VRSF.Utils.ButtonActionChoser;
+using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Fly
 {

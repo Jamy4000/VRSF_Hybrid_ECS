@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Inputs;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     public class BACUpdateSystem : ComponentSystem
     {

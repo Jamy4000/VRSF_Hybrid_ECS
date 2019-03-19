@@ -15,9 +15,9 @@ namespace VRSF.Core.Inputs
             public CrossplatformInputCapture InputCapture;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             SetupControllersParameters();
         }
 

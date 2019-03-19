@@ -13,14 +13,10 @@ namespace ScriptableFramework.Util.Systems
             public ScriptableObjectSaveComponent ScriptableSaverComp;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-
+            base.OnCreateManager();
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-
-            // To let the EntityManager know where are the Entities
-            foreach (var e in GetEntities<Filter>()) { }
             this.Enabled = false;
         }
 

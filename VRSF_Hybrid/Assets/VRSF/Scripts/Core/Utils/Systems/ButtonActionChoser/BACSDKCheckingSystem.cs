@@ -1,9 +1,9 @@
 ﻿using Unity.Entities;
 using UnityEngine;
+using VRSF.Core.Events;
 using VRSF.Core.SetupVR;
-using VRSF.Utils.Components;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Check if we use the button action choser script for this SDK thanks to the toggle in the Inspector.
@@ -20,9 +20,9 @@ namespace VRSF.Utils.ButtonActionChoser
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(Init);
         }
         
@@ -72,8 +72,8 @@ namespace VRSF.Utils.ButtonActionChoser
             {
                 // Is put in an if method as the CanBeUsed is set in other script and we don't want to set it at true (true being is default value)
                 e.BAC_Calculations_Comp.CorrectSDK = CheckUseSDKToggles(e);
-                e.SDKComp.IsSetup = true;
             }
+            new SDKChoserIsSetup();
         }
         #endregion PRIVATES_METHODS
     }

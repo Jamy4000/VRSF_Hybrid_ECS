@@ -13,10 +13,9 @@ namespace ScriptableFramework.Util.Systems
             public ScriptableObjectLoadComponent ScriptableLoaderComp;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-
+            base.OnCreateManager();
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             foreach (var e in GetEntities<Filter>())

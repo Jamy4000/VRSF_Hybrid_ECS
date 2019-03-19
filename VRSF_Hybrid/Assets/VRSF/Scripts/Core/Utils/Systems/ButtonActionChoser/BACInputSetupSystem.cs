@@ -1,14 +1,13 @@
 ﻿using System;
 using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Utils.Components;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Gaze;
+using VRSF.Core.Events;
 
-namespace VRSF.Utils.ButtonActionChoser
+namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
     /// Setup the Action button Parameter that the user has chosen and check the parameters linked to it (Like the thumb position for a Thumbstick button)
@@ -30,76 +29,23 @@ namespace VRSF.Utils.ButtonActionChoser
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
 
             _gazeParameters = GazeParametersVariable.Instance;
             _controllersParameters = ControllersParametersVariable.Instance;
             _inputsContainer = InputVariableContainer.Instance;
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-
-            foreach (var entity in GetEntities<Filter>())
-            {
-                if (entity.BACGeneralComp.GetComponent<SDKChoserComponent>() == null)
-                {
-                    // We check on which hand is set the Action Button selected
-                    CheckButtonHand(entity);
-
-                    // We check that all the parameters are set correctly
-                    if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
-                    {
-                        Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.BACGeneralComp.transform.name + " object are invalid.\n" +
-                            "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                        entity.BACCalculationsComp.CanBeUsed = false;
-                    }
-                }
-            }
+            
+            SDKChoserIsSetup.Listeners += StartBACsSetup;
         }
 
-
-        protected override void OnUpdate()
-        {
-            bool systemStillRunning = false;
-
-            foreach (var entity in GetEntities<Filter>())
-            {
-                var sdkChoser = entity.BACGeneralComp.GetComponent<SDKChoserComponent>();
-
-                if (sdkChoser != null)
-                {
-                    if (!sdkChoser.IsSetup)
-                    {
-                        systemStillRunning = true;
-                    }
-                    else if (sdkChoser.IsSetup && entity.BACCalculationsComp.CorrectSDK)
-                    {
-                        // We check on which hand is set the Action Button selected
-                        CheckButtonHand(entity);
-
-                        // We check that all the parameters are set correctly
-                        if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
-                        {
-                            Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.BACGeneralComp.transform.name + " object are invalid.\n" +
-                                "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
-                            entity.BACCalculationsComp.CanBeUsed = false;
-                        }
-                    }
-                    else
-                    {
-                        entity.BACCalculationsComp.ActionButtonIsReady = true;
-                    }
-                }
-            }
-
-            this.Enabled = systemStillRunning;
-        }
+        protected override void OnUpdate() {}
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SDKChoserIsSetup.Listeners -= StartBACsSetup;
         }
         #endregion
 
@@ -250,9 +196,7 @@ namespace VRSF.Utils.ButtonActionChoser
 
                 entity.BACCalculationsComp.ThumbPos = _inputsContainer.RightThumbPosition;
             }
-
-            entity.BACCalculationsComp.ActionButtonIsReady = true;
-
+            
             return true;
         }
 
@@ -290,14 +234,25 @@ namespace VRSF.Utils.ButtonActionChoser
             }
         }
 
-
-        /// <summary>
-        /// Reactivate the System when switching to another Scene.
-        /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
+        private void StartBACsSetup(SDKChoserIsSetup info)
         {
-            this.Enabled = loadMode == LoadSceneMode.Single;
+            foreach (var entity in GetEntities<Filter>())
+            {
+                // We check on which hand is set the Action Button selected
+                CheckButtonHand(entity);
+
+                // We check that all the parameters are set correctly
+                if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
+                {
+                    Debug.LogError("The Button Action Choser parameters for the ButtonActionChoserComponents on the " + entity.BACGeneralComp.transform.name + " object are invalid.\n" +
+                        "Please specify valid values as displayed in the Help Boxes under your script. Setting CanBeUsed of ButtonActionChoserComponents to false.");
+                    entity.BACCalculationsComp.CanBeUsed = false;
+                }
+                else
+                {
+                    entity.BACCalculationsComp.ActionButtonIsReady = true;
+                }
+            }
         }
         #endregion PRIVATES_METHODS
     }

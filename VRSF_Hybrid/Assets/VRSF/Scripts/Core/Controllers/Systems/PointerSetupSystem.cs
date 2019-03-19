@@ -17,9 +17,9 @@ namespace VRSF.Core.Controllers
 
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(Init);
         }
         
