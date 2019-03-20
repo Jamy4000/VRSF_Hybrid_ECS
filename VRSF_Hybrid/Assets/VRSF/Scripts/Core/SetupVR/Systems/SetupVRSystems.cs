@@ -81,11 +81,17 @@ namespace VRSF.Core.SetupVR
                 case (EDevice.OCULUS_RIFT):
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
                     GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
+                    // Remove simulator
+                    GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
+                    GameObject.Destroy(setupVR.CameraRig.GetComponent<GameObjectEntity>());
                     CheckControllersReferences(setupVR, setupVR.Rift_Controllers);
                     break;
                 case (EDevice.HTC_VIVE):
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
                     GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
+                    // Remove simulator
+                    GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
+                    GameObject.Destroy(setupVR.CameraRig.GetComponent<GameObjectEntity>());
                     CheckControllersReferences(setupVR, setupVR.Vive_Controllers);
                     break;
                 default:
