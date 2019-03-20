@@ -83,8 +83,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR ScrollView to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR ScrollView", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR ScrollView", priority = 0)]
+        [MenuItem("VRSF/UI/VR ScrollView", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR ScrollView", priority = 0)]
         static void InstantiateVRScrollRect(MenuCommand menuCommand)
         {
             vrScrollRectPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRScrollView.prefab");

@@ -97,8 +97,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Button to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Button", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Button", priority = 0)]
+        [MenuItem("VRSF/UI/VR Button", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Button", priority = 0)]
         static void InstantiateVRButton(MenuCommand menuCommand)
         {
             vrButtonPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRButton.prefab");

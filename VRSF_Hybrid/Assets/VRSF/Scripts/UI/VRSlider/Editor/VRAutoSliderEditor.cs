@@ -110,8 +110,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Auto Filling Slider to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/Sliders/VR AutoFill Slider", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/Sliders/VR AutoFill Slider", priority = 0)]
+        [MenuItem("VRSF/UI/Sliders/VR AutoFill Slider", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/Sliders/VR AutoFill Slider", priority = 0)]
         static void InstantiateVRAutoFillSlider(MenuCommand menuCommand)
         {
             vrSliderPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRAutoFillSlider.prefab");

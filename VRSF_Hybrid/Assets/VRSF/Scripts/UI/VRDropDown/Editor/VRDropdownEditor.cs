@@ -83,8 +83,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Dropdown to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Dropdown", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Dropdown", priority = 0)]
+        [MenuItem("VRSF/UI/VR Dropdown", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Dropdown", priority = 0)]
         static void InstantiateVRDropDown(MenuCommand menuCommand)
         {
             vrDropdownPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRDropdown.prefab");

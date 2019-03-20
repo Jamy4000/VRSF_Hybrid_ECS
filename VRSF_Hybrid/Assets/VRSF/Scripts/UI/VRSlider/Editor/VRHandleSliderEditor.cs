@@ -83,8 +83,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Slider with Handle to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/Sliders/VR Handle Slider", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/Sliders/VR Handle Slider", priority = 0)]
+        [MenuItem("VRSF/UI/Sliders/VR Handle Slider", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/Sliders/VR Handle Slider", priority = 0)]
         static void InstantiateVRHandleSlider(MenuCommand menuCommand)
         {
             vrHandleSliderPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRHandleSlider.prefab");

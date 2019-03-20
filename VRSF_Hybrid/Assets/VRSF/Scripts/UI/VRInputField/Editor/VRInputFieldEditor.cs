@@ -87,8 +87,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR InputField to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Input Field", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR InputField", priority = 0)]
+        [MenuItem("VRSF/UI/VR Input Field", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR InputField", priority = 0)]
         static void InstantiateVRInputField(MenuCommand menuCommand)
         {
             vrInputFieldPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRInputField.prefab");
