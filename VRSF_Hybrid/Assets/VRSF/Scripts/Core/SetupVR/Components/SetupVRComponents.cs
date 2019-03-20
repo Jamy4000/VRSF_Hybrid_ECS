@@ -19,13 +19,7 @@ namespace VRSF.Core.SetupVR
 
         #region CONTROLLERS
         [Header("The prefabs to load for the Vive and Rift controllers.")]
-
-        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
-            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
         public VRController[] Vive_Controllers;
-
-        [Tooltip("If you don't want to use the VR Template under SetupVR, you can still drag the prefabs in your scene\n" +
-            "and add the scripts to the prefabs directly. Don't forget to Apply the changes to the prefab and then to Remove it from the scene.")]
         public VRController[] Rift_Controllers;
         #endregion CONTROLLERS
 

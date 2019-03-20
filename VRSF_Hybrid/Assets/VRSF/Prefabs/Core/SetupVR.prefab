@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeviceToLoad: 0
-  CheckDeviceAtRuntime: 0
+  CheckDeviceAtRuntime: 1
   Vive_Controllers:
   - Hand: 1
     ControllerPrefab: {fileID: 7361058184050641787, guid: 0f1e85d9264263243b653bc67794f2ff,
