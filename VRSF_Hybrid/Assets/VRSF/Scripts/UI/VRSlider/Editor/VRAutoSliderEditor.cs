@@ -21,7 +21,6 @@ namespace VRSF.UI.Editor
         private SerializedProperty m_OnBarReleased;
 
         private static GameObject vrSliderPrefab;
-
         private VRAutoFillSlider autoSlider;
         #endregion PRIVATE_VARIABLES
 
@@ -43,11 +42,11 @@ namespace VRSF.UI.Editor
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space();
-
             EditorGUILayout.LabelField("VRSF Parameters", EditorStyles.boldLabel);
             EditorGUILayout.Space();
 
             Undo.RecordObject(autoSlider.gameObject, "Add BoxCollider");
+            EditorGUI.BeginChangeCheck();
 
             if (autoSlider.gameObject.GetComponent<BoxCollider>() != null)
             {
@@ -67,11 +66,22 @@ namespace VRSF.UI.Editor
                     autoSlider.SetColliderAuto = true;
                 }
             }
+
             EditorGUILayout.Space();
 
-            autoSlider.FillWithClick = EditorGUILayout.ToggleLeft("Fill With Click", autoSlider.FillWithClick);
-            autoSlider.FillTime = EditorGUILayout.FloatField("Fill Time", autoSlider.FillTime);
-            
+            autoSlider.LaserClickable = EditorGUILayout.ToggleLeft("Clickable using Raycast", autoSlider.LaserClickable);
+            autoSlider.ControllerClickable = EditorGUILayout.ToggleLeft("Clickable using Controllers' meshes", autoSlider.ControllerClickable);
+
+            EditorGUILayout.Space();
+
+            autoSlider.ValueIsGoingDown = EditorGUILayout.ToggleLeft("Should the value decrease when not interacting", autoSlider.ValueIsGoingDown);
+            autoSlider.ResetFillOnRelease = EditorGUILayout.ToggleLeft("Should the value be reset On Release", autoSlider.ResetFillOnRelease);
+
+            EditorGUILayout.Space();
+
+            autoSlider.FillWithClick = EditorGUILayout.ToggleLeft("Should the user click to Fill the Slider", autoSlider.FillWithClick);
+            autoSlider.FillTime = EditorGUILayout.FloatField("Time to Fill the slider", autoSlider.FillTime);
+
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
@@ -83,12 +93,14 @@ namespace VRSF.UI.Editor
 
             EditorGUILayout.Space();
 
-            serializedObject.Update();
-
             EditorGUILayout.PropertyField(m_OnBarFilled);
             EditorGUILayout.PropertyField(m_OnBarReleased);
 
+            serializedObject.Update();
             serializedObject.ApplyModifiedProperties();
+            EditorGUI.EndChangeCheck();
+
+            if (GUI.changed) EditorUtility.SetDirty(target);
         }
         #endregion PUBLIC_METHODS
 

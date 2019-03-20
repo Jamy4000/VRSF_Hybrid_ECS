@@ -77,6 +77,7 @@ namespace VRSF.UI.Editor
             base.OnInspectorGUI();
             
             serializedObject.ApplyModifiedProperties();
+            if (GUI.changed) EditorUtility.SetDirty(target);
         }
         #endregion PUBLIC_METHODS
 

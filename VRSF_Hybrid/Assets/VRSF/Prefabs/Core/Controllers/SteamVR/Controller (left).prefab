@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 5535707079314640787}
   - component: {fileID: 8481380665343000135}
   m_Layer: 2
-  m_Name: body_group1
+  m_Name: body_group1_LEFT
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

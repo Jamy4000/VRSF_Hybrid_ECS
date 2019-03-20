@@ -49,6 +49,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RESERVED_ControllerModel
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1dac3b88ba69b6d4584553a22b4366da, type: 3}
+      propertyPath: m_Name
+      value: body_LEFT
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 1dac3b88ba69b6d4584553a22b4366da, type: 3}
       propertyPath: m_TagString
       value: RESERVED_ControllerModel

@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 5039748586253000919}
   - component: {fileID: 6198648708267135760}
   m_Layer: 2
-  m_Name: body_group1
+  m_Name: body_group1_RIGHT
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

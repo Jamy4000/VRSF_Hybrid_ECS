@@ -19,7 +19,6 @@ namespace VRSF.UI.Editor
 
         #region PRIVATE_VARIABLES
         private static GameObject vrButtonPrefab;
-
         private VRButton button;
         #endregion
 
@@ -88,6 +87,7 @@ namespace VRSF.UI.Editor
             
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
+            if (GUI.changed) EditorUtility.SetDirty(target);
         }
         #endregion
 
