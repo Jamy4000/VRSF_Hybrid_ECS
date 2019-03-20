@@ -85,6 +85,7 @@ namespace VRSF.Core.SetupVR
                     GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
                     GameObject.Destroy(setupVR.CameraRig.GetComponent<GameObjectEntity>());
                     CheckControllersReferences(setupVR, setupVR.Rift_Controllers);
+                    setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
                     break;
                 case (EDevice.HTC_VIVE):
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
@@ -93,11 +94,13 @@ namespace VRSF.Core.SetupVR
                     GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
                     GameObject.Destroy(setupVR.CameraRig.GetComponent<GameObjectEntity>());
                     CheckControllersReferences(setupVR, setupVR.Vive_Controllers);
+                    setupVR.FloorOffset.localPosition = Vector3.zero;
                     break;
                 default:
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
                     CheckControllersReferences(setupVR, setupVR.Simulator_Controllers);
+                    setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
                     break;
             }
 

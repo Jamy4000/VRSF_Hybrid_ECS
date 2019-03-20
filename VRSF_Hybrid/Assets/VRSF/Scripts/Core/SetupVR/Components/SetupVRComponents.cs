@@ -25,6 +25,7 @@ namespace VRSF.Core.SetupVR
         #endregion CONTROLLERS
 
         [Header("The references to the VR Transforms.")]
+        public Transform FloorOffset;
         public GameObject CameraRig;
         public GameObject LeftController;
         public GameObject RightController;

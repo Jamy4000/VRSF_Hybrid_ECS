@@ -124,6 +124,7 @@ MonoBehaviour:
   - Hand: 2
     ControllerPrefab: {fileID: 7361058184050641787, guid: 90497b30a6e63ba4ca304b5455b26369,
       type: 3}
+  FloorOffset: {fileID: 4136584930648195688}
   CameraRig: {fileID: 1341392395639404}
   LeftController: {fileID: 1059445186956032}
   RightController: {fileID: 1658705717848424}
