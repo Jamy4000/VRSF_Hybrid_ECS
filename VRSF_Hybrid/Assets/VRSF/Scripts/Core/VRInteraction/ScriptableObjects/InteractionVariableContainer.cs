@@ -1,5 +1,5 @@
 ﻿
-using ScriptableFramework.Util;
+using ScriptableFramework.Utils;
 using ScriptableFramework.Variables;
 using UnityEngine;
 

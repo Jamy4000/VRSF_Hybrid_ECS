@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace VRSF.Core.Utils.ButtonActionChoser
 {
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(BACGeneralComponent))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class BACCalculationsComponent : MonoBehaviour
     {
         [HideInInspector] public bool ActionButtonIsReady = false;

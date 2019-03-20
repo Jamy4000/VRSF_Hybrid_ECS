@@ -13,5 +13,7 @@ namespace VRSF.Core.Inputs
         /// </summary>
         [HideInInspector] public InputParameters RightParameters;
         [HideInInspector] public InputParameters LeftParameters;
+
+        [HideInInspector] public bool IsSetup;
     }
 }

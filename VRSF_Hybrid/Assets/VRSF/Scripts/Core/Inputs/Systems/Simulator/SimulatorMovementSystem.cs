@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Entities;
 using VRSF.Core.SetupVR;
-using System;
 
 namespace VRSF.Core.Inputs
 {
@@ -11,8 +10,6 @@ namespace VRSF.Core.Inputs
         {
             public SimulatorMovementComponent cameraComponent;
         }
-
-        private bool _isCursorLocked = true;
 
         protected override void OnCreateManager()
         {
@@ -45,9 +42,11 @@ namespace VRSF.Core.Inputs
                     EvaluateRotation(e.cameraComponent, mouse);
                 }
                 // Translation
-                EvaluateTranslation(e.cameraComponent, ScrollDeltaY, dt);
-                // Interpolate toward new position
-                Interpolate(e.cameraComponent, dt);
+                if (EvaluateTranslation(e.cameraComponent, ScrollDeltaY, dt))
+                {
+                    // Interpolate toward new position
+                    Interpolate(e.cameraComponent, dt);
+                }
             }
         }
 
@@ -65,22 +64,33 @@ namespace VRSF.Core.Inputs
             cameraComp.m_TargetCameraState.pitch += mouse.y * mouseSensitivityFactor;
         }
 
-        // Evaluate the camera translation based on WASD and apply boost.
-        private void EvaluateTranslation(SimulatorMovementComponent cameraComp, float deltaY, float deltaTime)
+        /// <summary>
+        /// Evaluate the camera translation based on WASD and apply boost.
+        /// </summary>
+        /// <param name="cameraComp"></param>
+        /// <param name="deltaY"></param>
+        /// <param name="deltaTime"></param>
+        /// <returns>return true if translation is not a vector3.zero</returns>
+        private bool EvaluateTranslation(SimulatorMovementComponent cameraComp, float deltaY, float deltaTime)
         {
             var translation = GetInputTranslationDirection() * deltaTime;
-
-            // Speed up movement when shift key held
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (translation != Vector3.zero)
             {
-                translation *= 10.0f;
+                // Speed up movement when shift key held
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    translation *= 10.0f;
+                }
+
+                // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel)
+                cameraComp.boost += deltaY * 0.2f;
+                translation *= Mathf.Pow(2.0f, cameraComp.boost);
+
+                cameraComp.m_TargetCameraState.Translate(translation);
+
+                return true;
             }
-
-            // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel)
-            cameraComp.boost += deltaY * 0.2f;
-            translation *= Mathf.Pow(2.0f, cameraComp.boost);
-
-            cameraComp.m_TargetCameraState.Translate(translation);
+            return false;
         }
 
         // Framerate-independent interpolation
@@ -95,7 +105,7 @@ namespace VRSF.Core.Inputs
 
         private Vector3 GetInputTranslationDirection()
         {
-            Vector3 direction = new Vector3();
+            Vector3 direction = Vector3.zero;
             if (Input.GetKey(KeyCode.W))
             {
                 direction += Vector3.forward;

@@ -46,6 +46,8 @@ namespace VRSF.Core.Inputs
                     TouchBools = InputVariableContainer.Instance.RightTouchBoolean,
                     ThumbPosition = InputVariableContainer.Instance.RightThumbPosition
                 };
+
+                e.InputCapture.IsSetup = true;
             }
         }
         #endregion PRIVATE_METHODS

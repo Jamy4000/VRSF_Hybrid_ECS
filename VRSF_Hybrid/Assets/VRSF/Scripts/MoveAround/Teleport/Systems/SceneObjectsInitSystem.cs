@@ -13,8 +13,8 @@ namespace VRSF.MoveAround.Teleport
 
         protected override void OnCreateManager()
         {
-            base.OnCreateManager();
             OnSetupVRReady.RegisterListener(InitValues);
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate() { }

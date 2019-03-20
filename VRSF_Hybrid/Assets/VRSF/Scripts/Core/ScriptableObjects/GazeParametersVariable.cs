@@ -1,4 +1,4 @@
-﻿using ScriptableFramework.Util;
+﻿using ScriptableFramework.Utils;
 using UnityEngine;
 using VRSF.Core.Inputs;
 using VRSF.Core.Controllers;

@@ -45,6 +45,11 @@ namespace VRSF.UI
         [SerializeField] public UnityEvent OnBarFilled;
         [Tooltip("The OnBarReleased will only be called if the bar was filled before the user release it.")]
         [SerializeField] public UnityEvent OnBarReleased;
+
+        /// <summary>
+        /// Used to determine how much of the bar should be filled.
+        /// </summary>
+        [HideInInspector] public float Timer;
         #endregion
 
 
@@ -63,11 +68,6 @@ namespace VRSF.UI
         private bool _boxColliderSetup;
 
         private bool _isFillingWithMesh;
-
-        /// <summary>
-        /// Used to determine how much of the bar should be filled.
-        /// </summary>
-        [HideInInspector] private float _timer;
         #endregion
 
 
@@ -123,8 +123,8 @@ namespace VRSF.UI
                     else if (ValueIsGoingDown && value < 1 && value > 0)
                     {
                         // Set the value of the slider or the UV based on the normalised time.
-                        _timer -= Time.deltaTime;
-                        value = (_timer / FillTime);
+                        Timer -= Time.deltaTime;
+                        value = (Timer / FillTime);
                     }
                 }
             }
@@ -238,13 +238,13 @@ namespace VRSF.UI
         private IEnumerator FillBar()
         {
             // Until the timer is greater than the fill time...
-            while (_timer < FillTime)
+            while (Timer < FillTime)
             {
                 // ... add to the timer the difference between frames.
-                _timer += Time.deltaTime;
+                Timer += Time.deltaTime;
 
                 // Set the value of the slider or the UV based on the normalised time.
-                value = (_timer / FillTime);
+                value = (Timer / FillTime);
 
                 onValueChanged.Invoke(value);
 
@@ -286,7 +286,7 @@ namespace VRSF.UI
             // Reset the timer and bar values.
             if (ResetFillOnRelease)
             {
-                _timer = 0f;
+                Timer = 0f;
                 value = 0.0f;
             }
 

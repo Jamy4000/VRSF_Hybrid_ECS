@@ -28,13 +28,16 @@ namespace VRSF.Core.Inputs
             // If we doesn't use the controllers, we don't check for the inputs.
             if (ControllersParametersVariable.Instance.UseControllers)
             {
-                foreach (var entity in GetEntities<Filter>())
+                foreach (var e in GetEntities<Filter>())
                 {
-                    // We check the Input for the Right controller
-                    CheckRightControllerInput(entity.InputCapture);
+                    if (e.InputCapture.IsSetup)
+                    {
+                        // We check the Input for the Right controller
+                        CheckRightControllerInput(e.InputCapture);
 
-                    // We check the Input for the Left controller
-                    CheckLeftControllerInput(entity.InputCapture);
+                        // We check the Input for the Left controller
+                        CheckLeftControllerInput(e.InputCapture);
+                    }
                 }
             }
         }

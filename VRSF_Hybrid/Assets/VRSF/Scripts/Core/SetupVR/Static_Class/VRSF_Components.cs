@@ -16,6 +16,7 @@ namespace VRSF.Core.SetupVR
         /// </summary>
         public static bool SetupVRIsReady = false;
 
+        public static Transform FloorOffset;
         public static GameObject CameraRig;
         public static GameObject LeftController;
         public static GameObject RightController;
@@ -35,14 +36,14 @@ namespace VRSF.Core.SetupVR
         public static void SetCameraRigPosition(Vector3 newPos, bool useVRCameraOffset = true, bool setYPos = true)
         {
             if (useVRCameraOffset) GetNewPosWithCameraOffset();
-            VRSF_Components.CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, VRSF_Components.CameraRig.transform.position.y, newPos.z);
+            CameraRig.transform.position = setYPos ? newPos : new Vector3(newPos.x, CameraRig.transform.position.y, newPos.z);
 
 
             void GetNewPosWithCameraOffset()
             {
                 var y = newPos.y;
-                var cameraDirectionVector = new Vector3(newPos.x - VRSF_Components.VRCamera.transform.position.x, 0.0f, newPos.z - VRSF_Components.VRCamera.transform.position.z);
-                newPos = VRSF_Components.CameraRig.transform.position + cameraDirectionVector;
+                var cameraDirectionVector = new Vector3(newPos.x - VRCamera.transform.position.x, 0.0f, newPos.z - VRCamera.transform.position.z);
+                newPos = CameraRig.transform.position + cameraDirectionVector;
                 newPos.y = y;
             }
         }

@@ -10,7 +10,7 @@ namespace VRSF.Core.Interactions
     public class OnColliderOverLeftSystem : ComponentSystem
     {
         struct Filter
-        {
+        { 
             public Raycast.ScriptableRaycastComponent PointerRaycast;
             public ScriptableSingletonsComponent ScriptableSingletons;
         }

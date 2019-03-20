@@ -44,7 +44,6 @@ namespace VRSF.MoveAround.Teleport
         private void HandleTeleportingStateAndAlpha(Filter e)
         {
             var alpha = e.SceneObjects.FadeComponent._FadingImage.color.a;
-
             // If we are in a fadingOut state
             if (!e.SceneObjects.FadeComponent._IsFadingIn)
             {
@@ -106,6 +105,7 @@ namespace VRSF.MoveAround.Teleport
             else
             {
                 SetTeleportState(ETeleportState.None, teleportUser.TeleportGeneral);
+                Debug.Log("TeleportGeneralComponent.PointToGoTo " + TeleportGeneralComponent.PointToGoTo);
                 VRSF_Components.SetCameraRigPosition(TeleportGeneralComponent.PointToGoTo);
                 ChangeTeleportStatus(true);
             }

@@ -1,4 +1,4 @@
-﻿using ScriptableFramework.Util;
+﻿using ScriptableFramework.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 

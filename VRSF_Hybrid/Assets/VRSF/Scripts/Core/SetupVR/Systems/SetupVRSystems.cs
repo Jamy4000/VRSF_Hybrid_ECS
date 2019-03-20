@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,7 +20,7 @@ namespace VRSF.Core.SetupVR
         }
 
         private ControllersParametersVariable _controllersParameters;
-        
+
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
@@ -45,8 +46,8 @@ namespace VRSF.Core.SetupVR
                     LoadCorrespondingSDK(e.SetupVR);
                 else if (e.SetupVR.IsLoaded && !VRSF_Components.SetupVRIsReady)
                     SetupVRInScene(e.SetupVR);
-                else if (VRSF_Components.SetupVRIsReady)
-                    this.Enabled = false;
+
+                this.Enabled = !VRSF_Components.SetupVRIsReady;
             }
         }
         
@@ -80,19 +81,13 @@ namespace VRSF.Core.SetupVR
             {
                 case (EDevice.OCULUS_RIFT):
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
-                    // Remove simulator
-                    GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
-                    GameObject.Destroy(setupVR.CameraRig.GetComponent<GameObjectEntity>());
+                    RemoveSimulatorStuffs();
                     CheckControllersReferences(setupVR, setupVR.Rift_Controllers);
                     setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
                     break;
                 case (EDevice.HTC_VIVE):
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
-                    // Remove simulator
-                    GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
-                    GameObject.Destroy(setupVR.CameraRig.GetComponent<GameObjectEntity>());
+                    RemoveSimulatorStuffs();
                     CheckControllersReferences(setupVR, setupVR.Vive_Controllers);
                     setupVR.FloorOffset.localPosition = Vector3.zero;
                     break;
@@ -101,9 +96,10 @@ namespace VRSF.Core.SetupVR
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
                     CheckControllersReferences(setupVR, setupVR.Simulator_Controllers);
                     setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
+                    setupVR.StartCoroutine(ResetVRCamera());
                     break;
             }
-
+            
             setupVR.CameraRig.transform.name = "[VRSF] " + VRSF_Components.DeviceLoaded.ToString();
             setupVR.CameraRig.transform.SetParent(null);
             setupVR.IsLoaded = true;
@@ -140,6 +136,20 @@ namespace VRSF.Core.SetupVR
                     return EDevice.SIMULATOR;
                 }
             }
+
+            void RemoveSimulatorStuffs()
+            {
+                GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
+                GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
+            }
+
+            IEnumerator ResetVRCamera()
+            {
+                yield return new WaitForEndOfFrame();
+                XRSettings.enabled = false;
+                setupVR.VRCamera.transform.localPosition = Vector3.zero;
+                setupVR.VRCamera.transform.localRotation = Quaternion.identity;
+            }
         }
 
 
@@ -149,10 +159,18 @@ namespace VRSF.Core.SetupVR
         /// </summary>
         private void SetupVRInScene(SetupVRComponents setupVR)
         {
-            // We check if the ActiveSDK is correctly set (set normally in LoadCorrespondingSDK())
+            if (setupVR.FloorOffset == null)
+            {
+                Debug.LogError("<b>[VRSF] :</b> No Floor Offset was references in SetupVR. Trying to fetch it using the name Floor_Offset.");
+                setupVR.FloorOffset = GameObject.Find("Floor_Offset").transform;
+                return;
+            }
+
+            VRSF_Components.FloorOffset = setupVR.FloorOffset;
+
             if (setupVR.CameraRig == null)
             {
-                Debug.LogError("<b>[VRSF] :</b> No VRCamera was references in SetupVR. Trying to fetch it using tag RESERVED_CameraRig.");
+                Debug.LogError("<b>[VRSF] :</b> No CameraRig was references in SetupVR. Trying to fetch it using tag RESERVED_CameraRig.");
                 setupVR.CameraRig = GameObject.FindGameObjectWithTag("RESERVED_CameraRig");
                 return;
             }

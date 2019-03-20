@@ -38,9 +38,10 @@ namespace VRSF.Core.Inputs
             // If we doesn't use the controllers, we don't check for the inputs.
             if (ControllersParametersVariable.Instance.UseControllers)
             {
-                foreach (var entity in GetEntities<Filter>())
+                foreach (var e in GetEntities<Filter>())
                 {
-                    CheckLeftControllerInput(entity.CrossplatformInput);
+                    if (e.CrossplatformInput.IsSetup)
+                        CheckLeftControllerInput(e.CrossplatformInput);
                 }
             }
         }

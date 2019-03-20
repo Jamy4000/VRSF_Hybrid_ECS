@@ -35,19 +35,24 @@ namespace VRSF.Core.Controllers
         private void Init(OnSetupVRReady setupVRReady)
         {
             var controllersParameters = ControllersParametersVariable.Instance;
+            var activationDic = new System.Collections.Generic.Dictionary<UnityEngine.GameObject, bool>();
 
             foreach (var e in GetEntities<Filter>())
             {
                 e.ControllerPointerComp.IsSetup = false;
 
-                bool isUsingController = controllersParameters.UseControllers &&
-                    (e.RaycastComp.RayOrigin == EHand.LEFT && controllersParameters.UsePointerLeft) ||
-                    (e.RaycastComp.RayOrigin == EHand.RIGHT && controllersParameters.UsePointerRight);
+                bool isUsingController = VRSF_Components.DeviceLoaded != EDevice.SIMULATOR && controllersParameters.UseControllers &&
+                    ((e.RaycastComp.RayOrigin == EHand.LEFT && controllersParameters.UsePointerLeft) || (e.RaycastComp.RayOrigin == EHand.RIGHT && controllersParameters.UsePointerRight));
 
                 e.ControllerPointerComp._PointerState = isUsingController ? EPointerState.ON : EPointerState.OFF;
-                e.ControllerPointerComp.gameObject.SetActive(isUsingController);
+                activationDic.Add(e.RaycastComp.gameObject, isUsingController);
 
                 e.ControllerPointerComp.IsSetup = true;
+            }
+
+            foreach (var kvp in activationDic)
+            {
+                kvp.Key.SetActive(kvp.Value);
             }
         }
     }

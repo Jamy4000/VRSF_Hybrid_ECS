@@ -7,7 +7,7 @@ using UnityEditor;
 using System.IO;
 #endif
 
-namespace ScriptableFramework.Util
+namespace ScriptableFramework.Utils
 {
     /// <summary>
     ///  Utility class for handling singleton ScriptableObjects for data management
