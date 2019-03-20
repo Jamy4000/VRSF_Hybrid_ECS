@@ -37,7 +37,7 @@ namespace VRSF.Core.Raycast
                         e.RaycastComponents.RayVar.SetValue(VRSF_Components.VRCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition));
                     else if (VRSF_Components.DeviceLoaded != EDevice.NULL)
                         e.RaycastComponents.RayVar.SetValue(new Ray(e.RaycastComponents.RayOriginTransform.position, e.RaycastComponents.RayOriginTransform.TransformDirection(Vector3.forward)));
-                    
+
                     RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.RayOrigin, e.RaycastComponents.IgnoredLayers, ref e.RaycastComponents.RaycastHitVar);
                 }
             }
@@ -58,7 +58,7 @@ namespace VRSF.Core.Raycast
             var distance = GetDistanceFromOrigin();
 
             var hits = Physics.RaycastAll(ray, distance, layerToIgnore);
-            
+
             if (hits.Length > 0)
             {
                 var first3DHit = hits.OrderBy(x => x.distance).First();

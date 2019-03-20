@@ -18,8 +18,7 @@ namespace VRSF.Core.Interactions
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers && 
-                    entity.PointerRaycast.CheckRaycast)
+                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers && entity.PointerRaycast.CheckRaycast)
                 {
                     CheckResetClick(entity);
 

@@ -117,6 +117,13 @@ MonoBehaviour:
   - Hand: 2
     ControllerPrefab: {fileID: 295477108814772104, guid: 647d685721e293443a8d165c4690fcb6,
       type: 3}
+  Simulator_Controllers:
+  - Hand: 1
+    ControllerPrefab: {fileID: 7361058184050641787, guid: 38b83eff8553fac439a7541b2a702ed9,
+      type: 3}
+  - Hand: 2
+    ControllerPrefab: {fileID: 7361058184050641787, guid: 90497b30a6e63ba4ca304b5455b26369,
+      type: 3}
   CameraRig: {fileID: 1341392395639404}
   LeftController: {fileID: 1059445186956032}
   RightController: {fileID: 1658705717848424}

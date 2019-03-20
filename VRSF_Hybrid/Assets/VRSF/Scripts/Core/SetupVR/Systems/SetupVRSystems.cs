@@ -97,6 +97,7 @@ namespace VRSF.Core.SetupVR
                 default:
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
+                    CheckControllersReferences(setupVR, setupVR.Simulator_Controllers);
                     break;
             }
 

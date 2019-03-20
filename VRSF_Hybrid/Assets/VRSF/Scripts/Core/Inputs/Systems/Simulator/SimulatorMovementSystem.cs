@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Entities;
+using VRSF.Core.SetupVR;
+using System;
 
 namespace VRSF.Core.Inputs
 {
@@ -12,11 +14,16 @@ namespace VRSF.Core.Inputs
 
         private bool _isCursorLocked = true;
 
+        protected override void OnCreateManager()
+        {
+            OnSetupVRReady.Listeners += CheckSystemState;
+            base.OnCreateManager();
+        }
+
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            // Startin lock mode
-            ChangeCursorState(true, CursorLockMode.Locked);
+
             foreach (var e in GetEntities<Filter>())
             {
                 e.cameraComponent.m_TargetCameraState.SetFromTransform(e.cameraComponent.transform);
@@ -32,16 +39,8 @@ namespace VRSF.Core.Inputs
 
             foreach (var e in GetEntities<Filter>())
             {
-                // Change lock mode when escape is pressed
-                if (Input.GetKey(KeyCode.Escape))
-                {
-                    if(_isCursorLocked)
-                        ChangeCursorState(false, CursorLockMode.None);
-                    else
-                        ChangeCursorState(true, CursorLockMode.Locked);
-                }
                 // Rotation
-                if (_isCursorLocked)
+                if (Input.GetMouseButton(1))
                 {
                     EvaluateRotation(e.cameraComponent, mouse);
                 }
@@ -50,6 +49,12 @@ namespace VRSF.Core.Inputs
                 // Interpolate toward new position
                 Interpolate(e.cameraComponent, dt);
             }
+        }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            OnSetupVRReady.Listeners -= CheckSystemState;
         }
 
         // Evaluate the camera rotation based on the mouse screen position
@@ -88,14 +93,6 @@ namespace VRSF.Core.Inputs
             cameraComp.m_InterpolatingCameraState.UpdateTransform(cameraComp.transform);
         }
 
-        // Change cursor lock mode
-        private void ChangeCursorState(bool cursorLocked, CursorLockMode cursorMode)
-        {
-            _isCursorLocked = cursorLocked;
-            Cursor.visible = !cursorLocked;
-            Cursor.lockState = cursorMode;
-        }
-
         private Vector3 GetInputTranslationDirection()
         {
             Vector3 direction = new Vector3();
@@ -124,6 +121,12 @@ namespace VRSF.Core.Inputs
                 direction += Vector3.up;
             }
             return direction;
+        }
+
+
+        private void CheckSystemState(OnSetupVRReady info)
+        {
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR;
         }
     }
 }
