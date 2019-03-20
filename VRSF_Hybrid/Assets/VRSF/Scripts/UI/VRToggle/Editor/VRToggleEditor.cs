@@ -64,6 +64,11 @@ namespace VRSF.UI.Editor
             }
 
             EditorGUILayout.Space();
+
+            vrToggle.LaserClickable = EditorGUILayout.ToggleLeft("Clickable using Raycast", vrToggle.LaserClickable);
+            vrToggle.ControllerClickable = EditorGUILayout.ToggleLeft("Clickable using Controllers' meshes", vrToggle.ControllerClickable);
+            
+            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Basic Toggle Parameters", EditorStyles.boldLabel);
@@ -83,8 +88,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Toggle to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Toggle", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Toggle", priority = 0)]
+        [MenuItem("VRSF/UI/VR Toggle", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Toggle", priority = 0)]
         static void InstantiateVRToggle(MenuCommand menuCommand)
         {
             vrTogglePrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRToggle.prefab");

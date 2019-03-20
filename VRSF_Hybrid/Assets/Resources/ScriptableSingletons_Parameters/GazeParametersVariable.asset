@@ -36,5 +36,5 @@ MonoBehaviour:
   ReticleTargetSprite: {fileID: 21300000, guid: 099b47fd3d429e843b292bbd5ce7c365,
     type: 3}
   GazeButtonRift: 0
-  GazeButtonOpenVR: 0
+  GazeButtonVive: 0
   GazeButtonSimulator: 0

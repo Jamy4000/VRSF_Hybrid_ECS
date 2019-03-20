@@ -73,6 +73,7 @@ namespace VRSF.UI.Editor
 
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
+            if (GUI.changed) EditorUtility.SetDirty(target);
         }
         #endregion
 
@@ -82,8 +83,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Scrollbar to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Scrollbar/Vertical", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Scrollbar/Vertical", priority = 0)]
+        [MenuItem("VRSF/UI/VR Scrollbar/Vertical", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Scrollbar/Vertical", priority = 0)]
         static void InstantiateVRScrollbarVertical(MenuCommand menuCommand)
         {
             vrScrollBarPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRScrollbarVertical.prefab");
@@ -107,8 +108,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Scrollbar to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Scrollbar/Horizontal", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Scrollbar/Horizontal", priority = 0)]
+        [MenuItem("VRSF/UI/VR Scrollbar/Horizontal", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Scrollbar/Horizontal", priority = 0)]
         static void InstantiateVRScrollbarHorizontal(MenuCommand menuCommand)
         {
             vrScrollBarPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRScrollbarHorizontal.prefab");

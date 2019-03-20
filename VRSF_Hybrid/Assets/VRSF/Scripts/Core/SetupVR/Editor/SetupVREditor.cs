@@ -35,8 +35,8 @@ namespace VRSF.Core.SetupVR
         /// Add the SetupVR Prefab to the scene.
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("GameObject/VR Framework/Add SetupVR to Scene", priority = 0)]
-        [MenuItem("VR Framework/Add SetupVR to Scene", priority = 0)]
+        [MenuItem("GameObject/VRSF/Add SetupVR to Scene", priority = 0)]
+        [MenuItem("VRSF/Add SetupVR to Scene", priority = 0)]
         static void InstantiateSetupVR(MenuCommand menuCommand)
         {
             if (GameObject.FindObjectOfType<SetupVRComponents>() != null)

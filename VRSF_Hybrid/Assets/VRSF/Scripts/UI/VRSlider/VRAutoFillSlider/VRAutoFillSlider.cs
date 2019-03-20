@@ -21,7 +21,13 @@ namespace VRSF.UI
         #region PUBLIC_VARIABLES
         [Tooltip("If you want to set the collider yourself, set this value to false.")]
         [SerializeField] public bool SetColliderAuto = true;
-        
+
+        [Tooltip("If this slider can be click using a Raycast and the trigger of your controller.")]
+        [SerializeField] public bool LaserClickable = true;
+
+        [Tooltip("If this slider can be click using the meshcollider of your controller.")]
+        [SerializeField] public bool ControllerClickable = true;
+
         [Tooltip("If UseController is at false, will automatically be set at false.\n" +
             "If true, slider will fill only when the user is clicking on it.\n" +
             "If false, slider will fill only when the user is pointing at it.")]
@@ -39,8 +45,6 @@ namespace VRSF.UI
         [SerializeField] public UnityEvent OnBarFilled;
         [Tooltip("The OnBarReleased will only be called if the bar was filled before the user release it.")]
         [SerializeField] public UnityEvent OnBarReleased;
-
-        [HideInInspector] public float Timer;                                              // Used to determine how much of the bar should be filled.
         #endregion
 
 
@@ -57,11 +61,18 @@ namespace VRSF.UI
         private EHand _handFilling = EHand.NONE;                              // Reference to the type of Hand that is filling the slider
         
         private bool _boxColliderSetup;
+
+        private bool _isFillingWithMesh;
+
+        /// <summary>
+        /// Used to determine how much of the bar should be filled.
+        /// </summary>
+        [HideInInspector] private float _timer;
         #endregion
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnEnable()
+        protected override void Awake()
         {
             base.OnEnable();
 
@@ -69,12 +80,22 @@ namespace VRSF.UI
             {
                 SetupUIElement();
 
+                if (LaserClickable)
+                {
+                    ObjectWasClickedEvent.RegisterListener(CheckSliderClick);
+                    ObjectWasHoveredEvent.RegisterListener(CheckSliderHovered);
+                }
+
+                if (ControllerClickable)
+                    GetComponent<BoxCollider>().isTrigger = true;
+
                 // We setup the BoxCollider size and center
-                StartCoroutine(SetupBoxCollider());
+                if (SetColliderAuto)
+                    StartCoroutine(SetupBoxCollider());
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
             base.OnDisable();
             ObjectWasClickedEvent.UnregisterListener(CheckSliderClick);
@@ -87,30 +108,72 @@ namespace VRSF.UI
             {
                 if (!_boxColliderSetup)
                 {
-                    SetupBoxCollider();
+                    // We setup the BoxCollider size and center
+                    StartCoroutine(SetupBoxCollider());
                     return;
                 }
 
                 // if the bar is being filled
-                if (_fillBarRoutine != null)
-                    CheckHandStillOver();
-                else if (ValueIsGoingDown && value < 1 && value > 0)
+                if (!_isFillingWithMesh)
                 {
-                    Timer -= Time.deltaTime;
-                    // Set the value of the slider or the UV based on the normalised time.
-                    value = (Timer / FillTime);
+                    if (_fillBarRoutine != null)
+                    {
+                        CheckHandStillOver();
+                    }
+                    else if (ValueIsGoingDown && value < 1 && value > 0)
+                    {
+                        // Set the value of the slider or the UV based on the normalised time.
+                        _timer -= Time.deltaTime;
+                        value = (_timer / FillTime);
+                    }
                 }
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerModel"))
+            {
+                _isFillingWithMesh = true;
+                HandleHandInteracting(other.gameObject.name.Contains("RIGHT") ? EHand.RIGHT : EHand.LEFT);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerModel"))
+            {
+                HandleUp();
             }
         }
         #endregion
 
 
-        #region PUBLIC_METHODS
+        #region PRIVATE_METHODS
+        private void SetupUIElement()
+        {
+            _interactionContainer = InteractionVariableContainer.Instance;
+            _inputContainer = InputVariableContainer.Instance;
+
+            _rightIsClicking = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
+            _leftIsClicking = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
+
+            GetFillRectReference();
+
+            // If the controllers are not used, we cannot click on the slider, so we will fill the slider with the Over events
+            if (!ControllersParametersVariable.Instance.UseControllers && FillWithClick)
+            {
+                FillWithClick = false;
+                Debug.LogError("<b>[VRSF] :</b> UseController is set at false. The auto fill slider won't use the controller to fill but the gaze.");
+            }
+        }
+
+
         /// <summary>
         /// Event called when the user is clicking on something
         /// </summary>
         /// <param name="clickEvent">The event raised when an object is clicked</param>
-        public void CheckSliderClick(ObjectWasClickedEvent clickEvent)
+        private void CheckSliderClick(ObjectWasClickedEvent clickEvent)
         {
             if (IsInteractable() && FillWithClick)
             {
@@ -128,47 +191,30 @@ namespace VRSF.UI
         }
 
         /// <summary>
-        /// Event called when the user is looking at the Slider
+        /// Event called when the user is looking or pointing at the Slider
         /// </summary>
         /// <param name="hoverEvent">The event raised when an object is hovered</param>
-        public void CheckSliderHovered(ObjectWasHoveredEvent hoverEvent)
+        private void CheckSliderHovered(ObjectWasHoveredEvent hoverEvent)
         {
-            if (!FillWithClick && IsInteractable() && hoverEvent.HandHovering == EHand.GAZE)
+            if (IsInteractable())
             {
-                // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
-                if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
+                if (!FillWithClick)
                 {
-                    HandleHandInteracting(hoverEvent.HandHovering);
+                    // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
+                    if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
+                    {
+                        HandleHandInteracting(hoverEvent.HandHovering);
+                    }
+                    // If the user was hovering the bar but stopped
+                    else if (_fillBarRoutine != null && hoverEvent.HandHovering == _handFilling && hoverEvent.ObjectHovered != transform)
+                    {
+                        HandleUp();
+                    }
                 }
-                // If the user was hovering the bar but stopped
-                else if (hoverEvent.ObjectHovered != transform && _fillBarRoutine != null)
+                else
                 {
-                    HandleUp();
+                    Select();
                 }
-            }
-        }
-        #endregion PUBLIC_METHODS
-
-
-        #region PRIVATE_METHODS
-        private void SetupUIElement()
-        {
-            _interactionContainer = InteractionVariableContainer.Instance;
-            _inputContainer = InputVariableContainer.Instance;
-
-            _rightIsClicking = _inputContainer.RightClickBoolean.Get("TriggerIsDown");
-            _leftIsClicking = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
-
-            //GetFillRectReference();
-            
-            ObjectWasClickedEvent.RegisterListener(CheckSliderClick);
-            ObjectWasHoveredEvent.RegisterListener(CheckSliderHovered);
-
-            // If the controllers are not used, we cannot click on the slider, so we will fill the slider with the Over events
-            if (!ControllersParametersVariable.Instance.UseControllers && FillWithClick)
-            {
-                FillWithClick = false;
-                Debug.LogError("<b>[VRSF] :</b> UseController is set at false. The auto fill slider won't use the controller to fill but the gaze.");
             }
         }
 
@@ -192,13 +238,13 @@ namespace VRSF.UI
         private IEnumerator FillBar()
         {
             // Until the timer is greater than the fill time...
-            while (Timer < FillTime)
+            while (_timer < FillTime)
             {
                 // ... add to the timer the difference between frames.
-                Timer += Time.deltaTime;
+                _timer += Time.deltaTime;
 
                 // Set the value of the slider or the UV based on the normalised time.
-                value = (Timer / FillTime);
+                value = (_timer / FillTime);
 
                 onValueChanged.Invoke(value);
 
@@ -223,12 +269,12 @@ namespace VRSF.UI
         /// </summary>
         private void HandleUp()
         {
+            Debug.Log("HandleUp ");
             // If the bar was filled and the user is releasing it, we invoke the OnBarReleased event
             if (_barFilled)
             {
-                if (OnBarReleased != null)
-                    OnBarReleased.Invoke();
                 _barFilled = false;
+                OnBarReleased?.Invoke();
             }
 
             // If the coroutine has been started (and thus we have a reference to it) stop it.
@@ -238,15 +284,17 @@ namespace VRSF.UI
                 _fillBarRoutine = null;
             }
 
+            // Reset the timer and bar values.
             if (ResetFillOnRelease)
             {
-                // Reset the timer and bar values.
-                Timer = 0f;
+                _timer = 0f;
                 value = 0.0f;
+                Debug.Log("value = 0 in handle up");
             }
 
             // Set the Hand filling at null
             _handFilling = EHand.NONE;
+            _isFillingWithMesh = false;
         }
 
         /// <summary>
@@ -260,17 +308,17 @@ namespace VRSF.UI
                 // OR, if the user is not on the slider anymore
 
                 case (EHand.LEFT):
-                    if ((FillWithClick && !_leftIsClicking.Value) || !_interactionContainer.IsOverSomethingLeft.Value)
+                    if (FillWithClick && !_leftIsClicking.Value)
                         HandleUp();
                     break;
 
                 case (EHand.RIGHT):
-                    if ((FillWithClick && !_rightIsClicking.Value) || !_interactionContainer.IsOverSomethingRight.Value)
+                    if (FillWithClick && !_rightIsClicking.Value)
                         HandleUp();
                     break;
 
                 case (EHand.GAZE):
-                    if ((FillWithClick && !_inputContainer.GazeIsCliking.Value) || !_interactionContainer.IsOverSomethingGaze.Value)
+                    if (FillWithClick && !_inputContainer.GazeIsCliking.Value)
                         HandleUp();
                     break;
             }
@@ -305,7 +353,7 @@ namespace VRSF.UI
             }
             catch
             {
-                Debug.LogError("<b>[VRSF] :</b> Please add a Fill GameObject with RectTransform as a child or DeepChild of this VR Auto Fill Slider.");
+                Debug.LogError("<b>[VRSF] :</b> Please add a \"Fill\" GameObject with RectTransform as a child or DeepChild of this VR Auto Fill Slider.");
             }
         }
         #endregion

@@ -33,8 +33,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Panel to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Panel", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Panel", priority = 0)]
+        [MenuItem("VRSF/UI/VR Panel", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Panel", priority = 0)]
         static void InstantiateVRPanel(MenuCommand menuCommand)
         {
             vrPanel = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRPanel.prefab");

@@ -14,6 +14,12 @@ namespace VRSF.UI
         #region PUBLIC_VARIABLES
         [Tooltip("If you want to set the collider yourself, set this value to false.")]
         [SerializeField] public bool SetColliderAuto = true;
+
+        [Tooltip("If this button can be click using a Raycast and the trigger of your controller.")]
+        [SerializeField] public bool LaserClickable = true;
+
+        [Tooltip("If this button can be click using the meshcollider of your controller.")]
+        [SerializeField] public bool ControllerClickable = true;
         #endregion PUBLIC_VARIABLES
 
 
@@ -24,7 +30,11 @@ namespace VRSF.UI
 
             if (Application.isPlaying)
             {
-                SetupListener();
+                if (LaserClickable)
+                    SetupListener();
+
+                if (ControllerClickable)
+                    GetComponent<BoxCollider>().isTrigger = true;
 
                 // We setup the BoxCollider size and center
                 if (SetColliderAuto)
@@ -36,6 +46,15 @@ namespace VRSF.UI
         {
             base.OnDestroy();
             ObjectWasClickedEvent.UnregisterListener(CheckObjectClicked);
+            ObjectWasHoveredEvent.UnregisterListener(CheckObjectHovered);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerModel"))
+            {
+                onClick.Invoke();
+            }
         }
         #endregion MONOBEHAVIOUR_METHODS
 
@@ -51,17 +70,30 @@ namespace VRSF.UI
             }
 
             ObjectWasClickedEvent.RegisterListener(CheckObjectClicked);
+            ObjectWasHoveredEvent.RegisterListener(CheckObjectHovered);
         }
 
         /// <summary>
         /// Event called when the button is clicked
         /// </summary>
-        /// <param name="value">The object that was clicked</param>
+        /// <param name="objectClickEvent">The object that was clicked</param>
         void CheckObjectClicked(ObjectWasClickedEvent objectClickEvent)
         {
             if (interactable && objectClickEvent.ObjectClicked == transform)
             {
                 onClick.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Event called when an object is overed
+        /// </summary>
+        /// <param name="info"></param>
+        private void CheckObjectHovered(ObjectWasHoveredEvent info)
+        {
+            if (interactable && info.ObjectHovered == transform)
+            {
+                this.Select();
             }
         }
 

@@ -19,7 +19,6 @@ namespace VRSF.UI.Editor
 
         #region PRIVATE_VARIABLES
         private static GameObject vrButtonPrefab;
-
         private VRButton button;
         #endregion
 
@@ -63,14 +62,20 @@ namespace VRSF.UI.Editor
             }
 
             EditorGUILayout.Space();
+
+            button.LaserClickable = EditorGUILayout.ToggleLeft("Clickable using Raycast", button.LaserClickable);
+            
+            button.ControllerClickable = EditorGUILayout.ToggleLeft("Clickable using Controllers' meshes", button.ControllerClickable);
+
+            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            // Add a button to call the OnClick Event
-            if (GUILayout.Button("Invoke OnClick Event"))
+            // Add a button to call the OnClick Event if the application is playing
+            if (Application.isPlaying && GUILayout.Button("Invoke OnClick Event"))
             {
                 button.onClick.Invoke();
             }
-            
+
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
@@ -82,6 +87,7 @@ namespace VRSF.UI.Editor
             
             serializedObject.ApplyModifiedProperties();
             serializedObject.Update();
+            if (GUI.changed) EditorUtility.SetDirty(target);
         }
         #endregion
 
@@ -91,8 +97,8 @@ namespace VRSF.UI.Editor
         /// Add a new VR Button to the Scene
         /// </summary>
         /// <param name="menuCommand"></param>
-        [MenuItem("VR Framework/UI/VR Button", priority = 0)]
-        [MenuItem("GameObject/VR Framework/UI/VR Button", priority = 0)]
+        [MenuItem("VRSF/UI/VR Button", priority = 0)]
+        [MenuItem("GameObject/VRSF/UI/VR Button", priority = 0)]
         static void InstantiateVRButton(MenuCommand menuCommand)
         {
             vrButtonPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/VRSF/Prefabs/UI/UIElements/VRButton.prefab");
