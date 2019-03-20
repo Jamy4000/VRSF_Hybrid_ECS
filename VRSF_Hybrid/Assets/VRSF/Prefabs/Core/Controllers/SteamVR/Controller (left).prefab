@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7362993848723759516}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363367091543543254}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Model
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -113,7 +113,8 @@ GameObject:
   - component: {fileID: 7371160723531183740}
   - component: {fileID: 7380699949093218506}
   - component: {fileID: 5535707079314640787}
-  m_Layer: 0
+  - component: {fileID: 8481380665343000135}
+  m_Layer: 2
   m_Name: body_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -193,6 +194,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: e71c6bd044a3ffb4c9d03908fee9d91c, type: 3}
+--- !u!54 &8481380665343000135
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7365758945095199432}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7365848623921255082
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +222,8 @@ GameObject:
   - component: {fileID: 7370404704389475596}
   - component: {fileID: 7381319677891087634}
   - component: {fileID: 3100965148583930938}
-  m_Layer: 0
+  - component: {fileID: 1937142155641294124}
+  m_Layer: 2
   m_Name: r_gripper_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -285,6 +303,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 6caf713d13d212046ba2836a3267f79b, type: 3}
+--- !u!54 &1937142155641294124
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7365848623921255082}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366212321194926192
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +331,8 @@ GameObject:
   - component: {fileID: 7370412192779614876}
   - component: {fileID: 7380831058632918706}
   - component: {fileID: 5106753080880467201}
-  m_Layer: 0
+  - component: {fileID: 6106498289171529601}
+  m_Layer: 2
   m_Name: l_gripper_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -377,6 +412,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: bfbe7b12482b9fb4bb7925c0ec50efef, type: 3}
+--- !u!54 &6106498289171529601
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366212321194926192}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366249685398645638
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +437,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363584362711236280}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: trackpad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -417,7 +468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363161832848260540}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: led
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +502,8 @@ GameObject:
   - component: {fileID: 7370468913581880182}
   - component: {fileID: 7380399119492619298}
   - component: {fileID: 7015371892206004474}
-  m_Layer: 0
+  - component: {fileID: 1550866223764924227}
+  m_Layer: 2
   m_Name: trigger_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -531,6 +583,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 990ccb06b622ba54aa917e3e89af8d97, type: 3}
+--- !u!54 &1550866223764924227
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366287337150441154}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366348730917835884
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +611,8 @@ GameObject:
   - component: {fileID: 7370473981801483688}
   - component: {fileID: 7380540048851497938}
   - component: {fileID: 2749758481376780246}
-  m_Layer: 0
+  - component: {fileID: 240137495938958100}
+  m_Layer: 2
   m_Name: menu_but_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -623,6 +692,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: a3c02a09db0d9624299c07b30f4f03ca, type: 3}
+--- !u!54 &240137495938958100
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366348730917835884}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366426208971423944
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +717,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363332662164631312}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: l_grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -663,7 +748,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363327217364694408}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: r_grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -697,7 +782,8 @@ GameObject:
   - component: {fileID: 7370374354292954808}
   - component: {fileID: 7379803419821071010}
   - component: {fileID: 5466123459346234645}
-  m_Layer: 0
+  - component: {fileID: 4181144839162829922}
+  m_Layer: 2
   m_Name: sys_but_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -777,6 +863,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: b561dc7fc9f13ca4f97e182a7941d4cb, type: 3}
+--- !u!54 &4181144839162829922
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366607808879774800}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366659953140028380
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +891,8 @@ GameObject:
   - component: {fileID: 7370323406784157354}
   - component: {fileID: 7379950483528624428}
   - component: {fileID: 4151592068344829448}
-  m_Layer: 0
+  - component: {fileID: 1643309534372060360}
+  m_Layer: 2
   m_Name: trackpad_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -869,6 +972,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: eeec7140532e01549a0a275306a657c8, type: 3}
+--- !u!54 &1643309534372060360
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366659953140028380}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366666958924789422
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,7 +1000,8 @@ GameObject:
   - component: {fileID: 7370456675072092008}
   - component: {fileID: 7381290721630629076}
   - component: {fileID: 2563350035202873549}
-  m_Layer: 0
+  - component: {fileID: 682342823267381302}
+  m_Layer: 2
   m_Name: LED_group1
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -961,6 +1081,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 4cfa831eae1afbf4c858c981df7d6891, type: 3}
+--- !u!54 &682342823267381302
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7366666958924789422}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7366690336835730492
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +1106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363716230401670820}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1001,7 +1137,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363614915187962300}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: sys_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1032,7 +1168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7363461198147331606}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: button
   m_TagString: Untagged
   m_Icon: {fileID: 0}

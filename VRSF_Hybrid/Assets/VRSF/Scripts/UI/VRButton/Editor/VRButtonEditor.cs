@@ -63,14 +63,20 @@ namespace VRSF.UI.Editor
             }
 
             EditorGUILayout.Space();
+
+            button.LaserClickable = EditorGUILayout.ToggleLeft("Clickable using Raycast", button.LaserClickable);
+            
+            button.ControllerClickable = EditorGUILayout.ToggleLeft("Clickable using Controllers' meshes", button.ControllerClickable);
+
+            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            // Add a button to call the OnClick Event
-            if (GUILayout.Button("Invoke OnClick Event"))
+            // Add a button to call the OnClick Event if the application is playing
+            if (Application.isPlaying && GUILayout.Button("Invoke OnClick Event"))
             {
                 button.onClick.Invoke();
             }
-            
+
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 

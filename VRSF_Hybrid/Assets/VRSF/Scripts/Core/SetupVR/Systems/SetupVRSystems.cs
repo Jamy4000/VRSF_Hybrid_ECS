@@ -95,7 +95,7 @@ namespace VRSF.Core.SetupVR
             }
 
             setupVR.CameraRig.transform.name = "[VRSF] " + VRSF_Components.DeviceLoaded.ToString();
-            setupVR.CameraRig.transform.SetParent(setupVR.transform.root);
+            setupVR.CameraRig.transform.SetParent(null);
             setupVR.IsLoaded = true;
 
 
