@@ -8623,6 +8623,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   SetColliderAuto: 1
+  LaserClickable: 1
+  ControllerClickable: 1
   FillWithClick: 0
   FillTime: 3
   ResetFillOnRelease: 1
@@ -8637,7 +8639,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  Timer: 0
 --- !u!65 &65289563031616962
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11627,7 +11628,6 @@ GameObject:
   - component: {fileID: 114300542788071164}
   - component: {fileID: 114556346507321792}
   - component: {fileID: 114330645012808130}
-  - component: {fileID: 114243662721881812}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -11735,19 +11735,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 0
---- !u!114 &114243662721881812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568831860432272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
 --- !u!1 &1586475680866792
 GameObject:
   m_ObjectHideFlags: 0

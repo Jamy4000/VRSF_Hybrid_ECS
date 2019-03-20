@@ -122,8 +122,8 @@ namespace VRSF.UI
                     }
                     else if (ValueIsGoingDown && value < 1 && value > 0)
                     {
-                        _timer -= Time.deltaTime;
                         // Set the value of the slider or the UV based on the normalised time.
+                        _timer -= Time.deltaTime;
                         value = (_timer / FillTime);
                     }
                 }
