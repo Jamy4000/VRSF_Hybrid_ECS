@@ -37,6 +37,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100000, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
+      propertyPath: m_TagString
+      value: RESERVED_ControllerModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
+      propertyPath: m_Name
+      value: body_RIGHT
+      objectReference: {fileID: 0}
     - target: {fileID: 100016, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
       propertyPath: m_Name
       value: Touch_controller_R Variant
@@ -45,13 +53,9 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RESERVED_ControllerModel
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
-      propertyPath: m_TagString
-      value: RESERVED_ControllerModel
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
-      propertyPath: m_Name
-      value: body_RIGHT
+    - target: {fileID: 100016, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 1aef87730a3134944a1a7a35008febc5, type: 3}
       propertyPath: m_TagString

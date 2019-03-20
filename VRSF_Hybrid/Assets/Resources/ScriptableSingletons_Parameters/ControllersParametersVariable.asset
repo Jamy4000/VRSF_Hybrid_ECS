@@ -15,7 +15,7 @@ MonoBehaviour:
   DeveloperDescription: "Contains all the parameters for\nthe Controllers feature.\nFor
     more info,\r check the tooltips\nfor each parameters."
   UseControllers: 1
-  UsePointerLeft: 0
+  UsePointerLeft: 1
   LeftExclusionLayer:
     serializedVersion: 2
     m_Bits: 4

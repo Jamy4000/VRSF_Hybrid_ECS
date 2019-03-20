@@ -100,6 +100,11 @@ PrefabInstance:
       propertyPath: VRCamera
       value: 
       objectReference: {fileID: 3648149769390103835}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: FloorOffset
+      value: 
+      objectReference: {fileID: 850320580667801007}
     - target: {fileID: 4325968150092906, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -149,6 +154,12 @@ PrefabInstance:
 --- !u!1 &3647964071117088171 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1341392395639404, guid: bc49bde1c2e008942bd59fd92b11985a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3649296701777084359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &850320580667801007 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4136584930648195688, guid: bc49bde1c2e008942bd59fd92b11985a,
     type: 3}
   m_PrefabInstance: {fileID: 3649296701777084359}
   m_PrefabAsset: {fileID: 0}
@@ -248,6 +259,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1945973373022151327, guid: 17f9e6c42d9dbce41afa27e78aa78f9e,
+        type: 3}
+      propertyPath: MaxAvatarYPosition
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1949807049826908107, guid: 17f9e6c42d9dbce41afa27e78aa78f9e,
+        type: 3}
+      propertyPath: InteractionType
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17f9e6c42d9dbce41afa27e78aa78f9e, type: 3}

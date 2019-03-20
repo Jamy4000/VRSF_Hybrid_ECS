@@ -65,6 +65,7 @@ namespace VRSF.Core.Utils.Editor
 
         public override void OnInspectorGUI()
         {
+            Undo.RecordObject(_buttonActionChoser.gameObject, "Changing param");
             serializedObject.Update();
 
             base.DrawDefaultInspector();
@@ -136,9 +137,9 @@ namespace VRSF.Core.Utils.Editor
 
             DisplayInteractionEvents();
 
-            EditorUtility.SetDirty(_buttonActionChoser);
-
             serializedObject.ApplyModifiedProperties();
+            serializedObject.Update();
+            if (UnityEngine.GUI.changed) EditorUtility.SetDirty(target);
         }
 
         private void HandleTouchDisplay()

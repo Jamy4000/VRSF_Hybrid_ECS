@@ -28,7 +28,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6624259191079650179}
-  - {fileID: 5295667660057006953}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,11 +42,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Model
-      objectReference: {fileID: 0}
-    - target: {fileID: 2145890215998011805, guid: 49d4f1d1cb24d8d47a54e960abcab282,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2145890215997973949, guid: 49d4f1d1cb24d8d47a54e960abcab282,
         type: 3}
@@ -141,44 +135,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2145890215997973949, guid: 49d4f1d1cb24d8d47a54e960abcab282,
     type: 3}
   m_PrefabInstance: {fileID: 5055751736721991230}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5290959015883597537
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 5583977241755840919}
-    m_Modifications:
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Laser
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
-        type: 3}
-      propertyPath: RayOrigin
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
---- !u!4 &5295667660057006953 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538,
-    type: 3}
-  m_PrefabInstance: {fileID: 5290959015883597537}
   m_PrefabAsset: {fileID: 0}

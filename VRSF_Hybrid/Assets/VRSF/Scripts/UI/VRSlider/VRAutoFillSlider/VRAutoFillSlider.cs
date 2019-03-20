@@ -269,7 +269,6 @@ namespace VRSF.UI
         /// </summary>
         private void HandleUp()
         {
-            Debug.Log("HandleUp ");
             // If the bar was filled and the user is releasing it, we invoke the OnBarReleased event
             if (_barFilled)
             {
@@ -289,7 +288,6 @@ namespace VRSF.UI
             {
                 _timer = 0f;
                 value = 0.0f;
-                Debug.Log("value = 0 in handle up");
             }
 
             // Set the Hand filling at null
