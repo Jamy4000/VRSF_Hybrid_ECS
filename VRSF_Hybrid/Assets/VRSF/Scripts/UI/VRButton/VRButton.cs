@@ -33,6 +33,9 @@ namespace VRSF.UI
                 if (LaserClickable)
                     SetupListener();
 
+                if (ControllerClickable)
+                    GetComponent<BoxCollider>().isTrigger = true;
+
                 // We setup the BoxCollider size and center
                 if (SetColliderAuto)
                     StartCoroutine(SetupBoxCollider());

@@ -11052,7 +11052,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   toggleTransition: 1
-  graphic: {fileID: 0}
+  graphic: {fileID: 114834890956955506}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
@@ -11070,8 +11070,10 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
   SetColliderAuto: 1
+  LaserClickable: 1
+  ControllerClickable: 1
 --- !u!1 &1547477652000750
 GameObject:
   m_ObjectHideFlags: 0
@@ -16347,6 +16349,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
   SetColliderAuto: 1
+  LaserClickable: 1
+  ControllerClickable: 1
 --- !u!1 &1815140312927940
 GameObject:
   m_ObjectHideFlags: 0

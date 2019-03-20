@@ -64,6 +64,11 @@ namespace VRSF.UI.Editor
             }
 
             EditorGUILayout.Space();
+
+            vrToggle.LaserClickable = EditorGUILayout.ToggleLeft("Clickable using Raycast", vrToggle.LaserClickable);
+            vrToggle.ControllerClickable = EditorGUILayout.ToggleLeft("Clickable using Controllers' meshes", vrToggle.ControllerClickable);
+            
+            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
             EditorGUILayout.LabelField("Basic Toggle Parameters", EditorStyles.boldLabel);
