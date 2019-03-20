@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/VRSF/Scenes/ExampleScene.unity
+    path: Assets/VRSF.Samples/Scenes/TeleportExampleScene.unity
     guid: 8ed50055a92d6fb4b9c2c3407df7cf20
   m_configObjects: {}
