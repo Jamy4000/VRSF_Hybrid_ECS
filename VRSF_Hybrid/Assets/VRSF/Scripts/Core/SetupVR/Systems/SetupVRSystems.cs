@@ -81,19 +81,29 @@ namespace VRSF.Core.SetupVR
             {
                 case (EDevice.OCULUS_RIFT):
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<WMRControllersInputCaptureComponent>());
                     RemoveSimulatorStuffs();
                     CheckControllersReferences(setupVR, setupVR.Rift_Controllers);
                     setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
                     break;
                 case (EDevice.HTC_VIVE):
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<WMRControllersInputCaptureComponent>());
                     RemoveSimulatorStuffs();
                     CheckControllersReferences(setupVR, setupVR.Vive_Controllers);
+                    setupVR.FloorOffset.localPosition = Vector3.zero;
+                    break;
+                case (EDevice.WMR):
+                    GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
+                    RemoveSimulatorStuffs();
+                    CheckControllersReferences(setupVR, setupVR.WMR_Controllers);
                     setupVR.FloorOffset.localPosition = Vector3.zero;
                     break;
                 default:
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<WMRControllersInputCaptureComponent>());
                     CheckControllersReferences(setupVR, setupVR.Simulator_Controllers);
                     setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
                     setupVR.StartCoroutine(ResetVRCamera());
@@ -123,6 +133,10 @@ namespace VRSF.Core.SetupVR
                     else if (detectedHmd.ToLower().Contains("rift"))
                     {
                         return EDevice.OCULUS_RIFT;
+                    }
+                    else if (detectedHmd.ToLower().Contains("windows"))
+                    {
+                        return EDevice.WMR;
                     }
                     else
                     {
@@ -242,6 +256,9 @@ namespace VRSF.Core.SetupVR
                         break;
                     case (EDevice.HTC_VIVE):
                         setupVR.CameraRig.GetComponent<ViveControllersInputCaptureComponent>().enabled = false;
+                        break;
+                    case (EDevice.WMR):
+                        setupVR.CameraRig.GetComponent<WMRControllersInputCaptureComponent>().enabled = false;
                         break;
                     case (EDevice.SIMULATOR):
                         setupVR.CameraRig.GetComponent<SimulatorInputCaptureComponent>().enabled = false;

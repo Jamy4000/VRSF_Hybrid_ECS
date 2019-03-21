@@ -21,6 +21,7 @@ namespace VRSF.Core.SetupVR
         [Header("The prefabs to load for the Vive and Rift controllers.")]
         public VRController[] Vive_Controllers;
         public VRController[] Rift_Controllers;
+        public VRController[] WMR_Controllers;
         public VRController[] Simulator_Controllers;
         #endregion CONTROLLERS
 

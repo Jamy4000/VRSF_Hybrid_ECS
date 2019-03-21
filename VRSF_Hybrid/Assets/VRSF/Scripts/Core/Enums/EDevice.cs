@@ -8,6 +8,7 @@
         SIMULATOR,
         HTC_VIVE,
         OCULUS_RIFT,
+        WMR,
         NULL    //To handle errors
     }
 }
