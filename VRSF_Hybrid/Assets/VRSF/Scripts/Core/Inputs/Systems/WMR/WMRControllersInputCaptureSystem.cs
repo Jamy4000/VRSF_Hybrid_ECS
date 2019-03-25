@@ -80,8 +80,7 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
         BoolVariable gripClick = inputCapture.RightParameters.ClickBools.Get("GripIsDown");
         
         BoolVariable thumbTouch = inputCapture.RightParameters.TouchBools.Get("ThumbIsTouching");
-
-        inputCapture.RightParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRTouchpadHorizontalRight"), Input.GetAxis("WMRTouchpadVerticalRight")));
+        BoolVariable touchpadthumClick = inputCapture.RightParameters.ClickBools.Get("ThumbIsDown");
 
         // Trigger right
         if (Input.GetButtonDown("WMRTriggerClickRight"))
@@ -121,12 +120,13 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
             menuClick.SetValue(false);
             new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
         }
+        
+        inputCapture.RightParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRTouchpadHorizontalRight"), Input.GetAxis("WMRTouchpadVerticalRight")));
 
         // Touchpad
         if (Input.GetButtonDown("WMRTouchpadClickRight"))
         {
             thumbClick.SetValue(true);
-            thumbTouch.SetValue(false);
             new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             Debug.Log("WMRTouchpadClickRight");
         }
@@ -135,45 +135,20 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
             thumbClick.SetValue(false);
             new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBREST);
         }
-        // Check Touch Events if user is not clicking
-        else if (!thumbClick.Value && Input.GetButtonDown("WMRTouchpadTouchRight"))
-        {
-            thumbTouch.SetValue(true);
-            new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
-            Debug.Log("WMRthumbrestClickRight");
-        }
-        else if (Input.GetButtonUp("WMRTouchpadTouchRight"))
-        {
-            thumbTouch.SetValue(false);
-            new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
-        }
-        
-        inputCapture.RightParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalRight"), Input.GetAxis("WMRThumbstickVerticalRight")));
-        var touchpadTouch = inputCapture.RightParameters.TouchBools.Get("ThumbrestIsTouching");
-        var touchpadthumClick = inputCapture.RightParameters.ClickBools.Get("ThumbIsDown");
 
-        if (!thumbTouch.Value && Input.GetButton("WMRThumbstickClickRight"))
-        {
-            thumbTouch.SetValue(true);
-            new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
-            Debug.Log("WMRThumbstickClickRight");
-        }
-        else if (Input.GetButtonUp("WMRThumbstickClickRight"))
-        {
-            thumbTouch.SetValue(false);
-            new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
-        }
+        inputCapture.RightParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalRight"), Input.GetAxis("WMRThumbstickVerticalRight")));
 
         if (Input.GetButtonDown("WMRThumbstickClickRight"))
         {
-            thumbClick.SetValue(true);
-            new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBREST);
-            Debug.Log("WMRThumbstickClickRight");
+            touchpadthumClick.SetValue(true);
+            new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+
+            Debug.Log("WMRThumbstickClickLeft");
         }
         else if (Input.GetButtonUp("WMRThumbstickClickRight"))
         {
-            thumbClick.SetValue(false);
-            new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBREST);
+            touchpadthumClick.SetValue(false);
+            new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
         }
     }
 
@@ -188,8 +163,7 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
         BoolVariable gripClick = inputCapture.LeftParameters.ClickBools.Get("GripIsDown");
 
         BoolVariable thumbTouch = inputCapture.LeftParameters.TouchBools.Get("ThumbIsTouching");
-
-        inputCapture.LeftParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRTouchpadHorizontalLeft"), Input.GetAxis("WMRTouchpadVerticalLeft")));
+        BoolVariable touchpadthumClick = inputCapture.LeftParameters.ClickBools.Get("ThumbIsDown");
 
         // Trigger Left
         if (Input.GetButtonDown("WMRTriggerClickLeft"))
@@ -231,10 +205,10 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
         }
 
         // Touchpad
+        inputCapture.LeftParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRTouchpadHorizontalLeft"), Input.GetAxis("WMRTouchpadVerticalLeft")));
         if (Input.GetButtonDown("WMRTouchpadClickLeft"))
         {
             thumbClick.SetValue(true);
-            thumbTouch.SetValue(false);
             new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBREST);
             Debug.Log("WMRTouchpadClickLeft");
         }
@@ -243,45 +217,20 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
             thumbClick.SetValue(false);
             new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBREST);
         }
-        // Check Touch Events if user is not clicking
-        else if (!thumbClick.Value && Input.GetButtonDown("WMRTouchpadTouchLeft"))
-        {
-            thumbTouch.SetValue(true);
-            new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
-            Debug.Log("WMRTouchpadTouchLeft");
-        }
-        else if (Input.GetButtonUp("WMRTouchpadTouchLeft"))
-        {
-            thumbTouch.SetValue(false);
-            new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
-        }
-
+        
+        // Thumbstick
         inputCapture.LeftParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalLeft"), Input.GetAxis("WMRThumbstickVerticalLeft")));
-        var touchpadTouch = inputCapture.LeftParameters.TouchBools.Get("ThumbrestIsTouching");
-        var touchpadthumClick = inputCapture.LeftParameters.ClickBools.Get("ThumbIsDown");
-
-        if (!touchpadTouch.Value && Input.GetButton("WMRThumbstickClickLeft"))
-        {
-            touchpadTouch.SetValue(true);
-            new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
-            Debug.Log("WMRThumbstickTouchLeft");
-        }
-        else if (Input.GetButtonUp("WMRThumbstickClickLeft"))
-        {
-            touchpadTouch.SetValue(false);
-            new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
-        }
         if (Input.GetButtonDown("WMRThumbstickClickLeft"))
         {
             touchpadthumClick.SetValue(true);
-            new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBREST);
+            new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
 
             Debug.Log("WMRThumbstickClickLeft");
         }
         else if (Input.GetButtonUp("WMRThumbstickClickLeft"))
         {
             touchpadthumClick.SetValue(false);
-            new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBREST);
+            new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
         }
     }
 
