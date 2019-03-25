@@ -127,29 +127,29 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
         if (Input.GetButtonDown("WMRTouchpadClickRight"))
         {
             thumbClick.SetValue(true);
-            new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBREST);
+            new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
             Debug.Log("WMRTouchpadClickRight");
         }
         else if (Input.GetButtonUp("WMRTouchpadClickRight"))
         {
             thumbClick.SetValue(false);
-            new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBREST);
-        }
-
-        inputCapture.RightParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalRight"), Input.GetAxis("WMRThumbstickVerticalRight")));
-
-        if (Input.GetButtonDown("WMRThumbstickClickRight"))
-        {
-            touchpadthumClick.SetValue(true);
-            new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
-
-            Debug.Log("WMRThumbstickClickLeft");
-        }
-        else if (Input.GetButtonUp("WMRThumbstickClickRight"))
-        {
-            touchpadthumClick.SetValue(false);
             new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
         }
+
+        //inputCapture.RightParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalRight"), Input.GetAxis("WMRThumbstickVerticalRight")));
+
+        //if (Input.GetButtonDown("WMRThumbstickClickRight"))
+        //{
+        //    touchpadthumClick.SetValue(true);
+        //    new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+
+        //    Debug.Log("WMRThumbstickClickLeft");
+        //}
+        //else if (Input.GetButtonUp("WMRThumbstickClickRight"))
+        //{
+        //    touchpadthumClick.SetValue(false);
+        //    new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+        //}
     }
 
     /// <summary>
@@ -209,29 +209,29 @@ public class WMRControllersInputCaptureSystem : ComponentSystem
         if (Input.GetButtonDown("WMRTouchpadClickLeft"))
         {
             thumbClick.SetValue(true);
-            new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBREST);
+            new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             Debug.Log("WMRTouchpadClickLeft");
         }
         else if (Input.GetButtonUp("WMRTouchpadClickLeft"))
         {
             thumbClick.SetValue(false);
-            new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBREST);
-        }
-        
-        // Thumbstick
-        inputCapture.LeftParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalLeft"), Input.GetAxis("WMRThumbstickVerticalLeft")));
-        if (Input.GetButtonDown("WMRThumbstickClickLeft"))
-        {
-            touchpadthumClick.SetValue(true);
-            new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
-
-            Debug.Log("WMRThumbstickClickLeft");
-        }
-        else if (Input.GetButtonUp("WMRThumbstickClickLeft"))
-        {
-            touchpadthumClick.SetValue(false);
             new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
         }
+        
+        //// Thumbstick
+        //inputCapture.LeftParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("WMRThumbstickHorizontalLeft"), Input.GetAxis("WMRThumbstickVerticalLeft")));
+        //if (Input.GetButtonDown("WMRThumbstickClickLeft"))
+        //{
+        //    touchpadthumClick.SetValue(true);
+        //    new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+
+        //    Debug.Log("WMRThumbstickClickLeft");
+        //}
+        //else if (Input.GetButtonUp("WMRThumbstickClickLeft"))
+        //{
+        //    touchpadthumClick.SetValue(false);
+        //    new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+        //}
     }
 
     private void CheckDevice(OnSetupVRReady info)
