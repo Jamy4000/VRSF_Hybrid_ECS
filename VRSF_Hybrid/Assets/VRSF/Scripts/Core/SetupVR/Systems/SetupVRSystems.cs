@@ -96,6 +96,7 @@ namespace VRSF.Core.SetupVR
                 case (EDevice.WMR):
                     GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
                     GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
+                    GameObject.Destroy(setupVR.GetComponent<CrossplatformInputCapture>());
                     RemoveSimulatorStuffs();
                     CheckControllersReferences(setupVR, setupVR.WMR_Controllers);
                     setupVR.FloorOffset.localPosition = Vector3.zero;

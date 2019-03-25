@@ -8,6 +8,9 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class WMRControllersInputCaptureComponent : MonoBehaviour
     {
+        [HideInInspector] public InputParameters RightParameters;
+        [HideInInspector] public InputParameters LeftParameters;
 
+        [HideInInspector] public bool IsSetup;
     }
 }

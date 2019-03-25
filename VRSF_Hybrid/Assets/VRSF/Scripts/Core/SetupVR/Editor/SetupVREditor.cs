@@ -29,25 +29,25 @@ namespace VRSF.Core.SetupVR
             SerializedObject vrsfInputObj = new SerializedObject(vrsfInputManager);
             _vrsfAxisArray = vrsfInputObj.FindProperty("m_Axes");
 
-            if (InputManagerCopier.InputArrayIsNotVRSF(_currentAxisArray, _vrsfAxisArray))
-            {
-                EditorGUILayout.HelpBox("The current InputManager is not set as the one required for VRSF. Click the button below to set them automatically.", MessageType.Warning);
+            // U S E L E S S
+            //if (InputManagerCopier.InputArrayIsNotVRSF(_currentAxisArray, _vrsfAxisArray))
+            //{
+            //    EditorGUILayout.HelpBox("The current InputManager is not set as the one required for VRSF. Click the button below to set them automatically.", MessageType.Warning);
 
-                EditorGUILayout.Space();
+            //    EditorGUILayout.Space();
 
-                if (GUILayout.Button("Set InputManager"))
-                {
-                    if (InputManagerCopier.SetInputManager(_currentInputObj, _vrsfAxisArray))
-                    {
-                        _currentInputObj = null;
-                        _currentAxisArray = null;
-                        _vrsfAxisArray = null;
-                    }
-                }
-
-                EditorGUILayout.Space();
-                EditorGUILayout.Space();
-            }
+            //    if (GUILayout.Button("Set InputManager"))
+            //    {
+            //        if (InputManagerCopier.SetInputManager(_currentInputObj, _vrsfAxisArray))
+            //        {
+            //            _currentInputObj = null;
+            //            _currentAxisArray = null;
+            //            _vrsfAxisArray = null;
+            //        }
+            //    }
+            //    EditorGUILayout.Space();
+            //    EditorGUILayout.Space();
+            //}
 
             base.DrawDefaultInspector();
         }
