@@ -51,7 +51,7 @@ namespace VRSF.UI
 
         private void OnTriggerEnter(Collider other)
         {
-            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerModel"))
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerBody"))
             {
                 onClick.Invoke();
             }

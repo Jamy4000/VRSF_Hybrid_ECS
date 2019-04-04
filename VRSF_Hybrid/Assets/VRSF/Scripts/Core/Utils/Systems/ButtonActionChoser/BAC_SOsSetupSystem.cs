@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
+using VRSF.Core.Events;
 using VRSF.Core.Inputs;
 
 namespace VRSF.Core.Utils.ButtonActionChoser
@@ -27,16 +28,12 @@ namespace VRSF.Core.Utils.ButtonActionChoser
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            OnActionButtonIsReady.Listeners += Init;
+            base.OnCreateManager();
 
             _inputsContainer = InputVariableContainer.Instance;
-            
-            foreach (var entity in GetEntities<Filter>())
-            {
-                entity.BACGeneralComp.StartCoroutine(WaitForActionButton(entity));
-            }
         }
 
         protected override void OnUpdate() { }
@@ -53,6 +50,8 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                 ButtonTouchEvent.UnregisterListener(delegatesHandler.StartActionTouched);
                 ButtonUntouchEvent.UnregisterListener(delegatesHandler.StartActionUntouched);
             }
+
+            OnActionButtonIsReady.Listeners -= Init;
         }
         #endregion
 
@@ -193,29 +192,27 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             _bacDelegatesList.Add(delegatesHandler);
         }
 
+
         /// <summary>
         /// As some values are initialized in other Systems, we just want to be sure that everything is setup before checking the Scriptable Objects.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator WaitForActionButton(Filter entity)
+        private void Init(OnActionButtonIsReady info)
         {
-            while (!entity.BACCalculationsComp.ActionButtonIsReady)
+            foreach (var entity in GetEntities<Filter>())
             {
-                yield return new WaitForEndOfFrame();
-            }
+                var sdkChoser = entity.BACGeneralComp.GetComponent<SDKChoserComponent>();
 
-            var sdkChoser = entity.BACGeneralComp.GetComponent<SDKChoserComponent>();
-
-            if (sdkChoser == null || (sdkChoser != null && entity.BACCalculationsComp.CorrectSDK))
-            {
-                CheckInitSOs(entity);
-            }
-            else
-            {
-                // SDK Choser is not using the correct SDK, feature can't be used
-                entity.BACCalculationsComp.gameObject.SetActive(false);
-                entity.BACCalculationsComp.CanBeUsed = false;
-                entity.BACCalculationsComp.IsSetup = true;
+                if (sdkChoser == null || (sdkChoser != null && entity.BACCalculationsComp.CorrectSDK))
+                {
+                    CheckInitSOs(entity);
+                }
+                else
+                {
+                    // SDK Choser is not using the correct SDK, feature can't be used
+                    entity.BACCalculationsComp.CanBeUsed = false;
+                    entity.BACCalculationsComp.IsSetup = true;
+                }
             }
         }
         #endregion

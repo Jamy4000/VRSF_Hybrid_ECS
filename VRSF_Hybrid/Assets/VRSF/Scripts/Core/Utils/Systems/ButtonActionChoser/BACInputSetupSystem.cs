@@ -251,6 +251,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                 else
                 {
                     entity.BACCalculationsComp.ActionButtonIsReady = true;
+                    new OnActionButtonIsReady(entity.BACCalculationsComp);
                 }
             }
         }

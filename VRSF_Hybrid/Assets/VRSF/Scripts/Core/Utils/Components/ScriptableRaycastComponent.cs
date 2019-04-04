@@ -18,7 +18,7 @@ namespace VRSF.Core.Raycast
         /// <summary>
         /// The Layers ignored by the raycast
         /// </summary>
-        [HideInInspector] public LayerMask IgnoredLayers;
+        [HideInInspector] private LayerMask _ignoredLayers;
 
         /// <summary>
         /// Reference to the RaycastHitVariable link to this hand
@@ -81,6 +81,37 @@ namespace VRSF.Core.Raycast
             }
 
             set => _raycastMaxDistance = value;
+        }
+
+        public LayerMask IgnoredLayers
+        {
+            get
+            {
+                try
+                {
+                    switch (RayOrigin)
+                    {
+                        case EHand.LEFT:
+                            return _controllersParameters.GetExclusionsLayer(EHand.LEFT);
+                        case EHand.RIGHT:
+                            return _controllersParameters.GetExclusionsLayer(EHand.RIGHT);
+                        case EHand.GAZE:
+                            return ~Gaze.GazeParametersVariable.Instance.GazeExclusionLayer;
+                        default:
+                            Debug.LogError("<b>[VRSF] :</b> Please specify a valid RayOrigin in the ScriptableRaycastComponent.", gameObject);
+                            return -1;
+                    }
+                }
+                catch
+                {
+                    if (RayOrigin == EHand.GAZE)
+                        _gazeParameters = Gaze.GazeParametersVariable.Instance;
+                    else
+                        _controllersParameters = ControllersParametersVariable.Instance;
+
+                    return 0;
+                }
+            }
         }
     }
 }

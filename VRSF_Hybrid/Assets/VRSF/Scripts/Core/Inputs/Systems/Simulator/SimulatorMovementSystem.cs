@@ -40,6 +40,8 @@ namespace VRSF.Core.Inputs
                 if (Input.GetMouseButton(1))
                 {
                     EvaluateRotation(e.cameraComponent, mouse);
+                    // Interpolate toward new position
+                    Interpolate(e.cameraComponent, dt);
                 }
                 // Translation
                 if (EvaluateTranslation(e.cameraComponent, ScrollDeltaY, dt))
@@ -93,7 +95,7 @@ namespace VRSF.Core.Inputs
             return false;
         }
 
-        // Framerate-independent interpolation
+        // Framerate-independent interpolation for position
         private void Interpolate(SimulatorMovementComponent cameraComp, float deltaTime)
         {
             // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time

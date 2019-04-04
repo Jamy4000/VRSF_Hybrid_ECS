@@ -87,7 +87,6 @@ namespace VRSF.Core.Inputs
             if (Input.GetButtonDown("LeftThumbClick"))
             {
                 tempClick.SetValue(true);
-                tempTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             else if (Input.GetButtonUp("LeftThumbClick"))
