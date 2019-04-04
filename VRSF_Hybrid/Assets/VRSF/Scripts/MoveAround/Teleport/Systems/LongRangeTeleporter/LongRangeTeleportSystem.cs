@@ -119,6 +119,8 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         private void OnIsInteractingCallback(Filter e)
         {
+            // I think the mistake is coming from here. The CanTeleport is reset at false in one of the if/else below, and block the teleportUserSystem
+
             e.LRT_Comp._LoadingTimer += Time.deltaTime;
             
             // If the raycast is hitting something and it's not a UI Element
