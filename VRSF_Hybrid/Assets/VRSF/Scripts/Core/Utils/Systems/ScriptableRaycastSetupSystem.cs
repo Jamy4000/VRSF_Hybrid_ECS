@@ -54,7 +54,6 @@ namespace VRSF.Core.Raycast
 
                         e.RaycastComp.RayVar = interactionsContainer.LeftRay;
                         e.RaycastComp.RaycastHitVar = interactionsContainer.LeftHit;
-                        e.RaycastComp.IgnoredLayers = controllersParameters.GetExclusionsLayer(EHand.LEFT);
                         e.RaycastComp.RayOriginTransform = VRSF_Components.LeftController.transform;
                         e.RaycastComp.RaycastMaxDistance = controllersParameters.MaxDistancePointerLeft;
                         break;
@@ -62,7 +61,6 @@ namespace VRSF.Core.Raycast
                     case (EHand.RIGHT):
                         e.RaycastComp.RayVar = interactionsContainer.RightRay;
                         e.RaycastComp.RaycastHitVar = interactionsContainer.RightHit;
-                        e.RaycastComp.IgnoredLayers = controllersParameters.GetExclusionsLayer(EHand.RIGHT);
                         e.RaycastComp.RayOriginTransform = VRSF_Components.RightController.transform;
                         e.RaycastComp.RaycastMaxDistance = controllersParameters.MaxDistancePointerRight;
                         break;
@@ -70,7 +68,6 @@ namespace VRSF.Core.Raycast
                     case (EHand.GAZE):
                         e.RaycastComp.RayVar = interactionsContainer.GazeRay;
                         e.RaycastComp.RaycastHitVar = interactionsContainer.GazeHit;
-                        e.RaycastComp.IgnoredLayers = ~Gaze.GazeParametersVariable.Instance.GazeExclusionLayer;
                         e.RaycastComp.RayOriginTransform = VRSF_Components.VRCamera.transform;
                         e.RaycastComp.RaycastMaxDistance = Gaze.GazeParametersVariable.Instance.DefaultDistance;
                         break;

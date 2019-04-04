@@ -105,7 +105,6 @@ namespace VRSF.MoveAround.Teleport
             else
             {
                 SetTeleportState(ETeleportState.None, teleportUser.TeleportGeneral);
-                Debug.Log("TeleportGeneralComponent.PointToGoTo " + TeleportGeneralComponent.PointToGoTo);
                 VRSF_Components.SetCameraRigPosition(TeleportGeneralComponent.PointToGoTo);
                 ChangeTeleportStatus(true);
             }

@@ -132,7 +132,7 @@ namespace VRSF.UI
 
         private void OnTriggerEnter(Collider other)
         {
-            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerModel"))
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerBody"))
             {
                 _isFillingWithMesh = true;
                 HandleHandInteracting(other.gameObject.name.Contains("RIGHT") ? EHand.RIGHT : EHand.LEFT);
@@ -141,7 +141,7 @@ namespace VRSF.UI
 
         private void OnTriggerExit(Collider other)
         {
-            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerModel"))
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerBody"))
             {
                 HandleUp();
             }
