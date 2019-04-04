@@ -176,9 +176,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RayOrigin: 0
   RayOriginTransform: {fileID: 0}
-  IgnoredLayers:
-    serializedVersion: 2
-    m_Bits: 0
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
   CheckRaycast: 0
@@ -209,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce468ecfe1df86f40b843a51f168a093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSetup: 0
 --- !u!114 &6897238124372539858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +321,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -520,6 +518,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4069715111207404}
     m_Modifications:
+    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
+      propertyPath: m_Name
+      value: Pointer
+      objectReference: {fileID: 0}
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -563,10 +565,6 @@ PrefabInstance:
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Pointer
       objectReference: {fileID: 0}
     - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}
@@ -588,6 +586,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4574007437801686}
     m_Modifications:
+    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
+      propertyPath: m_Name
+      value: Pointer
+      objectReference: {fileID: 0}
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -631,10 +633,6 @@ PrefabInstance:
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Pointer
       objectReference: {fileID: 0}
     - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}

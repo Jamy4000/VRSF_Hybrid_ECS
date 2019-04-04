@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7361058184050831143}
   m_Layer: 0
   m_Name: Controller (left)
-  m_TagString: RESERVED_LeftController
+  m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 8481380665343000135}
   m_Layer: 2
   m_Name: body_group1_LEFT
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: RESERVED_ControllerBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 7381319677891087634}
   m_Layer: 2
   m_Name: r_gripper_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 7380831058632918706}
   m_Layer: 2
   m_Name: l_gripper_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 7380399119492619298}
   m_Layer: 2
   m_Name: trigger_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 7380540048851497938}
   m_Layer: 2
   m_Name: menu_but_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 7379803419821071010}
   m_Layer: 2
   m_Name: sys_but_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -700,7 +700,7 @@ GameObject:
   - component: {fileID: 7379950483528624428}
   m_Layer: 2
   m_Name: trackpad_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -777,7 +777,7 @@ GameObject:
   - component: {fileID: 7381290721630629076}
   m_Layer: 2
   m_Name: LED_group1
-  m_TagString: RESERVED_ControllerModel
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
