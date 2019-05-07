@@ -55,17 +55,17 @@ namespace VRSF.Core.Inputs
         private void CheckRightControllerInput(CrossplatformInputCapture inputCapture)
         {
             #region MENU
-            BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
+            BoolVariable menuClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
             if (Input.GetButtonDown("Button0Click"))
             {
-                tempClick.SetValue(true);
+                menuClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
             else if (Input.GetButtonUp("Button0Click"))
             {
-                tempClick.SetValue(false);
+                menuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
             #endregion MENU
@@ -77,17 +77,17 @@ namespace VRSF.Core.Inputs
         private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
         {
             #region MENU
-            BoolVariable tempClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
+            BoolVariable menuClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
             if (Input.GetButtonDown("Button2Click"))
             {
-                tempClick.SetValue(true);
+                menuClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             else if (Input.GetButtonUp("Button2Click"))
             {
-                tempClick.SetValue(false);
+                menuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
