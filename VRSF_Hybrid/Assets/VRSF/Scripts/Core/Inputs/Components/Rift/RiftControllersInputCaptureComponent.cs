@@ -9,21 +9,54 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class RiftControllersInputCaptureComponent : MonoBehaviour
     {
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable LeftMenuClick;
 
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable AButtonClick;
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable AButtonTouch;
 
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable BButtonClick;
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable BButtonTouch;
 
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable XButtonClick;
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable XButtonTouch;
 
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable YButtonClick;
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable YButtonTouch;
 
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable RightThumbrestTouch;
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable LeftThumbrestTouch;
     }
 }

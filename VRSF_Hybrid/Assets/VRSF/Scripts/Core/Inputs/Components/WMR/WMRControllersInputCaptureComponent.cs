@@ -9,7 +9,14 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class WMRControllersInputCaptureComponent : MonoBehaviour
     {
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable RightMenuClick;
+
+        /// <summary>
+        /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
+        /// </summary>
         [HideInInspector] public BoolVariable LeftMenuClick;
     }
 }
