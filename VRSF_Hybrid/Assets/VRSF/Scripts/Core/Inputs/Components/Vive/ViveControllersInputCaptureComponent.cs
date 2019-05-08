@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 
 namespace VRSF.Core.Inputs
 {
@@ -8,5 +9,7 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ViveControllersInputCaptureComponent : MonoBehaviour
     {
+        public BoolVariable RightMenuClick;
+        public BoolVariable LeftMenuClick;
     }
 }

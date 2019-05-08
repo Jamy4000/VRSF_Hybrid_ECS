@@ -19,7 +19,6 @@ MonoBehaviour:
   - TriggerIsDown
   - AButtonIsDown
   - BButtonIsDown
-  - WMRRightMenu
   ValueList:
   - {fileID: 11400000, guid: 0b063860c58fd4b44ba1b25b2be2dc10, type: 2}
   - {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
@@ -27,4 +26,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
   - {fileID: 11400000, guid: fae59bd2954c13048a422fad61456a3e, type: 2}
   - {fileID: 11400000, guid: 09fcbad63e89f5541996b0add61beb54, type: 2}
-  - {fileID: 11400000, guid: 5b23a7c863f848b4dbd745bff8bd7354, type: 2}

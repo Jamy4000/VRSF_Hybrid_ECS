@@ -18,9 +18,11 @@ MonoBehaviour:
   - XButtonIsTouching
   - YButtonIsTouching
   - ThumbrestIsTouching
+  - GripIsTouching
   ValueList:
   - {fileID: 11400000, guid: 7f8240028b78cfa47a2576d7d979842a, type: 2}
   - {fileID: 11400000, guid: 97249c7a9e217ed40a20258c530104d6, type: 2}
   - {fileID: 11400000, guid: c69b775a4769ba14ea069860dd2b8cfe, type: 2}
   - {fileID: 11400000, guid: 3dfee76bce6b0c34fb1846934b09d74f, type: 2}
   - {fileID: 11400000, guid: d9906244a22bfb64787dc4555964e35b, type: 2}
+  - {fileID: 11400000, guid: cf89c7025ce4f414dae55ac7d843a074, type: 2}

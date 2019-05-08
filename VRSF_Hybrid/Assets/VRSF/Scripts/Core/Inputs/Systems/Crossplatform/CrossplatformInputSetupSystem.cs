@@ -33,20 +33,21 @@ namespace VRSF.Core.Inputs
             {
                 // We give the references to the Scriptable variable containers in the Left Parameters variable
                 e.InputCapture.LeftParameters = new InputParameters
-                {
-                    ClickBools = InputVariableContainer.Instance.LeftClickBoolean,
-                    TouchBools = InputVariableContainer.Instance.LeftTouchBoolean,
-                    ThumbPosition = InputVariableContainer.Instance.LeftThumbPosition
-                };
+                (
+                    InputVariableContainer.Instance.LeftClickBoolean, 
+                    InputVariableContainer.Instance.LeftTouchBoolean,
+                    InputVariableContainer.Instance.LeftThumbPosition
+                );
 
                 // We give the references to the Scriptable variable containers in the Right Parameters variable
                 e.InputCapture.RightParameters = new InputParameters
-                {
-                    ClickBools = InputVariableContainer.Instance.RightClickBoolean,
-                    TouchBools = InputVariableContainer.Instance.RightTouchBoolean,
-                    ThumbPosition = InputVariableContainer.Instance.RightThumbPosition
-                };
+                (
+                    InputVariableContainer.Instance.RightClickBoolean,
+                    InputVariableContainer.Instance.RightTouchBoolean,
+                    InputVariableContainer.Instance.RightThumbPosition
+                );
 
+                new OnCrossplatformComponentIsSetup();
                 e.InputCapture.IsSetup = true;
             }
         }

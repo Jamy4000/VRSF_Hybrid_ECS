@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 
 namespace VRSF.Core.Inputs
 {
@@ -8,5 +9,21 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class RiftControllersInputCaptureComponent : MonoBehaviour
     {
+        public BoolVariable LeftMenuClick;
+
+        public BoolVariable AButtonClick;
+        public BoolVariable AButtonTouch;
+
+        public BoolVariable BButtonClick;
+        public BoolVariable BButtonTouch;
+
+        public BoolVariable XButtonClick;
+        public BoolVariable XButtonTouch;
+
+        public BoolVariable YButtonClick;
+        public BoolVariable YButtonTouch;
+
+        public BoolVariable RightThumbrestTouch;
+        public BoolVariable LeftThumbrestTouch;
     }
 }

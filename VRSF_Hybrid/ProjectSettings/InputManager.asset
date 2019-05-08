@@ -6,8 +6,8 @@ InputManager:
   serializedVersion: 2
   m_Axes:
   - serializedVersion: 3
-    m_Name: LeftTriggerClick
-    descriptiveName: Left trigger is being clicked
+    m_Name: LeftTriggerSqueeze
+    descriptiveName: Left trigger is being Squeezed
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -22,24 +22,8 @@ InputManager:
     axis: 8
     joyNum: 0
   - serializedVersion: 3
-    m_Name: LeftTriggerTouch
-    descriptiveName: Left trigger is being touched
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 14
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: RightTriggerClick
-    descriptiveName: Right trigger is being clicked
+    m_Name: RightTriggerSqueeze
+    descriptiveName: Right trigger is being squeezed
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: 
@@ -54,23 +38,7 @@ InputManager:
     axis: 9
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RightTriggerTouch
-    descriptiveName: Right trigger is being touched
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 15
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: RightGripClick
+    m_Name: RightGripSqueeze
     descriptiveName: Right grip is being clicked
     descriptiveNegativeName: 
     negativeButton: 
@@ -86,7 +54,7 @@ InputManager:
     axis: 11
     joyNum: 0
   - serializedVersion: 3
-    m_Name: LeftGripClick
+    m_Name: LeftGripSqueeze
     descriptiveName: Left grip is being clicked
     descriptiveNegativeName: 
     negativeButton: 
@@ -230,8 +198,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Button2Click
-    descriptiveName: Left menu button on Vive Clicked OR X button on Rift Clicked
+    m_Name: ViveLeftMenuClick
+    descriptiveName: Left menu button on Vive was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 2
@@ -246,8 +214,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: Button0Click
-    descriptiveName: Right menu button on Vive Clicked OR A button on Rift Clicked
+    m_Name: ViveRightMenuClick
+    descriptiveName: Right menu button on Vive was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 0
@@ -262,8 +230,24 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: AButtonTouch
-    descriptiveName: A button on Rift Touched
+    m_Name: RiftAButtonClick
+    descriptiveName: The A Button on the Rift controller was clicked
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 0
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.001
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: RiftAButtonTouch
+    descriptiveName: The A Button on the Rift controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 10
@@ -278,24 +262,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: XButtonTouch
-    descriptiveName: X button on Rift Touched
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 12
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: BButtonClick
-    descriptiveName: B button on Rift Clicked
+    m_Name: RiftBButtonClick
+    descriptiveName: The B Button on the Rift controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 1
@@ -310,8 +278,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: BButtonTouch
-    descriptiveName: B button on Rift Touched
+    m_Name: RiftBButtonTouch
+    descriptiveName: The B Button on the Rift controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 11
@@ -326,8 +294,40 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: YButtonClick
-    descriptiveName: Y button on Rift Clicked
+    m_Name: RiftXButtonClick
+    descriptiveName: The X Button on the Rift controller was clicked
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 2
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.001
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: RiftXButtonTouch
+    descriptiveName: The X Button on the Rift controller was touched
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 12
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.001
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: RiftYButtonClick
+    descriptiveName: The Y Button on the Rift controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 3
@@ -342,8 +342,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: YButtonTouch
-    descriptiveName: Y button on Rift Touched
+    m_Name: RiftYButtonTouch
+    descriptiveName: The Y Button on the Rift controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 13
@@ -358,168 +358,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: LeftMenuRift
-    descriptiveName: Left Menu button (Start) on rift clicked
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 6
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: LeftThumbrestTouch
-    descriptiveName: Left Thumbrest of the Touch Controllers was touch
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 18
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: RightThumbrestTouch
-    descriptiveName: Right Thumbrest of the Touch Controllers was touch
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 19
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Mouse X
-    descriptiveName: Mouse X axis, used in simulator
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 0.5
-    snap: 0
-    invert: 0
-    type: 1
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Mouse Y
-    descriptiveName: Mouse Y axis, used in simulator
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 0.5
-    snap: 0
-    invert: 1
-    type: 1
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTriggerClickLeft
-    descriptiveName: WMRTriggerClickLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 14
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTriggerClickRight
-    descriptiveName: WMRTriggerClickRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 15
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRGripClickLeft
-    descriptiveName: WMRGripClickLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 4
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRGripClickRight
-    descriptiveName: WMRGripClickRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 5
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRMenuLeft
-    descriptiveName: WMRMenuLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 6
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRMenuRight
-    descriptiveName: WMRMenuRight
+    m_Name: RiftMenuButtonClick
+    descriptiveName: The Menu Button on the Rift Left controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 7
@@ -531,43 +371,11 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 1
+    axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: WMRTouchpadClickLeft
-    descriptiveName: WMRTouchpadClickLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 16
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTouchpadClickRight
-    descriptiveName: WMRTouchpadClickRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 17
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 0.5
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTouchpadTouchLeft
-    descriptiveName: WMRTouchpadTouchLeft
+    m_Name: RiftLeftThumbrestTouch
+    descriptiveName: The Thumbrest on the Rift Left controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 18
@@ -579,11 +387,11 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 1
+    axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: WMRTouchpadTouchRight
-    descriptiveName: WMRTouchpadTouchRight
+    m_Name: RiftRightThumbrestTouch
+    descriptiveName: The Thumbrest on the Rift Right controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 19
@@ -595,126 +403,14 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTouchpadHorizontalLeft
-    descriptiveName: WMRTouchpadHorizontalLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 16
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTouchpadHorizontalRight
-    descriptiveName: WMRTouchpadHorizontalRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 18
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTouchpadVerticalLeft
-    descriptiveName: WMRTouchpadVerticalLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 17
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRTouchpadVerticalRight
-    descriptiveName: WMRTouchpadVerticalRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 19
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRThumbstickClickLeft
-    descriptiveName: WMRThumbstickClickLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 8
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRThumbstickClickRight
-    descriptiveName: WMRThumbstickClickRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 9
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRThumbstickHorizontalLeft
-    descriptiveName: WMRThumbstickHorizontalLeft
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: WMRThumbstickHorizontalRight
-    descriptiveName: WMRThumbstickHorizontalRight
+    m_Name: WMRLeftMenuClick
+    descriptiveName: The Menu button on the WMR Left controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 
+    positiveButton: joystick button 6
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
@@ -722,15 +418,15 @@ InputManager:
     sensitivity: 1
     snap: 0
     invert: 0
-    type: 2
-    axis: 3
+    type: 0
+    axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: WMRThumbstickVerticalLeft
-    descriptiveName: WMRThumbstickVerticalLeft
+    m_Name: WMRRightMenuClick
+    descriptiveName: The Menu button on the WMR Right controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 
+    positiveButton: joystick button 7
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
@@ -738,22 +434,6 @@ InputManager:
     sensitivity: 1
     snap: 0
     invert: 0
-    type: 2
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: WMRThumbstickVerticalRight
-    descriptiveName: WMRThumbstickVerticalRight
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 0
-    dead: 0.001
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 4
+    type: 0
+    axis: 0
     joyNum: 0

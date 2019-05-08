@@ -20,6 +20,7 @@ namespace VRSF.Core.Inputs
         protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += CheckDevice;
+            OnCrossplatformComponentIsSetup.Listeners += InitRiftInputComp;
             base.OnCreateManager();
         }
 
@@ -33,10 +34,10 @@ namespace VRSF.Core.Inputs
                     if (e.InputCapture.IsSetup)
                     {
                         // We check the Input for the Right controller
-                        CheckRightControllerInput(e.InputCapture);
+                        CheckRightControllerInput(e.RiftControllersInput);
 
                         // We check the Input for the Left controller
-                        CheckLeftControllerInput(e.InputCapture);
+                        CheckLeftControllerInput(e.RiftControllersInput);
                     }
                 }
             }
@@ -45,6 +46,7 @@ namespace VRSF.Core.Inputs
         protected override void OnDestroyManager()
         {
             OnSetupVRReady.Listeners -= CheckDevice;
+            OnCrossplatformComponentIsSetup.Listeners -= InitRiftInputComp;
             base.OnDestroyManager();
         }
 
@@ -52,78 +54,70 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Right Controller input and put them in the Events
         /// </summary>
-        private void CheckRightControllerInput(CrossplatformInputCapture inputCapture)
+        private void CheckRightControllerInput(RiftControllersInputCaptureComponent inputCapture)
         {
             #region A
-            BoolVariable tempClick = inputCapture.RightParameters.ClickBools.Get("AButtonIsDown");
-            BoolVariable tempTouch = inputCapture.RightParameters.TouchBools.Get("AButtonIsTouching");
-
             // Check Click Events
-            if (Input.GetButtonDown("Button0Click"))
+            if (Input.GetButtonDown("RiftAButtonClick"))
             {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
+                inputCapture.AButtonClick.SetValue(true);
+                inputCapture.AButtonTouch.SetValue(false);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
-            else if (Input.GetButtonUp("Button0Click"))
+            else if (Input.GetButtonUp("RiftAButtonClick"))
             {
-                tempClick.SetValue(false);
+                inputCapture.AButtonClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && Input.GetButtonDown("AButtonTouch"))
+            else if (!inputCapture.AButtonClick.Value && Input.GetButtonDown("RiftAButtonTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.AButtonTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
-            else if (Input.GetButtonUp("AButtonTouch"))
+            else if (Input.GetButtonUp("RiftAButtonTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.AButtonTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.A_BUTTON);
             }
             #endregion A
 
             #region B
-            tempClick = inputCapture.RightParameters.ClickBools.Get("BButtonIsDown");
-            tempTouch = inputCapture.RightParameters.TouchBools.Get("BButtonIsTouching");
-
             // Check Click Events
-            if (Input.GetButtonDown("BButtonClick"))
+            if (Input.GetButtonDown("RiftBButtonClick"))
             {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
+                inputCapture.BButtonClick.SetValue(true);
+                inputCapture.BButtonTouch.SetValue(false);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
-            else if (Input.GetButtonUp("BButtonClick"))
+            else if (Input.GetButtonUp("RiftBButtonClick"))
             {
-                tempClick.SetValue(false);
+                inputCapture.BButtonClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && Input.GetButtonDown("BButtonTouch"))
+            else if (!inputCapture.BButtonClick.Value && Input.GetButtonDown("RiftBButtonTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.BButtonTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
-            else if (Input.GetButtonUp("BButtonTouch"))
+            else if (Input.GetButtonUp("RiftBButtonTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.BButtonTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.B_BUTTON);
             }
             #endregion B
 
             #region THUMBREST
-            tempTouch = inputCapture.RightParameters.TouchBools.Get("ThumbrestIsTouching");
-
             // Check Touch Events
-            if (!tempTouch.Value && Input.GetButton("RightThumbrestTouch"))
+            if (!inputCapture.RightThumbrestTouch.Value && Input.GetButton("RightThumbrestTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.RightThumbrestTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             }
             else if (Input.GetButtonUp("RightThumbrestTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.RightThumbrestTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             }
             #endregion THUMBREST
@@ -132,94 +126,84 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Left Controller input and put them in the Events
         /// </summary>
-        private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
+        private void CheckLeftControllerInput(RiftControllersInputCaptureComponent inputCapture)
         {
             #region X
-            BoolVariable tempClick = inputCapture.LeftParameters.ClickBools.Get("XButtonIsDown");
-            BoolVariable tempTouch = inputCapture.LeftParameters.TouchBools.Get("XButtonIsTouching");
-
             // Check Click Events
-            if (Input.GetButtonDown("Button2Click"))
+            if (Input.GetButtonDown("RiftXButtonClick"))
             {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
+                inputCapture.XButtonClick.SetValue(true);
+                inputCapture.XButtonTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
-            else if (Input.GetButtonUp("Button2Click"))
+            else if (Input.GetButtonUp("RiftXButtonClick"))
             {
-                tempClick.SetValue(false);
+                inputCapture.XButtonClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && Input.GetButtonDown("XButtonTouch"))
+            else if (!inputCapture.XButtonClick.Value && Input.GetButtonDown("RiftXButtonTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.XButtonTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
-            else if (Input.GetButtonUp("XButtonTouch"))
+            else if (Input.GetButtonUp("RiftXButtonTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.XButtonTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
             #endregion X
 
             #region Y
-            tempClick = inputCapture.LeftParameters.ClickBools.Get("YButtonIsDown");
-            tempTouch = inputCapture.LeftParameters.TouchBools.Get("YButtonIsTouching");
-
             // Check Click Events
-            if (Input.GetButtonDown("YButtonClick"))
+            if (Input.GetButtonDown("RiftYButtonClick"))
             {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
+                inputCapture.YButtonClick.SetValue(true);
+                inputCapture.YButtonTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
-            else if (Input.GetButtonUp("YButtonClick"))
+            else if (Input.GetButtonUp("RiftYButtonClick"))
             {
-                tempClick.SetValue(false);
+                inputCapture.YButtonClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && Input.GetButtonDown("YButtonTouch"))
+            else if (!inputCapture.YButtonClick.Value && Input.GetButtonDown("RiftYButtonTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.YButtonTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
-            else if (Input.GetButtonUp("YButtonTouch"))
+            else if (Input.GetButtonUp("RiftYButtonTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.YButtonTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
             #endregion Y
 
             #region MENU
-            tempClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
-            
             // Check Click Events
-            if (Input.GetButtonDown("LeftMenuRift"))
+            if (Input.GetButtonDown("RiftMenuButtonClick"))
             {
-                tempClick.SetValue(true);
+                inputCapture.LeftMenuClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("LeftMenuRift"))
+            else if (Input.GetButtonUp("RiftMenuButtonClick"))
             {
-                tempClick.SetValue(false);
+                inputCapture.LeftMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
 
             #region THUMBREST
-            tempTouch = inputCapture.LeftParameters.TouchBools.Get("ThumbrestIsTouching");
-
             // Check Touch Events
-            if (!tempTouch.Value && Input.GetButton("LeftThumbrestTouch"))
+            if (!inputCapture.LeftThumbrestTouch.Value && Input.GetButton("LeftThumbrestTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.LeftThumbrestTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
             }
             else if (Input.GetButtonUp("LeftThumbrestTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.LeftThumbrestTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
             }
             #endregion THUMBREST
@@ -228,6 +212,29 @@ namespace VRSF.Core.Inputs
         private void CheckDevice(OnSetupVRReady info)
         {
             this.Enabled = VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT;
+        }
+
+        private void InitRiftInputComp(OnCrossplatformComponentIsSetup info)
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                e.RiftControllersInput.LeftMenuClick = e.InputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
+
+                e.RiftControllersInput.AButtonClick = e.InputCapture.RightParameters.ClickBools.Get("AButtonIsDown");
+                e.RiftControllersInput.AButtonTouch = e.InputCapture.RightParameters.TouchBools.Get("AButtonIsTouching");
+
+                e.RiftControllersInput.BButtonClick = e.InputCapture.RightParameters.ClickBools.Get("BButtonIsDown");
+                e.RiftControllersInput.BButtonTouch = e.InputCapture.RightParameters.TouchBools.Get("BButtonIsTouching");
+
+                e.RiftControllersInput.XButtonClick = e.InputCapture.LeftParameters.ClickBools.Get("XButtonIsDown");
+                e.RiftControllersInput.XButtonTouch = e.InputCapture.LeftParameters.TouchBools.Get("XButtonIsTouching");
+
+                e.RiftControllersInput.YButtonClick = e.InputCapture.LeftParameters.ClickBools.Get("YButtonIsDown");
+                e.RiftControllersInput.YButtonTouch = e.InputCapture.LeftParameters.TouchBools.Get("YButtonIsTouching");
+
+                e.RiftControllersInput.RightThumbrestTouch = e.InputCapture.RightParameters.TouchBools.Get("ThumbrestIsTouching");
+                e.RiftControllersInput.LeftThumbrestTouch = e.InputCapture.LeftParameters.TouchBools.Get("ThumbrestIsTouching");
+            }
         }
         #endregion PRIVATE_METHODS
     }

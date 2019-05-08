@@ -1,5 +1,4 @@
-﻿using ScriptableFramework.Variables;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
 using VRSF.Core.SetupVR;
@@ -49,30 +48,29 @@ namespace VRSF.Core.Inputs
         private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
         {
             #region TRIGGER
-            BoolVariable tempClick = inputCapture.LeftParameters.ClickBools.Get("TriggerIsDown");
-            BoolVariable tempTouch = inputCapture.LeftParameters.TouchBools.Get("TriggerIsTouching");
+            var triggerSqueezeValue = Input.GetAxis("LeftTriggerSqueeze");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetAxis("LeftTriggerClick") > 0.95f)
+            if (!inputCapture.LeftParameters.TriggerClick.Value && triggerSqueezeValue > 0.95f)
             {
-                tempClick.SetValue(true);
-                tempTouch.SetValue(false);
+                inputCapture.LeftParameters.TriggerClick.SetValue(true);
+                inputCapture.LeftParameters.TriggerTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
-            else if (tempClick.Value && Input.GetAxis("LeftTriggerClick") < 0.95f)
+            else if (inputCapture.LeftParameters.TriggerClick.Value && triggerSqueezeValue < 0.95f)
             {
-                tempClick.SetValue(false);
+                inputCapture.LeftParameters.TriggerClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
             // Check Touch Events if user is not clicking
-            else if (Input.GetButtonDown("LeftTriggerTouch"))
+            else if (!inputCapture.LeftParameters.TriggerTouch.Value && triggerSqueezeValue > 0.0f)
             {
-                tempTouch.SetValue(true);
+                inputCapture.LeftParameters.TriggerTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
-            else if (Input.GetButtonUp("LeftTriggerTouch"))
+            else if (inputCapture.LeftParameters.TriggerTouch.Value && triggerSqueezeValue == 0.0f)
             {
-                tempTouch.SetValue(false);
+                inputCapture.LeftParameters.TriggerTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TRIGGER);
             }
             #endregion TRIGGER
@@ -80,46 +78,54 @@ namespace VRSF.Core.Inputs
             #region TOUCHPAD
             inputCapture.LeftParameters.ThumbPosition.SetValue(new Vector2(Input.GetAxis("HorizontalLeft"), Input.GetAxis("VerticalLeft")));
 
-            tempClick = inputCapture.LeftParameters.ClickBools.Get("ThumbIsDown");
-            tempTouch = inputCapture.LeftParameters.TouchBools.Get("ThumbIsTouching");
-
             // Check Click Events
             if (Input.GetButtonDown("LeftThumbClick"))
             {
-                tempClick.SetValue(true);
+                inputCapture.LeftParameters.TouchpadClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             else if (Input.GetButtonUp("LeftThumbClick"))
             {
-                tempClick.SetValue(false);
+                inputCapture.LeftParameters.TouchpadClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             // Check Touch Events if user is not clicking
-            else if (!tempClick.Value && Input.GetButtonDown("LeftThumbTouch"))
+            else if (!inputCapture.LeftParameters.TouchpadClick.Value && Input.GetButtonDown("LeftThumbTouch"))
             {
-                tempTouch.SetValue(true);
+                inputCapture.LeftParameters.TouchpadTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             else if (Input.GetButtonUp("LeftThumbTouch"))
             {
-                tempTouch.SetValue(false);
+                inputCapture.LeftParameters.TouchpadTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
             }
             #endregion TOUCHPAD
 
             #region GRIP
-            tempClick = inputCapture.LeftParameters.ClickBools.Get("GripIsDown");
+            var gripSqueezeValue = Input.GetAxis("LeftGripSqueeze");
 
             // Check Click Events
-            if (!tempClick.Value && Input.GetAxis("LeftGripClick") > 0.95f)
+            if (!inputCapture.LeftParameters.GripClick.Value && gripSqueezeValue > 0.95f)
             {
-                tempClick.SetValue(true);
+                inputCapture.LeftParameters.GripClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.GRIP);
             }
-            else if (tempClick.Value && Input.GetAxis("LeftGripClick") == 0)
+            else if (inputCapture.LeftParameters.GripClick.Value && gripSqueezeValue < 0.95f)
             {
-                tempClick.SetValue(false);
+                inputCapture.LeftParameters.GripClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.GRIP);
+            }
+            // Check Touch Events if user is not clicking
+            else if (!inputCapture.LeftParameters.GripTouch.Value && gripSqueezeValue > 0.0f)
+            {
+                inputCapture.LeftParameters.GripTouch.SetValue(true);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.GRIP);
+            }
+            else if (inputCapture.LeftParameters.GripTouch.Value && gripSqueezeValue == 0.0f)
+            {
+                inputCapture.LeftParameters.GripTouch.SetValue(false);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.GRIP);
             }
             #endregion GRIP
         }

@@ -20,6 +20,7 @@ namespace VRSF.Core.Inputs
         protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += CheckDevice;
+            OnCrossplatformComponentIsSetup.Listeners += InitViveInputComp;
             base.OnCreateManager();
         }
 
@@ -45,6 +46,7 @@ namespace VRSF.Core.Inputs
         protected override void OnDestroyManager()
         {
             OnSetupVRReady.Listeners -= CheckDevice;
+            OnCrossplatformComponentIsSetup.Listeners -= InitViveInputComp;
             base.OnDestroyManager();
         }
 
@@ -58,12 +60,12 @@ namespace VRSF.Core.Inputs
             BoolVariable menuClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
-            if (Input.GetButtonDown("Button0Click"))
+            if (Input.GetButtonDown("ViveRightMenuClick"))
             {
                 menuClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("Button0Click"))
+            else if (Input.GetButtonUp("ViveRightMenuClick"))
             {
                 menuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
@@ -80,12 +82,12 @@ namespace VRSF.Core.Inputs
             BoolVariable menuClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
 
             // Check Click Events
-            if (Input.GetButtonDown("Button2Click"))
+            if (Input.GetButtonDown("ViveLeftMenuClick"))
             {
                 menuClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("Button2Click"))
+            else if (Input.GetButtonUp("ViveLeftMenuClick"))
             {
                 menuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
@@ -96,6 +98,15 @@ namespace VRSF.Core.Inputs
         private void CheckDevice(OnSetupVRReady info)
         {
             this.Enabled = VRSF_Components.DeviceLoaded == EDevice.HTC_VIVE;
+        }
+        
+        private void InitViveInputComp(OnCrossplatformComponentIsSetup info)
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                e.ViveControllersInput.RightMenuClick = e.InputCapture.RightParameters.ClickBools.Get("MenuIsDown");
+                e.ViveControllersInput.LeftMenuClick = e.InputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
+            }
         }
         #endregion PRIVATE_METHODS
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 
 namespace VRSF.Core.Inputs
 {
@@ -8,9 +9,7 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class WMRControllersInputCaptureComponent : MonoBehaviour
     {
-        [HideInInspector] public InputParameters RightParameters;
-        [HideInInspector] public InputParameters LeftParameters;
-
-        [HideInInspector] public bool IsSetup;
+        public BoolVariable RightMenuClick;
+        public BoolVariable LeftMenuClick;
     }
 }

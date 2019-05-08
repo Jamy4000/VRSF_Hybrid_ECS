@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cca53b0764a02f43b9163ea1d82022d, type: 3}
-  m_Name: WMRRightMenu
+  m_Name: RightGripIsTouching
   m_EditorClassIdentifier: 
   DeveloperDescription: 
   Value: 0
