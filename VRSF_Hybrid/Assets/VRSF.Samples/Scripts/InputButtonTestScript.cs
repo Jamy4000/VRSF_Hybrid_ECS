@@ -5,7 +5,7 @@ using VRSF.Core.Inputs;
 
 namespace VRSF.Example
 {
-    public class InputTestScript : MonoBehaviour
+    public class InputButtonTestScript : MonoBehaviour
     {
         [SerializeField] private Image _statusPointForClick;
         [SerializeField] private Image _statusPointForTouch;

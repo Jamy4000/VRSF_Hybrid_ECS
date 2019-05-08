@@ -28,5 +28,13 @@ namespace VRSF.Core.Inputs
         [Header("Vector2Variable for the Thumb position")]
         public Vector2Variable RightThumbPosition;
         public Vector2Variable LeftThumbPosition;
+
+        [Header("FloatVariable for the Trigger Squeeze Values")]
+        public FloatVariable RightTriggerSqueezeValue;
+        public FloatVariable LeftTriggerSqueezeValue;
+
+        [Header("FloatVariable for the Grip Squeeze Values")]
+        public FloatVariable RightGripSqueezeValue;
+        public FloatVariable LeftGripSqueezeValue;
     }
 }

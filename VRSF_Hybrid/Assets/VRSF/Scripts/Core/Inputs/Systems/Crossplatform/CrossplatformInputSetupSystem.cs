@@ -36,7 +36,9 @@ namespace VRSF.Core.Inputs
                 (
                     InputVariableContainer.Instance.LeftClickBoolean, 
                     InputVariableContainer.Instance.LeftTouchBoolean,
-                    InputVariableContainer.Instance.LeftThumbPosition
+                    InputVariableContainer.Instance.LeftThumbPosition,
+                    InputVariableContainer.Instance.LeftTriggerSqueezeValue,
+                    InputVariableContainer.Instance.LeftGripSqueezeValue
                 );
 
                 // We give the references to the Scriptable variable containers in the Right Parameters variable
@@ -44,7 +46,9 @@ namespace VRSF.Core.Inputs
                 (
                     InputVariableContainer.Instance.RightClickBoolean,
                     InputVariableContainer.Instance.RightTouchBoolean,
-                    InputVariableContainer.Instance.RightThumbPosition
+                    InputVariableContainer.Instance.RightThumbPosition,
+                    InputVariableContainer.Instance.RightTriggerSqueezeValue,
+                    InputVariableContainer.Instance.RightGripSqueezeValue
                 );
 
                 new OnCrossplatformComponentIsSetup();

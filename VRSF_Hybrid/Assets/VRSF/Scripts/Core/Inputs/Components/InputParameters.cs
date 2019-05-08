@@ -9,6 +9,7 @@ namespace VRSF.Core.Inputs
     {
         public BoolVariable TriggerClick;
         public BoolVariable TriggerTouch;
+        public FloatVariable TriggerSqueezeValue;
 
         public BoolVariable TouchpadClick;
         public BoolVariable TouchpadTouch;
@@ -16,11 +17,12 @@ namespace VRSF.Core.Inputs
 
         public BoolVariable GripClick;
         public BoolVariable GripTouch;
+        public FloatVariable GripSqueezeValue;
 
         public VRInputsBoolean ClickBools;
         public VRInputsBoolean TouchBools;
 
-        public InputParameters(VRInputsBoolean clickBools, VRInputsBoolean touchBools, Vector2Variable thumbPosition)
+        public InputParameters(VRInputsBoolean clickBools, VRInputsBoolean touchBools, Vector2Variable thumbPosition, FloatVariable triggerSqueezeValue, FloatVariable gripSqueezeValue)
         {
             ClickBools = clickBools;
             TouchBools = touchBools;
@@ -28,9 +30,11 @@ namespace VRSF.Core.Inputs
 
             TriggerClick = clickBools.Get("TriggerIsDown");
             TriggerTouch = touchBools.Get("TriggerIsTouching");
+            TriggerSqueezeValue = triggerSqueezeValue;
 
             TouchpadClick = clickBools.Get("ThumbIsDown");
             TouchpadTouch = touchBools.Get("ThumbIsTouching");
+            GripSqueezeValue = gripSqueezeValue;
 
             GripClick = clickBools.Get("GripIsDown");
             GripTouch = touchBools.Get("GripIsTouching");

@@ -48,7 +48,8 @@ namespace VRSF.Core.Inputs
         private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
         {
             #region TRIGGER
-            var triggerSqueezeValue = Input.GetAxis("LeftTriggerSqueeze");
+            inputCapture.LeftParameters.TriggerSqueezeValue.SetValue(Input.GetAxis("LeftTriggerSqueeze"));
+            var triggerSqueezeValue = inputCapture.LeftParameters.TriggerSqueezeValue.Value;
 
             // Check Click Events
             if (!inputCapture.LeftParameters.TriggerClick.Value && triggerSqueezeValue > 0.95f)
@@ -103,7 +104,8 @@ namespace VRSF.Core.Inputs
             #endregion TOUCHPAD
 
             #region GRIP
-            var gripSqueezeValue = Input.GetAxis("LeftGripSqueeze");
+            inputCapture.LeftParameters.GripSqueezeValue.SetValue(Input.GetAxis("LeftGripSqueeze"));
+            var gripSqueezeValue = inputCapture.LeftParameters.GripSqueezeValue.Value;
 
             // Check Click Events
             if (!inputCapture.LeftParameters.GripClick.Value && gripSqueezeValue > 0.95f)
