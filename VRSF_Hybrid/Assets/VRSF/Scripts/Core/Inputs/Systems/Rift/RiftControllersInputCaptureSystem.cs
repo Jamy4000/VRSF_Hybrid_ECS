@@ -110,12 +110,12 @@ namespace VRSF.Core.Inputs
 
             #region THUMBREST
             // Check Touch Events
-            if (!inputCapture.RightThumbrestTouch.Value && Input.GetButton("RightThumbrestTouch"))
+            if (!inputCapture.RightThumbrestTouch.Value && Input.GetButton("RiftRightThumbrestTouch"))
             {
                 inputCapture.RightThumbrestTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
             }
-            else if (Input.GetButtonUp("RightThumbrestTouch"))
+            else if (Input.GetButtonUp("RiftRightThumbrestTouch"))
             {
                 inputCapture.RightThumbrestTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBREST);
@@ -196,12 +196,12 @@ namespace VRSF.Core.Inputs
 
             #region THUMBREST
             // Check Touch Events
-            if (!inputCapture.LeftThumbrestTouch.Value && Input.GetButton("LeftThumbrestTouch"))
+            if (!inputCapture.LeftThumbrestTouch.Value && Input.GetButton("RiftLeftThumbrestTouch"))
             {
                 inputCapture.LeftThumbrestTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
             }
-            else if (Input.GetButtonUp("LeftThumbrestTouch"))
+            else if (Input.GetButtonUp("RiftLeftThumbrestTouch"))
             {
                 inputCapture.LeftThumbrestTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);

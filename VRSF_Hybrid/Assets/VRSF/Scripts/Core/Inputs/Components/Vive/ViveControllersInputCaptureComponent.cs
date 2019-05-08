@@ -9,7 +9,7 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class ViveControllersInputCaptureComponent : MonoBehaviour
     {
-        public BoolVariable RightMenuClick;
-        public BoolVariable LeftMenuClick;
+        [HideInInspector] public BoolVariable RightMenuClick;
+        [HideInInspector] public BoolVariable LeftMenuClick;
     }
 }

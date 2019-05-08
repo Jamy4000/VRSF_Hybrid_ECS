@@ -9,21 +9,21 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class RiftControllersInputCaptureComponent : MonoBehaviour
     {
-        public BoolVariable LeftMenuClick;
+        [HideInInspector] public BoolVariable LeftMenuClick;
 
-        public BoolVariable AButtonClick;
-        public BoolVariable AButtonTouch;
+        [HideInInspector] public BoolVariable AButtonClick;
+        [HideInInspector] public BoolVariable AButtonTouch;
 
-        public BoolVariable BButtonClick;
-        public BoolVariable BButtonTouch;
+        [HideInInspector] public BoolVariable BButtonClick;
+        [HideInInspector] public BoolVariable BButtonTouch;
 
-        public BoolVariable XButtonClick;
-        public BoolVariable XButtonTouch;
+        [HideInInspector] public BoolVariable XButtonClick;
+        [HideInInspector] public BoolVariable XButtonTouch;
 
-        public BoolVariable YButtonClick;
-        public BoolVariable YButtonTouch;
+        [HideInInspector] public BoolVariable YButtonClick;
+        [HideInInspector] public BoolVariable YButtonTouch;
 
-        public BoolVariable RightThumbrestTouch;
-        public BoolVariable LeftThumbrestTouch;
+        [HideInInspector] public BoolVariable RightThumbrestTouch;
+        [HideInInspector] public BoolVariable LeftThumbrestTouch;
     }
 }
