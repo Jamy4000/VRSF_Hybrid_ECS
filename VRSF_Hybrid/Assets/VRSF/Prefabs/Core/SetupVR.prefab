@@ -66,9 +66,9 @@ GameObject:
   - component: {fileID: 1039595808384978214}
   - component: {fileID: 2494962355122321850}
   - component: {fileID: 6897238124372539858}
-  - component: {fileID: 6923637438557107993}
-  - component: {fileID: 2858508252802632576}
-  - component: {fileID: 522603569}
+  - component: {fileID: 5797141919990578843}
+  - component: {fileID: 4390927648252371873}
+  - component: {fileID: 4151527083698519627}
   m_Layer: 0
   m_Name: SetupVR
   m_TagString: Untagged
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74515c706227a3b42a68b602f410e3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6923637438557107993
+--- !u!114 &5797141919990578843
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,7 +239,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646c0f4a726cec242a7a4abc6bfdb454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2858508252802632576
+  LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
+  AButtonClick: {fileID: 11400000, guid: fae59bd2954c13048a422fad61456a3e, type: 2}
+  AButtonTouch: {fileID: 11400000, guid: c44de520e9afc8b42bc058f42116bedf, type: 2}
+  BButtonClick: {fileID: 11400000, guid: 09fcbad63e89f5541996b0add61beb54, type: 2}
+  BButtonTouch: {fileID: 11400000, guid: 5e4a5c462eda4a54ebd0a4393d57afa7, type: 2}
+  XButtonClick: {fileID: 11400000, guid: 78c91a512de868f4892c9ce0098a5a2c, type: 2}
+  XButtonTouch: {fileID: 11400000, guid: c69b775a4769ba14ea069860dd2b8cfe, type: 2}
+  YButtonClick: {fileID: 11400000, guid: 0ec326320b039b9468ebb3077605af78, type: 2}
+  YButtonTouch: {fileID: 11400000, guid: 3dfee76bce6b0c34fb1846934b09d74f, type: 2}
+  RightThumbrestTouch: {fileID: 11400000, guid: 2ab34e5bb7a3f6942bb63d757e90290b,
+    type: 2}
+  LeftThumbrestTouch: {fileID: 11400000, guid: d9906244a22bfb64787dc4555964e35b, type: 2}
+--- !u!114 &4390927648252371873
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f8673ef31489242acdf45fd2146237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &522603569
+  RightMenuClick: {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
+  LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
+--- !u!114 &4151527083698519627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -263,6 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4077b95894cef3d45a0487bbd075708f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RightMenuClick: {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
+  LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
 --- !u!1 &1192837081653980
 GameObject:
   m_ObjectHideFlags: 0

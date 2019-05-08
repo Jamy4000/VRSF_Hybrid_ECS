@@ -1,5 +1,4 @@
-﻿using ScriptableFramework.Variables;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
 using VRSF.Core.SetupVR;
@@ -7,7 +6,7 @@ using VRSF.Core.SetupVR;
 namespace VRSF.Core.Inputs
 {
     /// <summary>
-    /// Script attached to the ViveSDK Prefab.
+    /// 
     /// </summary>
     public class ViveControllersInputCaptureSystem : ComponentSystem
     {
@@ -20,7 +19,6 @@ namespace VRSF.Core.Inputs
         protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += CheckDevice;
-            OnCrossplatformComponentIsSetup.Listeners += InitViveInputComp;
             base.OnCreateManager();
         }
 
@@ -34,10 +32,10 @@ namespace VRSF.Core.Inputs
                     if (e.InputCapture.IsSetup)
                     {
                         // We check the Input for the Right controller
-                        CheckRightControllerInput(e.InputCapture);
+                        CheckRightControllerInput(e.ViveControllersInput);
 
                         // We check the Input for the Left controller
-                        CheckLeftControllerInput(e.InputCapture);
+                        CheckLeftControllerInput(e.ViveControllersInput);
                     }
                 }
             }
@@ -46,7 +44,6 @@ namespace VRSF.Core.Inputs
         protected override void OnDestroyManager()
         {
             OnSetupVRReady.Listeners -= CheckDevice;
-            OnCrossplatformComponentIsSetup.Listeners -= InitViveInputComp;
             base.OnDestroyManager();
         }
 
@@ -54,20 +51,18 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Right Controller input and put them in the Events
         /// </summary>
-        private void CheckRightControllerInput(CrossplatformInputCapture inputCapture)
+        private void CheckRightControllerInput(ViveControllersInputCaptureComponent inputCapture)
         {
             #region MENU
-            BoolVariable menuClick = inputCapture.RightParameters.ClickBools.Get("MenuIsDown");
-
             // Check Click Events
             if (Input.GetButtonDown("ViveRightMenuClick"))
             {
-                menuClick.SetValue(true);
+                inputCapture.RightMenuClick.SetValue(true);
                 new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
             else if (Input.GetButtonUp("ViveRightMenuClick"))
             {
-                menuClick.SetValue(false);
+                inputCapture.RightMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
             #endregion MENU
@@ -76,20 +71,18 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Left Controller input and put them in the Events
         /// </summary>
-        private void CheckLeftControllerInput(CrossplatformInputCapture inputCapture)
+        private void CheckLeftControllerInput(ViveControllersInputCaptureComponent inputCapture)
         {
             #region MENU
-            BoolVariable menuClick = inputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
-
             // Check Click Events
             if (Input.GetButtonDown("ViveLeftMenuClick"))
             {
-                menuClick.SetValue(true);
+                inputCapture.LeftMenuClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             else if (Input.GetButtonUp("ViveLeftMenuClick"))
             {
-                menuClick.SetValue(false);
+                inputCapture.LeftMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             #endregion MENU
@@ -98,15 +91,6 @@ namespace VRSF.Core.Inputs
         private void CheckDevice(OnSetupVRReady info)
         {
             this.Enabled = VRSF_Components.DeviceLoaded == EDevice.HTC_VIVE;
-        }
-        
-        private void InitViveInputComp(OnCrossplatformComponentIsSetup info)
-        {
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.ViveControllersInput.RightMenuClick = e.InputCapture.RightParameters.ClickBools.Get("MenuIsDown");
-                e.ViveControllersInput.LeftMenuClick = e.InputCapture.LeftParameters.ClickBools.Get("MenuIsDown");
-            }
         }
         #endregion PRIVATE_METHODS
     }

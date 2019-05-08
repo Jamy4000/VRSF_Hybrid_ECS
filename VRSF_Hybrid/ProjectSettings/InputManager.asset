@@ -362,7 +362,7 @@ InputManager:
     descriptiveName: The Menu Button on the Rift Left controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 7
+    positiveButton: joystick button 6
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
