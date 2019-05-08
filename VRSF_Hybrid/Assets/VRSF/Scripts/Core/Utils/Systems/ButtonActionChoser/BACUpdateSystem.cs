@@ -45,10 +45,10 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             if (entity.BAC_Comp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BAC_Comp.BACTimer))
                 return;
             
-            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+            // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
             if (entity.BAC_Calc.ThumbPos != null)
             {
-                entity.BAC_Calc.UnclickEventWasRaised = CheckThumbstick
+                entity.BAC_Calc.UnclickEventWasRaised = CheckTouchpad
                 (
                     new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, EControllerInteractionType.CLICK), 
                     ref entity.BAC_Calc.ClickActionBeyondThreshold
@@ -70,10 +70,10 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             if (entity.BAC_Comp.BACTimer != null && !BACTimerUpdateSystem.TimerIsReady(entity.BAC_Comp.BACTimer))
                 return;
             
-            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+            // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
             if (entity.BAC_Calc.ThumbPos != null)
             {
-                entity.BAC_Calc.UntouchedEventWasRaised = CheckThumbstick
+                entity.BAC_Calc.UntouchedEventWasRaised = CheckTouchpad
                 (
                     new ThumstickChecker(entity.BAC_Comp, entity.BAC_Calc, EControllerInteractionType.TOUCH), 
                     ref entity.BAC_Calc.TouchActionBeyondThreshold
@@ -89,7 +89,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// Check if the position of the thumbstick is still within the threshold specified by the user, and If not, we raise the event.
         /// </summary>
         /// <param name="entity"></param>
-        public static bool CheckThumbstick(ThumstickChecker thumbstickChecker, ref bool actionAboveThreshold)
+        public static bool CheckTouchpad(ThumstickChecker thumbstickChecker, ref bool actionAboveThreshold)
         {
             bool oldState = actionAboveThreshold;
 

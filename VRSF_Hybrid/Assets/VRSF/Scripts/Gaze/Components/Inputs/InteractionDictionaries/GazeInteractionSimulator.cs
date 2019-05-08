@@ -23,8 +23,8 @@ namespace VRSF.Gaze.Inputs
             { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.RIGHT), KeyCode.RightShift },
 
             // Using Up arrow for thumb
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), KeyCode.UpArrow },
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), KeyCode.W },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.LEFT), KeyCode.UpArrow },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.RIGHT), KeyCode.W },
 
             { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.LEFT), KeyCode.LeftControl },
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace VRSF.Core.Utils.ButtonActionChoser
@@ -20,7 +19,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         public float _Timer = 0.0f;
 
         /// <summary>
-        /// Event used when the user is using a Thumbstick for he's feature
+        /// Event used when the user is using a Touchpad for he's feature
         /// </summary>
         [System.NonSerialized]
         public UnityEvent ThumbCheckEvent;

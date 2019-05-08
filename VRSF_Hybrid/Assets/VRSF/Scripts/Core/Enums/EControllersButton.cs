@@ -9,7 +9,7 @@
         NONE = 0,
         TRIGGER = 1 << 0,
         GRIP = 1 << 1,
-        THUMBSTICK = 1 << 2,
+        TOUCHPAD = 1 << 2,
         MENU = 1 << 3,
         
         // OCULUS RIFT PARTICULARITIES

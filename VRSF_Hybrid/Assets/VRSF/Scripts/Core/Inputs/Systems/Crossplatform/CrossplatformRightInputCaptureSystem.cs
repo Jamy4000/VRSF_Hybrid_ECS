@@ -83,23 +83,23 @@ namespace VRSF.Core.Inputs
             if (Input.GetButtonDown("RightThumbClick"))
             {
                 inputCapture.RightParameters.TouchpadClick.SetValue(true);
-                new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
             }
             else if (Input.GetButtonUp("RightThumbClick"))
             {
                 inputCapture.RightParameters.TouchpadClick.SetValue(false);
-                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
             }
             // Check Touch Events if user is not clicking
             else if (!inputCapture.RightParameters.TouchpadClick.Value && Input.GetButtonDown("RightThumbTouch"))
             {
                 inputCapture.RightParameters.TouchpadTouch.SetValue(true);
-                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+                new ButtonTouchEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
             }
             else if (Input.GetButtonUp("RightThumbTouch"))
             {
                 inputCapture.RightParameters.TouchpadTouch.SetValue(false);
-                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+                new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
             }
             #endregion TOUCHPAD
 

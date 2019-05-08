@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace VRSF.Example
 {
-    public class InputThumbstickTestScript : MonoBehaviour
+    public class InputTouchpadTestScript : MonoBehaviour
     {
         [SerializeField] private Slider _slider;
         [SerializeField] private Text _sliderValue;

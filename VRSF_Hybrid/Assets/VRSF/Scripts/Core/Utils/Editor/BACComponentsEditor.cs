@@ -157,7 +157,7 @@ namespace VRSF.Core.Utils.Editor
                     _rightThumbPosIsShown = false;
                     break;
                     
-                case EControllersButton.THUMBSTICK:
+                case EControllersButton.TOUCHPAD:
                     DisplayThumbPosition(EControllerInteractionType.TOUCH, _buttonActionChoser.ButtonHand);
                     break;
 
@@ -220,7 +220,7 @@ namespace VRSF.Core.Utils.Editor
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersButton.THUMBSTICK:
+                case EControllersButton.TOUCHPAD:
                     DisplayThumbPosition(EControllerInteractionType.CLICK, _buttonActionChoser.ButtonHand);
                     break;
 

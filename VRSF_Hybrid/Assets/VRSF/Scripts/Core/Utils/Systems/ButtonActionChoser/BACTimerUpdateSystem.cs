@@ -33,9 +33,9 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             {
                 e.BAC_Comp.BACTimer = e.BACTimer;
                 // if we use a thumbstick
-                if (e.BAC_Comp.ActionButton == EControllersButton.THUMBSTICK)
+                if (e.BAC_Comp.ActionButton == EControllersButton.TOUCHPAD)
                 {
-                    // We create a new event that will be use in the CheckThumbstick method
+                    // We create a new event that will be use in the CheckTouchpad method
                     e.BACTimer.ThumbCheckEvent = new UnityEvent();
                     e.BACTimer.ThumbCheckEvent.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
                 }
@@ -114,10 +114,10 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <param name="e"></param>
         private void StartActionIsClicking(Filter e)
         {
-            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+            // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
             if (e.BAC_Calc.ThumbPos != null)
             {
-                e.BAC_Calc.UnclickEventWasRaised = BACUpdateSystem.CheckThumbstick
+                e.BAC_Calc.UnclickEventWasRaised = BACUpdateSystem.CheckTouchpad
                 (
                     new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.CLICK, e.BAC_Comp.BACTimer.ThumbCheckEvent), 
                     ref e.BAC_Calc.ClickActionBeyondThreshold
@@ -135,10 +135,10 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <param name="e"></param>
         private void StartActionIsTouching(Filter e)
         {
-            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+            // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
             if (e.BAC_Calc.ThumbPos != null)
             {
-                e.BAC_Calc.UntouchedEventWasRaised = BACUpdateSystem.CheckThumbstick
+                e.BAC_Calc.UntouchedEventWasRaised = BACUpdateSystem.CheckTouchpad
                 (
                     new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.TOUCH, e.BAC_Comp.BACTimer.ThumbCheckEvent), 
                     ref e.BAC_Calc.TouchActionBeyondThreshold

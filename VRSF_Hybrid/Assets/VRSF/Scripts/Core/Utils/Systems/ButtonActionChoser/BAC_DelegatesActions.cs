@@ -48,7 +48,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
 
             void ActionDown()
             {
-                // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+                // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
                 if (BACCalculations.ThumbPos != null && BACGeneral.ClickThreshold > 0.0f)
                 {
                     BACCalculations.UnclickEventWasRaised = false;
@@ -110,7 +110,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             /// </summary>
             void ActionTouched()
             {
-                // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
+                // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
                 if (BACCalculations.ThumbPos != null && BACGeneral.TouchThreshold > 0.0f)
                 {
                     BACCalculations.UntouchedEventWasRaised = false;

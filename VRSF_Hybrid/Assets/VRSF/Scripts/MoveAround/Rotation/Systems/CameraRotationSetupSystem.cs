@@ -106,9 +106,9 @@ namespace VRSF.MoveAround.Rotate
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ButtonComponents.ActionButton != EControllersButton.THUMBSTICK)
+                if (e.ButtonComponents.ActionButton != EControllersButton.TOUCHPAD)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Touchpad or Right Touchpad to use the Rotation script. Setting CanBeUsed at false.");
                     e.BACCalculations.CanBeUsed = false;
                     return;
                 }

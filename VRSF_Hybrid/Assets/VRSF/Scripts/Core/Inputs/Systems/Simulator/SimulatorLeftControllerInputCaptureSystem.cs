@@ -95,20 +95,20 @@ namespace VRSF.Core.Inputs
             {
                 finalDirection.y = 1.0f;
                 tempClick.SetValue(true);
-                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(true);
             }
             else if (Input.GetKeyUp(KeyCode.W))
             {
                 finalDirection.y = 0.0f;
                 tempClick.SetValue(false);
-                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(false);
             }
 
@@ -117,20 +117,20 @@ namespace VRSF.Core.Inputs
             {
                 finalDirection.y = -1.0f;
                 tempClick.SetValue(true);
-                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(true);
             }
             else if (Input.GetKeyUp(KeyCode.S))
             {
                 finalDirection.y = 0.0f;
                 tempClick.SetValue(false);
-                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(false);
             }
 
@@ -139,20 +139,20 @@ namespace VRSF.Core.Inputs
             {
                 finalDirection.x = 1.0f;
                 tempClick.SetValue(true);
-                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(true);
             }
             else if (Input.GetKeyUp(KeyCode.D))
             {
                 finalDirection.x = 0.0f;
                 tempClick.SetValue(false);
-                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(false);
             }
 
@@ -161,20 +161,20 @@ namespace VRSF.Core.Inputs
             {
                 finalDirection.x = -1.0f;
                 tempClick.SetValue(true);
-                new ButtonClickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonTouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(true);
             }
             else if (Input.GetKeyUp(KeyCode.A))
             {
                 finalDirection.x = 0.0f;
                 tempClick.SetValue(false);
-                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
 
                 // Touching event raise as well
-                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBSTICK);
+                new ButtonUntouchEvent(EHand.LEFT, EControllersButton.TOUCHPAD);
                 tempTouch.SetValue(false);
             }
 

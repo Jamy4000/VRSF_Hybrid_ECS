@@ -21,8 +21,8 @@ namespace VRSF.Gaze.Inputs
             { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.LEFT), "LeftGripClick" },
             { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.RIGHT), "RightGripClick" },
 
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), "LeftThumbClick" },
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), "RightThumbClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.LEFT), "LeftThumbClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.RIGHT), "RightThumbClick" },
 
             { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.LEFT), "Button2Click" },
             { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.RIGHT), "Button0Click" }
@@ -37,8 +37,8 @@ namespace VRSF.Gaze.Inputs
             { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.LEFT), "LeftTriggerTouch" },
             { new STuples<EControllersButton, EHand>(EControllersButton.TRIGGER, EHand.RIGHT), "RightTriggerTouch" },
             
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), "LeftThumbTouch" },
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), "RightThumbTouch" }
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.LEFT), "LeftThumbTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.RIGHT), "RightThumbTouch" }
         };
     }
 }

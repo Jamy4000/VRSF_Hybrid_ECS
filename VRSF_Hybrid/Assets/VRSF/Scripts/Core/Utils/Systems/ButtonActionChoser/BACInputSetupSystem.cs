@@ -10,7 +10,7 @@ using VRSF.Core.Events;
 namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
-    /// Setup the Action button Parameter that the user has chosen and check the parameters linked to it (Like the thumb position for a Thumbstick button)
+    /// Setup the Action button Parameter that the user has chosen and check the parameters linked to it (Like the thumb position for a Touchpad button)
     /// </summary>
     public class BACInputSetupSystem : ComponentSystem
     {
@@ -143,7 +143,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <returns>false if the parameters are incorrect</returns>
         private bool CheckParameters(Filter entity)
         {
-            //Check if the Thumbstick are used, and if they are set correctly in that case.
+            //Check if the Touchpad are used, and if they are set correctly in that case.
             if (!CheckGivenThumbParameter(entity))
             {
                 return false;
@@ -172,25 +172,25 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <returns>true if everything is set correctly</returns>
         private bool CheckGivenThumbParameter(Filter entity)
         {
-            if (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBSTICK &&
+            if (entity.BACGeneralComp.ActionButton == EControllersButton.TOUCHPAD &&
                 entity.BACGeneralComp.ButtonHand == EHand.LEFT)
             {
                 if (entity.BACGeneralComp.LeftClickThumbPosition == EThumbPosition.NONE &&
                     entity.BACGeneralComp.LeftTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Left Thumbstick in this script : " + entity.BACGeneralComp.name);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Left Touchpad in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 
                 entity.BACCalculationsComp.ThumbPos = _inputsContainer.LeftThumbPosition;
             }
-            else if (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBSTICK &&
+            else if (entity.BACGeneralComp.ActionButton == EControllersButton.TOUCHPAD &&
                 entity.BACGeneralComp.ButtonHand == EHand.RIGHT)
             {
                 if (entity.BACGeneralComp.RightClickThumbPosition == EThumbPosition.NONE &&
                     entity.BACGeneralComp.RightTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Right Thumbstick in this script : " + entity.BACGeneralComp.name);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Right Touchpad in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 

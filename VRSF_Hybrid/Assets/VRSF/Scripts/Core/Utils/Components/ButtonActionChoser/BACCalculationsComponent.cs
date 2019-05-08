@@ -12,7 +12,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         [HideInInspector] public bool IsSetup = false;
         public bool CanBeUsed = true;
 
-        // To keep track of the event that were raised, used for the features that use the Thumbstick
+        // To keep track of the event that were raised, used for the features that use the Touchpad
         [HideInInspector] public bool ClickActionBeyondThreshold;
         [HideInInspector] public bool TouchActionBeyondThreshold;
         [HideInInspector] public bool UntouchedEventWasRaised;

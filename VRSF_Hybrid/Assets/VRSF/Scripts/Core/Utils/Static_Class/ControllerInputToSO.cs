@@ -17,7 +17,7 @@ namespace VRSF.Core.Inputs
                 case (EControllersButton.MENU):
                     return "MenuIsDown";
 
-                case (EControllersButton.THUMBSTICK):
+                case (EControllersButton.TOUCHPAD):
                     return "ThumbIsDown";
 
                 case (EControllersButton.A_BUTTON):
@@ -43,7 +43,7 @@ namespace VRSF.Core.Inputs
         {
             switch (input)
             {
-                case (EControllersButton.THUMBSTICK):
+                case (EControllersButton.TOUCHPAD):
                     return "ThumbIsTouching";
 
                 case (EControllersButton.TRIGGER):

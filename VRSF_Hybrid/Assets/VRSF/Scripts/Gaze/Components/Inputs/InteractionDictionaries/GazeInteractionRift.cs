@@ -21,8 +21,8 @@ namespace VRSF.Gaze.Inputs
             { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.LEFT), "LeftGripClick" },
             { new STuples<EControllersButton, EHand>(EControllersButton.GRIP, EHand.RIGHT), "RightGripClick" },
 
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), "LeftThumbClick" },
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), "RightThumbClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.LEFT), "LeftThumbClick" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.RIGHT), "RightThumbClick" },
 
             { new STuples<EControllersButton, EHand>(EControllersButton.MENU, EHand.LEFT), "LeftMenuRift" },
 
@@ -44,8 +44,8 @@ namespace VRSF.Gaze.Inputs
 
             // The Grip (HandTrigger) is not checking for touch with Oculus
 
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.LEFT), "LeftThumbTouch" },
-            { new STuples<EControllersButton, EHand>(EControllersButton.THUMBSTICK, EHand.RIGHT), "RightThumbTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.LEFT), "LeftThumbTouch" },
+            { new STuples<EControllersButton, EHand>(EControllersButton.TOUCHPAD, EHand.RIGHT), "RightThumbTouch" },
 
             // Start is not checking for touch with Oculus
 

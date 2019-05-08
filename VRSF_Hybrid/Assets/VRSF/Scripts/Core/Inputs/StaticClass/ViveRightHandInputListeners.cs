@@ -40,25 +40,25 @@ namespace VRSF.Core.Inputs
         {
             RightInputParam.ClickBools.Get("ThumbIsDown").SetValue(true);
             RightInputParam.TouchBools.Get("ThumbIsTouching").SetValue(false);
-            new ButtonClickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+            new ButtonClickEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
         }
 
         public static void OnRightTouchpadUp()
         {
             RightInputParam.ClickBools.Get("ThumbIsDown").SetValue(false);
-            new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+            new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
         }
 
         public static void OnRightTouchpadTouch()
         {
             RightInputParam.TouchBools.Get("ThumbIsTouching").SetValue(true);
-            new ButtonTouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+            new ButtonTouchEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
         }
 
         public static void OnRightTouchpadUntouch()
         {
             RightInputParam.TouchBools.Get("ThumbIsTouching").SetValue(false);
-            new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.THUMBSTICK);
+            new ButtonUntouchEvent(EHand.RIGHT, EControllersButton.TOUCHPAD);
         }
 
         public static void OnRightTouchpadAxisChanged(Vector2 newAxis)
