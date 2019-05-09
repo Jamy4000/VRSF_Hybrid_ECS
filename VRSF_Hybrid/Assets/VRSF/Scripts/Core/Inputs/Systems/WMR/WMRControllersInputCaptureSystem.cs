@@ -51,12 +51,12 @@ namespace VRSF.Core.Inputs
         private void CheckRightControllerInput(WMRControllersInputCaptureComponent inputCapture)
         {
             #region MENU
-            if (Input.GetButtonDown("WMRMenuRight"))
+            if (Input.GetButtonDown("WMRRightMenuClick"))
             {
                 inputCapture.RightMenuClick.SetValue(true);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("WMRGripClickRight"))
+            else if (Input.GetButtonUp("WMRRightMenuClick"))
             {
                 inputCapture.RightMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
@@ -70,12 +70,12 @@ namespace VRSF.Core.Inputs
         private void CheckLeftControllerInput(WMRControllersInputCaptureComponent inputCapture)
         {
             #region MENU
-            if (Input.GetButtonDown("WMRMenuLeft"))
+            if (Input.GetButtonDown("WMRLeftMenuClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(true);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("WMRGripClickLeft"))
+            else if (Input.GetButtonUp("WMRLeftMenuClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
