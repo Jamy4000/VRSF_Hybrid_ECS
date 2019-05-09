@@ -54,7 +54,7 @@ namespace VRSF.Core.Inputs
             if (Input.GetButtonDown("WMRRightMenuClick"))
             {
                 inputCapture.RightMenuClick.SetValue(true);
-                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
+                new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
             }
             else if (Input.GetButtonUp("WMRRightMenuClick"))
             {
@@ -73,7 +73,7 @@ namespace VRSF.Core.Inputs
             if (Input.GetButtonDown("WMRLeftMenuClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(true);
-                new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
+                new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
             else if (Input.GetButtonUp("WMRLeftMenuClick"))
             {
