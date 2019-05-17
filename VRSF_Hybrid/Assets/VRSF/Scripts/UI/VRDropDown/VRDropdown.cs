@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using VRSF.Core.Events;
+using UnityEngine.Events;
 
 namespace VRSF.UI
 {
@@ -23,13 +24,20 @@ namespace VRSF.UI
         #region PRIVATE_VARIABLES
         GameObject _template;
         bool _isShown = false;
+
+        /// <summary>
+        /// true when the events for ObjectWasClicked or Hovered were registered.
+        /// </summary>
+        private bool _eventWereRegistered;
+
+        private UnityAction<int> _onValueChangedAction;
         #endregion PRIVATE_VARIABLES
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
 
             if (Application.isPlaying)
             {
@@ -41,19 +49,17 @@ namespace VRSF.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnDisable();
-
-            onValueChanged.RemoveListener(delegate { SetDropDownNewState(); });
-            ObjectWasClickedEvent.UnregisterListener(CheckObjectClicked);
+            base.OnDestroy();
+            if (_eventWereRegistered)
+            {
+                onValueChanged.RemoveListener(_onValueChangedAction);
+                ObjectWasClickedEvent.UnregisterListener(CheckObjectClicked);
+                _eventWereRegistered = false;
+            }
         }
         #endregion MONOBEHAVIOUR_METHODS
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
-        #endregion PUBLIC_METHODS
 
 
         #region PRIVATE_METHODS
@@ -66,9 +72,12 @@ namespace VRSF.UI
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
-            onValueChanged.AddListener(delegate { SetDropDownNewState(); });
+            _onValueChangedAction = delegate { SetDropDownNewState(); };
+            onValueChanged.AddListener(_onValueChangedAction);
             ObjectWasClickedEvent.RegisterListener(CheckObjectClicked);
-            
+
+            _eventWereRegistered = true;
+
             // We setup the Template and Options to fit the VRFramework
             _template = transform.Find("Template").gameObject;
             SetToggleReferences();
@@ -112,7 +121,7 @@ namespace VRSF.UI
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
             yield return new WaitForEndOfFrame();
-            
+
             BoxCollider box = GetComponent<BoxCollider>();
             box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
         }

@@ -26,8 +26,6 @@ namespace VRSF.UI
         #region MONOBEHAVIOUR_METHODS
         protected override void Awake()
         {
-            base.Awake();
-
             if (Application.isPlaying)
             {
                 if (LaserClickable)
@@ -40,13 +38,15 @@ namespace VRSF.UI
                 if (SetColliderAuto)
                     StartCoroutine(SetupBoxCollider());
             }
+
+            base.Awake();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            ObjectWasClickedEvent.UnregisterListener(CheckObjectClicked);
-            ObjectWasHoveredEvent.UnregisterListener(CheckObjectHovered);
+            if (ObjectWasClickedEvent.IsMethodAlreadyRegistered(CheckObjectClicked))
+                ObjectWasClickedEvent.Listeners -= CheckObjectClicked;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -69,8 +69,7 @@ namespace VRSF.UI
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
-            ObjectWasClickedEvent.RegisterListener(CheckObjectClicked);
-            ObjectWasHoveredEvent.RegisterListener(CheckObjectHovered);
+            ObjectWasClickedEvent.Listeners += CheckObjectClicked;
         }
 
         /// <summary>
@@ -82,18 +81,6 @@ namespace VRSF.UI
             if (interactable && objectClickEvent.ObjectClicked == transform)
             {
                 onClick.Invoke();
-            }
-        }
-
-        /// <summary>
-        /// Event called when an object is overed
-        /// </summary>
-        /// <param name="info"></param>
-        private void CheckObjectHovered(ObjectWasHoveredEvent info)
-        {
-            if (interactable && info.ObjectHovered == transform)
-            {
-                this.Select();
             }
         }
 

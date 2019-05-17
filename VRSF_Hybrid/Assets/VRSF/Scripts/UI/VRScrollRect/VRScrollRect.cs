@@ -34,21 +34,26 @@ namespace VRSF.UI
 
         Transform _minPosBar;
         Transform _maxPosBar;
-        
+
         EHand _handHoldingHandle = EHand.NONE;
-        
+
         Dictionary<string, RaycastHitVariable> _raycastHitDictionary;
 
         IUISetupScrollable _scrollableSetup;
 
         private bool _boxColliderSetup;
+
+        /// <summary>
+        /// true when the events for ObjectWasClicked or Hovered were registered.
+        /// </summary>
+        private bool _eventWereRegistered;
         #endregion
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
 
             if (Application.isPlaying)
             {
@@ -59,17 +64,20 @@ namespace VRSF.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnDisable();
+            base.OnDestroy();
+            if (_eventWereRegistered)
+            {
+                if (verticalScrollbar != null)
+                    verticalScrollbar.onValueChanged.RemoveAllListeners();
 
-            if (verticalScrollbar != null)
-                verticalScrollbar.onValueChanged.RemoveAllListeners();
+                if (horizontalScrollbar != null)
+                    horizontalScrollbar.onValueChanged.RemoveAllListeners();
 
-            if (horizontalScrollbar != null)
-                horizontalScrollbar.onValueChanged.RemoveAllListeners();
-
-            ObjectWasClickedEvent.UnregisterListener(CheckRectClick);
+                ObjectWasClickedEvent.UnregisterListener(CheckRectClick);
+                _eventWereRegistered = false;
+            }
         }
 
         private void Update()
@@ -88,11 +96,6 @@ namespace VRSF.UI
                 }
             }
         }
-        #endregion
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
         #endregion
 
 
@@ -130,7 +133,8 @@ namespace VRSF.UI
             }
 
             ObjectWasClickedEvent.RegisterListener(CheckRectClick);
-            
+            _eventWereRegistered = true;
+
             // We initialize the _RaycastHitDictionary
             _raycastHitDictionary = new Dictionary<string, RaycastHitVariable>
             {
@@ -138,7 +142,7 @@ namespace VRSF.UI
                 { "Left", InteractionVariableContainer.Instance.LeftHit },
                 { "Gaze", InteractionVariableContainer.Instance.GazeHit },
             };
-            
+
             // We setup the Min and Max pos transform
             _scrollableSetup.CheckMinMaxGameObjects(transform, Direction);
             _scrollableSetup.SetMinMaxPos(ref _minPosBar, ref _maxPosBar, GetComponent<Transform>());
@@ -182,7 +186,7 @@ namespace VRSF.UI
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
             yield return new WaitForEndOfFrame();
-            
+
             if (SetColliderAuto)
             {
                 BoxCollider box = GetComponent<BoxCollider>();

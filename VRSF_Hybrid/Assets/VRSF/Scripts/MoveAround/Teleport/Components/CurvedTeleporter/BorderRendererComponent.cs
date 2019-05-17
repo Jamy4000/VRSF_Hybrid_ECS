@@ -42,6 +42,8 @@ namespace VRSF.MoveAround.Teleport
         [System.NonSerialized] public bool BorderAreShown = false;
 
         [System.NonSerialized] public bool ChaperoneIsSetup = false;
+
+        [System.NonSerialized] public UnityEngine.Events.UnityAction IsInteractingAction;
         #endregion PUBLIC_VARIABLES
 
 

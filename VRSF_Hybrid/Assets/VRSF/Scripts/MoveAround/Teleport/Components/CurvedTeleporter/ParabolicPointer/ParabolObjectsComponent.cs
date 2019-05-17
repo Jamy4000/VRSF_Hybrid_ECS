@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -33,6 +34,10 @@ namespace VRSF.MoveAround.Teleport
         /// Reference to the pointer's distance
         /// </summary>
         [System.NonSerialized] public float _ControllerPointerDistance;
+
+        [System.NonSerialized] public UnityAction StartInteractingAction;
+        [System.NonSerialized] public UnityAction StopInteractingAction;
+        [System.NonSerialized] public UnityAction IsInteractingAction;
 
 #if UNITY_EDITOR
         // Only used for the OnDrawGizmos method

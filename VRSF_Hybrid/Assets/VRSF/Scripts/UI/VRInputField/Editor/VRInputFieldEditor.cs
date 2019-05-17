@@ -60,6 +60,14 @@ namespace VRSF.UI.Editor
                     vrInputField.SetColliderAuto = true;
                 }
             }
+
+            EditorGUILayout.Space();
+
+            vrInputField.LaserClickable = EditorGUILayout.ToggleLeft("Clickable using Raycast", vrInputField.LaserClickable);
+
+            vrInputField.ControllerClickable = EditorGUILayout.ToggleLeft("Clickable using Controllers' meshes", vrInputField.ControllerClickable);
+
+            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
             vrInputField.UseVRKeyboard = EditorGUILayout.ToggleLeft("Use VRKeyboard", vrInputField.UseVRKeyboard);

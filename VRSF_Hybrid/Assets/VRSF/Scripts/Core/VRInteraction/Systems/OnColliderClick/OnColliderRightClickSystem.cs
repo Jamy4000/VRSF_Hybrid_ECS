@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Events;
 using VRSF.Core.Controllers;
+using VRSF.Interactions;
 
 namespace VRSF.Core.Interactions
 {
@@ -10,22 +11,33 @@ namespace VRSF.Core.Interactions
         {
             public OnColliderClickComponent OnClickComp;
             public Raycast.ScriptableRaycastComponent PointerRaycast;
-            public SetupVR.ScriptableSingletonsComponent ScriptableSingletons;
         }
 
+        private ControllersParametersVariable _controllersParam;
+        private InteractionVariableContainer _interactionsVariables;
 
         #region ComponentSystem_Methods
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            _controllersParam = ControllersParametersVariable.Instance;
+            _interactionsVariables = InteractionVariableContainer.Instance;
+        }
+
         protected override void OnUpdate()
         {
-            foreach (var entity in GetEntities<Filter>())
+            if (_controllersParam.UseControllers && _controllersParam.UsePointerRight)
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.PointerRaycast.CheckRaycast)
+                foreach (var entity in GetEntities<Filter>())
                 {
-                    CheckResetClick(entity);
-
-                    if (OnColliderClickComponent.RightTriggerCanClick && entity.OnClickComp.RightClickBool.Value && !entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.Value)
+                    if (entity.PointerRaycast.CheckRaycast)
                     {
-                        HandleClick(entity);
+                        CheckResetClick(entity.OnClickComp);
+
+                        if (OnColliderClickComponent.RightTriggerCanClick && entity.OnClickComp.RightClickBool.Value && !_interactionsVariables.HasClickSomethingRight.Value)
+                        {
+                            HandleClick(entity);
+                        }
                     }
                 }
             }
@@ -35,12 +47,12 @@ namespace VRSF.Core.Interactions
 
         #region PRIVATE_METHODS
         /// <summary>
-        /// Check if there's 
+        /// Reset the HasClickSomethingRight bool if the user is not clicking anymore
         /// </summary>
-        void CheckResetClick(Filter entity)
+        void CheckResetClick(OnColliderClickComponent onClickComp)
         {
-            if (!entity.OnClickComp.RightClickBool.Value && entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.Value)
-                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.SetValue(false);
+            if (!onClickComp.RightClickBool.Value && _interactionsVariables.HasClickSomethingRight.Value)
+                _interactionsVariables.HasClickSomethingRight.SetValue(false);
         }
 
         /// <summary>
@@ -52,19 +64,19 @@ namespace VRSF.Core.Interactions
         private void HandleClick(Filter entity)
         {
             //If nothing is hit, we set the isOver value to false
-            if (entity.ScriptableSingletons.InteractionsContainer.RightHit.IsNull)
+            if (_interactionsVariables.RightHit.IsNull)
             {
-                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.SetValue(false);
+                _interactionsVariables.HasClickSomethingRight.SetValue(false);
             }
             else
             {
-                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingRight.SetValue(true);
+                _interactionsVariables.HasClickSomethingRight.SetValue(true);
 
-                var objectClicked = entity.ScriptableSingletons.InteractionsContainer.RightHit.Value.collider.transform;
+                var objectClicked = _interactionsVariables.RightHit.Value.collider.transform;
                 new ObjectWasClickedEvent(EHand.RIGHT, objectClicked);
             }
-            
+
         }
         #endregion PRIVATE_METHODS
     }
-} 
+}

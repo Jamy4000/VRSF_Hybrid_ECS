@@ -26,22 +26,14 @@ namespace VRSF.MoveAround.Rotate
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                if (!e.RotationComp.UseAccelerationEffect)
-                {
-                    SetupListenersResponses(e);
-                }
-            }
+            Init();
         }
 
         protected override void OnUpdate() {}
 
-        protected override void OnDestroyManager()
+        protected override void OnStopRunning()
         {
-            base.OnDestroyManager();
-
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -55,14 +47,17 @@ namespace VRSF.MoveAround.Rotate
         {
             var e = (Filter)entity;
 
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if (e.BACGeneral.OnButtonIsClicking == null)
             {
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { HandleRotationWithAcceleration(e); });
-            }
+                if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.BACGeneral.OnButtonIsClicking.AddListener(delegate { HandleRotationWithAcceleration(e); });
+                }
 
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { HandleRotationWithAcceleration(e); });
+                if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.BACGeneral.OnButtonIsTouching.AddListener(delegate { HandleRotationWithAcceleration(e); });
+                }
             }
         }
 
@@ -110,6 +105,24 @@ namespace VRSF.MoveAround.Rotate
 
                     VRSF_Components.CameraRig.transform.RotateAround(eyesPosition, rotationAxis, entity.RotationComp.CurrentSpeed);
                 }
+            }
+        }
+
+        private void Init()
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                if (e.RotationComp.UseAccelerationEffect)
+                    return;
+
+                if (e.BACGeneral.ActionButton != EControllersButton.TOUCHPAD)
+                {
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");
+                    e.BACCalculations.CanBeUsed = false;
+                    return;
+                }
+
+                SetupListenersResponses(e);
             }
         }
         #endregion

@@ -1,9 +1,11 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Controllers;
 using VRSF.Core.Events;
+using VRSF.Core.Gaze;
+using VRSF.Core.Inputs;
 using VRSF.Core.Interactions;
 using VRSF.Core.Raycast;
-using VRSF.Core.SetupVR;
+using VRSF.Interactions;
 
 namespace VRSF.Gaze.Interactions
 {
@@ -13,23 +15,35 @@ namespace VRSF.Gaze.Interactions
         {
             public OnColliderClickComponent OnClickComp;
             public ScriptableRaycastComponent PointerRaycast;
-            public ScriptableSingletonsComponent ScriptableSingletons;
         }
-        
+
+        private GazeParametersVariable _gazeParam;
+        private InputVariableContainer _inputContainer;
+        private InteractionVariableContainer _interactionContainer;
 
         #region ComponentSystem_Methods
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            _gazeParam = GazeParametersVariable.Instance;
+            _inputContainer = InputVariableContainer.Instance;
+            _interactionContainer = InteractionVariableContainer.Instance;
+        }
+
         protected override void OnUpdate()
         {
-            foreach (var entity in GetEntities<Filter>())
+            if (_gazeParam.UseGaze)
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze &&
-                    entity.PointerRaycast.CheckRaycast)
+                foreach (var entity in GetEntities<Filter>())
                 {
-                    CheckResetClick(entity);
-
-                    if (entity.ScriptableSingletons.GazeParameters.UseGaze && !entity.ScriptableSingletons.InputsContainer.GazeIsCliking.Value && entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.Value)
+                    if (entity.PointerRaycast.CheckRaycast)
                     {
-                        HandleClick(entity);
+                        CheckResetClick();
+
+                        if (!_inputContainer.GazeIsCliking.Value && _interactionContainer.HasClickSomethingGaze.Value)
+                        {
+                            HandleClick();
+                        }
                     }
                 }
             }
@@ -41,10 +55,10 @@ namespace VRSF.Gaze.Interactions
         /// <summary>
         /// Check if there's 
         /// </summary>
-        void CheckResetClick(Filter entity)
+        void CheckResetClick()
         {
-            if (entity.ScriptableSingletons.GazeParameters.UseGaze && !entity.ScriptableSingletons.InputsContainer.GazeIsCliking.Value && entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.Value)
-                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(false);
+            if (!_inputContainer.GazeIsCliking.Value && _interactionContainer.HasClickSomethingGaze.Value)
+                _interactionContainer.HasClickSomethingGaze.SetValue(false);
         }
 
         /// <summary>
@@ -53,18 +67,18 @@ namespace VRSF.Gaze.Interactions
         /// <param name="hits">The list of RaycastHits to check</param>
         /// <param name="hasClicked">the BoolVariable to set if something got clicked</param>
         /// <param name="objectClicked">The GameEvent to raise with the transform of the hit</param>
-        private void HandleClick(Filter entity)
+        private void HandleClick()
         {
             //If nothing is hit, we set the isOver value to false
-            if (entity.ScriptableSingletons.InteractionsContainer.GazeHit.IsNull)
+            if (_interactionContainer.GazeHit.IsNull)
             {
-                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(false);
+                _interactionContainer.HasClickSomethingGaze.SetValue(false);
             }
             else
             {
-                entity.ScriptableSingletons.InteractionsContainer.HasClickSomethingGaze.SetValue(true);
+                _interactionContainer.HasClickSomethingGaze.SetValue(true);
 
-                var objectClicked = entity.ScriptableSingletons.InteractionsContainer.GazeHit.Value.collider.transform;
+                var objectClicked = _interactionContainer.GazeHit.Value.collider.transform;
                 new ObjectWasClickedEvent(EHand.GAZE, objectClicked);
             }
         }

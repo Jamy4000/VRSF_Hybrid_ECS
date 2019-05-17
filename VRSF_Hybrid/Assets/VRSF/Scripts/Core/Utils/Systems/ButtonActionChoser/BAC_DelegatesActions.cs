@@ -20,11 +20,11 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         IEnumerator WaitForTimer(Action toInvoke)
         {
             yield return new WaitForSeconds(BACGeneral.BACTimer.TimerThreshold + 0.01f);
-            
+
             if (BACTimerUpdateSystem.TimerIsReady(BACGeneral.BACTimer))
                 toInvoke.Invoke();
         }
-        
+
         /// <summary>
         /// Method called when user click the specified button
         /// </summary>
@@ -48,7 +48,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
 
             void ActionDown()
             {
-                // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
+                // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
                 if (BACCalculations.ThumbPos != null && BACGeneral.ClickThreshold > 0.0f)
                 {
                     BACCalculations.UnclickEventWasRaised = false;
@@ -110,7 +110,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             /// </summary>
             void ActionTouched()
             {
-                // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
+                // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
                 if (BACCalculations.ThumbPos != null && BACGeneral.TouchThreshold > 0.0f)
                 {
                     BACCalculations.UntouchedEventWasRaised = false;
@@ -121,7 +121,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                             HandleThumbPosition.CheckThumbPosition(BACGeneral.RightTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
                             break;
                         case EHand.LEFT:
-                             HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
+                            HandleThumbPosition.CheckThumbPosition(BACGeneral.LeftTouchThumbPosition, BACGeneral.OnButtonStartTouching, BACGeneral.TouchThreshold, BACCalculations.ThumbPos.Value);
                             break;
                     }
                 }

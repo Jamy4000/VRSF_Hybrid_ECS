@@ -23,6 +23,14 @@ namespace VRSF.UI
         #endregion PUBLIC_VARIABLES
 
 
+        #region PRIVATE_VARIABLES
+        /// <summary>
+        /// true when the events for ObjectWasClicked or Hovered were registered.
+        /// </summary>
+        private bool _eventWereRegistered;
+        #endregion PRIVATE_VARIABLES
+
+
         #region MONOBEHAVIOUR_METHODS
         protected override void Awake()
         {
@@ -45,8 +53,8 @@ namespace VRSF.UI
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            ObjectWasClickedEvent.UnregisterListener(CheckToggleClick);
-            ObjectWasHoveredEvent.UnregisterListener(CheckObjectHovered);
+            if (ObjectWasClickedEvent.IsMethodAlreadyRegistered(CheckToggleClick))
+                ObjectWasClickedEvent.UnregisterListener(CheckToggleClick);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -70,7 +78,7 @@ namespace VRSF.UI
             }
 
             ObjectWasClickedEvent.RegisterListener(CheckToggleClick);
-            ObjectWasHoveredEvent.RegisterListener(CheckObjectHovered);
+            _eventWereRegistered = true;
         }
 
         /// <summary>
@@ -86,18 +94,6 @@ namespace VRSF.UI
         }
 
         /// <summary>
-        /// Event called when an object is overed
-        /// </summary>
-        /// <param name="info"></param>
-        private void CheckObjectHovered(ObjectWasHoveredEvent info)
-        {
-            if (interactable && info.ObjectHovered == transform)
-            {
-                this.Select();
-            }
-        }
-
-        /// <summary>
         /// Setup the BoxCOllider size and center by colling the NotScrollableSetup method CheckBoxColliderSize.
         /// We use a coroutine and wait for the end of the first frame as the element cannot be correctly setup on the first frame
         /// </summary>
@@ -105,7 +101,7 @@ namespace VRSF.UI
         IEnumerator<WaitForEndOfFrame> SetupBoxCollider()
         {
             yield return new WaitForEndOfFrame();
-            
+
             BoxCollider box = GetComponent<BoxCollider>();
             box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
         }

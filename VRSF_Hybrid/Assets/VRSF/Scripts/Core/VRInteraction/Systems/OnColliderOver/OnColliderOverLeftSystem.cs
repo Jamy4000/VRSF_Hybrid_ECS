@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
+using VRSF.Core.Controllers;
 using VRSF.Core.Events;
-using VRSF.Core.SetupVR;
+using VRSF.Interactions;
 
 namespace VRSF.Core.Interactions
 {
@@ -12,18 +13,26 @@ namespace VRSF.Core.Interactions
         struct Filter
         {
             public Raycast.ScriptableRaycastComponent PointerRaycast;
-            public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
+        private ControllersParametersVariable _controllersParam;
+        private InteractionVariableContainer _interactionsVariables;
 
         #region ComponentSystem_Methods
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            _controllersParam = ControllersParametersVariable.Instance;
+            _interactionsVariables = InteractionVariableContainer.Instance;
+        }
+
         protected override void OnUpdate()
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers && entity.PointerRaycast.CheckRaycast)
+                if (_controllersParam.UseControllers && entity.PointerRaycast.CheckRaycast)
                 {
-                    HandleOver(entity.ScriptableSingletons);
+                    HandleOver();
                 }
             }
         }
@@ -34,27 +43,24 @@ namespace VRSF.Core.Interactions
         /// <summary>
         /// Handle the raycastHits to check if one of them touch something
         /// </summary>
-        /// <param name="isOver">the BoolVariable to set if something got hit</param>
-        /// <param name="hit">The Hit Point where the raycast collide</param>
-        /// <param name="objectOver">The GameEvent to raise with the transform of the hit</param>
-        private void HandleOver(ScriptableSingletonsComponent comp)
+        private void HandleOver()
         {
             //If nothing is hit, we set the isOver value to false
-            if (comp.InteractionsContainer.IsOverSomethingLeft.Value && comp.InteractionsContainer.LeftHit.IsNull)
+            if (_interactionsVariables.IsOverSomethingLeft.Value && _interactionsVariables.LeftHit.IsNull)
             {
-                comp.InteractionsContainer.IsOverSomethingLeft.SetValue(false);
-                comp.InteractionsContainer.PreviousLeftHit = null;
-                new ObjectWasHoveredEvent(Controllers.EHand.LEFT, null);
+                _interactionsVariables.IsOverSomethingLeft.SetValue(false);
+                _interactionsVariables.PreviousLeftHit = null;
+                new ObjectWasHoveredEvent(EHand.LEFT, null);
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
-            else if (!comp.InteractionsContainer.LeftHit.IsNull && comp.InteractionsContainer.LeftHit.Value.collider != null &&
-                    comp.InteractionsContainer.LeftHit.Value.collider.transform != comp.InteractionsContainer.PreviousLeftHit)
+            else if (!_interactionsVariables.LeftHit.IsNull && _interactionsVariables.LeftHit.Value.collider != null &&
+                    _interactionsVariables.LeftHit.Value.collider.transform != _interactionsVariables.PreviousLeftHit)
             {
-                var hitTransform = comp.InteractionsContainer.LeftHit.Value.collider.transform;
+                var hitTransform = _interactionsVariables.LeftHit.Value.collider.transform;
 
-                comp.InteractionsContainer.PreviousLeftHit = hitTransform;
-                comp.InteractionsContainer.IsOverSomethingLeft.SetValue(true);
-                new ObjectWasHoveredEvent(Controllers.EHand.LEFT, hitTransform);
+                _interactionsVariables.PreviousLeftHit = hitTransform;
+                _interactionsVariables.IsOverSomethingLeft.SetValue(true);
+                new ObjectWasHoveredEvent(EHand.LEFT, hitTransform);
             }
         }
         #endregion PRIVATE_METHODS

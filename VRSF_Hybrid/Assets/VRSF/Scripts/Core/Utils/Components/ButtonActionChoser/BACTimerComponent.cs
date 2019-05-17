@@ -19,7 +19,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         public float _Timer = 0.0f;
 
         /// <summary>
-        /// Event used when the user is using a Touchpad for he's feature
+        /// Event used when the user is using a Thumbstick for he's feature
         /// </summary>
         [System.NonSerialized]
         public UnityEvent ThumbCheckEvent;
@@ -29,5 +29,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
 
         [System.NonSerialized]
         public bool _OldClickingState;
+
+        [System.NonSerialized] public UnityAction ThumbEventAction;
     }
 }

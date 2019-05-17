@@ -2,7 +2,8 @@
 using VRSF.Core.Raycast;
 using VRSF.Core.Events;
 using VRSF.Core.Controllers;
-using VRSF.Core.SetupVR;
+using VRSF.Core.Gaze;
+using VRSF.Interactions;
 
 namespace VRSF.Gaze.Raycast
 {
@@ -14,48 +15,56 @@ namespace VRSF.Gaze.Raycast
         struct Filter
         {
             public ScriptableRaycastComponent PointerRaycast;
-            public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
+        private GazeParametersVariable _gazeParam;
+        private InteractionVariableContainer _interactionsVariables;
 
         #region ComponentSystem_Methods
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            _gazeParam = GazeParametersVariable.Instance;
+            _interactionsVariables = InteractionVariableContainer.Instance;
+        }
+
         protected override void OnUpdate()
         {
-            foreach (var entity in GetEntities<Filter>())
+            if (_gazeParam.UseGaze)
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.GazeParameters.UseGaze && entity.PointerRaycast.CheckRaycast)
+                foreach (var entity in GetEntities<Filter>())
                 {
-                    HandleOver(entity.ScriptableSingletons);
+                    if (entity.PointerRaycast.CheckRaycast)
+                    {
+                        HandleOver();
+                    }
                 }
             }
         }
         #endregion
-        
+
 
         #region PRIVATE_METHODS
         /// <summary>
         /// Handle the raycastHits to check if one of them touch something
         /// </summary>
-        /// <param name="isOver">the BoolVariable to set if something got hit</param>
-        /// <param name="hit">The Hit Point where the raycast collide</param>
-        /// <param name="objectOver">The GameEvent to raise with the transform of the hit</param>
-        private void HandleOver(ScriptableSingletonsComponent comp)
+        private void HandleOver()
         {
             //If nothing is hit, we set the isOver value to false
-            if (comp.InteractionsContainer.IsOverSomethingGaze.Value && comp.InteractionsContainer.GazeHit.IsNull)
+            if (_interactionsVariables.IsOverSomethingGaze.Value && _interactionsVariables.GazeHit.IsNull)
             {
-                comp.InteractionsContainer.IsOverSomethingGaze.SetValue(false);
-                comp.InteractionsContainer.PreviousGazeHit = null;
+                _interactionsVariables.IsOverSomethingGaze.SetValue(false);
+                _interactionsVariables.PreviousGazeHit = null;
                 new ObjectWasHoveredEvent(EHand.GAZE, null);
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
-            else if (!comp.InteractionsContainer.GazeHit.IsNull && comp.InteractionsContainer.GazeHit.Value.collider != null &&
-                    comp.InteractionsContainer.GazeHit.Value.collider.transform != comp.InteractionsContainer.PreviousGazeHit)
+            else if (!_interactionsVariables.GazeHit.IsNull && _interactionsVariables.GazeHit.Value.collider != null &&
+                    _interactionsVariables.GazeHit.Value.collider.transform != _interactionsVariables.PreviousGazeHit)
             {
-                var hitTransform = comp.InteractionsContainer.GazeHit.Value.collider.transform;
+                var hitTransform = _interactionsVariables.GazeHit.Value.collider.transform;
 
-                comp.InteractionsContainer.PreviousGazeHit = hitTransform;
-                comp.InteractionsContainer.IsOverSomethingGaze.SetValue(true);
+                _interactionsVariables.PreviousGazeHit = hitTransform;
+                _interactionsVariables.IsOverSomethingGaze.SetValue(true);
                 new ObjectWasHoveredEvent(EHand.GAZE, hitTransform);
             }
         }

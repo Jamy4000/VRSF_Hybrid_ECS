@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using VRSF.Core.Controllers;
 
 namespace VRSF.Core.Events
@@ -13,6 +14,10 @@ namespace VRSF.Core.Events
 
         public ObjectWasHoveredEvent(EHand handHovering, Transform objectHovered) : base("Event raised when an object is hovered by the laser.")
         {
+            // We set the object that was Hovered as the selected gameObject
+            if (objectHovered != null && objectHovered.GetComponent<UnityEngine.UI.Selectable>() != null)
+                EventSystem.current.SetSelectedGameObject(objectHovered.gameObject);
+
             HandHovering = handHovering;
             ObjectHovered = objectHovered;
 

@@ -15,6 +15,7 @@ namespace VRSF.MoveAround.Teleport
         {
             OnSetupVRReady.RegisterListener(InitValues);
             base.OnCreateManager();
+            this.Enabled = false;
         }
 
         protected override void OnUpdate() { }

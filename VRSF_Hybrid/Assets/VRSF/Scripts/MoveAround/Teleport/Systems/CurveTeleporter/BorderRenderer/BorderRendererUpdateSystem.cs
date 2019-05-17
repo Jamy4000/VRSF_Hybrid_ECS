@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -25,31 +26,42 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
-            OnSetupVRReady.Listeners += Init;
+            this.Enabled = false;
+            return;
+            // We're not using OpenVR anymore, so no chaperonne possible. returning.
+            OnSetupVRReady.RegisterListener(Init);
+        }
+
+        protected override void OnStopRunning()
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                RemoveListeners(e);
+            }
+            base.OnStopRunning();
         }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-
-            OnSetupVRReady.Listeners -= Init;
-            foreach (var e in GetEntities<Filter>())
-            {
-                RemoveListeners(e);
-            }
+            return;
+            // We're not using OpenVR anymore, so no chaperonne possible. returning.
+            OnSetupVRReady.UnregisterListener(Init);
         }
 
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
+            e.BorderRenderer.IsInteractingAction = delegate { OnIsInteractingCallback(e); };
+
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BACGeneral.OnButtonIsClicking.AddListenerExtend(e.BorderRenderer.IsInteractingAction);
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
+                e.BACGeneral.OnButtonIsTouching.AddListenerExtend(e.BorderRenderer.IsInteractingAction);
             }
         }
 
@@ -58,12 +70,12 @@ namespace VRSF.MoveAround.Teleport
             var e = (Filter)entity;
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonIsClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsClicking.RemoveListenerExtend(e.BorderRenderer.IsInteractingAction);
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonIsTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonIsTouching.RemoveListenerExtend(e.BorderRenderer.IsInteractingAction);
             }
         }
 
@@ -74,25 +86,28 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
-            // We regenerate the mesh base on the pointer position
-            RegenerateMesh(e.BorderRenderer, TeleportGeneralComponent.PointToGoTo);
-
-            // Render representation of where the chaperone bounds will be after teleporting
-            e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
-
-            // Quick check to avoid NullReferenceException
-            if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
-                return;
-
-            // Check if alpha of border's material has changed
-            if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
+            if (e.BACGeneral != null)
             {
-                e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
-                e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
-            }
+                // We regenerate the mesh base on the pointer position
+                RegenerateMesh(e.BorderRenderer, TeleportGeneralComponent.PointToGoTo);
 
-            // Draw the generated mesh
-            Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
+                // Render representation of where the chaperone bounds will be after teleporting
+                e.BorderRenderer.BorderAreShown = e.PointerCalculations.PointOnNavMesh;
+
+                // Quick check to avoid NullReferenceException
+                if (!e.BorderRenderer.BorderAreShown || e.BorderRenderer.CachedBorderMesh == null || e.BorderRenderer.BorderMaterial == null)
+                    return;
+
+                // Check if alpha of border's material has changed
+                if (e.BorderRenderer.LastBorderAlpha != e.BorderRenderer.BorderAlpha && e.BorderRenderer.BorderMaterial != null)
+                {
+                    e.BorderRenderer.BorderMaterial.SetFloat("_Alpha", e.BorderRenderer.BorderAlpha);
+                    e.BorderRenderer.LastBorderAlpha = e.BorderRenderer.BorderAlpha;
+                }
+
+                // Draw the generated mesh
+                Graphics.DrawMesh(e.BorderRenderer.CachedBorderMesh, e.BorderRenderer.Transpose, e.BorderRenderer.BorderMaterial, e.BorderRenderer.gameObject.layer, null, 0, null, false, false);
+            }
         }
 
         /// <summary>

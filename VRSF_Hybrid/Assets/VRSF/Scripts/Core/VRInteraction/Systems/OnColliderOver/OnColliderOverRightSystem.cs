@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
+using VRSF.Core.Controllers;
 using VRSF.Core.Events;
-using VRSF.Core.SetupVR;
+using VRSF.Interactions;
 
 namespace VRSF.Core.Interactions
 {
@@ -9,18 +10,26 @@ namespace VRSF.Core.Interactions
         struct Filter
         {
             public Raycast.ScriptableRaycastComponent PointerRaycast;
-            public ScriptableSingletonsComponent ScriptableSingletons;
         }
 
+        private ControllersParametersVariable _controllersParam;
+        private InteractionVariableContainer _interactionsVariables;
 
         #region ComponentSystem_Methods
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            _controllersParam = ControllersParametersVariable.Instance;
+            _interactionsVariables = InteractionVariableContainer.Instance;
+        }
+
         protected override void OnUpdate()
         {
             foreach (var entity in GetEntities<Filter>())
             {
-                if (entity.ScriptableSingletons._IsSetup && entity.ScriptableSingletons.ControllersParameters.UseControllers && entity.PointerRaycast.CheckRaycast)
+                if (_controllersParam.UseControllers && entity.PointerRaycast.CheckRaycast)
                 {
-                    HandleOver(entity.ScriptableSingletons);
+                    HandleOver();
                 }
             }
         }
@@ -31,27 +40,24 @@ namespace VRSF.Core.Interactions
         /// <summary>
         /// Handle the raycastHits to check if one of them touch something
         /// </summary>
-        /// <param name="isOver">the BoolVariable to set if something got hit</param>
-        /// <param name="hit">The Hit Point where the raycast collide</param>
-        /// <param name="objectOver">The GameEvent to raise with the transform of the hit</param>
-        private void HandleOver(ScriptableSingletonsComponent comp)
+        private void HandleOver()
         {
             //If nothing is hit, we set the isOver value to false
-            if (comp.InteractionsContainer.IsOverSomethingRight.Value && comp.InteractionsContainer.RightHit.IsNull)
+            if (_interactionsVariables.IsOverSomethingRight.Value && _interactionsVariables.RightHit.IsNull)
             {
-                comp.InteractionsContainer.IsOverSomethingRight.SetValue(false);
-                comp.InteractionsContainer.PreviousRightHit = null;
-                new ObjectWasHoveredEvent(Controllers.EHand.RIGHT, null);
+                _interactionsVariables.IsOverSomethingRight.SetValue(false);
+                _interactionsVariables.PreviousRightHit = null;
+                new ObjectWasHoveredEvent(EHand.RIGHT, null);
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
-            else if (!comp.InteractionsContainer.RightHit.IsNull && comp.InteractionsContainer.RightHit.Value.collider != null &&
-                    comp.InteractionsContainer.RightHit.Value.collider.transform != comp.InteractionsContainer.PreviousRightHit)
+            else if (!_interactionsVariables.RightHit.IsNull && _interactionsVariables.RightHit.Value.collider != null &&
+                    _interactionsVariables.RightHit.Value.collider.transform != _interactionsVariables.PreviousRightHit)
             {
-                var hitTransform = comp.InteractionsContainer.RightHit.Value.collider.transform;
+                var hitTransform = _interactionsVariables.RightHit.Value.collider.transform;
 
-                comp.InteractionsContainer.PreviousRightHit = hitTransform;
-                comp.InteractionsContainer.IsOverSomethingRight.SetValue(true);
-                new ObjectWasHoveredEvent(Controllers.EHand.RIGHT, hitTransform);
+                _interactionsVariables.PreviousRightHit = hitTransform;
+                _interactionsVariables.IsOverSomethingRight.SetValue(true);
+                new ObjectWasHoveredEvent(EHand.RIGHT, hitTransform);
             }
         }
         #endregion PRIVATE_METHODS

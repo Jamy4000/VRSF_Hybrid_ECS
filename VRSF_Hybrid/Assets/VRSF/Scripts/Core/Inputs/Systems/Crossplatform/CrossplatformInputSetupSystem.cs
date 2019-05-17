@@ -34,7 +34,7 @@ namespace VRSF.Core.Inputs
                 // We give the references to the Scriptable variable containers in the Left Parameters variable
                 e.InputCapture.LeftParameters = new InputParameters
                 (
-                    InputVariableContainer.Instance.LeftClickBoolean, 
+                    InputVariableContainer.Instance.LeftClickBoolean,
                     InputVariableContainer.Instance.LeftTouchBoolean,
                     InputVariableContainer.Instance.LeftThumbPosition,
                     InputVariableContainer.Instance.LeftTriggerSqueezeValue,
@@ -51,8 +51,8 @@ namespace VRSF.Core.Inputs
                     InputVariableContainer.Instance.RightGripSqueezeValue
                 );
 
-                new OnCrossplatformComponentIsSetup();
                 e.InputCapture.IsSetup = true;
+                new OnCrossplatformComponentIsSetup();
             }
         }
         #endregion PRIVATE_METHODS

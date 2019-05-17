@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Controllers;
@@ -31,27 +30,17 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         protected override void OnCreateManager()
         {
             OnActionButtonIsReady.Listeners += Init;
-            base.OnCreateManager();
-
             _inputsContainer = InputVariableContainer.Instance;
+            base.OnCreateManager();
+            this.Enabled = false;
         }
 
         protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {
-            base.OnDestroyManager();
-
-            foreach (var delegatesHandler in _bacDelegatesList)
-            {
-                ButtonClickEvent.UnregisterListener(delegatesHandler.StartActionDown);
-                ButtonUnclickEvent.UnregisterListener(delegatesHandler.StartActionUp);
-
-                ButtonTouchEvent.UnregisterListener(delegatesHandler.StartActionTouched);
-                ButtonUntouchEvent.UnregisterListener(delegatesHandler.StartActionUntouched);
-            }
-
             OnActionButtonIsReady.Listeners -= Init;
+            base.OnDestroyManager();
         }
         #endregion
 
@@ -192,13 +181,34 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             _bacDelegatesList.Add(delegatesHandler);
         }
 
+        private void UnregisterListeners()
+        {
+            foreach (var delegatesHandler in _bacDelegatesList)
+            {
+                if ((delegatesHandler.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    ButtonClickEvent.UnregisterListener(delegatesHandler.StartActionDown);
+                    ButtonUnclickEvent.UnregisterListener(delegatesHandler.StartActionUp);
+                }
+
+                if ((delegatesHandler.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    ButtonTouchEvent.UnregisterListener(delegatesHandler.StartActionTouched);
+                    ButtonUntouchEvent.UnregisterListener(delegatesHandler.StartActionUntouched);
+                }
+            }
+
+            _bacDelegatesList.Clear();
+        }
+
 
         /// <summary>
         /// As some values are initialized in other Systems, we just want to be sure that everything is setup before checking the Scriptable Objects.
         /// </summary>
-        /// <returns></returns>
         private void Init(OnActionButtonIsReady info)
         {
+            UnregisterListeners();
+
             foreach (var entity in GetEntities<Filter>())
             {
                 var sdkChoser = entity.BACGeneralComp.GetComponent<SDKChoserComponent>();

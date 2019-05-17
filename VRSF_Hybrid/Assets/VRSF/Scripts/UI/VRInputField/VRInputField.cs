@@ -19,8 +19,13 @@ namespace VRSF.UI
 
         [Tooltip("If you want to set the collider yourself, set this value to false.")]
         [SerializeField] public bool SetColliderAuto = true;
-        #endregion PUBLIC_VARIABLES
 
+        [Tooltip("If this button can be click using a Raycast and the trigger of your controller.")]
+        [SerializeField] public bool LaserClickable = true;
+
+        [Tooltip("If this button can be click using the meshcollider of your controller.")]
+        [SerializeField] public bool ControllerClickable = true;
+        #endregion PUBLIC_VARIABLES
 
         #region MONOBEHAVIOUR_METHODS
         protected override void OnEnable()
@@ -29,7 +34,13 @@ namespace VRSF.UI
 
             if (Application.isPlaying)
             {
-                SetupUIElement();
+                if (LaserClickable)
+                    SetupListeners();
+
+                if (ControllerClickable)
+                    GetComponent<BoxCollider>().isTrigger = true;
+
+                SetInputFieldReferences();
 
                 // We setup the BoxCollider size and center
                 if (SetColliderAuto)
@@ -37,10 +48,17 @@ namespace VRSF.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnDisable();
-            ObjectWasClickedEvent.UnregisterListener(CheckInputFieldClick);
+            base.OnDestroy();
+            if (ObjectWasClickedEvent.IsMethodAlreadyRegistered(CheckInputFieldClick))
+                ObjectWasClickedEvent.Listeners -= CheckInputFieldClick;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerBody"))
+                StartTyping();
         }
         #endregion MONOBEHAVIOUR_METHODS
 
@@ -51,7 +69,7 @@ namespace VRSF.UI
 
 
         #region PRIVATE_METHODS
-        private void SetupUIElement()
+        private void SetupListeners()
         {
             // If the controllers are not used, we cannot click on a InputField
             if (!ControllersParametersVariable.Instance.UseControllers)
@@ -60,9 +78,7 @@ namespace VRSF.UI
                     "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
             }
 
-            ObjectWasClickedEvent.RegisterListener(CheckInputFieldClick);
-            
-            SetInputFieldReferences();
+            ObjectWasClickedEvent.Listeners += CheckInputFieldClick;
         }
 
         /// <summary>
@@ -72,11 +88,14 @@ namespace VRSF.UI
         void CheckInputFieldClick(ObjectWasClickedEvent clickEvent)
         {
             if (interactable && clickEvent.ObjectClicked == transform)
-            {
-                placeholder.GetComponent<Text>().text = "";
-                ActivateInputField();
-                CheckForVRKeyboard();
-            }
+                StartTyping();
+        }
+
+        private void StartTyping()
+        {
+            placeholder.GetComponent<Text>().text = "";
+            ActivateInputField();
+            CheckForVRKeyboard();
         }
 
         /// <summary>

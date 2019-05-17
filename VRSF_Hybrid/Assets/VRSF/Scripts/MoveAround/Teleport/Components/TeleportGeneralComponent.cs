@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -33,5 +34,9 @@ namespace VRSF.MoveAround.Teleport
         /// Whether the fading effect is currently in progress
         /// </summary>
         [HideInInspector] public static bool FadingInProgress = false;
+
+        [System.NonSerialized] public UnityAction StartInteractingAction;
+        [System.NonSerialized] public UnityAction StopInteractingAction;
+        [System.NonSerialized] public UnityAction IsInteractingAction;
     }
 } 

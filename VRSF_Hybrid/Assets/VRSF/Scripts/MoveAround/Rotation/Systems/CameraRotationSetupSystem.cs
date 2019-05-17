@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Rotate
@@ -19,18 +20,15 @@ namespace VRSF.MoveAround.Rotate
 
 
         #region ComponentSystem_Methods
-        protected override void OnCreateManager()
+        protected override void OnStartRunning()
         {
-            base.OnCreateManager();
-            OnSetupVRReady.Listeners += OnSetupVRIsReady;
+            base.OnStartRunning();
+            Init();
         }
-        
-        protected override void OnDestroyManager()
+
+        protected override void OnStopRunning()
         {
-            base.OnDestroyManager();
-
-            OnSetupVRReady.Listeners -= OnSetupVRIsReady;
-
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -45,17 +43,22 @@ namespace VRSF.MoveAround.Rotate
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
-
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if (e.RotationComp.StartInteractingAction == null && e.RotationComp.StopInteractingAction == null)
             {
-                e.ButtonComponents.OnButtonStartClicking.AddListener(delegate { StartRotating(e.RotationComp); });
-                e.ButtonComponents.OnButtonStopClicking.AddListener(delegate { StopRotating(e.RotationComp); });
-            }
+                e.RotationComp.StartInteractingAction = delegate { StartRotating(e.RotationComp); };
+                e.RotationComp.StopInteractingAction = delegate { StopRotating(e.RotationComp); };
 
-            if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.ButtonComponents.OnButtonStartTouching.AddListener(delegate { StartRotating(e.RotationComp); });
-                e.ButtonComponents.OnButtonStopTouching.AddListener(delegate { StopRotating(e.RotationComp); });
+                if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.ButtonComponents.OnButtonStartClicking.AddListenerExtend(e.RotationComp.StartInteractingAction);
+                    e.ButtonComponents.OnButtonStopClicking.AddListenerExtend(e.RotationComp.StopInteractingAction);
+                }
+
+                if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.ButtonComponents.OnButtonStartTouching.AddListenerExtend(e.RotationComp.StartInteractingAction);
+                    e.ButtonComponents.OnButtonStopTouching.AddListenerExtend(e.RotationComp.StopInteractingAction);
+                }
             }
         }
 
@@ -65,14 +68,14 @@ namespace VRSF.MoveAround.Rotate
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.ButtonComponents.OnButtonStartClicking.RemoveAllListeners();
-                e.ButtonComponents.OnButtonStopClicking.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStartClicking.RemoveListenerExtend(e.RotationComp.StartInteractingAction);
+                e.ButtonComponents.OnButtonStopClicking.RemoveListenerExtend(e.RotationComp.StopInteractingAction);
             }
 
             if ((e.ButtonComponents.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.ButtonComponents.OnButtonStartTouching.RemoveAllListeners();
-                e.ButtonComponents.OnButtonStopTouching.RemoveAllListeners();
+                e.ButtonComponents.OnButtonStartTouching.RemoveListenerExtend(e.RotationComp.StartInteractingAction);
+                e.ButtonComponents.OnButtonStopTouching.RemoveListenerExtend(e.RotationComp.StopInteractingAction);
             }
         }
         #endregion Setup_Listeners_Responses
@@ -99,16 +102,15 @@ namespace VRSF.MoveAround.Rotate
 
 
         /// <summary>
-        /// Callback for when SetupVR is setup. Setup the lsiteners.
+        /// Setup the lsiteners.
         /// </summary>
-        /// <param name="onSetupVR"></param>
-        private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)
+        private void Init()
         {
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.ButtonComponents.ActionButton != EControllersButton.TOUCHPAD)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Touchpad or Right Touchpad to use the Rotation script. Setting CanBeUsed at false.");
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");
                     e.BACCalculations.CanBeUsed = false;
                     return;
                 }

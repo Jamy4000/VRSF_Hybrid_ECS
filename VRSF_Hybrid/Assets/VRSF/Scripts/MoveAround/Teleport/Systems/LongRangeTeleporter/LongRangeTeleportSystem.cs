@@ -3,6 +3,7 @@ using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.Raycast;
 using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -30,15 +31,19 @@ namespace VRSF.MoveAround.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
-            OnSetupVRReady.Listeners += Init;
-            _controllersVariable = ControllersParametersVariable.Instance;
             base.OnCreateManager();
+            _controllersVariable = ControllersParametersVariable.Instance;
         }
-        
-        protected override void OnDestroyManager()
+
+        protected override void OnStartRunning()
         {
-            base.OnDestroyManager();
-            OnSetupVRReady.Listeners -= Init;
+            base.OnStartRunning();
+            Init();
+        }
+
+        protected override void OnStopRunning()
+        {
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -54,18 +59,25 @@ namespace VRSF.MoveAround.Teleport
         {
             var e = (Filter)entity;
 
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if (e.TeleportGeneral.StartInteractingAction == null && e.TeleportGeneral.IsInteractingAction == null && e.TeleportGeneral.StopInteractingAction == null)
             {
-                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
-                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
-            }
+                e.TeleportGeneral.StartInteractingAction = delegate { OnStartInteractingCallback(e); };
+                e.TeleportGeneral.IsInteractingAction = delegate { OnIsInteractingCallback(e); };
+                e.TeleportGeneral.StopInteractingAction = delegate { OnStopInteractingCallback(e); };
 
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
-                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
+                if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.BAC_Comp.OnButtonStartClicking.AddListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                    e.BAC_Comp.OnButtonIsClicking.AddListenerExtend(e.TeleportGeneral.IsInteractingAction);
+                    e.BAC_Comp.OnButtonStopClicking.AddListenerExtend(e.TeleportGeneral.StopInteractingAction);
+                }
+
+                if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.BAC_Comp.OnButtonStartTouching.AddListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                    e.BAC_Comp.OnButtonIsTouching.AddListenerExtend(e.TeleportGeneral.IsInteractingAction);
+                    e.BAC_Comp.OnButtonStopTouching.AddListenerExtend(e.TeleportGeneral.StopInteractingAction);
+                }
             }
         }
 
@@ -75,16 +87,16 @@ namespace VRSF.MoveAround.Teleport
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
-                e.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
-                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                e.BAC_Comp.OnButtonIsClicking.RemoveListenerExtend(e.TeleportGeneral.IsInteractingAction);
+                e.BAC_Comp.OnButtonStopClicking.RemoveListenerExtend(e.TeleportGeneral.StopInteractingAction);
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
-                e.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
-                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                e.BAC_Comp.OnButtonIsTouching.RemoveListenerExtend(e.TeleportGeneral.IsInteractingAction);
+                e.BAC_Comp.OnButtonStopTouching.RemoveListenerExtend(e.TeleportGeneral.StopInteractingAction);
             }
         }
         #endregion Listeners_Setup
@@ -150,9 +162,9 @@ namespace VRSF.MoveAround.Teleport
         }
 
         /// <summary>
-        /// Reactivate the System when setup vr is ready
+        /// Reactivate the System
         /// </summary>
-        private void Init(OnSetupVRReady setupVRReady)
+        private void Init()
         {
             foreach (var e in GetEntities<Filter>())
             {

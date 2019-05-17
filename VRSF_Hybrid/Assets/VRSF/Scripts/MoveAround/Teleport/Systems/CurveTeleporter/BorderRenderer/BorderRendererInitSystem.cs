@@ -21,12 +21,17 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
+            this.Enabled = false;
+            return;
+            // We're not using OpenVR anymore, so no chaperonne possible. returning.
             OnSetupVRReady.RegisterListener(Init);
         }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
+            return;
+            // We're not using OpenVR anymore, so no chaperonne possible. returning.
             OnSetupVRReady.UnregisterListener(Init);
         }
 
@@ -45,7 +50,7 @@ namespace VRSF.MoveAround.Teleport
                 this.Enabled = false;
                 return;
             }
-            
+
             foreach (var e in GetEntities<Filter>())
             {
                 // We check if a Play Area was set by the user

@@ -3,6 +3,7 @@ using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Utils.ButtonActionChoser;
 using VRSF.Core.Raycast;
+using VRSF.Core.Utils;
 
 namespace VRSF.MoveAround.Rotate
 {
@@ -15,20 +16,17 @@ namespace VRSF.MoveAround.Rotate
             public BACCalculationsComponent BACCalculations;
             public ScriptableRaycastComponent RaycastComp;
         }
-        
+
         #region ComponentSystem_Methods
-        protected override void OnCreateManager()
+        protected override void OnStartRunning()
         {
-            base.OnCreateManager();
-            OnSetupVRReady.Listeners += OnSetupVRIsReady;
+            base.OnStartRunning();
+            Init();
         }
-        
-        protected override void OnDestroyManager()
+
+        protected override void OnStopRunning()
         {
-            base.OnDestroyManager();
-
-            OnSetupVRReady.Listeners -= OnSetupVRIsReady;
-
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -41,15 +39,19 @@ namespace VRSF.MoveAround.Rotate
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
-            
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if (e.RotationComp.ActionWithoutAcceleration == null)
             {
-                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
-            }
+                e.RotationComp.ActionWithoutAcceleration = delegate { HandleRotationWithoutAcceleration(e); };
 
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { HandleRotationWithoutAcceleration(e); });
+                if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.BACGeneral.OnButtonStartClicking.AddListenerExtend(e.RotationComp.ActionWithoutAcceleration);
+                }
+
+                if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.BACGeneral.OnButtonStartTouching.AddListenerExtend(e.RotationComp.ActionWithoutAcceleration);
+                }
             }
         }
 
@@ -59,12 +61,12 @@ namespace VRSF.MoveAround.Rotate
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonStartClicking.RemoveListenerExtend(e.RotationComp.ActionWithoutAcceleration);
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonStartTouching.RemoveListenerExtend(e.RotationComp.ActionWithoutAcceleration);
             }
         }
         #endregion PUBLIC_METHODS
@@ -86,13 +88,13 @@ namespace VRSF.MoveAround.Rotate
         /// Callback for when SetupVR is setup. Setup the lsiteners.
         /// </summary>
         /// <param name="onSetupVR"></param>
-        private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)
+        private void Init()
         {
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.BACGeneral.ActionButton != EControllersButton.TOUCHPAD)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Touchpad or Right Touchpad to use the Rotation script. Setting CanBeUsed at false.");
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");
                     e.BACCalculations.CanBeUsed = false;
                     return;
                 }

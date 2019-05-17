@@ -43,9 +43,9 @@ namespace VRSF.UI
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
 
             if (Application.isPlaying)
             {
@@ -56,10 +56,11 @@ namespace VRSF.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnDisable();
-            ObjectWasClickedEvent.UnregisterListener(CheckSliderClick);
+            base.OnDestroy();
+            if (ObjectWasClickedEvent.IsMethodAlreadyRegistered(CheckSliderClick))
+                ObjectWasClickedEvent.UnregisterListener(CheckSliderClick);
         }
 
         private void Update()
@@ -78,11 +79,6 @@ namespace VRSF.UI
                     value = _scrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
             }
         }
-        #endregion
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
         #endregion
 
 
@@ -115,7 +111,7 @@ namespace VRSF.UI
                 };
 
             _scrollableSetup.CheckMinMaxGameObjects(handleRect.parent, UnityUIToVRSFUI.SliderDirectionToUIDirection(direction));
-            
+
             _scrollableSetup.SetMinMaxPos(ref _MinPosBar, ref _MaxPosBar, handleRect.parent);
         }
 

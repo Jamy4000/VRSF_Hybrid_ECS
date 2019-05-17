@@ -10,7 +10,7 @@ using VRSF.Core.Events;
 namespace VRSF.Core.Utils.ButtonActionChoser
 {
     /// <summary>
-    /// Setup the Action button Parameter that the user has chosen and check the parameters linked to it (Like the thumb position for a Touchpad button)
+    /// Setup the Action button Parameter that the user has chosen and check the parameters linked to it (Like the thumb position for a Thumbstick button)
     /// </summary>
     public class BACInputSetupSystem : ComponentSystem
     {
@@ -36,11 +36,11 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             _gazeParameters = GazeParametersVariable.Instance;
             _controllersParameters = ControllersParametersVariable.Instance;
             _inputsContainer = InputVariableContainer.Instance;
-            
+
             SDKChoserIsSetup.Listeners += StartBACsSetup;
         }
 
-        protected override void OnUpdate() {}
+        protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {
@@ -62,7 +62,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             if (entity.BACGeneralComp.UseGazeButton && !_controllersParameters.UseControllers)
             {
                 entity.BACCalculationsComp.CanBeUsed = false;
-                throw new Exception("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                throw new Exception("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
                     "If you want to use the Gaze Click, please activate the Controllers by setting the UseControllers bool in the Window VRSF/Controllers Parameters to true.\n" +
                     "Disabling the script.");
             }
@@ -70,7 +70,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             else if (entity.BACGeneralComp.UseGazeButton && gazeClick == EControllersButton.NONE)
             {
                 entity.BACCalculationsComp.CanBeUsed = false;
-                throw new Exception("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                throw new Exception("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " script are invalid.\n" +
                     "Please specify a GazeButton in the Gaze Parameters Window to use the Gaze Click feature. Disabling the script.");
             }
 
@@ -83,7 +83,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
             else if (entity.BACGeneralComp.ActionButton == EControllersButton.A_BUTTON ||
                      entity.BACGeneralComp.ActionButton == EControllersButton.B_BUTTON ||
-                     (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBREST && 
+                     (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBREST &&
                       entity.BACGeneralComp.ButtonHand == EHand.RIGHT))
             {
                 entity.BACCalculationsComp.IsUsingOculusButton = true;
@@ -143,7 +143,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <returns>false if the parameters are incorrect</returns>
         private bool CheckParameters(Filter entity)
         {
-            //Check if the Touchpad are used, and if they are set correctly in that case.
+            //Check if the Thumbstick are used, and if they are set correctly in that case.
             if (!CheckGivenThumbParameter(entity))
             {
                 return false;
@@ -178,7 +178,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                 if (entity.BACGeneralComp.LeftClickThumbPosition == EThumbPosition.NONE &&
                     entity.BACGeneralComp.LeftTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Left Touchpad in this script : " + entity.BACGeneralComp.name);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Left Thumbstick in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 
@@ -190,13 +190,13 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                 if (entity.BACGeneralComp.RightClickThumbPosition == EThumbPosition.NONE &&
                     entity.BACGeneralComp.RightTouchThumbPosition == EThumbPosition.NONE)
                 {
-                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Right Touchpad in this script : " + entity.BACGeneralComp.name);
+                    Debug.LogError("<b>[VRSF] :</b> You need to assign a Thumb Position for the Right Thumbstick in this script : " + entity.BACGeneralComp.name);
                     return false;
                 }
 
                 entity.BACCalculationsComp.ThumbPos = _inputsContainer.RightThumbPosition;
             }
-            
+
             return true;
         }
 
@@ -210,21 +210,21 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             // If we are using an Oculus Touch Specific Button but the device loaded is not the Oculus
             if (entity.BACCalculationsComp.IsUsingOculusButton && VRSF_Components.DeviceLoaded == EDevice.HTC_VIVE)
             {
-                Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                Debug.LogError("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Oculus. Disabling the script.");
                 return false;
             }
             // If we are using an OpenVR Specific Button but the device loaded is not the OpenVR
             else if (entity.BACCalculationsComp.IsUsingViveButton && VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT)
             {
-                Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                Debug.LogError("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Vive. Disabling the script.");
                 return false;
             }
             // If we are using a Simulator Specific Button but the device loaded is not the Simulator
             else if (entity.BACCalculationsComp.IsUsingWheelButton && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
             {
-                Debug.LogError("The Button Action Choser parameters for the " + this.GetType().Name + " script are invalid.\n" +
+                Debug.LogError("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Simulator. Disabling the script.");
                 return false;
             }
@@ -240,7 +240,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             {
                 // We check on which hand is set the Action Button selected
                 CheckButtonHand(entity);
-                
+
                 // We check that all the parameters are set correctly
                 if (entity.BACCalculationsComp.ParametersAreInvalid || !CheckParameters(entity))
                 {
@@ -251,9 +251,9 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                 else
                 {
                     entity.BACCalculationsComp.ActionButtonIsReady = true;
-                    new OnActionButtonIsReady(entity.BACCalculationsComp);
                 }
             }
+            new OnActionButtonIsReady();
         }
         #endregion PRIVATES_METHODS
     }

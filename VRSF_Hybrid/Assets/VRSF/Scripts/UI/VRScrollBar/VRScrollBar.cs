@@ -33,7 +33,7 @@ namespace VRSF.UI
         Transform _MaxPosBar;
 
         EHand _HandHoldingHandle = EHand.NONE;
-        
+
         Dictionary<string, RaycastHitVariable> _RaycastHitDictionary;
 
         IUISetupScrollable _scrollableSetup;
@@ -43,9 +43,9 @@ namespace VRSF.UI
 
 
         #region MONOBEHAVIOUR_METHODS
-        protected override void OnEnable()
+        protected override void Awake()
         {
-            base.OnEnable();
+            base.Awake();
 
             if (Application.isPlaying)
             {
@@ -56,10 +56,11 @@ namespace VRSF.UI
             }
         }
 
-        protected override void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnDisable();
-            ObjectWasClickedEvent.UnregisterListener(CheckBarClick);
+            base.OnDestroy();
+            if (ObjectWasClickedEvent.IsMethodAlreadyRegistered(CheckBarClick))
+                ObjectWasClickedEvent.UnregisterListener(CheckBarClick);
         }
 
         private void Update()
@@ -74,11 +75,6 @@ namespace VRSF.UI
                 }
             }
         }
-        #endregion
-
-
-        // EMPTY
-        #region PUBLIC_METHODS
         #endregion
 
 
@@ -163,7 +159,7 @@ namespace VRSF.UI
                 BoxCollider box = GetComponent<BoxCollider>();
                 box = VRUIBoxColliderSetup.CheckBoxColliderSize(box, GetComponent<RectTransform>());
             }
-            
+
             _boxColliderSetup = true;
         }
 

@@ -4,6 +4,7 @@ using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Raycast;
 using VRSF.Core.Utils.ButtonActionChoser;
+using VRSF.Core.Utils;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -23,16 +24,15 @@ namespace VRSF.MoveAround.Teleport
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnCreateManager()
+        protected override void OnStartRunning()
         {
-            OnSetupVRReady.Listeners += Init;
-            base.OnCreateManager();
+            base.OnStartRunning();
+            Init();
         }
 
-        protected override void OnDestroyManager()
+        protected override void OnStopRunning()
         {
-            OnSetupVRReady.Listeners -= Init;
-            base.OnDestroyManager();
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -47,14 +47,19 @@ namespace VRSF.MoveAround.Teleport
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+            if (e.TeleportGeneral.StopInteractingAction == null)
             {
-                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
-            }
+                e.TeleportGeneral.StopInteractingAction = delegate { OnStopInteractingCallback(e); };
 
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
+                if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.BAC_Comp.OnButtonStopClicking.AddListenerExtend(e.TeleportGeneral.StopInteractingAction);
+                }
+
+                if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.BAC_Comp.OnButtonStopTouching.AddListenerExtend(e.TeleportGeneral.StopInteractingAction);
+                }
             }
         }
 
@@ -63,12 +68,12 @@ namespace VRSF.MoveAround.Teleport
             var e = (Filter)entity;
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopClicking.RemoveListenerExtend(e.TeleportGeneral.StopInteractingAction);
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStopTouching.RemoveListenerExtend(e.TeleportGeneral.StopInteractingAction);
             }
         }
         #endregion Listeners_Setup
@@ -81,7 +86,7 @@ namespace VRSF.MoveAround.Teleport
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
             Filter e = (Filter)teleportFilter;
-            
+
             if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
                 VRSF_Components.SetCameraRigPosition(newUsersPos, false);
 
@@ -100,14 +105,14 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
-            if (!e.RayComp.RaycastHitVar.RaycastHitIsOnUI())
+            if (e.BAC_Comp != null && !e.RayComp.RaycastHitVar.RaycastHitIsOnUI())
                 TeleportUser(e);
         }
 
         /// <summary>
         /// Reactivate the System when we instantiate a new CameraRig
         /// </summary>
-        private void Init(OnSetupVRReady setupVRReady)
+        private void Init()
         {
             foreach (var e in GetEntities<Filter>())
             {

@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VRSF.Core.Gaze;
 using VRSF.Core.SetupVR;
 
@@ -19,18 +18,17 @@ namespace VRSF.Gaze
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         protected override void OnCreateManager()
         {
-            OnSetupVRReady.Listeners += GazeCalculationsSetup;
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            OnSetupVRReady.RegisterListener(GazeCalculationsSetup);
             base.OnCreateManager();
+            this.Enabled = false;
         }
-        
-        protected override void OnUpdate() {}
+
+        protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            OnSetupVRReady.Listeners -= GazeCalculationsSetup;
+            OnSetupVRReady.UnregisterListener(GazeCalculationsSetup);
         }
         #endregion ComponentSystem_Methods
 
@@ -52,20 +50,6 @@ namespace VRSF.Gaze
                     e.GazeCalculations._IsSetup = true;
                 }
             }
-            else
-            {
-                this.Enabled = false;
-            }
-        }
-
-
-        /// <summary>
-        /// Reactivate the System when switching to another Scene.
-        /// </summary>
-        /// <param name="oldScene">The previous scene before switching</param>
-        private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
-        {
-            this.Enabled = loadMode == LoadSceneMode.Single;
         }
         #endregion PRIVATE_METHODS
     }

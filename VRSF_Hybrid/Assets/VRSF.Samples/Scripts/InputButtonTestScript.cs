@@ -29,10 +29,16 @@ namespace VRSF.Example
 
         private void OnDestroy()
         {
-            ButtonClickEvent.Listeners -= ChangeButtonStatusToClick;
-            ButtonUnclickEvent.Listeners -= ChangeButtonStatusToUnclick;
-            ButtonTouchEvent.Listeners -= ChangeButtonStatusToTouch;
-            ButtonUntouchEvent.Listeners -= ChangeButtonStatusToUntouch;
+            if (_statusPointForClick != null)
+            {
+                ButtonClickEvent.Listeners -= ChangeButtonStatusToClick;
+                ButtonUnclickEvent.Listeners -= ChangeButtonStatusToUnclick;
+            }
+            if (_statusPointForTouch != null)
+            {
+                ButtonTouchEvent.Listeners -= ChangeButtonStatusToTouch;
+                ButtonUntouchEvent.Listeners -= ChangeButtonStatusToUntouch;
+            }
         }
 
         private void ChangeButtonStatusToClick(ButtonClickEvent info)

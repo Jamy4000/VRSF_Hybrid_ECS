@@ -29,9 +29,6 @@ namespace VRSF.Core.Inputs
                 case (EControllersButton.Y_BUTTON):
                     return "YButtonIsDown";
 
-                case (EControllersButton.BACK_BUTTON):
-                    return "BackButtonIsDown";
-
                 default:
                     Debug.LogError("The EControllersInput provided is null.");
                     return null;

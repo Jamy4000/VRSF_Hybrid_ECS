@@ -22,6 +22,13 @@ namespace VRSF.Core.SetupVR
         private ControllersParametersVariable _controllersParameters;
 
         #region ComponentSystem_Methods
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            OnSetupVRNeedToBeReloaded.Listeners += ReloadSetupVR;
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnStartRunning()
         {
@@ -33,8 +40,7 @@ namespace VRSF.Core.SetupVR
                 LoadCorrespondingSDK(e.SetupVR);
                 SetupVRInScene(e.SetupVR);
             }
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            
             this.Enabled = !VRSF_Components.SetupVRIsReady;
         }
 
@@ -55,6 +61,7 @@ namespace VRSF.Core.SetupVR
         {
             base.OnDestroyManager();
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            OnSetupVRNeedToBeReloaded.Listeners -= ReloadSetupVR;
         }
         #endregion
 
@@ -285,10 +292,14 @@ namespace VRSF.Core.SetupVR
         private void OnSceneLoaded(Scene oldScene, LoadSceneMode loadMode)
         {
             if (loadMode == LoadSceneMode.Single)
-            {
-                VRSF_Components.SetupVRIsReady = false;
-                this.Enabled = true;
-            }
+                new OnSetupVRNeedToBeReloaded();
+        }
+
+
+        private void ReloadSetupVR(OnSetupVRNeedToBeReloaded info)
+        {
+            VRSF_Components.SetupVRIsReady = false;
+            this.Enabled = true;
         }
         #endregion
     }

@@ -16,22 +16,23 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             public BACGeneralComponent BAC_General_Comp;
             public BACCalculationsComponent BAC_Calculations_Comp;
         }
-        
+
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
+            OnSetupVRReady.Listeners += Init;
             base.OnCreateManager();
-            OnSetupVRReady.RegisterListener(Init);
+            this.Enabled = false;
         }
-        
+
         protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            OnSetupVRReady.UnregisterListener(Init);
+            OnSetupVRReady.Listeners -= Init;
         }
         #endregion
 
@@ -54,6 +55,9 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             {
                 case EDevice.HTC_VIVE:
                     return entity.SDKComp.UseVive;
+
+                case EDevice.WMR:
+                    return entity.SDKComp.UseWMR;
 
                 case EDevice.OCULUS_RIFT:
                     return entity.SDKComp.UseRift;

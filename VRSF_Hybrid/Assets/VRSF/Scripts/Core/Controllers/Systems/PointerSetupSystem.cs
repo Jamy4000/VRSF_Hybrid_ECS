@@ -19,16 +19,17 @@ namespace VRSF.Core.Controllers
         #region ComponentSystem_Methods
         protected override void OnCreateManager()
         {
+            OnSetupVRReady.Listeners += Init;
             base.OnCreateManager();
-            OnSetupVRReady.RegisterListener(Init);
+            this.Enabled = false;
         }
-        
-        protected override void OnUpdate() {}
+
+        protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            OnSetupVRReady.RegisterListener(Init);
+            OnSetupVRReady.Listeners -= Init;
         }
         #endregion ComponentSystem_Methods
 

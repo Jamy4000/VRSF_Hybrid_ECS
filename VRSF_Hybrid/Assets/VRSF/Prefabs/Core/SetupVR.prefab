@@ -61,7 +61,6 @@ GameObject:
   - component: {fileID: 4325968150092906}
   - component: {fileID: 114468450047122696}
   - component: {fileID: 114632266513717338}
-  - component: {fileID: 8689142430286206489}
   - component: {fileID: 7382642409705439472}
   - component: {fileID: 1039595808384978214}
   - component: {fileID: 2494962355122321850}
@@ -69,6 +68,7 @@ GameObject:
   - component: {fileID: 5797141919990578843}
   - component: {fileID: 4390927648252371873}
   - component: {fileID: 4151527083698519627}
+  - component: {fileID: 654084576740190758}
   m_Layer: 0
   m_Name: SetupVR
   m_TagString: Untagged
@@ -151,25 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8689142430286206489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147815568228318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e4270c1b981de842a0c454818397a87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GazeParameters: {fileID: 11400000, guid: d7d77718a3019d14ea92211ec7a1f83a, type: 2}
-  ControllersParameters: {fileID: 11400000, guid: b33556e258c822f4bad6d480a986b094,
-    type: 2}
-  InteractionsContainer: {fileID: 11400000, guid: fe3b805d02f64c44ebcb1e3c8ff9a6cd,
-    type: 2}
-  InputsContainer: {fileID: 11400000, guid: ed39f2e94e232bc43b8663e8689d3412, type: 2}
-  _IsSetup: 0
 --- !u!114 &7382642409705439472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,6 +260,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RightMenuClick: {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
   LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
+--- !u!114 &654084576740190758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147815568228318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &1192837081653980
 GameObject:
   m_ObjectHideFlags: 0

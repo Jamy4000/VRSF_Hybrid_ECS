@@ -15,21 +15,21 @@ namespace VRSF.Core.Raycast
         {
             public ScriptableRaycastComponent RaycastComp;
         }
-        
+
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
+            OnSetupVRReady.Listeners += SetupVariables;
             base.OnCreateManager();
-            OnSetupVRReady.RegisterListener(SetupVariables);
         }
-        
-        protected override void OnUpdate() {}
+
+        protected override void OnUpdate() { }
 
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            OnSetupVRReady.UnregisterListener(SetupVariables);
+            OnSetupVRReady.Listeners -= SetupVariables;
         }
         #endregion
 

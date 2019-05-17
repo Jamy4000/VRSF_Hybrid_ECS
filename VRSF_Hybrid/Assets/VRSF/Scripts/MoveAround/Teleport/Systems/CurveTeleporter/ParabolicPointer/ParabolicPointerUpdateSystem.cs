@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
-using VRSF.Core.SetupVR;
+using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -22,19 +22,22 @@ namespace VRSF.MoveAround.Teleport
             public ParabolCalculationsComponent PointerCalculations;
             public SceneObjectsComponent SceneObjects;
         }
-        
+
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
             ParabolicRendererHelper.ControllersParameters = ControllersParametersVariable.Instance;
-            OnSetupVRReady.Listeners += Init;
         }
 
-        protected override void OnDestroyManager()
+        protected override void OnStartRunning()
         {
-            base.OnDestroyManager();
+            base.OnStartRunning();
+            Init();
+        }
 
-            OnSetupVRReady.Listeners -= Init;
+        protected override void OnStopRunning()
+        {
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -44,18 +47,26 @@ namespace VRSF.MoveAround.Teleport
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                e.BAC_Comp.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BAC_Comp.OnButtonIsClicking.AddListener(delegate { OnIsInteractingCallback(e); });
-                e.BAC_Comp.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
-            }
 
-            if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if (e.PointerObjects.StartInteractingAction == null && e.PointerObjects.StopInteractingAction == null && e.PointerObjects.IsInteractingAction == null)
             {
-                e.BAC_Comp.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BAC_Comp.OnButtonIsTouching.AddListener(delegate { OnIsInteractingCallback(e); });
-                e.BAC_Comp.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
+                e.PointerObjects.StartInteractingAction = delegate { OnStartInteractingCallback(e); };
+                e.PointerObjects.StopInteractingAction = delegate { OnIsInteractingCallback(e); };
+                e.PointerObjects.IsInteractingAction = delegate { OnStopInteractingCallback(e); };
+
+                if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.BAC_Comp.OnButtonStartClicking.AddListenerExtend(e.PointerObjects.StartInteractingAction);
+                    e.BAC_Comp.OnButtonIsClicking.AddListenerExtend(e.PointerObjects.StopInteractingAction);
+                    e.BAC_Comp.OnButtonStopClicking.AddListenerExtend(e.PointerObjects.IsInteractingAction);
+                }
+
+                if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.BAC_Comp.OnButtonStartTouching.AddListenerExtend(e.PointerObjects.StartInteractingAction);
+                    e.BAC_Comp.OnButtonIsTouching.AddListenerExtend(e.PointerObjects.StopInteractingAction);
+                    e.BAC_Comp.OnButtonStopTouching.AddListenerExtend(e.PointerObjects.IsInteractingAction);
+                }
             }
         }
 
@@ -64,16 +75,16 @@ namespace VRSF.MoveAround.Teleport
             var e = (Filter)entity;
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BAC_Comp.OnButtonStartClicking.RemoveAllListeners();
-                e.BAC_Comp.OnButtonIsClicking.RemoveAllListeners();
-                e.BAC_Comp.OnButtonStopClicking.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartClicking.RemoveListenerExtend(e.PointerObjects.StartInteractingAction);
+                e.BAC_Comp.OnButtonIsClicking.RemoveListenerExtend(e.PointerObjects.StopInteractingAction);
+                e.BAC_Comp.OnButtonStopClicking.RemoveListenerExtend(e.PointerObjects.IsInteractingAction);
             }
 
             if ((e.BAC_Comp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BAC_Comp.OnButtonStartTouching.RemoveAllListeners();
-                e.BAC_Comp.OnButtonIsTouching.RemoveAllListeners();
-                e.BAC_Comp.OnButtonStopTouching.RemoveAllListeners();
+                e.BAC_Comp.OnButtonStartTouching.RemoveListenerExtend(e.PointerObjects.StartInteractingAction);
+                e.BAC_Comp.OnButtonIsTouching.RemoveListenerExtend(e.PointerObjects.StopInteractingAction);
+                e.BAC_Comp.OnButtonStopTouching.RemoveListenerExtend(e.PointerObjects.IsInteractingAction);
             }
         }
 
@@ -84,7 +95,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStartInteractingCallback(Filter e)
         {
-            if (TeleportGeneralComponent.CanTeleport)
+            if (e.BAC_Comp != null && TeleportGeneralComponent.CanTeleport)
             {
                 ParabolicRendererHelper.ToggleHandLaser(e, false);
                 ParabolicRendererHelper.ForceUpdateCurrentAngle(e);
@@ -97,7 +108,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnIsInteractingCallback(Filter e)
         {
-            if (TeleportGeneralComponent.CanTeleport)
+            if (e.BAC_Comp != null && TeleportGeneralComponent.CanTeleport)
             {
                 // Deactivate laser if it's still active
                 if (e.PointerObjects._ControllerPointer.enabled)
@@ -122,15 +133,18 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
-            ParabolicRendererHelper.ToggleHandLaser(e, true);
-            e.PointerObjects._selectionPadObject?.SetActive(false);
-            e.PointerObjects._invalidPadObject?.SetActive(false);
+            if (e.BAC_Comp != null)
+            {
+                ParabolicRendererHelper.ToggleHandLaser(e, true);
+                e.PointerObjects._selectionPadObject?.SetActive(false);
+                e.PointerObjects._invalidPadObject?.SetActive(false);
+            }
         }
         #endregion
 
 
         #region PRIVATE_METHODS
-        private void Init(OnSetupVRReady setupVRReady)
+        private void Init()
         {
             foreach (var e in GetEntities<Filter>())
             {

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Events;
 using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Utils.ButtonActionChoser
 {
@@ -24,24 +26,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             public BACCalculationsComponent BAC_Calc;
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.BAC_Comp.BACTimer = e.BACTimer;
-                // if we use a thumbstick
-                if (e.BAC_Comp.ActionButton == EControllersButton.TOUCHPAD)
-                {
-                    // We create a new event that will be use in the CheckTouchpad method
-                    e.BACTimer.ThumbCheckEvent = new UnityEvent();
-                    e.BACTimer.ThumbCheckEvent.AddListener(delegate { IsInteractingCallback(e.BACTimer); });
-                }
-            }
-        }
-        
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
@@ -75,13 +59,23 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             }
         }
 
-        protected override void OnDestroyManager()
+        protected override void OnStartRunning()
         {
-            base.OnDestroyManager();
+            base.OnStartRunning();
+            foreach (var e in GetEntities<Filter>())
+            {
+                Init();
+            }
+        }
+
+        protected override void OnStopRunning()
+        {
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 // Remove the listeners for the ThumbCheckEvent if it's not null
-                e.BACTimer.ThumbCheckEvent?.RemoveAllListeners();
+                e.BACTimer.ThumbCheckEvent?.RemoveListener(e.BACTimer.ThumbEventAction);
+                e.BACTimer.ThumbCheckEvent = null;
             }
         }
 
@@ -114,12 +108,12 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <param name="e"></param>
         private void StartActionIsClicking(Filter e)
         {
-            // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
+            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (e.BAC_Calc.ThumbPos != null)
             {
                 e.BAC_Calc.UnclickEventWasRaised = BACUpdateSystem.CheckTouchpad
                 (
-                    new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.CLICK, e.BAC_Comp.BACTimer.ThumbCheckEvent), 
+                    new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.CLICK, e.BAC_Comp.BACTimer.ThumbCheckEvent),
                     ref e.BAC_Calc.ClickActionBeyondThreshold
                 );
             }
@@ -135,12 +129,12 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// <param name="e"></param>
         private void StartActionIsTouching(Filter e)
         {
-            // if we use the Thumb, we need to check its position on the Touchpad/Touchpad
+            // if we use the Thumb, we need to check its position on the Thumbstick/Touchpad
             if (e.BAC_Calc.ThumbPos != null)
             {
                 e.BAC_Calc.UntouchedEventWasRaised = BACUpdateSystem.CheckTouchpad
                 (
-                    new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.TOUCH, e.BAC_Comp.BACTimer.ThumbCheckEvent), 
+                    new ThumstickChecker(e.BAC_Comp, e.BAC_Calc, EControllerInteractionType.TOUCH, e.BAC_Comp.BACTimer.ThumbCheckEvent),
                     ref e.BAC_Calc.TouchActionBeyondThreshold
                 );
             }
@@ -162,6 +156,23 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             // If the system is is updated before the threshold and the timer is superior to the time limit
             return (BACTimer.IsUpdatedBeforeThreshold && BACTimer._Timer < BACTimer.TimerThreshold) ||
                    (!BACTimer.IsUpdatedBeforeThreshold && BACTimer._Timer > BACTimer.TimerThreshold);
+        }
+
+
+        private void Init()
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                e.BAC_Comp.BACTimer = e.BACTimer;
+                // if we use a thumbstick
+                if (e.BAC_Comp.ActionButton == EControllersButton.TOUCHPAD && e.BACTimer.ThumbCheckEvent == null)
+                {
+                    // We create a new event that will be use in the CheckThumbstick method
+                    e.BACTimer.ThumbCheckEvent = new UnityEvent();
+                    e.BACTimer.ThumbEventAction = delegate { IsInteractingCallback(e.BACTimer); };
+                    e.BACTimer.ThumbCheckEvent.AddListenerExtend(e.BACTimer.ThumbEventAction);
+                }
+            }
         }
     }
 }

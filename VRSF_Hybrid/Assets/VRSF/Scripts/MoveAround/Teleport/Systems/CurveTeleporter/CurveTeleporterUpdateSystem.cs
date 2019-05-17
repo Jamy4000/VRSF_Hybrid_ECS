@@ -1,4 +1,5 @@
 ﻿using VRSF.Core.Inputs;
+using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Teleport
@@ -25,15 +26,12 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            foreach (var e in GetEntities<Filter>())
-            {
-                SetupListenersResponses(e);
-            }
+            Init();
         }
 
-        protected override void OnDestroyManager()
+        protected override void OnStopRunning()
         {
-            base.OnDestroyManager();
+            base.OnStopRunning();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
@@ -48,16 +46,23 @@ namespace VRSF.MoveAround.Teleport
         public override void SetupListenersResponses(object entity)
         {
             var e = (Filter)entity;
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                e.BACGeneral.OnButtonStartClicking.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BACGeneral.OnButtonStopClicking.AddListener(delegate { OnStopInteractingCallback(e); });
-            }
 
-            if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+            if (e.TeleportGeneral.StartInteractingAction == null && e.TeleportGeneral.StopInteractingAction == null)
             {
-                e.BACGeneral.OnButtonStartTouching.AddListener(delegate { OnStartInteractingCallback(e); });
-                e.BACGeneral.OnButtonStopTouching.AddListener(delegate { OnStopInteractingCallback(e); });
+                e.TeleportGeneral.StartInteractingAction = delegate { OnStartInteractingCallback(e); };
+                e.TeleportGeneral.StopInteractingAction = delegate { OnStopInteractingCallback(e); };
+
+                if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
+                {
+                    e.BACGeneral.OnButtonStartClicking.AddListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                    e.BACGeneral.OnButtonStopClicking.AddListenerExtend(e.TeleportGeneral.StopInteractingAction);
+                }
+
+                if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
+                {
+                    e.BACGeneral.OnButtonStartTouching.AddListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                    e.BACGeneral.OnButtonStopTouching.AddListenerExtend(e.TeleportGeneral.StopInteractingAction);
+                }
             }
         }
 
@@ -66,14 +71,14 @@ namespace VRSF.MoveAround.Teleport
             var e = (Filter)entity;
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
             {
-                e.BACGeneral.OnButtonStartClicking.RemoveAllListeners();
-                e.BACGeneral.OnButtonStopClicking.RemoveAllListeners();
+                e.BACGeneral.OnButtonStartClicking.RemoveListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                e.BACGeneral.OnButtonStartClicking.RemoveListenerExtend(e.TeleportGeneral.StopInteractingAction);
             }
 
             if ((e.BACGeneral.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
             {
-                e.BACGeneral.OnButtonStartTouching.RemoveAllListeners();
-                e.BACGeneral.OnButtonStopTouching.RemoveAllListeners();
+                e.BACGeneral.OnButtonStartTouching.RemoveListenerExtend(e.TeleportGeneral.StartInteractingAction);
+                e.BACGeneral.OnButtonStopTouching.RemoveListenerExtend(e.TeleportGeneral.StopInteractingAction);
             }
         }
         #endregion Listeners_Setup
@@ -115,6 +120,14 @@ namespace VRSF.MoveAround.Teleport
         {
             if (TeleportGeneralComponent.CanTeleport)
                 TeleportUser(e);
+        }
+
+        private void Init()
+        {
+            foreach (var e in GetEntities<Filter>())
+            {
+                SetupListenersResponses(e);
+            }
         }
         #endregion
     }

@@ -64,10 +64,15 @@ namespace VRSF.UI
         private Coroutine _fillBarRoutine;                                 // Reference to the coroutine that controls the bar filling up, used to stop it if required.
 
         private EHand _handFilling = EHand.NONE;                              // Reference to the type of Hand that is filling the slider
-        
+
         private bool _boxColliderSetup;
 
         private bool _isFillingWithMesh;
+
+        /// <summary>
+        /// true when the events for ObjectWasClicked or Hovered were registered.
+        /// </summary>
+        private bool _eventWereRegistered;
         #endregion
 
 
@@ -84,6 +89,7 @@ namespace VRSF.UI
                 {
                     ObjectWasClickedEvent.RegisterListener(CheckSliderClick);
                     ObjectWasHoveredEvent.RegisterListener(CheckSliderHovered);
+                    _eventWereRegistered = true;
                 }
 
                 if (ControllerClickable)
@@ -98,8 +104,11 @@ namespace VRSF.UI
         protected override void OnDestroy()
         {
             base.OnDisable();
-            ObjectWasClickedEvent.UnregisterListener(CheckSliderClick);
-            ObjectWasHoveredEvent.UnregisterListener(CheckSliderHovered);
+            if (_eventWereRegistered)
+            {
+                ObjectWasClickedEvent.UnregisterListener(CheckSliderClick);
+                ObjectWasHoveredEvent.UnregisterListener(CheckSliderHovered);
+            }
         }
 
         private void Update()
@@ -196,24 +205,17 @@ namespace VRSF.UI
         /// <param name="hoverEvent">The event raised when an object is hovered</param>
         private void CheckSliderHovered(ObjectWasHoveredEvent hoverEvent)
         {
-            if (IsInteractable())
+            if (IsInteractable() && !FillWithClick && hoverEvent.ObjectHovered == transform)
             {
-                if (!FillWithClick)
+                // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
+                if (_fillBarRoutine == null)
                 {
-                    // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
-                    if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
-                    {
-                        HandleHandInteracting(hoverEvent.HandHovering);
-                    }
-                    // If the user was hovering the bar but stopped
-                    else if (_fillBarRoutine != null && hoverEvent.HandHovering == _handFilling && hoverEvent.ObjectHovered != transform)
-                    {
-                        HandleUp();
-                    }
+                    HandleHandInteracting(hoverEvent.HandHovering);
                 }
-                else
+                // If the user was hovering the bar but stopped
+                else if (_fillBarRoutine != null && hoverEvent.HandHovering == _handFilling && hoverEvent.ObjectHovered != transform)
                 {
-                    Select();
+                    HandleUp();
                 }
             }
         }
@@ -223,7 +225,7 @@ namespace VRSF.UI
         /// </summary>
         private void HandleHandInteracting(EHand handPointing)
         {
-            _handFilling = handPointing; 
+            _handFilling = handPointing;
 
             if (_handFilling != EHand.NONE && _fillBarRoutine == null)
             {
