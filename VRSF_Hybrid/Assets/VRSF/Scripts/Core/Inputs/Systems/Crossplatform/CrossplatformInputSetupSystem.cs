@@ -1,5 +1,5 @@
 ﻿using Unity.Entities;
-using UnityEngine;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Inputs
 {
@@ -13,21 +13,25 @@ namespace VRSF.Core.Inputs
             public CrossplatformInputCapture InputCapture;
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-            SetupControllersParameters();
+            base.OnCreateManager();
+            OnSetupVRReady.Listeners += SetupControllersParameters;
         }
 
         protected override void OnUpdate() { }
+
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            OnSetupVRReady.Listeners -= SetupControllersParameters;
+        }
 
         #region PRIVATE_METHODS
         /// <summary>
         /// Setup the two controllers parameters to use in the CheckControllersInput method.
         /// </summary>
-        /// <param name="viveInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
-        public void SetupControllersParameters()
+        public void SetupControllersParameters(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {

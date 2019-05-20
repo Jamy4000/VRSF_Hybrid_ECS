@@ -20,7 +20,7 @@ namespace VRSF.MoveAround.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
-            OnSetupVRReady.Listeners += InitValues;
+            OnSetupVRReady.RegisterListener(InitValues);
             base.OnCreateManager();
             this.Enabled = false;
         }
@@ -29,7 +29,7 @@ namespace VRSF.MoveAround.Teleport
         
         protected override void OnDestroyManager()
         {
-            OnSetupVRReady.Listeners -= InitValues;
+            OnSetupVRReady.UnregisterListener(InitValues);
             base.OnDestroyManager();
         }
 

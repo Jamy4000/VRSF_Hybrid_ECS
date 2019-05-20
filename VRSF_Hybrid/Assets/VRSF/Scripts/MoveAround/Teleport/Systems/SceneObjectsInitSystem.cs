@@ -13,7 +13,7 @@ namespace VRSF.MoveAround.Teleport
 
         protected override void OnCreateManager()
         {
-            OnSetupVRReady.RegisterListener(InitValues);
+            OnSetupVRReady.Listeners += InitValues;
             base.OnCreateManager();
             this.Enabled = false;
         }
@@ -23,7 +23,7 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnDestroyManager()
         {
             base.OnDestroyManager();
-            OnSetupVRReady.UnregisterListener(InitValues);
+            OnSetupVRReady.Listeners -= InitValues;
         }
 
         void InitValues(OnSetupVRReady setupVRReady)

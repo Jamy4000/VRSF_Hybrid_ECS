@@ -74,47 +74,28 @@ namespace VRSF.Core.Utils.ButtonActionChoser
                     "Please specify a GazeButton in the Gaze Parameters Window to use the Gaze Click feature. Disabling the script.");
             }
 
-            // if the Action Button is set to the Wheel Button (SIMULATOR SPECIFIC)
-            else if (entity.BACGeneralComp.ActionButton == EControllersButton.WHEEL_BUTTON)
+            else
             {
-                entity.BACCalculationsComp.IsUsingWheelButton = true;
-            }
+                switch (entity.BACGeneralComp.ActionButton)
+                {
+                    // if the Action Button is set to the Wheel Button (SIMULATOR SPECIFIC)
+                    case EControllersButton.WHEEL_BUTTON:
+                        entity.BACCalculationsComp.IsUsingWheelButton = true;
+                        break;
+                    // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
+                    case EControllersButton.A_BUTTON:
+                    case EControllersButton.B_BUTTON:
+                    case EControllersButton.X_BUTTON:
+                    case EControllersButton.Y_BUTTON:
+                    case EControllersButton.THUMBREST:
+                        entity.BACCalculationsComp.IsUsingOculusButton = true;
+                        break;
 
-            // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
-            else if (entity.BACGeneralComp.ActionButton == EControllersButton.A_BUTTON ||
-                     entity.BACGeneralComp.ActionButton == EControllersButton.B_BUTTON ||
-                     (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBREST &&
-                      entity.BACGeneralComp.ButtonHand == EHand.RIGHT))
-            {
-                entity.BACCalculationsComp.IsUsingOculusButton = true;
-                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
-            }
-            // if the Action Button is set to the X, Y or Left Thumbrest option (OCULUS SPECIFIC)
-            else if (entity.BACGeneralComp.ActionButton == EControllersButton.X_BUTTON ||
-                     entity.BACGeneralComp.ActionButton == EControllersButton.Y_BUTTON ||
-                     (entity.BACGeneralComp.ActionButton == EControllersButton.THUMBREST &&
-                      entity.BACGeneralComp.ButtonHand == EHand.LEFT))
-            {
-                entity.BACCalculationsComp.IsUsingOculusButton = true;
-                entity.BACGeneralComp.ButtonHand = EHand.LEFT;
-            }
-
-            // if the Action Button is set to the Right Menu option (VIVE AND SIMULATOR SPECIFIC)
-            else if (entity.BACGeneralComp.ActionButton == EControllersButton.MENU &&
-                     entity.BACGeneralComp.ButtonHand == EHand.RIGHT)
-            {
-                entity.BACCalculationsComp.IsUsingViveButton = true;
-                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
-            }
-
-            // If non of the previous solution was chosen, we just check if the button is on the right or left controller
-            else if (entity.BACGeneralComp.ActionButton.ToString().Contains("RIGHT"))
-            {
-                entity.BACGeneralComp.ButtonHand = EHand.RIGHT;
-            }
-            else if (entity.BACGeneralComp.ActionButton.ToString().Contains("LEFT"))
-            {
-                entity.BACGeneralComp.ButtonHand = EHand.LEFT;
+                    // if the Action Button is set to the Right Menu option (VIVE SPECIFIC)
+                    case EControllersButton.MENU:
+                        entity.BACCalculationsComp.IsUsingViveButton = entity.BACGeneralComp.ButtonHand == EHand.RIGHT;
+                        break;
+                }
             }
         }
 
@@ -150,7 +131,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             }
 
             //Check if the Action Button specified is set correctly
-            if (!CheckActionButton(entity))
+            if (entity.BACCalculationsComp.CorrectSDK && !CheckActionButton(entity))
             {
                 return false;
             }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
@@ -27,21 +28,17 @@ namespace VRSF.MoveAround.Teleport
         {
             base.OnCreateManager();
             ParabolicRendererHelper.ControllersParameters = ControllersParametersVariable.Instance;
+            OnSetupVRReady.Listeners += Init;
         }
 
-        protected override void OnStartRunning()
+        protected override void OnDestroyManager()
         {
-            base.OnStartRunning();
-            Init();
-        }
-
-        protected override void OnStopRunning()
-        {
-            base.OnStopRunning();
+            base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
+            OnSetupVRReady.Listeners -= Init;
         }
 
         public override void SetupListenersResponses(object entity)
@@ -144,7 +141,7 @@ namespace VRSF.MoveAround.Teleport
 
 
         #region PRIVATE_METHODS
-        private void Init()
+        private void Init(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {

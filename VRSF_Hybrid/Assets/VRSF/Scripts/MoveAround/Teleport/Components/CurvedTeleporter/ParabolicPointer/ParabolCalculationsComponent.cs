@@ -29,5 +29,9 @@ namespace VRSF.MoveAround.Teleport
         public bool PointOnNavMesh { get; set; }
         public float CurrentParabolaAngleY { get; set; }
         public Vector3 CurrentPointVector { get; set; }
+        /// <summary>
+        /// Temporary point where we wanna go
+        /// </summary>
+        public Vector3 TempPointToGoTo;
     }
 }

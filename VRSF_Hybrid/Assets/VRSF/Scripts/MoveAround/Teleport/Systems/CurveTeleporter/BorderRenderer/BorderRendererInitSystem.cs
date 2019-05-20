@@ -50,7 +50,7 @@ namespace VRSF.MoveAround.Teleport
                 this.Enabled = false;
                 return;
             }
-
+            
             foreach (var e in GetEntities<Filter>())
             {
                 // We check if a Play Area was set by the user

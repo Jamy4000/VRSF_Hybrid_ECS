@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Raycast;
+using VRSF.Core.SetupVR;
 
 namespace VRSF.Core.Controllers
 {
@@ -19,10 +20,10 @@ namespace VRSF.Core.Controllers
 
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
+            base.OnCreateManager();
             // TODO : Remove this line
             this.Enabled = false;
         }

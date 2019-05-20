@@ -26,6 +26,12 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             public BACCalculationsComponent BAC_Calc;
         }
 
+        protected override void OnCreateManager()
+        {
+            base.OnCreateManager();
+            OnSetupVRReady.Listeners += Init;
+        }
+
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
@@ -59,24 +65,16 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             }
         }
 
-        protected override void OnStartRunning()
+        protected override void OnDestroyManager()
         {
-            base.OnStartRunning();
-            foreach (var e in GetEntities<Filter>())
-            {
-                Init();
-            }
-        }
-
-        protected override void OnStopRunning()
-        {
-            base.OnStopRunning();
+            base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
                 // Remove the listeners for the ThumbCheckEvent if it's not null
                 e.BACTimer.ThumbCheckEvent?.RemoveListener(e.BACTimer.ThumbEventAction);
                 e.BACTimer.ThumbCheckEvent = null;
             }
+            OnSetupVRReady.Listeners -= Init;
         }
 
         /// <summary>
@@ -159,7 +157,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         }
 
 
-        private void Init()
+        private void Init(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {

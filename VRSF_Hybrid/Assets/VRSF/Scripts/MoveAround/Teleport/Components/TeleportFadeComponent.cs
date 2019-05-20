@@ -16,4 +16,4 @@ namespace VRSF.MoveAround.Teleport
 
         [HideInInspector] public bool _IsFadingIn;
     }
-}
+} 

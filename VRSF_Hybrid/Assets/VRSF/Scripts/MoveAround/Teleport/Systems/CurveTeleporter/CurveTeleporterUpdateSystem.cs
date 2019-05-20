@@ -1,4 +1,5 @@
 ﻿using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
 
@@ -23,19 +24,21 @@ namespace VRSF.MoveAround.Teleport
 
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
+
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-            Init();
+            base.OnCreateManager();
+            OnSetupVRReady.Listeners += Init;
         }
 
-        protected override void OnStopRunning()
+        protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
+            OnSetupVRReady.Listeners -= Init;
         }
         #endregion ComponentSystem_Methods
 
@@ -119,10 +122,13 @@ namespace VRSF.MoveAround.Teleport
         private void OnStopInteractingCallback(Filter e)
         {
             if (TeleportGeneralComponent.CanTeleport)
+            {
+                TeleportGeneralComponent.PointToGoTo = e.PointerCalculations.TempPointToGoTo;
                 TeleportUser(e);
+            }
         }
 
-        private void Init()
+        private void Init(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {

@@ -23,20 +23,23 @@ namespace VRSF.MoveAround.Teleport
         }
 
         #region ComponentSystem_Methods
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        protected override void OnStartRunning()
+
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-            Init();
+            base.OnCreateManager();
+            OnSetupVRReady.Listeners += Init;
         }
 
-        protected override void OnStopRunning()
+        protected override void OnUpdate() { }
+
+        protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
+            OnSetupVRReady.Listeners -= Init;
         }
         #endregion ComponentSystem_Methods
 
@@ -86,7 +89,7 @@ namespace VRSF.MoveAround.Teleport
         public void TeleportUser(ITeleportFilter teleportFilter)
         {
             Filter e = (Filter)teleportFilter;
-
+            
             if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
                 VRSF_Components.SetCameraRigPosition(newUsersPos, false);
 
@@ -112,7 +115,7 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Reactivate the System when we instantiate a new CameraRig
         /// </summary>
-        private void Init()
+        private void Init(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {

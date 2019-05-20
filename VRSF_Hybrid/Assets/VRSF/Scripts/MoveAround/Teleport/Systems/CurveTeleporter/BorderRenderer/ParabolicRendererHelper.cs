@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using VRSF.Core.Controllers;
 using VRSF.Core.Interactions;
 
@@ -29,8 +28,8 @@ namespace VRSF.MoveAround.Teleport
                 out e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );
-
-            TeleportGeneralComponent.PointToGoTo = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
+            
+            e.PointerCalculations.TempPointToGoTo = e.PointerObjects.ParabolaPoints[e.PointerObjects.ParabolaPoints.Count - 1];
             return normal;
         }
 
@@ -47,7 +46,7 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerObjects._selectionPadObject.SetActive(e.PointerCalculations.PointOnNavMesh);
                 if (e.PointerCalculations.PointOnNavMesh)
                 {
-                    e.PointerObjects._selectionPadObject.transform.position = TeleportGeneralComponent.PointToGoTo + (Vector3.one * 0.005f);
+                    e.PointerObjects._selectionPadObject.transform.position = e.PointerCalculations.TempPointToGoTo + (Vector3.one * 0.005f);
                     e.PointerObjects._selectionPadObject.transform.rotation = Quaternion.LookRotation(normal);
                     e.PointerObjects._selectionPadObject.transform.Rotate(90, 0, 0);
                 }
@@ -59,7 +58,7 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerObjects._invalidPadObject.SetActive(!e.PointerCalculations.PointOnNavMesh);
                 if (!e.PointerCalculations.PointOnNavMesh)
                 {
-                    e.PointerObjects._invalidPadObject.transform.position = TeleportGeneralComponent.PointToGoTo + (Vector3.one * 0.005f);
+                    e.PointerObjects._invalidPadObject.transform.position = e.PointerCalculations.TempPointToGoTo + (Vector3.one * 0.005f);
                     e.PointerObjects._invalidPadObject.transform.rotation = Quaternion.LookRotation(normal);
                     e.PointerObjects._invalidPadObject.transform.Rotate(90, 0, 0);
                 }
