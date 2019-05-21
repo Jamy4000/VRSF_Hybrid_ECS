@@ -433,9 +433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a686b39b2a141a41a402ebc50a36c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boost: 2.5
-  positionLerpTime: 0.2
-  mouseSensitivityCurve:
+  _leftShiftBoost: 2.5
+  PositionLerpTime: 0.2
+  MouseSensitivityCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -449,7 +449,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 2.5
+      value: 1.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -459,7 +459,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rotationLerpTime: 0.01
+  RotationLerpTime: 0.05
+  ReversedYAxis: 1
 --- !u!1 &1658705717848424
 GameObject:
   m_ObjectHideFlags: 0

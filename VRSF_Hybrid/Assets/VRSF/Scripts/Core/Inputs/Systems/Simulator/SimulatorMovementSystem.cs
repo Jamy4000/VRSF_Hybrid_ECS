@@ -16,35 +16,25 @@ namespace VRSF.Core.Inputs
             OnSetupVRReady.Listeners += CheckSystemState;
             base.OnCreateManager();
         }
-
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.cameraComponent.m_TargetCameraState.SetFromTransform(e.cameraComponent.transform);
-                e.cameraComponent.m_TargetCameraState.SetFromTransform(e.cameraComponent.transform);
-            }
-        }
         
         protected override void OnUpdate()
         {
             float dt = Time.deltaTime;
-            Vector2 mouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            float ScrollDeltaY = Input.mouseScrollDelta.y;
+            Vector2 mouseMovements = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
             foreach (var e in GetEntities<Filter>())
             {
-                // Rotation
-                if (Input.GetMouseButton(1))
-                {
-                    EvaluateRotation(e.cameraComponent, mouse);
-                    // Interpolate toward new position
-                    Interpolate(e.cameraComponent, dt);
-                }
+                // Check for mouse scroll wheel going up or down, and set shift boost based on that
+                if (Input.GetAxis("Mouse Scrollwheel") > 0)
+                    e.cameraComponent.LeftShiftBoost += 0.2f;
+                if (Input.GetAxis("Mouse Scrollwheel") < 0)
+                    e.cameraComponent.LeftShiftBoost -= 0.2f;
+
+                // Check if the user is rotating the camera with the mouse wheel
+                CheckForRotation(e.cameraComponent, dt, mouseMovements);
+
                 // Translation
-                if (EvaluateTranslation(e.cameraComponent, ScrollDeltaY, dt))
+                if (EvaluateTranslation(e.cameraComponent, dt))
                 {
                     // Interpolate toward new position
                     Interpolate(e.cameraComponent, dt);
@@ -58,36 +48,60 @@ namespace VRSF.Core.Inputs
             OnSetupVRReady.Listeners -= CheckSystemState;
         }
 
-        // Evaluate the camera rotation based on the mouse screen position
-        private void EvaluateRotation(SimulatorMovementComponent cameraComp, Vector2 mouse)
+        private void CheckForRotation(SimulatorMovementComponent camComp, float deltaTime, Vector2 mouseMovements)
         {
-            var mouseSensitivityFactor = cameraComp.mouseSensitivityCurve.Evaluate(mouse.magnitude);
-            cameraComp.m_TargetCameraState.yaw += mouse.x * mouseSensitivityFactor;
-            cameraComp.m_TargetCameraState.pitch += mouse.y * mouseSensitivityFactor;
-        }
+            // Deactivate cursor visibility and lock it when starting to rotate
+            if (Input.GetMouseButtonDown(1))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                ResetCameraStateTransform(camComp);
+            }
+            // Reactivate cursor visibility and delock it when stopping to rotate
+            else if (Input.GetMouseButtonUp(1))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            // Rotation with right click
+            else if (Input.GetMouseButton(1))
+            {
+                if (camComp.ReversedYAxis)
+                    mouseMovements.y = -mouseMovements.y;
+                
+                // Evaluate the camera rotation based on the mouse screen position
+                EvaluateRotation();
 
+                // Interpolate toward new position
+                Interpolate(camComp, deltaTime);
+            }
+
+            void EvaluateRotation()
+            {
+                var mouseSensitivityFactor = camComp.MouseSensitivityCurve.Evaluate(mouseMovements.magnitude);
+                camComp.m_TargetCameraState.yaw += mouseMovements.x * mouseSensitivityFactor;
+                camComp.m_TargetCameraState.pitch += mouseMovements.y * mouseSensitivityFactor;
+            }
+        } 
+        
         /// <summary>
         /// Evaluate the camera translation based on WASD and apply boost.
         /// </summary>
         /// <param name="cameraComp"></param>
-        /// <param name="deltaY"></param>
         /// <param name="deltaTime"></param>
         /// <returns>return true if translation is not a vector3.zero</returns>
-        private bool EvaluateTranslation(SimulatorMovementComponent cameraComp, float deltaY, float deltaTime)
+        private bool EvaluateTranslation(SimulatorMovementComponent cameraComp, float deltaTime)
         {
-            var translation = GetInputTranslationDirection() * deltaTime;
+            var translation = GetInputTranslationDirection() * cameraComp.BaseSpeed * deltaTime;
             if (translation != Vector3.zero)
             {
+                ResetCameraStateTransform(cameraComp);
+
                 // Speed up movement when shift key held
                 if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    translation *= 10.0f;
-                }
-
-                // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel)
-                cameraComp.boost += deltaY * 0.2f;
-                translation *= Mathf.Pow(2.0f, cameraComp.boost);
-
+                    // Modify movement by a boost factor (defined in Inspector and modified in play mode through up and down arrow)
+                    translation *= Mathf.Pow(2.0f, cameraComp.LeftShiftBoost);
+                
                 cameraComp.m_TargetCameraState.Translate(translation);
 
                 return true;
@@ -99,12 +113,16 @@ namespace VRSF.Core.Inputs
         private void Interpolate(SimulatorMovementComponent cameraComp, float deltaTime)
         {
             // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time
-            var positionLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / cameraComp.positionLerpTime) * deltaTime);
-            var rotationLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / cameraComp.rotationLerpTime) * deltaTime);
+            var positionLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / cameraComp.PositionLerpTime) * deltaTime);
+            var rotationLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / cameraComp.RotationLerpTime) * deltaTime);
             cameraComp.m_InterpolatingCameraState.LerpTowards(cameraComp.m_TargetCameraState, positionLerpPct, rotationLerpPct);
             cameraComp.m_InterpolatingCameraState.UpdateTransform(cameraComp.transform);
         }
 
+        /// <summary>
+        /// Get inputs to check if the user wanna move in the scene
+        /// </summary>
+        /// <returns>The direction vector based on the user's inputs</returns>
         private Vector3 GetInputTranslationDirection()
         {
             Vector3 direction = Vector3.zero;
@@ -135,10 +153,20 @@ namespace VRSF.Core.Inputs
             return direction;
         }
 
+        private void ResetCameraStateTransform(SimulatorMovementComponent camComp)
+        {
+            camComp.m_InterpolatingCameraState.SetFromTransform(camComp.transform);
+            camComp.m_TargetCameraState.SetFromTransform(camComp.transform);
+        }
 
         private void CheckSystemState(OnSetupVRReady info)
         {
             this.Enabled = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR;
+
+            foreach (var e in GetEntities<Filter>())
+            {
+                ResetCameraStateTransform(e.cameraComponent);
+            }
         }
     }
 }
