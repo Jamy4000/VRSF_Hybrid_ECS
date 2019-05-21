@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SpatialTracking;
 using UnityEngine.XR;
 using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
@@ -166,8 +167,11 @@ namespace VRSF.Core.SetupVR
 
             IEnumerator ResetVRCamera()
             {
-                yield return new WaitForEndOfFrame();
                 XRSettings.enabled = false;
+                GameObject.Destroy(setupVR.VRCamera.GetComponent<TrackedPoseDriver>());
+                GameObject.Destroy(setupVR.LeftController.GetComponent<TrackedPoseDriver>());
+                GameObject.Destroy(setupVR.RightController.GetComponent<TrackedPoseDriver>());
+                yield return new WaitForEndOfFrame();
                 setupVR.VRCamera.transform.localPosition = Vector3.zero;
                 setupVR.VRCamera.transform.localRotation = Quaternion.identity;
             }
