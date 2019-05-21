@@ -75,7 +75,8 @@ namespace VRSF.UI.Editor
             EditorGUILayout.Space();
 
             autoSlider.ValueIsGoingDown = EditorGUILayout.ToggleLeft("Should the value decrease when not interacting", autoSlider.ValueIsGoingDown);
-            autoSlider.ResetFillOnRelease = EditorGUILayout.ToggleLeft("Should the value be reset On Release", autoSlider.ResetFillOnRelease);
+            
+            autoSlider.ResetFillOnRelease = autoSlider.ValueIsGoingDown ? false : EditorGUILayout.ToggleLeft("Should the value be reset On Release", autoSlider.ResetFillOnRelease);
 
             EditorGUILayout.Space();
 

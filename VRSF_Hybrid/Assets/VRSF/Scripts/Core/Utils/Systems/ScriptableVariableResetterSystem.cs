@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Inputs;
+using VRSF.Core.SetupVR;
 using VRSF.Interactions;
 
 namespace VRSF.Utils.Systems
@@ -10,12 +11,18 @@ namespace VRSF.Utils.Systems
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
-            Init();
+            OnSetupVRReady.Listeners += Init;
         }
 
         protected override void OnUpdate() { }
 
-        private void Init()
+        protected override void OnDestroyManager()
+        {
+            base.OnDestroyManager();
+            OnSetupVRReady.Listeners -= Init;
+        }
+
+        private void Init(OnSetupVRReady info)
         {
             ResetInputContainer();
             ResetInteractionContainer();

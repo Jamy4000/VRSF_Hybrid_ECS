@@ -23,21 +23,22 @@ namespace VRSF.MoveAround.Rotate
 
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
+        protected override void OnCreateManager()
         {
-            base.OnStartRunning();
-            Init();
+            OnSetupVRReady.Listeners += Init;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate() {}
 
-        protected override void OnStopRunning()
+        protected override void OnDestroyManager()
         {
-            base.OnStopRunning();
+            base.OnDestroyManager();
             foreach (var e in GetEntities<Filter>())
             {
                 RemoveListeners(e);
             }
+            OnSetupVRReady.Listeners -= Init;
         }
         #endregion
 
@@ -108,7 +109,7 @@ namespace VRSF.MoveAround.Rotate
             }
         }
 
-        private void Init()
+        private void Init(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {

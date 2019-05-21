@@ -36,10 +36,10 @@ namespace VRSF.UI
         [Tooltip("The time it takes to fill the slider.")]
         [SerializeField] public float FillTime;
 
-        [SerializeField] public bool ResetFillOnRelease = true;
-
         [Header("Whether the value should go down when user is not clicking")]
         [SerializeField] public bool ValueIsGoingDown = true;
+
+        [SerializeField] public bool ResetFillOnRelease = true;
 
         [Header("Unity Events for bar filled and released.")]
         [SerializeField] public UnityEvent OnBarFilled;
@@ -129,11 +129,11 @@ namespace VRSF.UI
                     {
                         CheckHandStillOver();
                     }
-                    else if (ValueIsGoingDown && value < 1 && value > 0)
+                    else if (ValueIsGoingDown && value > 0)
                     {
                         // Set the value of the slider or the UV based on the normalised time.
                         Timer -= Time.deltaTime;
-                        value = (Timer / FillTime);
+                        value = Timer / FillTime;
                     }
                 }
             }
@@ -205,10 +205,10 @@ namespace VRSF.UI
         /// <param name="hoverEvent">The event raised when an object is hovered</param>
         private void CheckSliderHovered(ObjectWasHoveredEvent hoverEvent)
         {
-            if (IsInteractable() && !FillWithClick && hoverEvent.ObjectHovered == transform)
+            if (IsInteractable() && !FillWithClick)
             {
                 // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
-                if (_fillBarRoutine == null)
+                if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
                 {
                     HandleHandInteracting(hoverEvent.HandHovering);
                 }
@@ -286,7 +286,7 @@ namespace VRSF.UI
             }
 
             // Reset the timer and bar values.
-            if (ResetFillOnRelease)
+            if (!ValueIsGoingDown && ResetFillOnRelease)
             {
                 Timer = 0f;
                 value = 0.0f;

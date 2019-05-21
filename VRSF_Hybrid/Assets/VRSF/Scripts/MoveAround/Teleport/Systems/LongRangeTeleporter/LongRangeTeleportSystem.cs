@@ -31,14 +31,9 @@ namespace VRSF.MoveAround.Teleport
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
+            OnSetupVRReady.Listeners += Init;
             base.OnCreateManager();
             _controllersVariable = ControllersParametersVariable.Instance;
-        }
-
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            Init();
         }
 
         protected override void OnStopRunning()
@@ -48,6 +43,7 @@ namespace VRSF.MoveAround.Teleport
             {
                 RemoveListeners(e);
             }
+            OnSetupVRReady.Listeners -= Init;
         }
         #endregion ComponentSystem_Methods
 
@@ -164,7 +160,7 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Reactivate the System
         /// </summary>
-        private void Init()
+        private void Init(OnSetupVRReady info)
         {
             foreach (var e in GetEntities<Filter>())
             {
