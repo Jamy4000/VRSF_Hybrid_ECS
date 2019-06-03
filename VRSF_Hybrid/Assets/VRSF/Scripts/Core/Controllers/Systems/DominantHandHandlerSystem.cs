@@ -1,5 +1,4 @@
-﻿using System;
-using Unity.Entities;
+﻿using Unity.Entities;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 
@@ -19,7 +18,7 @@ namespace VRSF.Core.Controllers
         {
             base.OnCreateManager();
             ChangeDominantHandEvent.Listeners += ChangeDominantHand;
-            OnSetupVRReady.Listeners += DisableUnusedHand;
+            OnSetupVRReady.Listeners += Setup;
             this.Enabled = false;
         }
 
@@ -29,7 +28,7 @@ namespace VRSF.Core.Controllers
         {
             base.OnDestroyManager();
             ChangeDominantHandEvent.Listeners -= ChangeDominantHand;
-            OnSetupVRReady.Listeners -= DisableUnusedHand;
+            OnSetupVRReady.Listeners -= Setup;
         }
 
         private void ChangeDominantHand(ChangeDominantHandEvent info)
@@ -43,22 +42,27 @@ namespace VRSF.Core.Controllers
             foreach (var e in GetEntities<Filter>())
             {
                 e.SingleControllerInputCapture.IsUserRightHanded = info.NewDominantHand == EHand.RIGHT;
-
-                VRSF_Components.LeftController.SetActive(!e.SingleControllerInputCapture.IsUserRightHanded);
-                VRSF_Components.RightController.SetActive(e.SingleControllerInputCapture.IsUserRightHanded);
+                DisableUnusedHand(e.SingleControllerInputCapture.IsUserRightHanded);
             }
         }
 
-        private void DisableUnusedHand(OnSetupVRReady info)
+        private void Setup(OnSetupVRReady info)
         {
             if (VRSF_Components.DeviceLoaded != EDevice.GEAR_VR && VRSF_Components.DeviceLoaded != EDevice.OCULUS_GO)
                 return;
 
             foreach (var e in GetEntities<Filter>())
             {
-                VRSF_Components.LeftController.SetActive(!e.SingleControllerInputCapture.IsUserRightHanded);
-                VRSF_Components.RightController.SetActive(e.SingleControllerInputCapture.IsUserRightHanded);
+                DisableUnusedHand(e.SingleControllerInputCapture.IsUserRightHanded);
             }
+        }
+
+        private void DisableUnusedHand(bool isUserRightHanded)
+        {
+            VRSF_Components.LeftController.SetActive(!isUserRightHanded);
+            VRSF_Components.RightController.SetActive(isUserRightHanded);
+            ControllersParametersVariable.Instance.UsePointerLeft = !isUserRightHanded;
+            ControllersParametersVariable.Instance.UsePointerRight = isUserRightHanded;
         }
     }
 }
