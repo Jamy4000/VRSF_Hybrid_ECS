@@ -9,7 +9,7 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class GoAndGearVRControllersInputCaptureComponent : MonoBehaviour
     {
-        [Tooltip("Whether you want the controller to be shown on the right or left hand")]
+        [Tooltip("Whether you want the controller to be shown on the right or left hand. WARNING : If you want to change the dominant hand, raise the ChangeDominantHandEvent. Everything is then automatically handled in the DominantHandHandlerSystem.")]
         public bool IsUserRightHanded = true;
 
         /// <summary>
