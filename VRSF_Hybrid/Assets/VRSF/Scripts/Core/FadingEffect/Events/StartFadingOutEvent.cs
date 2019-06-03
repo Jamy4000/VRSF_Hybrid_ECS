@@ -8,9 +8,16 @@
         /// </summary>
         public readonly bool ShouldFadeInWhenDone;
 
-        public StartFadingOutEvent(bool shouldFadeInWhenDone = false) : base("Event called when we want to start a fade out effect")
+        /// <summary>
+        /// If you want to override the general speed parameter for the fading effect.
+        /// </summary>
+        public readonly float SpeedOverride;
+
+        public StartFadingOutEvent(bool shouldFadeInWhenDone = false, float speedOverride = -1.0f) : base("Event called when we want to start a fade out effect")
         {
             ShouldFadeInWhenDone = shouldFadeInWhenDone;
+            SpeedOverride = speedOverride;
+
             FireEvent(this);
         }
     }

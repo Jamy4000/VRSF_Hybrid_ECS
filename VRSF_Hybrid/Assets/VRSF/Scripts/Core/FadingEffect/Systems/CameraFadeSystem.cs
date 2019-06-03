@@ -49,6 +49,10 @@ namespace VRSF.Core.FadingEffect
             {
                 e.CameraFade.FadingInProgress = true;
                 e.CameraFade._IsFadingIn = true;
+                e.CameraFade._OldFadingSpeedFactor = e.CameraFade.FadingSpeed;
+
+                if (info.SpeedOverride != -1.0f)
+                    e.CameraFade.FadingSpeed = info.SpeedOverride;
             }
         }
 
@@ -59,6 +63,10 @@ namespace VRSF.Core.FadingEffect
                 e.CameraFade.FadingInProgress = true;
                 e.CameraFade._IsFadingIn = false;
                 e.CameraFade._ShouldImmediatlyFadeIn = info.ShouldFadeInWhenDone;
+                e.CameraFade._OldFadingSpeedFactor = e.CameraFade.FadingSpeed;
+
+                if (info.SpeedOverride != -1.0f)
+                    e.CameraFade.FadingSpeed = info.SpeedOverride;
             }
         }
 
@@ -66,7 +74,7 @@ namespace VRSF.Core.FadingEffect
         {
             foreach (var e in GetEntities<Filter>())
             {
-                e.CameraFade.FadingInProgress = false;
+                ResetParameters(e.CameraFade);
             }
         }
 
@@ -74,13 +82,13 @@ namespace VRSF.Core.FadingEffect
         {
             foreach (var e in GetEntities<Filter>())
             {
+                var overrideSpeed = e.CameraFade.FadingSpeed;
+                ResetParameters(e.CameraFade);
+
                 if (e.CameraFade._ShouldImmediatlyFadeIn)
-                    new StartFadingInEvent();
-                else
-                    e.CameraFade.FadingInProgress = false;
+                    new StartFadingInEvent(overrideSpeed);
             }
         }
-
 
         /// <summary>
         /// Change the alpha of the fading canvas and set the current teleporting state if the fade in/out is done
@@ -121,7 +129,14 @@ namespace VRSF.Core.FadingEffect
                 e.FadingImage.color = newColor;
             }
 
-            new StartFadingInEvent();
+            new StartFadingInEvent(0.5f);
+        }
+
+        private void ResetParameters(CameraFadeComponent fadeComponent)
+        {
+            fadeComponent.FadingInProgress = false;
+            fadeComponent._ShouldImmediatlyFadeIn = false;
+            fadeComponent.FadingSpeed = fadeComponent._OldFadingSpeedFactor;
         }
     }
 }

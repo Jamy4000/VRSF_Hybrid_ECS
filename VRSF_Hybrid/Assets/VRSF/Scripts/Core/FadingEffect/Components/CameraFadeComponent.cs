@@ -10,8 +10,10 @@ namespace VRSF.Core.FadingEffect
     {
         /// How long, in seconds, the fade-in/fade-out animation should take
         [Tooltip("Duration of the \"blink\" animation (fading in and out upon teleport) in seconds.")]
-        public int FadingSpeed = 1;
-        
+        public float FadingSpeed = 1;
+
+        [HideInInspector] public float _OldFadingSpeedFactor = -1.0f;
+
         [HideInInspector] public bool _IsFadingIn;
 
         /// <summary>
