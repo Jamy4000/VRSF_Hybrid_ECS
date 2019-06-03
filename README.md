@@ -1,30 +1,35 @@
 # VR Scriptable Framework using Hybrid ECS
 This repository is a Unity Framework based on Scriptable Objects, an Event System as seen in [Quill18 video](https://www.youtube.com/watch?v=04wXkgfd9V8) and the Hybrid ECS from Unity3D. It aims to ease the use of Virtual Reality in a project, and to have a light tool for that, while integrating a cross-platform project and some basic VR features. 
 
+**Warning** The current Wiki documentation is not up-to-date. I need to take some time to explain the different features and how to use them, but as no request were made, I'm not gonna do that as top prio.
+If you have any in question on how to use this tool, I'll be glad to answer you, just send me an email to arnaudbriche1994@gmail.com ! :)
+
+
 ## Description
-The repository you're currently on is linking the Framework to VR devices and give you access to some features often used in VR. It's an alternative to Libraries like VRTK, apart from the fact that this repository is still a work in progress. Numerous tools and scripts will come in the future, as well as other device supports.
+The repository you're currently is a Crossfplatform, Lightweight VR framework giving you access to some basic features often used in VR. It's an alternative to Libraries like VRTK, that was way too big for me when I first used it. Numerous tools and scripts will come in the future, as well as other device supports.
 
 
 The supported devices for now are :
 - The HTC Vive
 - The Microsoft Mixed Reality Headset
 - The Oculus Rift with Touch Controllers
-- The Oculus GO and Gear VR
+- The Oculus GO
+- The Gear VR
+- The Oculus Quest
 - A VR Simulator (only recommended for debug)
 
 
 ## Libraries Required
 To use this Framework, you gonna need to import the following stuffs :
-- **Unity3D 2018.2 or later** : Required to be able to use the ECS Hybrid System.
-- **Oculus Integration** : You can find it on the [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022) and can only import the basic scripts from Oculus (No need for the textures, models, materials, or Interaction System for example).
-- **SteamVR 1.2.3** : For now you need to use the deprecated version of SteamVR, that you can find on [their Github Releases Page](https://github.com/ValveSoftware/steamvr_unity_plugin/releases/tag/1.2.3). This will be updated in the next weeks. You can as well only import the Core Scripts from SteamVR, and uncheck the materials, models, Texture, Interaction System, LongBow, ...
-- **The Entities Package** : You can find it in the Package Manager offered by Unity3D (in Unity, Tab Window>Package Manager, in the Packages Window : All > Entities > Install) 
-- **The Incremental Compiler** : You can find it in the Package Manager offered by Unity3D (in Unity, Tab Window>Package Manager, in the Packages Window : All > IncrementalCompiler > Install) 
-- **VR Support** : In the Player Settings Window (Edit > Project Settings > Player), go to the last tab called XR Settings, set the Virtual Reality Supported toggle to true, and has the Oculus, OpenVR and None SDKs to the list.
-- **Scripting Runtime Version** : Finally, still in the Player Settings Window, go to the Other Settings tab and set the Scripting Runtime version to .NET 4.x Equivalent.
+- **Unity3D 2018.1 or later** : Required to be able to use the ECS Hybrid System. An error occur in the Haptic Systems in 2019.x, you just need to change the IsInvalid parameter to isInvalid (Thanks Unity for this lovely change).
+- **Oculus Integration** : You can find it in the Package Manager from Unity.
+- **SteamVR 1.2.3** : You can find it in the Package Manager from Unity.
+- **The Entities Package 0.0.12-Preview.21** : You can find it in the Package Manager from Unity (in Unity, Tab Window > Package Manager, in the Packages Window click on Advanced > Show Preview Packages, and then : All Packages > Entities 0.0.12-preview.21 > Install). I need to update the systems, as for now the project is only working with an old version of this package.
+- **VR Support** : In the Player Settings Window (Edit > Project Settings > Player), go to the last tab called XR Settings, set the Virtual Reality Supported toggle to true, and add the Oculus, OpenVR and None SDKs to the list.
+- **Scripting Runtime Version** : This one is normally set by default in the last versions of Unity, but we never know :  still in the Player Settings Window, go to the Other Settings tab and set the Scripting Runtime version to .NET 4.x Equivalent.
 
 ### Oculus GO and Gear VR Specifities
-If you need to build for Oculus GO or Gear VR, you need as well to download the Android Building support (File > Build Settings > Android) and to switch the platform to Android.
+If you need to build for Oculus GO, Gear VR or Oculus Quest, you need as well to download the Android Building support (File > Build Settings > Android) and to switch the platform to Android.
 
 
 Once all of that is done, **Restart your project so everything can be recompiled !**
