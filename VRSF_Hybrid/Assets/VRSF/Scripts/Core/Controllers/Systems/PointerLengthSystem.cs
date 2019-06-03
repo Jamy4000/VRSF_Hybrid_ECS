@@ -6,13 +6,13 @@ namespace VRSF.Core.Controllers
     /// <summary>
     /// Handle the Length of the Pointer depending on if the raycast is hitting something
     /// </summary>
-    [UpdateAfter(typeof(Raycast.PointerRaycastSystems))]
+    [UpdateAfter(typeof(Raycast.ControllersRaycastSystems))]
     public class PointerLengthSystem : ComponentSystem
     {
         struct Filter
         {
             public ControllerPointerComponents PointerComp;
-            public Raycast.ScriptableRaycastComponent RaycastComp;
+            public Raycast.ControllersScriptableRaycastComponent RaycastComp;
             public LineRenderer PointerRenderer;
         }
 

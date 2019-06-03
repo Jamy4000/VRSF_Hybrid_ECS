@@ -1,7 +1,6 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Raycast;
 using VRSF.Core.Events;
-using VRSF.Core.Controllers;
 using VRSF.Core.Gaze;
 using VRSF.Interactions;
 
@@ -14,7 +13,7 @@ namespace VRSF.Gaze.Raycast
     {
         struct Filter
         {
-            public ScriptableRaycastComponent PointerRaycast;
+            public ControllersScriptableRaycastComponent PointerRaycast;
         }
 
         private GazeParametersVariable _gazeParam;
@@ -55,7 +54,7 @@ namespace VRSF.Gaze.Raycast
             {
                 _interactionsVariables.IsOverSomethingGaze.SetValue(false);
                 _interactionsVariables.PreviousGazeHit = null;
-                new ObjectWasHoveredEvent(EHand.GAZE, null);
+                new ObjectWasHoveredEvent(ERayOrigin.CAMERA, null);
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
             else if (!_interactionsVariables.GazeHit.IsNull && _interactionsVariables.GazeHit.Value.collider != null &&
@@ -65,7 +64,7 @@ namespace VRSF.Gaze.Raycast
 
                 _interactionsVariables.PreviousGazeHit = hitTransform;
                 _interactionsVariables.IsOverSomethingGaze.SetValue(true);
-                new ObjectWasHoveredEvent(EHand.GAZE, hitTransform);
+                new ObjectWasHoveredEvent(ERayOrigin.CAMERA, hitTransform);
             }
         }
         #endregion PRIVATE_METHODS

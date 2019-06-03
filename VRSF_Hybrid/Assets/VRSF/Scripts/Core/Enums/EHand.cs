@@ -8,7 +8,6 @@
     {
         NONE = 0,
         LEFT = 1 << 0,
-        RIGHT = 1 << 1,
-        GAZE = 1 << 2
+        RIGHT = 1 << 1
     }
 }

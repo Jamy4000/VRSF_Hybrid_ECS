@@ -20,9 +20,6 @@
         THUMBREST = 1 << 8,
 
         // OCULUS GO AND GEAR VR PARTICULARITIES
-        BACK_BUTTON = 1 << 9,
-
-        // SIMULATOR PARTICULARITY
-        WHEEL_BUTTON = 1 << 10
+        BACK_BUTTON = 1 << 9
     }
 }

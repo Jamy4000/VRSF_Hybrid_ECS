@@ -6,7 +6,7 @@ namespace VRSF.Core.Controllers
     /// <summary>
     /// Contains all the variable for the ControllerPointer Systems
     /// </summary>
-    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ScriptableRaycastComponent), typeof(LineRenderer))]
+    [RequireComponent(typeof(Unity.Entities.GameObjectEntity), typeof(ControllersScriptableRaycastComponent), typeof(LineRenderer))]
     public class ControllerPointerComponents : MonoBehaviour
     {
         public EPointerState _PointerState = EPointerState.ON;

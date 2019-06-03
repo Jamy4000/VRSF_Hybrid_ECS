@@ -32,11 +32,6 @@ namespace VRSF.Utils.Systems
         {
             var inputContainer = InputVariableContainer.Instance;
 
-            inputContainer.GazeIsCliking?.SetValue(false);
-            inputContainer.GazeIsTouching?.SetValue(false);
-
-            inputContainer.WheelIsClicking?.SetValue(false);
-
             inputContainer.RightThumbPosition?.SetValue(new Vector2(0, 0));
             inputContainer.LeftThumbPosition?.SetValue(new Vector2(0, 0));
             

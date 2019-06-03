@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using VRSF.Core.Controllers;
+using VRSF.Core.Raycast;
 
 namespace VRSF.Core.Events
 {
@@ -9,11 +9,11 @@ namespace VRSF.Core.Events
     public class ObjectWasClickedEvent : EventCallbacks.Event<ObjectWasClickedEvent>
     {
         public readonly Transform ObjectClicked;
-        public readonly EHand HandClicking;
+        public readonly ERayOrigin RayOrigin;
 
-        public ObjectWasClickedEvent(EHand handClicking, Transform objectClicked) : base("Event raised when an object is clicked with the Trigger.")
+        public ObjectWasClickedEvent(ERayOrigin rayOrigin, Transform objectClicked) : base("Event raised when an object is clicked with the Trigger.")
         {
-            HandClicking = handClicking;
+            RayOrigin = rayOrigin;
             ObjectClicked = objectClicked;
 
             FireEvent(this);

@@ -13,7 +13,7 @@ namespace VRSF.Core.Controllers
     {
         struct Filter
         {
-            public ScriptableRaycastComponent RaycastComp;
+            public ControllersScriptableRaycastComponent RaycastComp;
             public ControllerPointerComponents ControllerPointerComp;
             public LineRenderer PointerRenderer;
         }

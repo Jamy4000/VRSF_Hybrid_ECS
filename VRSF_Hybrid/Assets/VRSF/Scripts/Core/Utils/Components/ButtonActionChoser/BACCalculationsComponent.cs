@@ -21,7 +21,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         // For SDKs Specific ActionButton 
         [HideInInspector] public bool IsUsingOculusButton;
         [HideInInspector] public bool IsUsingViveButton;
-        [HideInInspector] public bool IsUsingWheelButton;
 
         // Thumb Parameters
         [HideInInspector] public Vector2Variable ThumbPos = null;

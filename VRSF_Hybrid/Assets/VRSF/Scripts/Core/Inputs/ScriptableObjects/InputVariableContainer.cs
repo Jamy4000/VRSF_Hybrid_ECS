@@ -17,14 +17,7 @@ namespace VRSF.Core.Inputs
         public VRInputsBoolean LeftClickBoolean;
         public VRInputsBoolean RightTouchBoolean;
         public VRInputsBoolean LeftTouchBoolean;
-
-        [Header("BoolVariable (Touch and Click) for The Gaze Button if used")]
-        public BoolVariable GazeIsCliking;
-        public BoolVariable GazeIsTouching;
-
-        [Header("Click BoolVariable for The Wheel Button")]
-        public BoolVariable WheelIsClicking;
-
+        
         [Header("Vector2Variable for the Thumb position")]
         public Vector2Variable RightThumbPosition;
         public Vector2Variable LeftThumbPosition;

@@ -1,7 +1,7 @@
 ﻿using ScriptableFramework.Variables;
 using System.Collections.Generic;
 using UnityEngine;
-using VRSF.Core.Controllers;
+using VRSF.Core.Raycast;
 
 namespace VRSF.UI
 {
@@ -13,19 +13,19 @@ namespace VRSF.UI
         /// <summary>
         /// Called in an update method to check if a click is still down
         /// </summary>
-        /// <param name="handHoldingHandle">The hand with with the user is clicking</param>
+        /// <param name="rayHoldingHandle">The hand with with the user is clicking</param>
         /// <param name="clickIsDown">The ClickIsDown BoolVariable Value for the corresponding hand</param>
-        void CheckClickStillDown(ref EHand handHoldingHandle, bool clickIsDown);
+        void CheckClickStillDown(ref ERayOrigin rayHoldingHandle, bool clickIsDown);
 
         /// <summary>
         /// Move the Scrollable component when the user is holding the handle.
         /// </summary>
-        /// <param name="handHoldingHandle">The hand that is holding the Scrollable element</param>
+        /// <param name="rayHoldingHandle">The hand that is holding the Scrollable element</param>
         /// <param name="minPosTransform">The min position of the scrollable element, set at runtime</param>
         /// <param name="maxPosTransform">The max position of the scrollable element, set at runtime</param>
         /// <param name="raycastHitDictionary">The dictionary containing references to the RaycastHitVariable of the controllers</param>
         /// <returns>The new value of the scrollable</returns>
-        float MoveComponent(EHand handHoldingHandle, Transform minPosTransform, Transform maxPosTransform, Dictionary<string, RaycastHitVariable> raycastHitDictionary);
+        float MoveComponent(ERayOrigin rayHoldingHandle, Transform minPosTransform, Transform maxPosTransform, Dictionary<ERayOrigin, RaycastHitVariable> raycastHitDictionary);
 
         /// <summary>
         /// Set the UI Scrollable component new value according to the hitPoint, the min and max position and the direction of the element

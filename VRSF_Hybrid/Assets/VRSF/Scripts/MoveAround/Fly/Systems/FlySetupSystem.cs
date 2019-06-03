@@ -16,7 +16,7 @@ namespace VRSF.MoveAround.Fly
             public FlyParametersComponent FlyComponent;
             public BACGeneralComponent BACGeneral;
             public BACCalculationsComponent BACCalculations;
-            public ScriptableRaycastComponent RaycastComp;
+            public ControllersScriptableRaycastComponent RaycastComp;
         }
 
 

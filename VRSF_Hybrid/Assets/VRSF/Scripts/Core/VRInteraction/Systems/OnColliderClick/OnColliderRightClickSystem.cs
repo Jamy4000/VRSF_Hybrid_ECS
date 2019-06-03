@@ -10,7 +10,7 @@ namespace VRSF.Core.Interactions
         struct Filter
         {
             public OnColliderClickComponent OnClickComp;
-            public Raycast.ScriptableRaycastComponent PointerRaycast;
+            public Raycast.ControllersScriptableRaycastComponent PointerRaycast;
         }
 
         private ControllersParametersVariable _controllersParam;
@@ -73,7 +73,7 @@ namespace VRSF.Core.Interactions
                 _interactionsVariables.HasClickSomethingRight.SetValue(true);
 
                 var objectClicked = _interactionsVariables.RightHit.Value.collider.transform;
-                new ObjectWasClickedEvent(EHand.RIGHT, objectClicked);
+                new ObjectWasClickedEvent(Raycast.ERayOrigin.RIGHT_HAND, objectClicked);
             }
 
         }

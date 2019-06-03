@@ -7,6 +7,7 @@ using VRSF.Interactions;
 using VRSF.Core.Inputs;
 using VRSF.Core.Events;
 using VRSF.Core.Utils;
+using VRSF.Core.Raycast;
 
 namespace VRSF.UI
 {
@@ -35,9 +36,9 @@ namespace VRSF.UI
         Transform _minPosBar;
         Transform _maxPosBar;
 
-        EHand _handHoldingHandle = EHand.NONE;
+        ERayOrigin _handHoldingHandle = ERayOrigin.NONE;
 
-        Dictionary<string, RaycastHitVariable> _raycastHitDictionary;
+        Dictionary<ERayOrigin, RaycastHitVariable> _raycastHitDictionary;
 
         IUISetupScrollable _scrollableSetup;
 
@@ -86,7 +87,7 @@ namespace VRSF.UI
             {
                 CheckClickDown();
 
-                if (_handHoldingHandle != EHand.NONE)
+                if (_handHoldingHandle != ERayOrigin.NONE)
                 {
                     if (vertical && verticalScrollbar)
                         verticalScrollbar.value = _scrollableSetup.MoveComponent(_handHoldingHandle, _minPosBar, _maxPosBar, _raycastHitDictionary);
@@ -136,11 +137,11 @@ namespace VRSF.UI
             _eventWereRegistered = true;
 
             // We initialize the _RaycastHitDictionary
-            _raycastHitDictionary = new Dictionary<string, RaycastHitVariable>
+            _raycastHitDictionary = new Dictionary<ERayOrigin, RaycastHitVariable>
             {
-                { "Right", InteractionVariableContainer.Instance.RightHit },
-                { "Left", InteractionVariableContainer.Instance.LeftHit },
-                { "Gaze", InteractionVariableContainer.Instance.GazeHit },
+                { ERayOrigin.RIGHT_HAND, InteractionVariableContainer.Instance.RightHit },
+                { ERayOrigin.LEFT_HAND, InteractionVariableContainer.Instance.LeftHit },
+                { ERayOrigin.CAMERA, InteractionVariableContainer.Instance.GazeHit },
             };
 
             // We setup the Min and Max pos transform
@@ -154,9 +155,9 @@ namespace VRSF.UI
         /// <param name="clickEvent">The event raised when something is clicked</param>
         void CheckRectClick(ObjectWasClickedEvent clickEvent)
         {
-            if (clickEvent.ObjectClicked == transform && _handHoldingHandle == EHand.NONE)
+            if (clickEvent.ObjectClicked == transform && _handHoldingHandle == ERayOrigin.NONE)
             {
-                _handHoldingHandle = clickEvent.HandClicking;
+                _handHoldingHandle = clickEvent.RayOrigin;
             }
         }
 
@@ -167,13 +168,13 @@ namespace VRSF.UI
         {
             switch (_handHoldingHandle)
             {
-                case (EHand.GAZE):
-                    _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _inputContainer.GazeIsCliking.Value);
+                case ERayOrigin.CAMERA:
+                    // _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _inputContainer.GazeIsCliking.Value);
                     break;
-                case (EHand.LEFT):
+                case ERayOrigin.LEFT_HAND:
                     _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _leftTriggerDown.Value);
                     break;
-                case (EHand.RIGHT):
+                case ERayOrigin.RIGHT_HAND:
                     _scrollableSetup.CheckClickStillDown(ref _handHoldingHandle, _rightTriggerDown.Value);
                     break;
             }
@@ -249,12 +250,6 @@ namespace VRSF.UI
         {
             _scrollableSetup.CheckContentStatus(viewport, content, vertical, horizontal);
         }
-        #endregion
-
-
-        // EMPTY
-        #region GETTERS_SETTERS
-
         #endregion
     }
 }

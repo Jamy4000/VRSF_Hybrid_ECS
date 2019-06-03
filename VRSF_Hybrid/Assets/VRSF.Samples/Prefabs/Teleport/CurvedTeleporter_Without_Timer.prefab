@@ -10,10 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5912131285608243052}
   - component: {fileID: 6020027093876358020}
-  - component: {fileID: 6020151525018203560}
   - component: {fileID: 6019449044609929568}
-  - component: {fileID: 6020131733574835082}
-  - component: {fileID: 6019654367587713944}
   - component: {fileID: 6019965739255076630}
   - component: {fileID: 6019882197826013424}
   - component: {fileID: 6019837632457177366}
@@ -50,21 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6020151525018203560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5915689469056346224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd97aaa8eee92114396bba7e9c2a74c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _borderHeight: 0.2
-  BorderAlpha: 1
-  BorderMaterial: {fileID: 2100000, guid: 1a012bd00f38e1b4699aaba9de6e995d, type: 2}
 --- !u!114 &6019449044609929568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,40 +59,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6020131733574835082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5915689469056346224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7721e3a1b60f784b8a9c895cc3f5ba9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InitialVelocity: {x: 0, y: 0, z: 10}
-  Acceleration: {x: -0, y: -10, z: -0}
-  PointCount: 100
-  PointSpacing: 0.5
-  GraphicThickness: 0.2
-  GraphicMaterial: {fileID: 2100000, guid: 21a645b07758b4b478bff4374fdb9a43, type: 2}
---- !u!114 &6019654367587713944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5915689469056346224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c47fe1231b57464d9c435b43624132f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _selectionPadPrefab: {fileID: 1967544100037946, guid: b8d3f050893bea54b858d300e3fa2bd5,
-    type: 3}
-  _invalidPadPrefab: {fileID: 1672490554261600, guid: b930d0faf07413d4fac0f85a19431243,
-    type: 3}
 --- !u!114 &6019965739255076630
 MonoBehaviour:
   m_ObjectHideFlags: 0

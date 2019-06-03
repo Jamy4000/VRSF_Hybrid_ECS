@@ -1,43 +1,49 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Controllers;
 using VRSF.Core.Events;
+using VRSF.Core.Gaze;
+using VRSF.Core.Inputs;
+using VRSF.Core.Interactions;
+using VRSF.Core.Raycast;
 using VRSF.Interactions;
 
-namespace VRSF.Core.Interactions
+namespace VRSF.Gaze.Interactions
 {
-    public class OnColliderLeftClickSystem : ComponentSystem
+    public class OnColliderClickGazeSystem : ComponentSystem
     {
         struct Filter
         {
             public OnColliderClickComponent OnClickComp;
-            public Raycast.ControllersScriptableRaycastComponent PointerRaycast;
+            public ControllersScriptableRaycastComponent PointerRaycast;
         }
 
-        private ControllersParametersVariable _controllersParam;
+        private GazeParametersVariable _gazeParam;
+        private InputVariableContainer _inputContainer;
         private InteractionVariableContainer _interactionContainer;
 
         #region ComponentSystem_Methods
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
-            _controllersParam = ControllersParametersVariable.Instance;
+            _gazeParam = GazeParametersVariable.Instance;
             _interactionContainer = InteractionVariableContainer.Instance;
+            this.Enabled = false;
         }
 
         protected override void OnUpdate()
         {
-            if (_controllersParam.UseControllers && _controllersParam.UsePointerLeft)
+            if (_gazeParam.UseGaze)
             {
                 foreach (var entity in GetEntities<Filter>())
                 {
                     if (entity.PointerRaycast.CheckRaycast)
                     {
-                        CheckResetClick(entity.OnClickComp);
+                        CheckResetClick();
 
-                        if (OnColliderClickComponent.LeftTriggerCanClick && entity.OnClickComp.LeftClickBool.Value && !_interactionContainer.HasClickSomethingLeft.Value)
-                        {
-                            HandleClick(entity);
-                        }
+                        //if (!_inputContainer.GazeIsCliking.Value && _interactionContainer.HasClickSomethingGaze.Value)
+                        //{
+                        //    HandleClick();
+                        //}
                     }
                 }
             }
@@ -47,12 +53,12 @@ namespace VRSF.Core.Interactions
 
         #region PRIVATE_METHODS
         /// <summary>
-        /// Reset the HasClickSomethingLeft bool if the user is not clicking anymore
+        /// Check if there's 
         /// </summary>
-        void CheckResetClick(OnColliderClickComponent onClickComp)
+        void CheckResetClick()
         {
-            if (!onClickComp.LeftClickBool.Value && _interactionContainer.HasClickSomethingLeft.Value)
-                _interactionContainer.HasClickSomethingLeft.SetValue(false);
+            //if (!_inputContainer.GazeIsCliking.Value && _interactionContainer.HasClickSomethingGaze.Value)
+            //    _interactionContainer.HasClickSomethingGaze.SetValue(false);
         }
 
         /// <summary>
@@ -61,19 +67,19 @@ namespace VRSF.Core.Interactions
         /// <param name="hits">The list of RaycastHits to check</param>
         /// <param name="hasClicked">the BoolVariable to set if something got clicked</param>
         /// <param name="objectClicked">The GameEvent to raise with the transform of the hit</param>
-        private void HandleClick(Filter entity)
+        private void HandleClick()
         {
             //If nothing is hit, we set the isOver value to false
-            if (_interactionContainer.LeftHit.IsNull)
+            if (_interactionContainer.GazeHit.IsNull)
             {
-                _interactionContainer.HasClickSomethingLeft.SetValue(false);
+                _interactionContainer.HasClickSomethingGaze.SetValue(false);
             }
             else
             {
-                _interactionContainer.HasClickSomethingLeft.SetValue(true);
+                _interactionContainer.HasClickSomethingGaze.SetValue(true);
 
-                var objectClicked = _interactionContainer.LeftHit.Value.collider.transform;
-                new ObjectWasClickedEvent(Raycast.ERayOrigin.LEFT_HAND, objectClicked);
+                var objectClicked = _interactionContainer.GazeHit.Value.collider.transform;
+                // new ObjectWasClickedEvent(EHand.GAZE, objectClicked);
             }
         }
         #endregion PRIVATE_METHODS

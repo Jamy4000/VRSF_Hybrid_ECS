@@ -14,9 +14,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         [Header("The hand on which the button to use is situated")]
         [HideInInspector] public EHand ButtonHand = EHand.NONE;
 
-        [Header("Wheter you want to use the Gaze Click for the Action")]
-        [HideInInspector] public bool UseGazeButton = false;
-
         [Header("The button you wanna use for the Action")]
         [HideInInspector] public EControllersButton ActionButton = EControllersButton.NONE;
 

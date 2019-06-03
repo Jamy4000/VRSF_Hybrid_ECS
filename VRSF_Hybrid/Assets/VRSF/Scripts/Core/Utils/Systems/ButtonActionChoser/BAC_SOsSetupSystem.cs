@@ -60,7 +60,7 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             }
 
             // We init the Scriptable Object references and how they work
-            if (!SetupScriptableVariablesReferences(entity))
+            if (!SetupButton(entity))
             {
                 Debug.LogError("<b>[VRSF] :</b> An error has occured while initializing the Scriptable Objects reference in the " + this.GetType().Name + " script.\n" +
                     "If the error persist after reloading the Editor, please open an issue on Github. Setting CanBeUsed of ButtonActionChoserComponents to false.");
@@ -75,52 +75,10 @@ namespace VRSF.Core.Utils.ButtonActionChoser
 
 
         /// <summary>
-        /// Depending on the Button used for the feature and the Interaction Type, setup the BoolVariable and GameEvents accordingly
-        /// </summary>
-        /// <returns>true if everything was setup correctly</returns>
-        private bool SetupScriptableVariablesReferences(Filter entity)
-        {
-            // If we use the Gaze Button specified in the Gaze Parameters Window
-            if (entity.BACGeneralComp.UseGazeButton)
-            {
-                return SetupGazeInteraction(entity);
-            }
-            // If we use the Mouse Wheel Button
-            else if (entity.BACCalculationsComp.IsUsingWheelButton)
-            {
-                entity.BACCalculationsComp.IsClicking = _inputsContainer.WheelIsClicking;
-                return true;
-            }
-            else
-            {
-                return SetupNormalButton(entity);
-            }
-        }
-
-
-        /// <summary>
-        /// Check the Interaction Type specified and set it to corresponds to the Gaze BoolVariable
-        /// </summary>
-        /// <returns>true if everything was setup correctly</returns>
-        private bool SetupGazeInteraction(Filter entity)
-        {
-            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)
-            {
-                entity.BACCalculationsComp.IsClicking = _inputsContainer.GazeIsCliking;
-            }
-            if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.TOUCH) == EControllerInteractionType.TOUCH)
-            {
-                entity.BACCalculationsComp.IsTouching = _inputsContainer.GazeIsTouching;
-            }
-            return true;
-        }
-
-
-        /// <summary>
         /// Setup the comp._isClicking and _isTouching BoolVariable depending on the comp.InteractionType and the comp._buttonHand variable.
         /// </summary>
         /// <returns>true if everything was setup correctly</returns>
-        private bool SetupNormalButton(Filter entity)
+        private bool SetupButton(Filter entity)
         {
             // If the Interaction Type contains at least CLICK
             if ((entity.BACGeneralComp.InteractionType & EControllerInteractionType.CLICK) == EControllerInteractionType.CLICK)

@@ -9,7 +9,7 @@ namespace VRSF.Core.Interactions
     {
         struct Filter
         {
-            public Raycast.ScriptableRaycastComponent PointerRaycast;
+            public Raycast.ControllersScriptableRaycastComponent PointerRaycast;
         }
 
         private ControllersParametersVariable _controllersParam;
@@ -47,7 +47,7 @@ namespace VRSF.Core.Interactions
             {
                 _interactionsVariables.IsOverSomethingRight.SetValue(false);
                 _interactionsVariables.PreviousRightHit = null;
-                new ObjectWasHoveredEvent(EHand.RIGHT, null);
+                new ObjectWasHoveredEvent(Raycast.ERayOrigin.RIGHT_HAND, null);
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
             else if (!_interactionsVariables.RightHit.IsNull && _interactionsVariables.RightHit.Value.collider != null &&
@@ -57,7 +57,7 @@ namespace VRSF.Core.Interactions
 
                 _interactionsVariables.PreviousRightHit = hitTransform;
                 _interactionsVariables.IsOverSomethingRight.SetValue(true);
-                new ObjectWasHoveredEvent(EHand.RIGHT, hitTransform);
+                new ObjectWasHoveredEvent(Raycast.ERayOrigin.RIGHT_HAND, hitTransform);
             }
         }
         #endregion PRIVATE_METHODS

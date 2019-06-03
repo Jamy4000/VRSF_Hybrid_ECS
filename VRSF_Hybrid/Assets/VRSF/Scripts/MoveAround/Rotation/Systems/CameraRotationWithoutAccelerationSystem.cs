@@ -14,7 +14,7 @@ namespace VRSF.MoveAround.Rotate
             public CameraRotationComponent RotationComp;
             public BACGeneralComponent BACGeneral;
             public BACCalculationsComponent BACCalculations;
-            public ScriptableRaycastComponent RaycastComp;
+            public ControllersScriptableRaycastComponent RaycastComp;
         }
 
         #region ComponentSystem_Methods

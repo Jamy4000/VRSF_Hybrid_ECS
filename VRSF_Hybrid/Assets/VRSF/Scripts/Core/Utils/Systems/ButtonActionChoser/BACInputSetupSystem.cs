@@ -21,7 +21,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         }
 
         #region PRIVATE_VARIBALES
-        private GazeParametersVariable _gazeParameters;
         private ControllersParametersVariable _controllersParameters;
         private InputVariableContainer _inputsContainer;
         #endregion PRIVATE_VARIABLES
@@ -31,13 +30,12 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
-            base.OnCreateManager();
+            SDKChoserIsSetup.Listeners += StartBACsSetup;
 
-            _gazeParameters = GazeParametersVariable.Instance;
             _controllersParameters = ControllersParametersVariable.Instance;
             _inputsContainer = InputVariableContainer.Instance;
 
-            SDKChoserIsSetup.Listeners += StartBACsSetup;
+            base.OnCreateManager();
         }
 
         protected override void OnUpdate() { }
@@ -56,64 +54,21 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         /// </summary>
         private void CheckButtonHand(Filter entity)
         {
-            EControllersButton gazeClick = GetGazeClick();
-
-            // If we use the Gaze Button but the Controllers are inactive
-            if (entity.BACGeneralComp.UseGazeButton && !_controllersParameters.UseControllers)
+            switch (entity.BACGeneralComp.ActionButton)
             {
-                entity.BACCalculationsComp.CanBeUsed = false;
-                throw new Exception("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
-                    "If you want to use the Gaze Click, please activate the Controllers by setting the UseControllers bool in the Window VRSF/Controllers Parameters to true.\n" +
-                    "Disabling the script.");
-            }
-            // If we use the Gaze Button but the chosen gaze button is None
-            else if (entity.BACGeneralComp.UseGazeButton && gazeClick == EControllersButton.NONE)
-            {
-                entity.BACCalculationsComp.CanBeUsed = false;
-                throw new Exception("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " script are invalid.\n" +
-                    "Please specify a GazeButton in the Gaze Parameters Window to use the Gaze Click feature. Disabling the script.");
-            }
+                // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
+                case EControllersButton.A_BUTTON:
+                case EControllersButton.B_BUTTON:
+                case EControllersButton.X_BUTTON:
+                case EControllersButton.Y_BUTTON:
+                case EControllersButton.THUMBREST:
+                    entity.BACCalculationsComp.IsUsingOculusButton = true;
+                    break;
 
-            else
-            {
-                switch (entity.BACGeneralComp.ActionButton)
-                {
-                    // if the Action Button is set to the Wheel Button (SIMULATOR SPECIFIC)
-                    case EControllersButton.WHEEL_BUTTON:
-                        entity.BACCalculationsComp.IsUsingWheelButton = true;
-                        break;
-                    // if the Action Button is set to the A, B or Right Thumbrest option (OCULUS SPECIFIC)
-                    case EControllersButton.A_BUTTON:
-                    case EControllersButton.B_BUTTON:
-                    case EControllersButton.X_BUTTON:
-                    case EControllersButton.Y_BUTTON:
-                    case EControllersButton.THUMBREST:
-                        entity.BACCalculationsComp.IsUsingOculusButton = true;
-                        break;
-
-                    // if the Action Button is set to the Right Menu option (VIVE SPECIFIC)
-                    case EControllersButton.MENU:
-                        entity.BACCalculationsComp.IsUsingViveButton = entity.BACGeneralComp.ButtonHand == EHand.RIGHT;
-                        break;
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Check which button to use for the Gaze depending on the SDK Loaded
-        /// </summary>
-        /// <returns>The EControllersInput (button) to use for the Gaze Click</returns>
-        private EControllersButton GetGazeClick()
-        {
-            switch (VRSF_Components.DeviceLoaded)
-            {
-                case EDevice.HTC_VIVE:
-                    return _gazeParameters.GazeButtonVive;
-                case EDevice.OCULUS_RIFT:
-                    return _gazeParameters.GazeButtonRift;
-                default:
-                    return _gazeParameters.GazeButtonSimulator;
+                // if the Action Button is set to the Right Menu option (VIVE SPECIFIC)
+                case EControllersButton.MENU:
+                    entity.BACCalculationsComp.IsUsingViveButton = entity.BACGeneralComp.ButtonHand == EHand.RIGHT;
+                    break;
             }
         }
 
@@ -126,24 +81,13 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         {
             //Check if the Thumbstick are used, and if they are set correctly in that case.
             if (!CheckGivenThumbParameter(entity))
-            {
                 return false;
-            }
 
             //Check if the Action Button specified is set correctly
             if (entity.BACCalculationsComp.CorrectSDK && !CheckActionButton(entity))
-            {
                 return false;
-            }
-
-            if (entity.BACGeneralComp.UseGazeButton)
-            {
-                return (entity.BACGeneralComp.InteractionType != EControllerInteractionType.NONE);
-            }
-            else
-            {
-                return (entity.BACGeneralComp.InteractionType != EControllerInteractionType.NONE && entity.BACGeneralComp.ActionButton != EControllersButton.NONE);
-            }
+            
+            return entity.BACGeneralComp.InteractionType != EControllerInteractionType.NONE && entity.BACGeneralComp.ActionButton != EControllersButton.NONE;
         }
 
 
@@ -200,13 +144,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
             {
                 Debug.LogError("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
                     "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Vive. Disabling the script.");
-                return false;
-            }
-            // If we are using a Simulator Specific Button but the device loaded is not the Simulator
-            else if (entity.BACCalculationsComp.IsUsingWheelButton && VRSF_Components.DeviceLoaded != EDevice.SIMULATOR)
-            {
-                Debug.LogError("The Button Action Choser parameters for the " + entity.BACCalculationsComp.transform.name + " object are invalid.\n" +
-                    "Please specify a button that is available for the current device (" + VRSF_Components.DeviceLoaded + ") and not only for the Simulator. Disabling the script.");
                 return false;
             }
             else
