@@ -9,6 +9,7 @@ TagManager:
   - RESERVED_LeftController
   - RESERVED_CameraRig
   - RESERVED_ControllerModel
+  - RESERVED_ControllerBody
   layers:
   - Default
   - TransparentFX

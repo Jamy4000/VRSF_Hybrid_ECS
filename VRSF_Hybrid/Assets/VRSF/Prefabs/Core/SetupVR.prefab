@@ -64,11 +64,12 @@ GameObject:
   - component: {fileID: 7382642409705439472}
   - component: {fileID: 1039595808384978214}
   - component: {fileID: 2494962355122321850}
-  - component: {fileID: 6897238124372539858}
-  - component: {fileID: 5797141919990578843}
-  - component: {fileID: 4390927648252371873}
-  - component: {fileID: 4151527083698519627}
-  - component: {fileID: 654084576740190758}
+  - component: {fileID: 7210667959264381911}
+  - component: {fileID: 7209185468911754436}
+  - component: {fileID: 2096445172008960385}
+  - component: {fileID: 5619296766851540836}
+  - component: {fileID: 5108300195064947682}
+  - component: {fileID: 8577819095183578183}
   m_Layer: 0
   m_Name: SetupVR
   m_TagString: Untagged
@@ -112,12 +113,34 @@ MonoBehaviour:
   - Hand: 2
     ControllerPrefab: {fileID: 9105416309887506585, guid: 8712fc7b27404004aac6998d5f930415,
       type: 3}
-  Rift_Controllers:
+  Focus_Controllers:
   - Hand: 1
-    ControllerPrefab: {fileID: 295477108814772104, guid: d04aaa4ec5d28094687a100faffbcfb7,
+    ControllerPrefab: {fileID: 7361058184050641787, guid: 0f1e85d9264263243b653bc67794f2ff,
       type: 3}
   - Hand: 2
-    ControllerPrefab: {fileID: 295477108814772104, guid: 647d685721e293443a8d165c4690fcb6,
+    ControllerPrefab: {fileID: 9105416309887506585, guid: 8712fc7b27404004aac6998d5f930415,
+      type: 3}
+  Rift_Controllers:
+  - Hand: 1
+    ControllerPrefab: {fileID: 5173184406315723419, guid: 71ec2c292e7023d4f97b23d81e1654c2,
+      type: 3}
+  - Hand: 2
+    ControllerPrefab: {fileID: 2145890215998011805, guid: 49d4f1d1cb24d8d47a54e960abcab282,
+      type: 3}
+  RiftS_And_Quest_Controllers:
+  - Hand: 1
+    ControllerPrefab: {fileID: 6846239932841216635, guid: df2287e64ffac844f9c7b5b277d96f10,
+      type: 3}
+  - Hand: 2
+    ControllerPrefab: {fileID: 3858376239459593199, guid: 770602125e1efa245803a29e6b7a1795,
+      type: 3}
+  OculusGO_Controllers:
+  - Hand: 2
+    ControllerPrefab: {fileID: 1884685627830884092, guid: 3311a0fcf4b005149b990d1dd1c2c616,
+      type: 3}
+  GearVR_Controllers:
+  - Hand: 2
+    ControllerPrefab: {fileID: 5486764228314383431, guid: a3bcc95abe221d74ca31a1fa0de81173,
       type: 3}
   WMR_Controllers:
   - Hand: 1
@@ -196,7 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsSetup: 0
---- !u!114 &6897238124372539858
+--- !u!114 &7210667959264381911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,10 +228,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1147815568228318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74515c706227a3b42a68b602f410e3c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2585a5c66a7ef3e4fb20c6bd80963cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5797141919990578843
+  LeftMenuClick: {fileID: 0}
+  AButtonClick: {fileID: 0}
+  AButtonTouch: {fileID: 0}
+  BButtonClick: {fileID: 0}
+  BButtonTouch: {fileID: 0}
+  XButtonClick: {fileID: 0}
+  XButtonTouch: {fileID: 0}
+  YButtonClick: {fileID: 0}
+  YButtonTouch: {fileID: 0}
+  RightThumbrestTouch: {fileID: 0}
+  LeftThumbrestTouch: {fileID: 0}
+--- !u!114 &7209185468911754436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147815568228318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f8673ef31489242acdf45fd2146237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RightMenuClick: {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
+  LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
+--- !u!114 &2096445172008960385
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,7 +280,7 @@ MonoBehaviour:
   RightThumbrestTouch: {fileID: 11400000, guid: 2ab34e5bb7a3f6942bb63d757e90290b,
     type: 2}
   LeftThumbrestTouch: {fileID: 11400000, guid: d9906244a22bfb64787dc4555964e35b, type: 2}
---- !u!114 &4390927648252371873
+--- !u!114 &5619296766851540836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,12 +289,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1147815568228318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96f8673ef31489242acdf45fd2146237, type: 3}
+  m_Script: {fileID: 11500000, guid: 74515c706227a3b42a68b602f410e3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RightMenuClick: {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
-  LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
---- !u!114 &4151527083698519627
+--- !u!114 &5108300195064947682
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RightMenuClick: {fileID: 11400000, guid: 943aa309455cfe7468387292491a4844, type: 2}
   LeftMenuClick: {fileID: 11400000, guid: 9dade4fd28099ec4da1fa839cacbe5de, type: 2}
---- !u!114 &654084576740190758
+--- !u!114 &8577819095183578183
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
+  m_sendNavigationEvents: 0
   m_DragThreshold: 10
 --- !u!1 &1192837081653980
 GameObject:
@@ -433,6 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a686b39b2a141a41a402ebc50a36c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BaseSpeed: 1
   _leftShiftBoost: 2.5
   PositionLerpTime: 0.2
   MouseSensitivityCurve:

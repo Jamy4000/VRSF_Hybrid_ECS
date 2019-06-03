@@ -19,9 +19,9 @@ MonoBehaviour:
   LeftExclusionLayer:
     serializedVersion: 2
     m_Bits: 4
-  MaxDistancePointerLeft: 1000
+  MaxDistancePointerLeft: 100
   UsePointerRight: 1
   RightExclusionLayer:
     serializedVersion: 2
     m_Bits: 4
-  MaxDistancePointerRight: 1000
+  MaxDistancePointerRight: 100

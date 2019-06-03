@@ -16,7 +16,7 @@ namespace VRSF.Gaze.Inputs
         struct ViveFilter
         {
             public ViveGazeInputCaptureComponent GazeInputCapture;
-            public ViveControllersInputCaptureComponent ControllersInputCapture;
+            public HtcControllersInputCaptureComponent ControllersInputCapture;
         }
 
         #region PRIVATE_VARIABLES
@@ -87,7 +87,7 @@ namespace VRSF.Gaze.Inputs
         /// We need to do it in an update method as the two Vive controllers need to be seen by the sensors to be referenced. 
         /// </summary>
         /// <param name="gazeInputCapture">The ViveInputCaptureComponent on the CameraRig Entity</param>
-        private void CheckGazeReferencesVive(ViveGazeInputCaptureComponent gazeInputCapture, ViveControllersInputCaptureComponent controllersInputCapture)
+        private void CheckGazeReferencesVive(ViveGazeInputCaptureComponent gazeInputCapture, HtcControllersInputCaptureComponent controllersInputCapture)
         {
             try
             {

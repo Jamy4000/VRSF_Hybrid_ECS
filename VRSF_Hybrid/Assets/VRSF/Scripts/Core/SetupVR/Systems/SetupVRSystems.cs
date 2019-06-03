@@ -75,106 +75,22 @@ namespace VRSF.Core.SetupVR
         {
             if (setupVR.CheckDeviceAtRuntime)
             {
-                setupVR.DeviceToLoad = CheckDeviceConnected();
+                setupVR.DeviceToLoad = HeadsetChecker.CheckDeviceConnected();
             }
             else if (setupVR.DeviceToLoad == EDevice.NULL)
             {
-                Debug.LogError("<b>[VRSF] :</b> Device is null, Checking runtime device.");
-                setupVR.DeviceToLoad = CheckDeviceConnected();
+                Debug.LogError("<b>[VRSF] :</b> Device to Load is null, Checking runtime device.");
+                setupVR.DeviceToLoad = HeadsetChecker.CheckDeviceConnected();
             }
 
             VRSF_Components.DeviceLoaded = setupVR.DeviceToLoad;
 
-            switch (VRSF_Components.DeviceLoaded)
-            {
-                case (EDevice.OCULUS_RIFT):
-                    GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<WMRControllersInputCaptureComponent>());
-                    RemoveSimulatorStuffs();
-                    CheckControllersReferences(setupVR, setupVR.Rift_Controllers);
-                    setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
-                    break;
-                case (EDevice.HTC_VIVE):
-                    GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<WMRControllersInputCaptureComponent>());
-                    RemoveSimulatorStuffs();
-                    CheckControllersReferences(setupVR, setupVR.Vive_Controllers);
-                    setupVR.FloorOffset.localPosition = Vector3.zero;
-                    break;
-                case (EDevice.WMR):
-                    GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
-                    RemoveSimulatorStuffs();
-                    CheckControllersReferences(setupVR, setupVR.WMR_Controllers);
-                    setupVR.FloorOffset.localPosition = Vector3.zero;
-                    break;
-                default:
-                    GameObject.Destroy(setupVR.GetComponent<ViveControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<RiftControllersInputCaptureComponent>());
-                    GameObject.Destroy(setupVR.GetComponent<WMRControllersInputCaptureComponent>());
-                    CheckControllersReferences(setupVR, setupVR.Simulator_Controllers);
-                    setupVR.FloorOffset.localPosition = new Vector3(0, 1.7f, 0);
-                    setupVR.StartCoroutine(ResetVRCamera());
-                    break;
-            }
-            
-            setupVR.CameraRig.transform.name = "[VRSF] " + VRSF_Components.DeviceLoaded.ToString();
+            // Setup the Input scripts, Controllers meshes and start position based on the SDK loaded.
+            SpecificHeadsetComponents.Setup(setupVR);
+
+            setupVR.CameraRig.transform.name = "[VRSF] " + setupVR.DeviceToLoad.ToString();
             setupVR.CameraRig.transform.SetParent(null);
             setupVR.IsLoaded = true;
-
-
-            /// <summary>
-            /// Check which device is connected, and set the DeviceToLoad to the right name.
-            /// </summary>
-            EDevice CheckDeviceConnected()
-            {
-                if (XRDevice.isPresent)
-                {
-                    string detectedHmd = XRDevice.model;
-
-                    Debug.Log("<b>[VRSF] :</b> " + detectedHmd + " is connected");
-
-                    if (detectedHmd.ToLower().Contains("vive"))
-                    {
-                        return EDevice.HTC_VIVE;
-                    }
-                    else if (detectedHmd.ToLower().Contains("rift"))
-                    {
-                        return EDevice.OCULUS_RIFT;
-                    }
-                    else if (detectedHmd.ToLower().Contains("windows"))
-                    {
-                        return EDevice.WMR;
-                    }
-                    else
-                    {
-                        Debug.LogError("<b>[VRSF] :</b> " + detectedHmd + " is not supported yet, loading Simulator.");
-                        return EDevice.SIMULATOR;
-                    }
-                }
-                else
-                {
-                    Debug.Log("<b>[VRSF] :</b> No XRDevice present, loading Simulator");
-                    return EDevice.SIMULATOR;
-                }
-            }
-
-            void RemoveSimulatorStuffs()
-            {
-                GameObject.Destroy(setupVR.CameraRig.GetComponent<SimulatorMovementComponent>());
-                GameObject.Destroy(setupVR.GetComponent<SimulatorInputCaptureComponent>());
-            }
-
-            IEnumerator ResetVRCamera()
-            {
-                XRSettings.enabled = false;
-                GameObject.Destroy(setupVR.VRCamera.GetComponent<TrackedPoseDriver>());
-                GameObject.Destroy(setupVR.LeftController.GetComponent<TrackedPoseDriver>());
-                GameObject.Destroy(setupVR.RightController.GetComponent<TrackedPoseDriver>());
-                yield return new WaitForEndOfFrame();
-                setupVR.VRCamera.transform.localPosition = Vector3.zero;
-                setupVR.VRCamera.transform.localRotation = Quaternion.identity;
-            }
         }
 
 
@@ -228,31 +144,6 @@ namespace VRSF.Core.SetupVR
 
 
         /// <summary>
-        /// To setup the controllers reference and instantiate the corresponding models
-        /// </summary>
-        void CheckControllersReferences(SetupVRComponents setupVR, VRController[] Controllers)
-        {
-            if (setupVR.LeftController == null)
-            {
-                Debug.LogError("<b>[VRSF] :</b> No Left Controller was references in SetupVR. Trying to fetch it using tag RESERVED_LeftController.");
-                setupVR.LeftController = GameObject.FindGameObjectWithTag("RESERVED_LeftController");
-            }
-
-            if (setupVR.RightController == null)
-            {
-                Debug.LogError("<b>[VRSF] :</b> No Right Controller was references in SetupVR. Trying to fetch it using tag RESERVED_RightController.");
-                setupVR.RightController = GameObject.FindGameObjectWithTag("RESERVED_RightController");
-            }
-
-            if (setupVR.LeftController != null)
-                GameObject.Instantiate(Controllers[0].Hand == EHand.LEFT ? Controllers[0].ControllerPrefab : Controllers[1].ControllerPrefab, setupVR.LeftController.transform);
-
-            if (setupVR.RightController != null)
-                GameObject.Instantiate(Controllers[0].Hand == EHand.RIGHT ? Controllers[0].ControllerPrefab : Controllers[1].ControllerPrefab, setupVR.RightController.transform);
-        }
-
-
-        /// <summary>
         /// Disable the two controllers if we don't use them
         /// </summary>
         /// <returns>true if the controllers were disabled correctly</returns>
@@ -262,20 +153,27 @@ namespace VRSF.Core.SetupVR
             {
                 switch (VRSF_Components.DeviceLoaded)
                 {
-                    case (EDevice.OCULUS_RIFT):
-                        setupVR.CameraRig.GetComponent<RiftControllersInputCaptureComponent>().enabled = false;
+                    case EDevice.OCULUS_RIFT:
+                    case EDevice.OCULUS_QUEST:
+                    case EDevice.OCULUS_RIFT_S:
+                        setupVR.CameraRig.GetComponent<OculusControllersInputCaptureComponent>().enabled = false;
                         break;
-                    case (EDevice.HTC_VIVE):
-                        setupVR.CameraRig.GetComponent<ViveControllersInputCaptureComponent>().enabled = false;
+                    case EDevice.OCULUS_GO:
+                    case EDevice.GEAR_VR:
+                        setupVR.CameraRig.GetComponent<GoAndGearVRControllersInputCaptureComponent>().enabled = false;
                         break;
-                    case (EDevice.WMR):
+                    case EDevice.HTC_VIVE:
+                    case EDevice.HTC_FOCUS:
+                        setupVR.CameraRig.GetComponent<HtcControllersInputCaptureComponent>().enabled = false;
+                        break;
+                    case EDevice.WMR:
                         setupVR.CameraRig.GetComponent<WMRControllersInputCaptureComponent>().enabled = false;
                         break;
-                    case (EDevice.SIMULATOR):
+                    case EDevice.SIMULATOR:
                         setupVR.CameraRig.GetComponent<SimulatorInputCaptureComponent>().enabled = false;
                         break;
                     default:
-                        Debug.LogError("<b>[VRSF] :</b> Device Loaded is not set to a valid value : " + VRSF_Components.DeviceLoaded);
+                        Debug.LogErrorFormat("<b>[VRSF] :</b> Device Loaded is not set to a valid value : {0}", VRSF_Components.DeviceLoaded);
                         return false;
                 }
 
@@ -283,7 +181,7 @@ namespace VRSF.Core.SetupVR
             }
             catch (Exception e)
             {
-                Debug.LogError("<b>[VRSF] :</b> Can't disable Left and Right Controllers.\n" + e);
+                Debug.LogErrorFormat("<b>[VRSF] :</b> Can't disable Left and Right Controllers.\n{0}", e.ToString());
                 return false;
             }
         }
@@ -305,6 +203,6 @@ namespace VRSF.Core.SetupVR
             VRSF_Components.SetupVRIsReady = false;
             this.Enabled = true;
         }
-        #endregion
+#endregion
     }
 }

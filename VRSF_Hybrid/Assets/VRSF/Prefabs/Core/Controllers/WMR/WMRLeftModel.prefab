@@ -452,7 +452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 385ac49c36ab3424e859bf2f8b6fa268, type: 3}
       propertyPath: m_TagString
-      value: Trigger
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 385ac49c36ab3424e859bf2f8b6fa268, type: 3}
       propertyPath: m_LocalPosition.x

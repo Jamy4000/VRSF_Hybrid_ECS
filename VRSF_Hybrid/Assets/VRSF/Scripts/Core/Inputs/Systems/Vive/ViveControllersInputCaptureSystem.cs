@@ -12,7 +12,7 @@ namespace VRSF.Core.Inputs
     {
         private struct Filter
         {
-            public ViveControllersInputCaptureComponent ViveControllersInput;
+            public HtcControllersInputCaptureComponent ViveControllersInput;
             public CrossplatformInputCapture InputCapture;
         }
 
@@ -51,7 +51,7 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Right Controller input and put them in the Events
         /// </summary>
-        private void CheckRightControllerInput(ViveControllersInputCaptureComponent inputCapture)
+        private void CheckRightControllerInput(HtcControllersInputCaptureComponent inputCapture)
         {
             #region MENU
             // Check Click Events
@@ -71,7 +71,7 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Left Controller input and put them in the Events
         /// </summary>
-        private void CheckLeftControllerInput(ViveControllersInputCaptureComponent inputCapture)
+        private void CheckLeftControllerInput(HtcControllersInputCaptureComponent inputCapture)
         {
             #region MENU
             // Check Click Events

@@ -18,9 +18,13 @@ namespace VRSF.Core.SetupVR
         #endregion SERIALIZED_FIELDS
 
         #region CONTROLLERS
-        [Header("The prefabs to load for the Vive and Rift controllers.")]
+        [Header("The prefabs to load for the controllers.")]
         public VRController[] Vive_Controllers;
+        public VRController[] Focus_Controllers;
         public VRController[] Rift_Controllers;
+        public VRController[] RiftS_And_Quest_Controllers;
+        public VRController[] OculusGO_Controllers;
+        public VRController[] GearVR_Controllers;
         public VRController[] WMR_Controllers;
         public VRController[] Simulator_Controllers;
         #endregion CONTROLLERS

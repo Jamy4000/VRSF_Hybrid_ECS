@@ -12,7 +12,7 @@ namespace VRSF.Core.Inputs
     {
         private struct Filter
         {
-            public RiftControllersInputCaptureComponent RiftControllersInput;
+            public OculusControllersInputCaptureComponent RiftControllersInput;
             public CrossplatformInputCapture InputCapture;
         }
 
@@ -48,7 +48,7 @@ namespace VRSF.Core.Inputs
         /// <summary>
         /// Handle the Right Controller input and put them in the Events
         /// </summary>
-        private void CheckControllerInput(RiftControllersInputCaptureComponent inputCapture)
+        private void CheckControllerInput(OculusControllersInputCaptureComponent inputCapture)
         {
             #region A
             // Check Click Events
@@ -116,10 +116,15 @@ namespace VRSF.Core.Inputs
             }
             #endregion THUMBREST
         }
-
+        
         private void CheckDevice(OnSetupVRReady info)
         {
-            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT;
+            this.Enabled = IsOculusHeadset();
+            
+            bool IsOculusHeadset()
+            {
+                return VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT || VRSF_Components.DeviceLoaded == EDevice.OCULUS_QUEST || VRSF_Components.DeviceLoaded == EDevice.OCULUS_RIFT_S;
+            }
         }
         #endregion PRIVATE_METHODS
     }
