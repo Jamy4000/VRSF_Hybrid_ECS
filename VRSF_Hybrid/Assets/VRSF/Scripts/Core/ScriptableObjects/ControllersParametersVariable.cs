@@ -26,7 +26,7 @@ namespace VRSF.Core.Controllers
         public LayerMask LeftExclusionLayer = 0;
         
         [Tooltip("Themaximum distance at which the left pointer is going.")]
-        public float MaxDistancePointerLeft = 1000f;
+        public float MaxDistancePointerLeft = 100f;
 
 
         [Header("Right Controller Parameters")]
@@ -37,7 +37,7 @@ namespace VRSF.Core.Controllers
         public LayerMask RightExclusionLayer = 0;
         
         [Tooltip("Themaximum distance at which the right pointer is going.")]
-        public float MaxDistancePointerRight = 1000f;
+        public float MaxDistancePointerRight = 100f;
         #endregion PUBLIC_VARIABLE
 
 
@@ -51,11 +51,11 @@ namespace VRSF.Core.Controllers
 
             UsePointerLeft = true;
             LeftExclusionLayer = 0;
-            MaxDistancePointerLeft = 20f;
+            MaxDistancePointerLeft = 100f;
 
             UsePointerRight = true;
             RightExclusionLayer = 0;
-            MaxDistancePointerRight = 20f;
+            MaxDistancePointerRight = 100f;
         }
 
         /// <summary>
