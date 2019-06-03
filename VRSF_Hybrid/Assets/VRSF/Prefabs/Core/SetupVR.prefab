@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUserRightHanded: 1
-  BackButtonClick: {fileID: 0}
+  BackButtonClick: {fileID: 11400000, guid: ec209740b9875484489151abbee65a8a, type: 2}
 --- !u!114 &7209185468911754436
 MonoBehaviour:
   m_ObjectHideFlags: 0

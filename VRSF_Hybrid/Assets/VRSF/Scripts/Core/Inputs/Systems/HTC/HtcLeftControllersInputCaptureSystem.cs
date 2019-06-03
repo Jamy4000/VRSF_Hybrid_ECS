@@ -6,13 +6,13 @@ using VRSF.Core.SetupVR;
 namespace VRSF.Core.Inputs
 {
     /// <summary>
-    /// 
+    /// Capture inputs for the Left controller of the HTC Vive and Focus
     /// </summary>
-    public class ViveControllersInputCaptureSystem : ComponentSystem
+    public class HtcLeftControllersInputCaptureSystem : ComponentSystem
     {
         private struct Filter
         {
-            public HtcControllersInputCaptureComponent ViveControllersInput;
+            public HtcControllersInputCaptureComponent HtcControllersInput;
             public CrossplatformInputCapture InputCapture;
         }
 
@@ -31,11 +31,8 @@ namespace VRSF.Core.Inputs
                 {
                     if (e.InputCapture.IsSetup)
                     {
-                        // We check the Input for the Right controller
-                        CheckRightControllerInput(e.ViveControllersInput);
-
                         // We check the Input for the Left controller
-                        CheckLeftControllerInput(e.ViveControllersInput);
+                        CheckLeftControllerInput(e.HtcControllersInput);
                     }
                 }
             }
@@ -49,38 +46,18 @@ namespace VRSF.Core.Inputs
 
         #region PRIVATE_METHODS
         /// <summary>
-        /// Handle the Right Controller input and put them in the Events
-        /// </summary>
-        private void CheckRightControllerInput(HtcControllersInputCaptureComponent inputCapture)
-        {
-            #region MENU
-            // Check Click Events
-            if (Input.GetButtonDown("ViveRightMenuClick"))
-            {
-                inputCapture.RightMenuClick.SetValue(true);
-                new ButtonClickEvent(EHand.RIGHT, EControllersButton.MENU);
-            }
-            else if (Input.GetButtonUp("ViveRightMenuClick"))
-            {
-                inputCapture.RightMenuClick.SetValue(false);
-                new ButtonUnclickEvent(EHand.RIGHT, EControllersButton.MENU);
-            }
-            #endregion MENU
-        }
-
-        /// <summary>
         /// Handle the Left Controller input and put them in the Events
         /// </summary>
         private void CheckLeftControllerInput(HtcControllersInputCaptureComponent inputCapture)
         {
             #region MENU
             // Check Click Events
-            if (Input.GetButtonDown("ViveLeftMenuClick"))
+            if (Input.GetButtonDown("HtcLeftMenuClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("ViveLeftMenuClick"))
+            else if (Input.GetButtonUp("HtcLeftMenuClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
@@ -90,7 +67,7 @@ namespace VRSF.Core.Inputs
         
         private void CheckDevice(OnSetupVRReady info)
         {
-            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.HTC_VIVE;
+            this.Enabled = VRSF_Components.DeviceLoaded == EDevice.HTC_VIVE || VRSF_Components.DeviceLoaded == EDevice.HTC_FOCUS;
         }
         #endregion PRIVATE_METHODS
     }
