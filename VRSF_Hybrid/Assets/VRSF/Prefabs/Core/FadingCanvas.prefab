@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ffcbf105be541b41934fb6eb8b7220f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TeleportFadeSpeed: 7
-  _FadingImage: {fileID: 0}
+  FadingSpeed: 1
   _IsFadingIn: 0
+  _ShouldImmediatlyFadeIn: 0
+  FadingInProgress: 0

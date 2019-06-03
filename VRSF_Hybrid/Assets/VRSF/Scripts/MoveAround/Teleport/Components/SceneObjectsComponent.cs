@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using VRSF.Core.FadingEffect;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -15,7 +16,7 @@ namespace VRSF.MoveAround.Teleport
         /// <summary>
         /// Fade Component to place on the VRCamera. If not assigned, teleport the user without any fading effect.
         /// </summary>
-        [System.NonSerialized] public TeleportFadeComponent FadeComponent;
+        [System.NonSerialized] public CameraFadeComponent FadeComponent;
 
         [System.NonSerialized] public TeleportNavMeshComponent _TeleportNavMesh;
     }

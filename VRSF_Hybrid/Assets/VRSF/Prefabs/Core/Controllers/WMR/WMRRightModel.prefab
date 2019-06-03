@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1862439075532631176}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WMRRightModel
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}

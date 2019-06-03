@@ -30,11 +30,6 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         [HideInInspector] public static Vector3 PointToGoTo = Vector3.zero;
 
-        /// <summary>
-        /// Whether the fading effect is currently in progress
-        /// </summary>
-        [HideInInspector] public static bool FadingInProgress = false;
-
         [System.NonSerialized] public UnityAction StartInteractingAction;
         [System.NonSerialized] public UnityAction StopInteractingAction;
         [System.NonSerialized] public UnityAction IsInteractingAction;

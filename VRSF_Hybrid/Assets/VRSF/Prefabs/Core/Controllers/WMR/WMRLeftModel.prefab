@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086118184507936211}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WMRLeftModel
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
