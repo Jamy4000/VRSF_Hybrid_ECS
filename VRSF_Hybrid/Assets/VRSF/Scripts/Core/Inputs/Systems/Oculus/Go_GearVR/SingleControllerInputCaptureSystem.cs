@@ -56,12 +56,12 @@ namespace VRSF.Core.Inputs
             {
                 inputCapture.BackButtonClick.SetValue(true);
                 inputCapture.BackButtonClick.SetValue(false);
-                new ButtonClickEvent(inputCapture.IsRightHanded ? EHand.RIGHT : EHand.LEFT, EControllersButton.BACK_BUTTON);
+                new ButtonClickEvent(inputCapture.IsUserRightHanded ? EHand.RIGHT : EHand.LEFT, EControllersButton.BACK_BUTTON);
             }
             else if (Input.GetButtonUp("BackButtonClick"))
             {
                 inputCapture.BackButtonClick.SetValue(false);
-                new ButtonUnclickEvent(inputCapture.IsRightHanded ? EHand.RIGHT : EHand.LEFT, EControllersButton.BACK_BUTTON);
+                new ButtonUnclickEvent(inputCapture.IsUserRightHanded ? EHand.RIGHT : EHand.LEFT, EControllersButton.BACK_BUTTON);
             }
             #endregion BACK
         }

@@ -138,8 +138,14 @@ MonoBehaviour:
   - Hand: 2
     ControllerPrefab: {fileID: 1884685627830884092, guid: 3311a0fcf4b005149b990d1dd1c2c616,
       type: 3}
+  - Hand: 1
+    ControllerPrefab: {fileID: 1884685627830884092, guid: 3311a0fcf4b005149b990d1dd1c2c616,
+      type: 3}
   GearVR_Controllers:
   - Hand: 2
+    ControllerPrefab: {fileID: 5486764228314383431, guid: a3bcc95abe221d74ca31a1fa0de81173,
+      type: 3}
+  - Hand: 1
     ControllerPrefab: {fileID: 5486764228314383431, guid: a3bcc95abe221d74ca31a1fa0de81173,
       type: 3}
   WMR_Controllers:
@@ -231,17 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2585a5c66a7ef3e4fb20c6bd80963cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftMenuClick: {fileID: 0}
-  AButtonClick: {fileID: 0}
-  AButtonTouch: {fileID: 0}
-  BButtonClick: {fileID: 0}
-  BButtonTouch: {fileID: 0}
-  XButtonClick: {fileID: 0}
-  XButtonTouch: {fileID: 0}
-  YButtonClick: {fileID: 0}
-  YButtonTouch: {fileID: 0}
-  RightThumbrestTouch: {fileID: 0}
-  LeftThumbrestTouch: {fileID: 0}
+  IsUserRightHanded: 1
+  BackButtonClick: {fileID: 0}
 --- !u!114 &7209185468911754436
 MonoBehaviour:
   m_ObjectHideFlags: 0

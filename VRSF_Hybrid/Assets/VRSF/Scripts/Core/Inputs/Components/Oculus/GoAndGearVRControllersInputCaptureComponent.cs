@@ -9,8 +9,8 @@ namespace VRSF.Core.Inputs
     [RequireComponent(typeof(Unity.Entities.GameObjectEntity))]
     public class GoAndGearVRControllersInputCaptureComponent : MonoBehaviour
     {
-        [Header("Is the user Right Handed")]
-        public bool IsRightHanded = true;
+        [Tooltip("Whether you want the controller to be shown on the right or left hand")]
+        public bool IsUserRightHanded = true;
 
         /// <summary>
         /// Set in the Script Inspector (not the instance, but the script itself in the Assets Folder)
