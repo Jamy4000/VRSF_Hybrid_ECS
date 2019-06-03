@@ -230,8 +230,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftAButtonClick
-    descriptiveName: The A Button on the Rift controller was clicked
+    m_Name: OculusAButtonClick
+    descriptiveName: The A Button on the Oculus controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 0
@@ -246,8 +246,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftAButtonTouch
-    descriptiveName: The A Button on the Rift controller was touched
+    m_Name: OculusAButtonTouch
+    descriptiveName: The A Button on the Oculus controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 10
@@ -262,8 +262,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftBButtonClick
-    descriptiveName: The B Button on the Rift controller was clicked
+    m_Name: OculusBButtonClick
+    descriptiveName: The B Button on the Oculus controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 1
@@ -278,8 +278,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftBButtonTouch
-    descriptiveName: The B Button on the Rift controller was touched
+    m_Name: OculusBButtonTouch
+    descriptiveName: The B Button on the Oculus controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 11
@@ -294,8 +294,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftXButtonClick
-    descriptiveName: The X Button on the Rift controller was clicked
+    m_Name: OculusXButtonClick
+    descriptiveName: The X Button on the Oculus controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 2
@@ -310,8 +310,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftXButtonTouch
-    descriptiveName: The X Button on the Rift controller was touched
+    m_Name: OculusXButtonTouch
+    descriptiveName: The X Button on the Oculus controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 12
@@ -326,8 +326,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftYButtonClick
-    descriptiveName: The Y Button on the Rift controller was clicked
+    m_Name: OculusYButtonClick
+    descriptiveName: The Y Button on the Oculus controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 3
@@ -342,8 +342,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftYButtonTouch
-    descriptiveName: The Y Button on the Rift controller was touched
+    m_Name: OculusYButtonTouch
+    descriptiveName: The Y Button on the Oculus controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 13
@@ -358,8 +358,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftMenuButtonClick
-    descriptiveName: The Menu Button on the Rift Left controller was clicked
+    m_Name: OculusMenuButtonClick
+    descriptiveName: The Menu Button on the Oculus Left controller was clicked
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 6
@@ -374,8 +374,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftLeftThumbrestTouch
-    descriptiveName: The Thumbrest on the Rift Left controller was touched
+    m_Name: OculusLeftThumbrestTouch
+    descriptiveName: The Thumbrest on the Oculus Left controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 18
@@ -390,8 +390,8 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: RiftRightThumbrestTouch
-    descriptiveName: The Thumbrest on the Rift Right controller was touched
+    m_Name: OculusRightThumbrestTouch
+    descriptiveName: The Thumbrest on the Oculus Right controller was touched
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 19
@@ -484,4 +484,20 @@ InputManager:
     invert: 0
     type: 1
     axis: 2
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: BackButtonClick
+    descriptiveName: The back button for the Oculus Go and the GearVR
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 1
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
     joyNum: 0

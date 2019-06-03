@@ -8,11 +8,11 @@ namespace VRSF.Core.Inputs
     /// <summary>
     /// 
     /// </summary>
-    public class RiftControllersInputCaptureSystem : ComponentSystem
+    public class OculusLeftControllersInputCaptureSystem : ComponentSystem
     {
         private struct Filter
         {
-            public OculusControllersInputCaptureComponent RiftControllersInput;
+            public OculusControllersInputCaptureComponent OculusControllersInput;
             public CrossplatformInputCapture InputCapture;
         }
 
@@ -32,7 +32,7 @@ namespace VRSF.Core.Inputs
                     if (e.InputCapture.IsSetup)
                     {
                         // We check the Input for the Left controller
-                        CheckControllerInput(e.RiftControllersInput);
+                        CheckControllerInput(e.OculusControllersInput);
                     }
                 }
             }
@@ -52,24 +52,24 @@ namespace VRSF.Core.Inputs
         {
             #region X
             // Check Click Events
-            if (Input.GetButtonDown("RiftXButtonClick"))
+            if (Input.GetButtonDown("OculusXButtonClick"))
             {
                 inputCapture.XButtonClick.SetValue(true);
                 inputCapture.XButtonTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
-            else if (Input.GetButtonUp("RiftXButtonClick"))
+            else if (Input.GetButtonUp("OculusXButtonClick"))
             {
                 inputCapture.XButtonClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!inputCapture.XButtonClick.Value && Input.GetButtonDown("RiftXButtonTouch"))
+            else if (!inputCapture.XButtonClick.Value && Input.GetButtonDown("OculusXButtonTouch"))
             {
                 inputCapture.XButtonTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.X_BUTTON);
             }
-            else if (Input.GetButtonUp("RiftXButtonTouch"))
+            else if (Input.GetButtonUp("OculusXButtonTouch"))
             {
                 inputCapture.XButtonTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.X_BUTTON);
@@ -78,24 +78,24 @@ namespace VRSF.Core.Inputs
 
             #region Y
             // Check Click Events
-            if (Input.GetButtonDown("RiftYButtonClick"))
+            if (Input.GetButtonDown("OculusYButtonClick"))
             {
                 inputCapture.YButtonClick.SetValue(true);
                 inputCapture.YButtonTouch.SetValue(false);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
-            else if (Input.GetButtonUp("RiftYButtonClick"))
+            else if (Input.GetButtonUp("OculusYButtonClick"))
             {
                 inputCapture.YButtonClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
             // Check Touch Events if user is not clicking
-            else if (!inputCapture.YButtonClick.Value && Input.GetButtonDown("RiftYButtonTouch"))
+            else if (!inputCapture.YButtonClick.Value && Input.GetButtonDown("OculusYButtonTouch"))
             {
                 inputCapture.YButtonTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
             }
-            else if (Input.GetButtonUp("RiftYButtonTouch"))
+            else if (Input.GetButtonUp("OculusYButtonTouch"))
             {
                 inputCapture.YButtonTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.Y_BUTTON);
@@ -104,12 +104,12 @@ namespace VRSF.Core.Inputs
 
             #region MENU
             // Check Click Events
-            if (Input.GetButtonDown("RiftMenuButtonClick"))
+            if (Input.GetButtonDown("OculusMenuButtonClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(true);
                 new ButtonClickEvent(EHand.LEFT, EControllersButton.MENU);
             }
-            else if (Input.GetButtonUp("RiftMenuButtonClick"))
+            else if (Input.GetButtonUp("OculusMenuButtonClick"))
             {
                 inputCapture.LeftMenuClick.SetValue(false);
                 new ButtonUnclickEvent(EHand.LEFT, EControllersButton.MENU);
@@ -118,12 +118,12 @@ namespace VRSF.Core.Inputs
 
             #region THUMBREST
             // Check Touch Events
-            if (!inputCapture.LeftThumbrestTouch.Value && Input.GetButton("RiftLeftThumbrestTouch"))
+            if (!inputCapture.LeftThumbrestTouch.Value && Input.GetButton("OculusLeftThumbrestTouch"))
             {
                 inputCapture.LeftThumbrestTouch.SetValue(true);
                 new ButtonTouchEvent(EHand.LEFT, EControllersButton.THUMBREST);
             }
-            else if (Input.GetButtonUp("RiftLeftThumbrestTouch"))
+            else if (Input.GetButtonUp("OculusLeftThumbrestTouch"))
             {
                 inputCapture.LeftThumbrestTouch.SetValue(false);
                 new ButtonUntouchEvent(EHand.LEFT, EControllersButton.THUMBREST);

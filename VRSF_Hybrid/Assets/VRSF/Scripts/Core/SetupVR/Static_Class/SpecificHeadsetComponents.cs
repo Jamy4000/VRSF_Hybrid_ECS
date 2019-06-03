@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SpatialTracking;
 using UnityEngine.XR;
@@ -14,14 +12,6 @@ namespace VRSF.Core.SetupVR
     /// </summary>
     public static class SpecificHeadsetComponents
     {
-        private static List<System.Type> _inputScripts = new List<System.Type>
-        {
-            typeof(OculusControllersInputCaptureComponent),
-            typeof(GoAndGearVRControllersInputCaptureComponent),
-            typeof(HtcControllersInputCaptureComponent),
-            typeof(WMRControllersInputCaptureComponent)
-        };
-
         /// <summary>
         /// Check which device is connected, and set the DeviceToLoad to the right name.
         /// </summary>
