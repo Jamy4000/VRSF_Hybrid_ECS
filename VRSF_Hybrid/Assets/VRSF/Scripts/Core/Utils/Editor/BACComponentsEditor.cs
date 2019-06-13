@@ -1,7 +1,6 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using VRSF.Core.Controllers;
-using VRSF.Core.Gaze;
 using VRSF.Core.Inputs;
 using VRSF.Core.Utils.ButtonActionChoser;
 

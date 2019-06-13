@@ -17,7 +17,7 @@ namespace VRSF.MoveAround.Teleport
         {
             public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;
-            public ControllersScriptableRaycastComponent RaycastComp;
+            public ScriptableRaycastComponent RaycastComp;
             public TeleportGeneralComponent TeleportGeneral;
             public SceneObjectsComponent SceneObjects;
         }

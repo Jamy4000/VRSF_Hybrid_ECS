@@ -16,7 +16,7 @@ namespace VRSF.MoveAround.Teleport
         public struct Filter : ITeleportFilter
         {
             public StepByStepComponent SBS_Comp;
-            public ControllersScriptableRaycastComponent RayComp;
+            public ScriptableRaycastComponent RayComp;
             public BACGeneralComponent BAC_Comp;
             public SceneObjectsComponent SceneObjects;
             public TeleportGeneralComponent TeleportGeneral;

@@ -7,13 +7,13 @@ namespace VRSF.Core.Controllers
 {
     /// <summary>
     /// Make the Pointer appear only when it's not on Exluded Layer
-    /// TODO : Refactor, not really working
+    /// TODO : Refactor, not really working. Should reduce the alpha, not deactivate the pointer.
     /// </summary>
     public class PointerStatusSystem : ComponentSystem
     {
         struct Filter
         {
-            public ControllersScriptableRaycastComponent RaycastComp;
+            public ScriptableRaycastComponent RaycastComp;
             public ControllerPointerComponents ControllerPointerComp;
             public LineRenderer PointerRenderer;
         }
@@ -51,7 +51,7 @@ namespace VRSF.Core.Controllers
         private void CheckPointerState(ref EPointerState pointerState, Filter e)
         {
             // If the pointer is over something and it's state is not at Selectable
-            if (pointerState != EPointerState.SELECTABLE)
+            if (pointerState != EPointerState.DISAPPEARING)
             {
                 e.PointerRenderer.enabled = true;
                 if (e.ControllerPointerComp.OptionalLasersObjects.PointersParticles != null)
@@ -61,7 +61,7 @@ namespace VRSF.Core.Controllers
                         ps.Play();
                     }
                 }
-                pointerState = EPointerState.SELECTABLE;
+                pointerState = EPointerState.DISAPPEARING;
             }
             else if (pointerState != EPointerState.ON)
             {

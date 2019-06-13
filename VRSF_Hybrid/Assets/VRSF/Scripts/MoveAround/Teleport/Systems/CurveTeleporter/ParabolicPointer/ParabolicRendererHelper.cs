@@ -77,9 +77,9 @@ namespace VRSF.MoveAround.Teleport
             {
                 // We deactivate the fact that the user is able to click on stuffs as long as the curve teleport is on
                 if (e.BAC_Comp.ButtonHand == EHand.LEFT)
-                    OnColliderClickComponent.LeftTriggerCanClick = active;
+                    PointerClickComponent.LeftTriggerCanClick = active;
                 else
-                    OnColliderClickComponent.RightTriggerCanClick = active;
+                    PointerClickComponent.RightTriggerCanClick = active;
 
                 if (e.PointerObjects._ControllerPointer != null)
                 {

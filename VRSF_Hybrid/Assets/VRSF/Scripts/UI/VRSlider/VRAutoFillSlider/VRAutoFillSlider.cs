@@ -214,10 +214,10 @@ namespace VRSF.UI
                 // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
                 if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
                 {
-                    HandleHandInteracting(hoverEvent.HandHovering);
+                    HandleHandInteracting(hoverEvent.RaycastOrigin);
                 }
                 // If the user was hovering the bar but stopped
-                else if (_fillBarRoutine != null && hoverEvent.HandHovering == _handFilling && hoverEvent.ObjectHovered != transform)
+                else if (_fillBarRoutine != null && hoverEvent.RaycastOrigin == _handFilling && hoverEvent.ObjectHovered != transform)
                 {
                     HandleUp();
                 }

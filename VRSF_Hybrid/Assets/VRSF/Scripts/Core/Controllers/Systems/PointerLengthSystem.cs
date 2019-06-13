@@ -12,7 +12,7 @@ namespace VRSF.Core.Controllers
         struct Filter
         {
             public ControllerPointerComponents PointerComp;
-            public Raycast.ControllersScriptableRaycastComponent RaycastComp;
+            public Raycast.ScriptableRaycastComponent RaycastComp;
             public LineRenderer PointerRenderer;
         }
 
@@ -59,7 +59,7 @@ namespace VRSF.Core.Controllers
                     e.PointerRenderer.SetPositions(new Vector3[]
                     {
                         Vector3.zero,
-                        new Vector3(0, 0, e.RaycastComp.RaycastMaxDistance),
+                        new Vector3(0, 0, e.RaycastComp.MaxRaycastDistance),
                     });
 
                     e.PointerComp.OptionalLasersObjects.PointersEndPoint?.gameObject.SetActive(false);

@@ -9,7 +9,7 @@ namespace VRSF.MoveAround.Teleport
     /// Contains all variable necessary for the LongRangeTeleportSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(BACGeneralComponent), typeof(ControllersScriptableRaycastComponent), typeof(TeleportGeneralComponent))]
+    [RequireComponent(typeof(BACGeneralComponent), typeof(ScriptableRaycastComponent), typeof(TeleportGeneralComponent))]
     public class LongRangeTeleportComponent : MonoBehaviour
     {
         [Header("OPTIONAL : Loading Slider")]
