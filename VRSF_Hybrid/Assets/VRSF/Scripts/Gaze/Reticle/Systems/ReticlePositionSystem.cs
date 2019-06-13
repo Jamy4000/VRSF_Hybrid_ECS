@@ -9,9 +9,7 @@ namespace VRSF.Gaze
     {
         struct Filter
         {
-            public ScriptableRaycastComponent ScriptableRaycast;
             public ReticleCalculationsComponent ReticleCalculations;
-            public Transform ReticleTransform;
         }
 
 
@@ -31,7 +29,7 @@ namespace VRSF.Gaze
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ScriptableRaycast.IsSetup)
+                if (e.ReticleCalculations.GazeScriptableRaycast != null && e.ReticleCalculations.GazeScriptableRaycast.IsSetup)
                     CheckGazePosition(e);
             }
         }
@@ -61,13 +59,13 @@ namespace VRSF.Gaze
             Transform camTransform = Core.SetupVR.VRSF_Components.VRCamera.transform;
 
             // Set the position of the reticle to the default distance in front of the camera.
-            e.ReticleTransform.position = camTransform.position + camTransform.forward * e.ScriptableRaycast.MaxRaycastDistance;
+            e.ReticleCalculations._ReticleTransform.position = camTransform.position + camTransform.forward * e.ReticleCalculations.GazeScriptableRaycast.MaxRaycastDistance;
 
             // Set the scale based on the original and the distance from the camera.
-            e.ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * e.ScriptableRaycast.MaxRaycastDistance;
+            e.ReticleCalculations._ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * e.ReticleCalculations.GazeScriptableRaycast.MaxRaycastDistance;
 
             // The rotation should just be the default.
-            e.ReticleTransform.rotation = e.ReticleCalculations._OriginalRotation;
+            e.ReticleCalculations._ReticleTransform.rotation = e.ReticleCalculations._OriginalRotation;
         }
 
 
@@ -76,13 +74,13 @@ namespace VRSF.Gaze
         /// </summary>
         private void SetPositionToHit(Filter e)
         {
-            e.ReticleTransform.position = _interactionContainer.GazeHit.Value.point;
+            e.ReticleCalculations._ReticleTransform.position = _interactionContainer.GazeHit.Value.point;
 
-            e.ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * _interactionContainer.GazeHit.Value.distance;
+            e.ReticleCalculations._ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * _interactionContainer.GazeHit.Value.distance;
 
             // If the reticle should use the normal of what has been hit...
             // ... set it's rotation based on it's forward vector facing along the normal OR it's local rotation should be as it was originally.
-            e.ReticleTransform.rotation = e.ReticleCalculations.UseNormal ? Quaternion.FromToRotation(Vector3.forward, _interactionContainer.GazeHit.Value.normal) : e.ReticleCalculations._OriginalRotation;
+            e.ReticleCalculations._ReticleTransform.rotation = e.ReticleCalculations.UseNormal ? Quaternion.FromToRotation(Vector3.forward, _interactionContainer.GazeHit.Value.normal) : e.ReticleCalculations._OriginalRotation;
         }
         #endregion PUBLIC_METHODS
     }

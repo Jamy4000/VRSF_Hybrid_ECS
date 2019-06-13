@@ -117,6 +117,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4060211141624899611, guid: a5e510c68aacc4f4196b2210141e0043,
+        type: 3}
+      propertyPath: GazeScriptableRaycast
+      value: 
+      objectReference: {fileID: 186316732380161895}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5e510c68aacc4f4196b2210141e0043, type: 3}
 --- !u!1001 &9159713732638842461
@@ -243,3 +248,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 9159713732638842461}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &186316732380161895 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9045542561167423802, guid: dea91154a868dec46a7f4609809ddd1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 9159713732638842461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

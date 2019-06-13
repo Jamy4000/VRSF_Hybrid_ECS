@@ -10,7 +10,6 @@ namespace VRSF.Gaze.Interactions
     {
         struct Filter
         {
-            public ScriptableRaycastComponent GazeRaycast;
             public GazeInputsComponent GazeInputs;
         }
 

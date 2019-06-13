@@ -117,6 +117,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4060211141624899611, guid: a5e510c68aacc4f4196b2210141e0043,
+        type: 3}
+      propertyPath: GazeScriptableRaycast
+      value: 
+      objectReference: {fileID: 2879325186040236620}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5e510c68aacc4f4196b2210141e0043, type: 3}
 --- !u!1001 &4354127161719675996
@@ -130,26 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SetupVR_Gaze
       objectReference: {fileID: 0}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: CameraRig
-      value: 
-      objectReference: {fileID: 4352786664826947120}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: LeftController
-      value: 
-      objectReference: {fileID: 4354756654507054940}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: RightController
-      value: 
-      objectReference: {fileID: 4353031405957494068}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: VRCamera
-      value: 
-      objectReference: {fileID: 4352952741541756544}
     - target: {fileID: 4325968150092906, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -194,6 +179,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: CameraRig
+      value: 
+      objectReference: {fileID: 4352786664826947120}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: LeftController
+      value: 
+      objectReference: {fileID: 4354756654507054940}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: RightController
+      value: 
+      objectReference: {fileID: 4353031405957494068}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: VRCamera
+      value: 
+      objectReference: {fileID: 4352952741541756544}
     - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.1
@@ -375,3 +380,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6902062493054287905}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2879325186040236620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8663912227928001133, guid: 00cf9b011b457ef4288d314e36e247c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 6902062493054287905}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

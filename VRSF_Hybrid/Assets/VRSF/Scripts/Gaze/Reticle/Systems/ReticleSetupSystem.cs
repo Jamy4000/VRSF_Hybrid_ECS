@@ -8,7 +8,6 @@ namespace VRSF.Gaze
         struct Filter
         {
             public ReticleCalculationsComponent ReticleCalculations;
-            public UnityEngine.Transform ReticleTransform;
         }
 
         #region ComponentSystem_Methods
@@ -34,9 +33,12 @@ namespace VRSF.Gaze
         {
             foreach (var e in GetEntities<Filter>())
             {
+                e.ReticleCalculations._ReticleImage = e.ReticleCalculations.GetComponent<UnityEngine.UI.Image>();
+                e.ReticleCalculations._ReticleTransform = e.ReticleCalculations.GetComponent<UnityEngine.Transform>();
+
                 // Store the original scale and rotation.
-                e.ReticleCalculations._OriginalScale = e.ReticleTransform.localScale;
-                e.ReticleCalculations._OriginalRotation = e.ReticleTransform.localRotation;
+                e.ReticleCalculations._OriginalScale = e.ReticleCalculations._ReticleTransform.localScale;
+                e.ReticleCalculations._OriginalRotation = e.ReticleCalculations._ReticleTransform.localRotation;
             }
         }
         #endregion PRIVATE_METHODS

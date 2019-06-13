@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Controllers;
+using VRSF.Core.Raycast;
 
 namespace VRSF.Gaze.Utils
 {
@@ -12,23 +13,16 @@ namespace VRSF.Gaze.Utils
         {
             public PointerVisibilityComponents ReticleVisibility;
             public ReticleCalculationsComponent ReticleCalculations;
+            public ScriptableRaycastComponent ScriptableRaycast;
         }
 
         #region ComponentSystem_Methods
-        protected override void OnStartRunning()
-        {
-            base.OnStartRunning();
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.ReticleCalculations._ReticleImage = e.ReticleCalculations.GetComponent<UnityEngine.UI.Image>();
-            }
-        }
-
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
-                SetReticleVisibility(e);
+                if (e.ScriptableRaycast.IsSetup)
+                    SetReticleVisibility(e);
             }
         }
         #endregion ComponentSystem_Methods

@@ -13,7 +13,6 @@ namespace VRSF.Gaze.Raycast
         {
             public ScriptableRaycastComponent RaycastComponents;
             public GazeRaycastComponent GazeRaycast;
-            public Transform GazeTransform;
         }
 
         #region ComponentSystem_Methods
@@ -29,9 +28,8 @@ namespace VRSF.Gaze.Raycast
             {
                 if (e.RaycastComponents.IsSetup)
                 {
-                    Ray rayToUse = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? e.GazeRaycast._VRCamera.ScreenPointToRay(Input.mousePosition) : new Ray(e.GazeTransform.position, e.GazeTransform.TransformDirection(Vector3.forward));
+                    Ray rayToUse = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? e.GazeRaycast._VRCamera.ScreenPointToRay(Input.mousePosition) : new Ray(e.GazeRaycast.transform.position, e.GazeRaycast.transform.TransformDirection(Vector3.forward));
                     e.RaycastComponents.RayVar.SetValue(rayToUse);
-
                     RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.MaxRaycastDistance, ~e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
                 }
             }

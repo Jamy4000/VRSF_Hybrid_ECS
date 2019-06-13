@@ -11,7 +11,6 @@ namespace VRSF.Core.Interactions
     {
         struct Filter
         {
-            public PointerClickComponent PointerClick;
             public ScriptableRaycastComponent ScriptableRaycast;
         }
         
@@ -38,9 +37,6 @@ namespace VRSF.Core.Interactions
                         break;
                     case ERayOrigin.CAMERA:
                         HandleOver(ref _interactionsVariables.PreviousGazeHit, _interactionsVariables.IsOverSomethingGaze, _interactionsVariables.GazeHit, ERayOrigin.CAMERA);
-                        break;
-                    default:
-                        Debug.LogError("<b>[VRSF] :</b> PointerClickComponent can only be placed on Right or Left hand. Please check your parameters.", entity.PointerClick.gameObject);
                         break;
                 }
             }

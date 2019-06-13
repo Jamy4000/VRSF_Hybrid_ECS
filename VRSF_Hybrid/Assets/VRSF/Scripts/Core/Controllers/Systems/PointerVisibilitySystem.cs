@@ -13,6 +13,7 @@ namespace VRSF.Core.Controllers
         {
             public ScriptableRaycastComponent RaycastComp;
             public PointerVisibilityComponents PointerVisibility;
+            public PointerWidthComponent PointerWidth;
             public LineRenderer PointerRenderer;
         }
 
@@ -23,8 +24,8 @@ namespace VRSF.Core.Controllers
             base.OnStartRunning();
             foreach (var e in GetEntities<Filter>())
             {
-                e.PointerVisibility._BaseStartWidth = e.PointerRenderer.startWidth;
-                e.PointerVisibility._BaseEndWidth = e.PointerRenderer.endWidth;
+                e.PointerWidth._BaseStartWidth = e.PointerRenderer.startWidth;
+                e.PointerWidth._BaseEndWidth = e.PointerRenderer.endWidth;
             }
         }
 
@@ -49,8 +50,8 @@ namespace VRSF.Core.Controllers
             switch (e.PointerVisibility.PointerState)
             {
                 case EPointerState.ON:
-                    e.PointerRenderer.startWidth = e.PointerVisibility._BaseStartWidth;
-                    e.PointerRenderer.endWidth = e.PointerVisibility._BaseEndWidth;
+                    e.PointerRenderer.startWidth = e.PointerWidth._BaseStartWidth;
+                    e.PointerRenderer.endWidth = e.PointerWidth._BaseEndWidth;
                     break;
 
                 case EPointerState.DISAPPEARING:

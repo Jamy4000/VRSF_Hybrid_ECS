@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4857161168453419146}
   - component: {fileID: 1253123458595195213}
   - component: {fileID: 4060211141624899611}
-  - component: {fileID: 8585823377135967127}
   - component: {fileID: 6972683377014668986}
   m_Layer: 5
   m_Name: Reticle
@@ -104,28 +103,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _OriginalScale: {x: 0, y: 0, z: 0}
   _OriginalRotation: {x: 0, y: 0, z: 0, w: 0}
+  _ReticleImage: {fileID: 0}
+  _ReticleTransform: {fileID: 0}
   UseNormal: 1
---- !u!114 &8585823377135967127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4825815880475969456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RayOrigin: 2
-  MaxRaycastDistance: 200
-  ExcludedLayer:
-    serializedVersion: 2
-    m_Bits: 4
-  RayOriginTransform: {fileID: 0}
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
-  IsSetup: 0
 --- !u!114 &6972683377014668986
 MonoBehaviour:
   m_ObjectHideFlags: 0
