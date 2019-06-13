@@ -61,8 +61,6 @@ GameObject:
   - component: {fileID: 4325968150092906}
   - component: {fileID: 114468450047122696}
   - component: {fileID: 114632266513717338}
-  - component: {fileID: 7382642409705439472}
-  - component: {fileID: 1039595808384978214}
   - component: {fileID: 2494962355122321850}
   - component: {fileID: 7210667959264381911}
   - component: {fileID: 7209185468911754436}
@@ -180,38 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7382642409705439472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147815568228318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RayOrigin: 0
-  RayOriginTransform: {fileID: 0}
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
-  CheckRaycast: 0
-  IsSetup: 0
---- !u!114 &1039595808384978214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147815568228318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1302670a1c5225548a4ba535eb0a8cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LeftClickBool: {fileID: 11400000, guid: bd8f74b363e67a345b3ff5f3aaa5c32d, type: 2}
-  RightClickBool: {fileID: 11400000, guid: 24671222ab3e7ab49aa70caf83e5456a, type: 2}
 --- !u!114 &2494962355122321850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,10 +562,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4069715111207404}
     m_Modifications:
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Pointer
-      objectReference: {fileID: 0}
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -644,11 +606,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
+      propertyPath: m_Name
+      value: Pointer
+      objectReference: {fileID: 0}
     - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}
       propertyPath: RayOrigin
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017598734981600736, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: HandClicking
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6846746453855093781, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: HitVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: d16c4f1f1f37d42419d9fa8f6b050802,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
 --- !u!4 &3647795418507851708 stripped
@@ -664,11 +641,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4683859054567476}
     m_Modifications:
-    - target: {fileID: 2841290581860168777, guid: 319214ee5b8d02d42839e07242c281a3,
-        type: 3}
-      propertyPath: m_Name
-      value: FadingCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 312916745875095277, guid: 319214ee5b8d02d42839e07242c281a3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -774,6 +746,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2841290581860168777, guid: 319214ee5b8d02d42839e07242c281a3,
+        type: 3}
+      propertyPath: m_Name
+      value: FadingCanvas
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 319214ee5b8d02d42839e07242c281a3, type: 3}
 --- !u!224 &4702034367136340448 stripped
@@ -789,10 +766,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4574007437801686}
     m_Modifications:
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Pointer
-      objectReference: {fileID: 0}
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -837,11 +810,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
+      propertyPath: m_Name
+      value: Pointer
+      objectReference: {fileID: 0}
     - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}
       propertyPath: RayOrigin
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2017598734981600736, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: HandClicking
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6846746453855093781, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: HitVariable
+      value: 
+      objectReference: {fileID: 11400000, guid: 59d5466b3e75ec547bb1920296fcfa00,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
 --- !u!4 &6622641028891260420 stripped

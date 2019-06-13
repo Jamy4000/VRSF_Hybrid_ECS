@@ -11,7 +11,7 @@ namespace VRSF.Core.Controllers
     {
         struct Filter
         {
-            public ControllerPointerComponents PointerComp;
+            public PointerVisibilityComponents PointerComp;
             public Raycast.ScriptableRaycastComponent RaycastComp;
             public LineRenderer PointerRenderer;
         }
@@ -23,7 +23,7 @@ namespace VRSF.Core.Controllers
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.PointerComp.IsSetup && e.PointerComp._PointerState != EPointerState.OFF)
+                if (e.RaycastComp.IsSetup)
                     SetControllerRayLength(e);
             }
         }
@@ -49,9 +49,6 @@ namespace VRSF.Core.Controllers
                         Vector3.zero,
                         e.RaycastComp.RayOriginTransform.InverseTransformPoint(e.RaycastComp.RaycastHitVar.Value.point),
                     });
-
-                    if (e.PointerComp.OptionalLasersObjects.PointersEndPoint != null)
-                        CheckEndPoint();
                 }
                 else
                 {
@@ -61,27 +58,11 @@ namespace VRSF.Core.Controllers
                         Vector3.zero,
                         new Vector3(0, 0, e.RaycastComp.MaxRaycastDistance),
                     });
-
-                    e.PointerComp.OptionalLasersObjects.PointersEndPoint?.gameObject.SetActive(false);
                 }
             }
             catch (System.Exception exception)
             {
                 Debug.Log("<b>[VRSF] :</b> VR Components not setup yet, waiting for next frame.\n" + exception.ToString());
-            }
-
-
-            void CheckEndPoint()
-            {
-                if (e.RaycastComp.RaycastHitVar.RaycastHitIsOnUI())
-                {
-                    e.PointerComp.OptionalLasersObjects.PointersEndPoint.gameObject.SetActive(true);
-                    e.PointerComp.OptionalLasersObjects.PointersEndPoint.position = e.RaycastComp.RaycastHitVar.Value.point;
-                }
-                else
-                {
-                    e.PointerComp.OptionalLasersObjects.PointersEndPoint?.gameObject.SetActive(false);
-                }
             }
         }
         #endregion PRIVATE_METHODS

@@ -32,7 +32,7 @@ namespace VRSF.Gaze.Raycast
                     Ray rayToUse = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? e.GazeRaycast._VRCamera.ScreenPointToRay(Input.mousePosition) : new Ray(e.GazeTransform.position, e.GazeTransform.TransformDirection(Vector3.forward));
                     e.RaycastComponents.RayVar.SetValue(rayToUse);
 
-                    RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.MaxRaycastDistance, e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
+                    RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.MaxRaycastDistance, ~e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
                 }
             }
         }

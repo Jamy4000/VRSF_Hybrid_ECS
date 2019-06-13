@@ -36,7 +36,7 @@ namespace VRSF.Core.Raycast
                     else if (VRSF_Components.DeviceLoaded != EDevice.NULL)
                         e.RaycastComponents.RayVar.SetValue(new Ray(e.RaycastComponents.RayOriginTransform.position, e.RaycastComponents.RayOriginTransform.TransformDirection(Vector3.forward)));
 
-                    RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.RayOrigin, e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
+                    RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.RayOrigin, ~e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
                 }
             }
         }

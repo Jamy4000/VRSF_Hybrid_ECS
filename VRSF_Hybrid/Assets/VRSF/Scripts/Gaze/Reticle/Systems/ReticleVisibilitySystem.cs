@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using VRSF.Core.Controllers;
-using VRSF.Interactions;
 
 namespace VRSF.Gaze.Utils
 {
@@ -11,22 +10,18 @@ namespace VRSF.Gaze.Utils
     {
         struct Filter
         {
-            public ReticleVisibilityComponent ReticleVisibility;
-            public GazeInputsComponent GazeCalculations;
-            public UnityEngine.UI.Image ReticleImage;
+            public PointerVisibilityComponents ReticleVisibility;
+            public ReticleCalculationsComponent ReticleCalculations;
         }
 
-
-        #region PRIVATE_VARIABLES
-        private InteractionVariableContainer _interactionsContainer;
-        #endregion PRIVATE_VARIABLES
-
-
         #region ComponentSystem_Methods
-        protected override void OnCreateManager()
+        protected override void OnStartRunning()
         {
-            base.OnCreateManager();
-            _interactionsContainer = InteractionVariableContainer.Instance;
+            base.OnStartRunning();
+            foreach (var e in GetEntities<Filter>())
+            {
+                e.ReticleCalculations._ReticleImage = e.ReticleCalculations.GetComponent<UnityEngine.UI.Image>();
+            }
         }
 
         protected override void OnUpdate()
@@ -46,28 +41,30 @@ namespace VRSF.Gaze.Utils
         private void SetReticleVisibility(Filter e)
         {
             // If the Gaze is supposed to be off
-            switch (e.ReticleVisibility.ReticleState)
+            switch (e.ReticleVisibility.PointerState)
             {
                 case EPointerState.ON:
-                    if (e.ReticleImage.color.a != 1.0f)
+                    UnityEngine.Debug.Log("ON Reticle ");
+                    if (e.ReticleCalculations._ReticleImage.color.a != 1.0f)
                         SetColorWithAlpha(1.0f);
                     break;
 
                 case EPointerState.DISAPPEARING:
-                    float newAlpha = e.ReticleImage.color.a - (UnityEngine.Time.deltaTime * e.ReticleVisibility.DisappearanceSpeed);
+                    UnityEngine.Debug.Log("DISAPPEARING Reticle ");
+                    float newAlpha = e.ReticleCalculations._ReticleImage.color.a - (UnityEngine.Time.deltaTime * e.ReticleVisibility.DisappearanceSpeed);
                     SetColorWithAlpha(newAlpha);
-                    break;
 
-                case EPointerState.OFF:
-
+                    if (newAlpha <= 0.0f)
+                        e.ReticleVisibility.PointerState = EPointerState.OFF;
                     break;
             }
 
             void SetColorWithAlpha(float newAlpha)
             {
-                var color = e.ReticleImage.color;
+                var color = e.ReticleCalculations._ReticleImage.color;
                 color.a = newAlpha;
-                e.ReticleImage.color = color;
+                e.ReticleCalculations._ReticleImage.color = color;
+                //UnityEngine.Debug.Log("New color alpha RETICLE : " + color.a);
             }
         }
         #endregion PRIVATE_METHODS

@@ -5,11 +5,10 @@ using VRSF.Interactions;
 
 namespace VRSF.Gaze
 {
-    public class GazeReticlePositionSystem : ComponentSystem
+    public class ReticlePositionSystem : ComponentSystem
     {
         struct Filter
         {
-            public GazeRaycastComponent GazeRaycast;
             public ScriptableRaycastComponent ScriptableRaycast;
             public ReticleCalculationsComponent ReticleCalculations;
             public Transform ReticleTransform;
@@ -59,7 +58,7 @@ namespace VRSF.Gaze
         /// </summary>
         private void SetPositionToNormal(Filter e)
         {
-            Transform camTransform = e.GazeRaycast._VRCamera.transform;
+            Transform camTransform = Core.SetupVR.VRSF_Components.VRCamera.transform;
 
             // Set the position of the reticle to the default distance in front of the camera.
             e.ReticleTransform.position = camTransform.position + camTransform.forward * e.ScriptableRaycast.MaxRaycastDistance;

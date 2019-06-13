@@ -35,7 +35,5 @@ namespace VRSF.Core.Raycast
         /// Wheter we check the raycast, set at runtime by checking if we use the controllers or the gaze
         /// </summary>
         [HideInInspector] public bool IsSetup = false;
-        
-        private ControllersParametersVariable _controllersParameters;
     }
 }

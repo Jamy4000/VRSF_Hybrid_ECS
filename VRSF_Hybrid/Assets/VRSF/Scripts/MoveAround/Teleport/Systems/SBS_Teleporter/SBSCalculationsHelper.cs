@@ -15,7 +15,7 @@ namespace VRSF.MoveAround.Teleport
             float distanceVector = VRSF_Components.CameraRig.transform.localScale.y * e.SBS_Comp.DistanceStepByStep;
 
             // Check if we hit a collider on the way. If it's the case, we reduce the distance.
-            if (Physics.Raycast(VRSF_Components.VRCamera.transform.position, directionVector, out RaycastHit hit, distanceVector, e.RayComp.ExcludedLayer))
+            if (Physics.Raycast(VRSF_Components.VRCamera.transform.position, directionVector, out RaycastHit hit, distanceVector, ~excludedLayer))
                 distanceVector = hit.distance - 0.1f;
 
             // We multiply the direction vector by the distance to which the user should be going

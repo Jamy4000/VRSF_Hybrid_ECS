@@ -85,13 +85,6 @@ namespace VRSF.MoveAround.Teleport
                 {
                     // We change the status of the laser gameObject
                     e.PointerObjects._ControllerPointer.enabled = active;
-                    var optionalObjects = e.PointerObjects._ControllerPointer.GetComponent<ControllerPointerComponents>().OptionalLasersObjects;
-
-                    foreach (var ps in optionalObjects.PointersParticles)
-                        ps.gameObject.SetActive(active);
-
-                    if (optionalObjects.PointersEndPoint != null)
-                        optionalObjects.PointersEndPoint.GetComponent<MeshRenderer>().enabled = active;
                 }
             }
         }

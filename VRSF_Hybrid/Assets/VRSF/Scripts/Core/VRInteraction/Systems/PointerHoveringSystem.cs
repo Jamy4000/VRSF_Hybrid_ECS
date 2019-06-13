@@ -36,6 +36,9 @@ namespace VRSF.Core.Interactions
                     case ERayOrigin.RIGHT_HAND:
                         HandleOver(ref _interactionsVariables.PreviousRightHit, _interactionsVariables.IsOverSomethingRight, _interactionsVariables.RightHit, ERayOrigin.RIGHT_HAND);
                         break;
+                    case ERayOrigin.CAMERA:
+                        HandleOver(ref _interactionsVariables.PreviousGazeHit, _interactionsVariables.IsOverSomethingGaze, _interactionsVariables.GazeHit, ERayOrigin.CAMERA);
+                        break;
                     default:
                         Debug.LogError("<b>[VRSF] :</b> PointerClickComponent can only be placed on Right or Left hand. Please check your parameters.", entity.PointerClick.gameObject);
                         break;

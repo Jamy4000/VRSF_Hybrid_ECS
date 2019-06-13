@@ -15,6 +15,11 @@ namespace VRSF.Gaze
         /// </summary>
         [HideInInspector] public Quaternion _OriginalRotation;
 
+        /// <summary>
+        /// Used to store the original rotation of the reticle.
+        /// </summary>
+        [HideInInspector] public UnityEngine.UI.Image _ReticleImage;
+
         [Tooltip("Whether the reticle should be placed parallelly to a surface.")]
         public bool UseNormal = true;
     }
