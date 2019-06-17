@@ -10,15 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1916426388503495835}
   - component: {fileID: 1946323641171021165}
-  - component: {fileID: 1945699916217070133}
-  - component: {fileID: 1945861438503262397}
   - component: {fileID: 1945973373022151327}
   - component: {fileID: 1945985599063861589}
-  - component: {fileID: 1949807049826908107}
   - component: {fileID: 1946217620589645669}
   - component: {fileID: 1946016704408456625}
   - component: {fileID: 1945923426121611235}
   - component: {fileID: 1946066871033008445}
+  - component: {fileID: 6435532085320268586}
+  - component: {fileID: 5677542151150810179}
   m_Layer: 0
   m_Name: FlyModeClick
   m_TagString: Untagged
@@ -61,54 +60,6 @@ MonoBehaviour:
   _IsSlowingDown: 0
   _TimeSinceStartFlying: 0
   _SlowDownTimer: 0
---- !u!114 &1945699916217070133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914761902482664035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RayOrigin: 2
-  RayOriginTransform: {fileID: 0}
-  IgnoredLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
-  CheckRaycast: 0
-  IsSetup: 0
---- !u!114 &1945861438503262397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914761902482664035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
 --- !u!114 &1945973373022151327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,59 +92,6 @@ MonoBehaviour:
   AccelerationDecelerationEffect: 1
   AccelerationEffectFactor: 1
   DecelerationEffectFactor: 1
---- !u!114 &1949807049826908107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914761902482664035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractionType: 1
-  ButtonHand: 2
-  UseGazeButton: 0
-  ActionButton: 4
-  LeftTouchThumbPosition: 0
-  RightTouchThumbPosition: 3
-  LeftClickThumbPosition: 0
-  RightClickThumbPosition: 3
-  TouchThreshold: 0.8
-  ClickThreshold: 0
-  OnButtonStartTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsTouching:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStartClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonStopClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnButtonIsClicking:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  BACTimer: {fileID: 0}
 --- !u!114 &1946217620589645669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,3 +146,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6435532085320268586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914761902482664035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637f9ca74e487cb4abcc493cb83510af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 0
+  CorrectSDK: 1
+  IsSetup: 0
+  CanBeUsed: 1
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingViveButton: 0
+  ThumbPos: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}
+--- !u!114 &5677542151150810179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914761902482664035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd54adebdac7f3d4693f3f5b08257631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InteractionType: 2
+  ButtonHand: 1
+  ActionButton: 4
+  LeftTouchThumbPosition: 0
+  RightTouchThumbPosition: 0
+  LeftClickThumbPosition: 3
+  RightClickThumbPosition: 0
+  TouchThreshold: 0
+  ClickThreshold: 0
+  OnButtonStartTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStopTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonIsTouching:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStartClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonStopClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnButtonIsClicking:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  BACTimer: {fileID: 0}

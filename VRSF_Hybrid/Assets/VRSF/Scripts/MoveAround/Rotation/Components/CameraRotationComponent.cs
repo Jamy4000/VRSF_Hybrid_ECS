@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Rotate
@@ -22,5 +23,7 @@ namespace VRSF.MoveAround.Rotate
         [System.NonSerialized] public UnityEngine.Events.UnityAction ActionWithAcceleration;
         [System.NonSerialized] public UnityEngine.Events.UnityAction StartInteractingAction;
         [System.NonSerialized] public UnityEngine.Events.UnityAction StopInteractingAction;
+
+        [HideInInspector] public RaycastHitVariable RaycastHitVar;
     }
 }

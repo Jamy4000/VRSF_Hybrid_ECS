@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.Raycast;
 using VRSF.Core.SetupVR;
@@ -17,15 +16,9 @@ namespace VRSF.MoveAround.Teleport
         {
             public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;
-            public ScriptableRaycastComponent RaycastComp;
             public TeleportGeneralComponent TeleportGeneral;
             public SceneObjectsComponent SceneObjects;
         }
-
-        /// <summary>
-        /// The reference to the ScriptableSingleton containing the variables for the Controllers
-        /// </summary>
-        private ControllersParametersVariable _controllersVariable;
 
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -33,7 +26,6 @@ namespace VRSF.MoveAround.Teleport
         {
             OnSetupVRReady.Listeners += Init;
             base.OnCreateManager();
-            _controllersVariable = ControllersParametersVariable.Instance;
         }
 
         protected override void OnStopRunning()
@@ -127,15 +119,15 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         private void OnIsInteractingCallback(Filter e)
         {
-            // I think the mistake is coming from here. The CanTeleport is reset at false in one of the if/else below, and block the teleportUserSystem
+            // TODO : Check that : I think the mistake is coming from here. The CanTeleport is reset at false in one of the if/else below, and block the teleportUserSystem
 
             e.LRT_Comp._LoadingTimer += Time.deltaTime;
             
             // If the raycast is hitting something and it's not a UI Element
-            if (e.RaycastComp.RaycastHitVar.RaycastHitIsNotOnUI())
+            if (e.TeleportGeneral.RaycastHitVar.RaycastHitIsNotOnUI())
             {
-                TeleportNavMeshHelper.Linecast(e.RaycastComp.RayVar.Value.origin, e.RaycastComp.RaycastHitVar.Value.point, out bool endOnNavmesh,
-                                           _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand), out TeleportGeneralComponent.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
+                TeleportNavMeshHelper.Linecast(e.TeleportGeneral.RayVar.Value.origin, e.TeleportGeneral.RaycastHitVar.Value.point, out bool endOnNavmesh,
+                                           e.TeleportGeneral.ExcludedLayers, out TeleportGeneralComponent.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
 
                 TeleportGeneralComponent.CanTeleport = e.LRT_Comp.UseLoadingTimer ? (endOnNavmesh && e.LRT_Comp._LoadingTimer > e.LRT_Comp.LoadingTime) : endOnNavmesh;
             }

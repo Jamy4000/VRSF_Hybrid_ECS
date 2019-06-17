@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using VRSF.Interactions;
 using VRSF.Core.Inputs;
 using VRSF.Core.Events;
+using VRSF.Core.Raycast;
 
 namespace VRSF.UI
 {
@@ -32,9 +33,9 @@ namespace VRSF.UI
         Transform _MinPosBar;
         Transform _MaxPosBar;
 
-        EHand _HandHoldingHandle = EHand.NONE;
+        ERayOrigin _HandHoldingHandle = ERayOrigin.NONE;
 
-        Dictionary<string, RaycastHitVariable> _RaycastHitDictionary;
+        Dictionary<ERayOrigin, RaycastHitVariable> _RaycastHitDictionary;
 
         IUISetupScrollable _scrollableSetup;
 
@@ -69,10 +70,8 @@ namespace VRSF.UI
             {
                 CheckClickDown();
 
-                if (_HandHoldingHandle != EHand.NONE)
-                {
+                if (_HandHoldingHandle != ERayOrigin.NONE)
                     value = _scrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
-                }
             }
         }
         #endregion
@@ -89,20 +88,13 @@ namespace VRSF.UI
             _scrollableSetup = new VRUIScrollableSetup(UnityUIToVRSFUI.ScrollbarDirectionToUIDirection(direction));
 
             GetHandleRectReference();
-
-            // If the controllers are not used, we cannot click on a Scroll Bar
-            if (!ControllersParametersVariable.Instance.UseControllers)
-            {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR ScrollBar if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
+            
             // We initialize the RaycastHitDictionary
-            _RaycastHitDictionary = new Dictionary<string, RaycastHitVariable>
+            _RaycastHitDictionary = new Dictionary<ERayOrigin, RaycastHitVariable>
             {
-                { "Right", InteractionVariableContainer.Instance.RightHit },
-                { "Left", InteractionVariableContainer.Instance.LeftHit },
-                { "Gaze", InteractionVariableContainer.Instance.GazeHit },
+                { ERayOrigin.RIGHT_HAND, InteractionVariableContainer.Instance.RightHit },
+                { ERayOrigin.LEFT_HAND, InteractionVariableContainer.Instance.LeftHit },
+                { ERayOrigin.CAMERA, InteractionVariableContainer.Instance.GazeHit },
             };
 
             // We register the Listener
@@ -121,9 +113,9 @@ namespace VRSF.UI
         /// <param name="clickEvent">The event raised when an object is clicked</param>
         void CheckBarClick(ObjectWasClickedEvent clickEvent)
         {
-            if (interactable && clickEvent.ObjectClicked == transform && _HandHoldingHandle == EHand.NONE)
+            if (interactable && clickEvent.ObjectClicked == transform && _HandHoldingHandle == ERayOrigin.NONE)
             {
-                _HandHoldingHandle = clickEvent.HandClicking;
+                _HandHoldingHandle = clickEvent.RayOrigin;
             }
         }
 
@@ -134,13 +126,13 @@ namespace VRSF.UI
         {
             switch (_HandHoldingHandle)
             {
-                case (EHand.GAZE):
-                    _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _inputContainer.GazeIsCliking.Value);
+                case ERayOrigin.CAMERA:
+                    // _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _inputContainer.GazeIsCliking.Value);
                     break;
-                case (EHand.LEFT):
+                case ERayOrigin.LEFT_HAND:
                     _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _leftTriggerDown.Value);
                     break;
-                case (EHand.RIGHT):
+                case ERayOrigin.RIGHT_HAND:
                     _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _rightTriggerDown.Value);
                     break;
             }

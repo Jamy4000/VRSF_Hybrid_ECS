@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
-using VRSF.Core.Raycast;
 using VRSF.Core.Utils.ButtonActionChoser;
 using VRSF.Core.Utils;
 
@@ -16,7 +14,6 @@ namespace VRSF.MoveAround.Teleport
         public struct Filter : ITeleportFilter
         {
             public StepByStepComponent SBS_Comp;
-            public ScriptableRaycastComponent RayComp;
             public BACGeneralComponent BAC_Comp;
             public SceneObjectsComponent SceneObjects;
             public TeleportGeneralComponent TeleportGeneral;
@@ -90,7 +87,7 @@ namespace VRSF.MoveAround.Teleport
         {
             Filter e = (Filter)teleportFilter;
             
-            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, ControllersParametersVariable.Instance.GetExclusionsLayer(e.BAC_Comp.ButtonHand)))
+            if (SBSCalculationsHelper.UserIsOnNavMesh(e, out Vector3 newUsersPos, e.TeleportGeneral.ExcludedLayers))
                 VRSF_Components.SetCameraRigPosition(newUsersPos, false);
 
             e.TeleportGeneral.CurrentTeleportState = ETeleportState.None;
@@ -108,7 +105,7 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="e"></param>
         private void OnStopInteractingCallback(Filter e)
         {
-            if (e.BAC_Comp != null && !e.RayComp.RaycastHitVar.RaycastHitIsOnUI())
+            if (e.BAC_Comp != null && !e.TeleportGeneral.RaycastHitVar.RaycastHitIsOnUI())
                 TeleportUser(e);
         }
 

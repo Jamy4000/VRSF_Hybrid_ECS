@@ -70,13 +70,6 @@ namespace VRSF.UI
         #region PRIVATE_METHODS
         private void SetupListener()
         {
-            // If the controllers are not used, we cannot click on a button
-            if (!ControllersParametersVariable.Instance.UseControllers)
-            {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR Toggle if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
             ObjectWasClickedEvent.RegisterListener(CheckToggleClick);
             _eventWereRegistered = true;
         }

@@ -2,6 +2,7 @@
 using ScriptableFramework.Variables;
 using VRSF.Core.Controllers;
 using UnityEngine;
+using VRSF.Core.Raycast;
 
 namespace VRSF.UI
 {
@@ -18,11 +19,6 @@ namespace VRSF.UI
             _WholeNumbers = wholeNum;
         }
 
-        // EMPTY
-        #region PUBLIC_VARIABLES
-
-        #endregion
-
 
         #region PRIVATE_VARIABLES
         EUIDirection _Direction;
@@ -38,10 +34,10 @@ namespace VRSF.UI
         /// </summary>
         /// <param name="handHoldingHandle">The hand with with the user is clicking</param>
         /// <param name="clickIsDown">The ClickIsDown BoolVariable Value for the corresponding hand</param>
-        public void CheckClickStillDown(ref EHand handHoldingHandle, bool clickIsDown)
+        public void CheckClickStillDown(ref ERayOrigin handHoldingHandle, bool clickIsDown)
         {
             if (!clickIsDown)
-                handHoldingHandle = EHand.NONE;
+                handHoldingHandle = ERayOrigin.NONE;
         }
 
 
@@ -54,23 +50,9 @@ namespace VRSF.UI
         /// <param name="raycastHitDictionary">The dictionary containing references to the RaycastHitVariable of the controllers</param>
         /// <param name="direction">The direction of the scrollable element</param>
         /// <returns>The new value of the scrollable</returns>
-        public float MoveComponent(EHand handHoldingHandle, Transform minPosTransform, Transform maxPosTransform, Dictionary<string, RaycastHitVariable> raycastHitDictionary)
+        public float MoveComponent(ERayOrigin handHoldingHandle, Transform minPosTransform, Transform maxPosTransform, Dictionary<ERayOrigin, RaycastHitVariable> raycastHitDictionary)
         {
-            switch (handHoldingHandle)
-            {
-                case (EHand.GAZE):
-                    return SetComponentNewValue(raycastHitDictionary["Gaze"].Value.point, minPosTransform, maxPosTransform);
-
-                case (EHand.LEFT):
-                    return SetComponentNewValue(raycastHitDictionary["Left"].Value.point, minPosTransform, maxPosTransform);
-
-                case (EHand.RIGHT):
-                    return SetComponentNewValue(raycastHitDictionary["Right"].Value.point, minPosTransform, maxPosTransform);
-
-                default:
-                    Debug.LogError("Error in MoveComponent method");
-                    return 0;
-            }
+            return SetComponentNewValue(raycastHitDictionary[handHoldingHandle].Value.point, minPosTransform, maxPosTransform);
         }
 
 
@@ -217,18 +199,6 @@ namespace VRSF.UI
                 }
             }
         }
-        #endregion
-
-
-        // EMPTY
-        #region PRIVATE_METHODS
-
-        #endregion
-
-
-        // EMPTY
-        #region GETTERS_SETTERS
-
         #endregion
     }
 }

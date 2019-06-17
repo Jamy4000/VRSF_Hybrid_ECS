@@ -30,22 +30,16 @@ namespace VRSF.MoveAround.Teleport
         {
             foreach (var e in GetEntities<Filter>())
             {
-                try
-                {
-                    e.SceneObjects.FadeComponent = VRSF_Components.VRCamera.GetComponentInChildren<TeleportFadeComponent>();
-                    e.SceneObjects.FadeComponent._FadingImage = e.SceneObjects.FadeComponent.GetComponent<UnityEngine.UI.Image>();
-                }
-                catch (System.Exception exception)
-                {
-                    Debug.Log("<b>[VRSF] :</b> No Fade Component found on the VRCamera. Teleporting user without fade effect.\n" + exception.ToString());
-                }
+                e.SceneObjects.FadeComponent = VRSF_Components.VRCamera.GetComponentInChildren<Core.FadingEffect.CameraFadeComponent>();
+
+                if (e.SceneObjects.FadeComponent == null)
+                    Debug.Log("<b>[VRSF] :</b> No Fade Component found on the VRCamera. Teleporting user without fading effect.");
+
 
                 e.SceneObjects._TeleportNavMesh = GameObject.FindObjectOfType<TeleportNavMeshComponent>();
 
                 if (e.SceneObjects._TeleportNavMesh == null)
-                {
                     Debug.LogError("<b>[VRSF] :</b> You need to add a TeleportNavMeshComponent in your scene to be able to use the Teleport Feature.");
-                }
             }
         }
     }

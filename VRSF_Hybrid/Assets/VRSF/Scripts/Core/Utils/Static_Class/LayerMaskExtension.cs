@@ -97,5 +97,22 @@ namespace VRSF.Core.Utils
             }
             return output.ToArray();
         }
+
+
+        /// <summary>
+        /// Allow us to get the names of all the layers
+        /// </summary>
+        /// <returns>The list of layers names</returns>
+        public static string[] GetLayerMaskList()
+        {
+            List<string> layerNames = new List<string>();
+
+            for (int i = 0; i <= 31; i++) // Unity supports 31 layers
+            {
+                layerNames.Add(LayerMask.LayerToName(i));
+            }
+
+            return layerNames.ToArray();
+        }
     }
 }

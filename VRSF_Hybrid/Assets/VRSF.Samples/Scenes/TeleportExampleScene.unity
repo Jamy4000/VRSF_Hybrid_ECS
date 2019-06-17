@@ -193,6 +193,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7543292208824157588, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ActionButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7944682077613207301, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ParametersAreInvalid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612086464638795552, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ActionButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6200247589234776941, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ParametersAreInvalid
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1145030858495759583, guid: c7744e4080678eb4cac679cd8fa93883,
         type: 3}
       propertyPath: m_Name
@@ -288,6 +308,11 @@ PrefabInstance:
       propertyPath: ClickThreshold
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8683277984229782827, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ExcludedLayer.m_Bits
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7744e4080678eb4cac679cd8fa93883, type: 3}
 --- !u!1 &521340456
@@ -320,7 +345,7 @@ Transform:
   - {fileID: 1241792348}
   - {fileID: 749548855}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &749548854
 PrefabInstance:
@@ -635,7 +660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4249063665291730, guid: 67d0b99abaed9d14c8a005c7222b754a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114352988616639752, guid: 67d0b99abaed9d14c8a005c7222b754a,
         type: 3}

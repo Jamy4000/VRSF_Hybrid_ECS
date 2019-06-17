@@ -3,6 +3,7 @@ using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Utils;
 using VRSF.Core.Utils.ButtonActionChoser;
+using VRSF.Interactions;
 
 namespace VRSF.MoveAround.Rotate
 {
@@ -107,8 +108,12 @@ namespace VRSF.MoveAround.Rotate
         /// </summary>
         private void Init(OnSetupVRReady info)
         {
+            InteractionVariableContainer interactionVariable = InteractionVariableContainer.Instance;
+
             foreach (var e in GetEntities<Filter>())
             {
+                e.RotationComp.RaycastHitVar = e.ButtonComponents.ButtonHand == Core.Controllers.EHand.LEFT ? interactionVariable.LeftHit : interactionVariable.RightHit;
+
                 if (e.ButtonComponents.ActionButton != EControllersButton.TOUCHPAD)
                 {
                     Debug.LogError("<b>[VRSF] :</b> You need to assign Left Thumbstick or Right Thumbstick to use the Rotation script. Setting CanBeUsed at false.");

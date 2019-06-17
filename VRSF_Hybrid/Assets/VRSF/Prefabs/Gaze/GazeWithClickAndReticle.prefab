@@ -1,0 +1,193 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &837358571793502302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410642555659191727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb655212f8996804ba44e49a44f105d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GazeButton: 8
+  GazeButtonHand: 1
+  GazeIsClicking: {fileID: 11400000, guid: 3a578cb63b55c3148a0506a4bca056bf, type: 2}
+  GazeIsTouching: {fileID: 11400000, guid: 010e5632196b4e545b77ebf88dc749a9, type: 2}
+--- !u!114 &1387966224934883934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410642555659191727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce57b6e5818785648a04257bc130caec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointerState: 0
+  DisappearanceSpeed: 1
+--- !u!114 &1612838975876580017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410642555659191727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2624954f41ee6eb49b1333feb64769ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _OriginalScale: {x: 0, y: 0, z: 0}
+  _OriginalRotation: {x: 0, y: 0, z: 0, w: 0}
+  _ReticleTransform: {fileID: 0}
+  UseNormal: 1
+  KeepSameScale: 0
+--- !u!114 &7586563569495848166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410642555659191727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2616c9fc8bb7a4e811809997d2397f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReticleGraphic: {fileID: 8923552989552294678}
+--- !u!1 &7609282211126445684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1840933200258851460}
+  - component: {fileID: 6148787895933507963}
+  - component: {fileID: 8923552989552294678}
+  - component: {fileID: 8180625843264722651}
+  m_Layer: 0
+  m_Name: ReticleImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1840933200258851460
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609282211126445684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 479657460405937575}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6148787895933507963
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609282211126445684}
+  m_CullTransparentMesh: 0
+--- !u!114 &8923552989552294678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609282211126445684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8962264, g: 0.32551616, b: 0.32551616, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 112755491ecfe934385689b67162826c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!223 &8180625843264722651
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7609282211126445684}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 0.31
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 1
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 1900413077
+  m_SortingOrder: -1
+  m_TargetDisplay: 0
+--- !u!1001 &411058246585971543
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1893868689291000, guid: dea91154a868dec46a7f4609809ddd1c, type: 3}
+      propertyPath: m_Name
+      value: GazeWithClickAndReticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 224136163061716720, guid: dea91154a868dec46a7f4609809ddd1c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224136163061716720, guid: dea91154a868dec46a7f4609809ddd1c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dea91154a868dec46a7f4609809ddd1c, type: 3}
+--- !u!1 &410642555659191727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1893868689291000, guid: dea91154a868dec46a7f4609809ddd1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 411058246585971543}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &479657460405937575 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224136163061716720, guid: dea91154a868dec46a7f4609809ddd1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 411058246585971543}
+  m_PrefabAsset: {fileID: 0}

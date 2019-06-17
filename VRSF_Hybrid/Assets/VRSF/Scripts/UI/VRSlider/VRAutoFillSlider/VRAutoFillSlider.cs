@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using VRSF.Interactions;
 using VRSF.Core.Inputs;
 using VRSF.Core.Events;
+using VRSF.Core.Raycast;
 
 namespace VRSF.UI
 {
@@ -63,7 +64,10 @@ namespace VRSF.UI
         private bool _barFilled;                                           // Whether the bar is currently filled.
         private Coroutine _fillBarRoutine;                                 // Reference to the coroutine that controls the bar filling up, used to stop it if required.
 
-        private EHand _handFilling = EHand.NONE;                              // Reference to the type of Hand that is filling the slider
+        /// <summary>
+        /// Reference to the origin of the ray that is filling the slider
+        /// </summary>
+        private ERayOrigin _handFilling = ERayOrigin.NONE;
 
         private bool _boxColliderSetup;
 
@@ -144,7 +148,7 @@ namespace VRSF.UI
             if (ControllerClickable && interactable && other.gameObject.tag.Contains("ControllerBody"))
             {
                 _isFillingWithMesh = true;
-                HandleHandInteracting(other.gameObject.name.Contains("RIGHT") ? EHand.RIGHT : EHand.LEFT);
+                HandleHandInteracting(other.gameObject.name.Contains("RIGHT") ? ERayOrigin.RIGHT_HAND : ERayOrigin.LEFT_HAND);
             }
         }
 
@@ -168,13 +172,6 @@ namespace VRSF.UI
             _leftIsClicking = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
 
             GetFillRectReference();
-
-            // If the controllers are not used, we cannot click on the slider, so we will fill the slider with the Over events
-            if (!ControllersParametersVariable.Instance.UseControllers && FillWithClick)
-            {
-                FillWithClick = false;
-                Debug.LogError("<b>[VRSF] :</b> UseController is set at false. The auto fill slider won't use the controller to fill but the gaze.");
-            }
         }
 
 
@@ -189,7 +186,7 @@ namespace VRSF.UI
                 // if the object clicked correspond to this transform and the coroutine to fill the bar didn't started yet
                 if (clickEvent.ObjectClicked == transform && _fillBarRoutine == null)
                 {
-                    HandleHandInteracting(clickEvent.HandClicking);
+                    HandleHandInteracting(clickEvent.RayOrigin);
                 }
                 // If the user was clicking the bar but stopped
                 else if (_fillBarRoutine != null)
@@ -210,10 +207,10 @@ namespace VRSF.UI
                 // if the object hovered correspond to this transform and the coroutine to fill the bar didn't started yet
                 if (hoverEvent.ObjectHovered == transform && _fillBarRoutine == null)
                 {
-                    HandleHandInteracting(hoverEvent.HandHovering);
+                    HandleHandInteracting(hoverEvent.RaycastOrigin);
                 }
                 // If the user was hovering the bar but stopped
-                else if (_fillBarRoutine != null && hoverEvent.HandHovering == _handFilling && hoverEvent.ObjectHovered != transform)
+                else if (_fillBarRoutine != null && hoverEvent.RaycastOrigin == _handFilling && hoverEvent.ObjectHovered != transform)
                 {
                     HandleUp();
                 }
@@ -223,11 +220,11 @@ namespace VRSF.UI
         /// <summary>
         /// Check which hand is pointing toward the slider
         /// </summary>
-        private void HandleHandInteracting(EHand handPointing)
+        private void HandleHandInteracting(ERayOrigin handPointing)
         {
             _handFilling = handPointing;
 
-            if (_handFilling != EHand.NONE && _fillBarRoutine == null)
+            if (_handFilling != ERayOrigin.NONE && _fillBarRoutine == null)
             {
                 _fillBarRoutine = StartCoroutine(FillBar());
             }
@@ -254,7 +251,7 @@ namespace VRSF.UI
                 yield return new WaitForEndOfFrame();
 
                 // If the user is still looking at the bar, go on to the next iteration of the loop.
-                if (_handFilling == EHand.LEFT || _handFilling == EHand.RIGHT || _handFilling == EHand.GAZE)
+                if (_handFilling == ERayOrigin.LEFT_HAND || _handFilling == ERayOrigin.LEFT_HAND || _handFilling == ERayOrigin.CAMERA)
                     continue;
 
                 // If the user is no longer looking at the bar, reset the timer and bar and leave the function.
@@ -293,7 +290,7 @@ namespace VRSF.UI
             }
 
             // Set the Hand filling at null
-            _handFilling = EHand.NONE;
+            _handFilling = ERayOrigin.NONE;
             _isFillingWithMesh = false;
         }
 
@@ -307,19 +304,19 @@ namespace VRSF.UI
                 // if we fill with click and the user is not clicking anymore
                 // OR, if the user is not on the slider anymore
 
-                case (EHand.LEFT):
+                case ERayOrigin.LEFT_HAND:
                     if (FillWithClick && !_leftIsClicking.Value)
                         HandleUp();
                     break;
 
-                case (EHand.RIGHT):
+                case ERayOrigin.RIGHT_HAND:
                     if (FillWithClick && !_rightIsClicking.Value)
                         HandleUp();
                     break;
 
-                case (EHand.GAZE):
-                    if (FillWithClick && !_inputContainer.GazeIsCliking.Value)
-                        HandleUp();
+                case ERayOrigin.CAMERA:
+                    //if (FillWithClick && !_inputContainer.GazeIsCliking.Value)
+                    //    HandleUp();
                     break;
             }
         }

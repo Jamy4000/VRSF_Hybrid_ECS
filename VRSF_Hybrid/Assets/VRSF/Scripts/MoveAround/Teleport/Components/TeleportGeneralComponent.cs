@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace VRSF.MoveAround.Teleport
@@ -11,6 +12,19 @@ namespace VRSF.MoveAround.Teleport
     {
         [Header("Is this teleport feature using fade out/in")]
         public bool IsUsingFadingEffect = true;
+
+        [Header("Layer on which we shouldn't check the teleport hit")]
+        public LayerMask ExcludedLayers = new LayerMask();
+
+        /// <summary>
+        /// RaycastHitVar linked to the hand with which we use this feature
+        /// </summary>
+        [HideInInspector] public RaycastHitVariable RaycastHitVar;
+
+        /// <summary>
+        /// RaycastHitVar linked to the hand with which we use this feature
+        /// </summary>
+        [HideInInspector] public RayVariable RayVar;
 
         /// <summary>
         /// Indicates the current use of teleportation.
@@ -29,11 +43,6 @@ namespace VRSF.MoveAround.Teleport
         /// The point where the user needs to be teleported to
         /// </summary>
         [HideInInspector] public static Vector3 PointToGoTo = Vector3.zero;
-
-        /// <summary>
-        /// Whether the fading effect is currently in progress
-        /// </summary>
-        [HideInInspector] public static bool FadingInProgress = false;
 
         [System.NonSerialized] public UnityAction StartInteractingAction;
         [System.NonSerialized] public UnityAction StopInteractingAction;

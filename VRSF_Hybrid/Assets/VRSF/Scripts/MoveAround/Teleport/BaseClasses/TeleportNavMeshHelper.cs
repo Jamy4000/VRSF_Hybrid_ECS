@@ -31,7 +31,7 @@ namespace VRSF.MoveAround.Teleport
             float dist = dir.magnitude;
             dir /= dist;
 
-            if (Physics.Raycast(p1, dir, out RaycastHit hit, dist, excludedLayer, (QueryTriggerInteraction)teleportNavMesh._QueryTriggerInteraction))
+            if (Physics.Raycast(p1, dir, out RaycastHit hit, dist, ~excludedLayer, (QueryTriggerInteraction)teleportNavMesh._QueryTriggerInteraction))
             {
                 normal = hit.normal;
                 hitPoint = hit.point;

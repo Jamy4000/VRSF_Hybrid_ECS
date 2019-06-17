@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: b0a0de3e0385e0a4c922b1acea08b5f9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _selectionPadPrefab: {fileID: 1967544100037946, guid: b8d3f050893bea54b858d300e3fa2bd5,
+      type: 3}
+  - _invalidPadPrefab: {fileID: 1672490554261600, guid: b930d0faf07413d4fac0f85a19431243,
+      type: 3}
+  - _selectionPadObject: {instanceID: 0}
+  - _invalidPadObject: {instanceID: 0}
+  - _parabolaMesh: {instanceID: 0}
+  - _ControllerPointer: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

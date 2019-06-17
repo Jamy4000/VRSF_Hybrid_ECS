@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using VRSF.Core.Utils.ButtonActionChoser;
-using VRSF.Core.Raycast;
 
 namespace VRSF.MoveAround.Teleport
 {
@@ -9,7 +8,7 @@ namespace VRSF.MoveAround.Teleport
     /// Contains all variable necessary for the LongRangeTeleportSystems to work.
     /// It implements the ITeleportComponent to be able to display the boundaries limits with TeleportBoundaries.
     /// </summary>
-    [RequireComponent(typeof(BACGeneralComponent), typeof(ScriptableRaycastComponent), typeof(TeleportGeneralComponent))]
+    [RequireComponent(typeof(BACGeneralComponent), typeof(TeleportGeneralComponent))]
     public class LongRangeTeleportComponent : MonoBehaviour
     {
         [Header("OPTIONAL : Loading Slider")]

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: bb655212f8996804ba44e49a44f105d2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GazeIsClicking: {fileID: 11400000, guid: 3a578cb63b55c3148a0506a4bca056bf, type: 2}
+  - GazeIsTouching: {fileID: 11400000, guid: 010e5632196b4e545b77ebf88dc749a9, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

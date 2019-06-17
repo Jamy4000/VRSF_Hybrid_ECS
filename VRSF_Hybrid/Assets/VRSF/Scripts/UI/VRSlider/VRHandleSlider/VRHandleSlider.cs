@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using VRSF.Core.Utils;
 using ScriptableFramework.Variables;
-using VRSF.Core.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 using VRSF.Interactions;
 using VRSF.Core.Inputs;
 using VRSF.Core.Events;
+using VRSF.Core.Raycast;
+using VRSF.Core.Controllers;
 
 namespace VRSF.UI
 {
@@ -32,9 +33,9 @@ namespace VRSF.UI
         Transform _MinPosBar;
         Transform _MaxPosBar;
 
-        EHand _HandHoldingHandle = EHand.NONE;
+        ERayOrigin _HandHoldingHandle = ERayOrigin.NONE;
 
-        Dictionary<string, RaycastHitVariable> _RaycastHitDictionary;
+        Dictionary<ERayOrigin, RaycastHitVariable> _RaycastHitDictionary;
 
         IUISetupScrollable _scrollableSetup;
 
@@ -75,7 +76,7 @@ namespace VRSF.UI
 
                 CheckClickDown();
 
-                if (_HandHoldingHandle != EHand.NONE)
+                if (_HandHoldingHandle != ERayOrigin.NONE)
                     value = _scrollableSetup.MoveComponent(_HandHoldingHandle, _MinPosBar, _MaxPosBar, _RaycastHitDictionary);
             }
         }
@@ -93,22 +94,15 @@ namespace VRSF.UI
             _scrollableSetup = new VRUIScrollableSetup(UnityUIToVRSFUI.SliderDirectionToUIDirection(direction), minValue, maxValue, wholeNumbers);
 
             CheckSliderReferences();
+            
+            ObjectWasClickedEvent.Listeners += CheckSliderClick;
 
-            // If the controllers are not used, we cannot click on the slider, so we will fill the slider with the Over events
-            if (!ControllersParametersVariable.Instance.UseControllers)
+            _RaycastHitDictionary = new Dictionary<ERayOrigin, RaycastHitVariable>
             {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR Handle Slider if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
-            ObjectWasClickedEvent.RegisterListener(CheckSliderClick);
-
-            _RaycastHitDictionary = new Dictionary<string, RaycastHitVariable>
-                {
-                    { "Right", InteractionVariableContainer.Instance.RightHit },
-                    { "Left", InteractionVariableContainer.Instance.LeftHit },
-                    { "Gaze", InteractionVariableContainer.Instance.GazeHit },
-                };
+                { ERayOrigin.RIGHT_HAND, InteractionVariableContainer.Instance.RightHit },
+                { ERayOrigin.LEFT_HAND, InteractionVariableContainer.Instance.LeftHit },
+                { ERayOrigin.CAMERA, InteractionVariableContainer.Instance.GazeHit },
+            };
 
             _scrollableSetup.CheckMinMaxGameObjects(handleRect.parent, UnityUIToVRSFUI.SliderDirectionToUIDirection(direction));
 
@@ -122,9 +116,9 @@ namespace VRSF.UI
         /// <param name="clickEvent">The event raised when an object is clicked</param>
         void CheckSliderClick(ObjectWasClickedEvent clickEvent)
         {
-            if (interactable && clickEvent.ObjectClicked == transform && _HandHoldingHandle == EHand.NONE)
+            if (interactable && clickEvent.ObjectClicked == transform && _HandHoldingHandle == ERayOrigin.NONE)
             {
-                _HandHoldingHandle = clickEvent.HandClicking;
+                _HandHoldingHandle = clickEvent.RayOrigin;
             }
         }
 
@@ -136,13 +130,13 @@ namespace VRSF.UI
         {
             switch (_HandHoldingHandle)
             {
-                case (EHand.GAZE):
-                    _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _inputContainer.GazeIsCliking.Value);
+                case ERayOrigin.CAMERA:
+                    // _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _leftIsClicking.Value);
                     break;
-                case (EHand.LEFT):
+                case ERayOrigin.LEFT_HAND:
                     _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _leftIsClicking.Value);
                     break;
-                case (EHand.RIGHT):
+                case ERayOrigin.RIGHT_HAND:
                     _scrollableSetup.CheckClickStillDown(ref _HandHoldingHandle, _rightIsClicking.Value);
                     break;
             }
@@ -179,12 +173,6 @@ namespace VRSF.UI
 
             _boxColliderSetup = true;
         }
-        #endregion
-
-
-        // EMPTY
-        #region GETTERS_SETTERS
-
         #endregion
     }
 }

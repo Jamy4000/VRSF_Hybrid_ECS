@@ -7,7 +7,12 @@
     {
         SIMULATOR,
         HTC_VIVE,
+        HTC_FOCUS,
         OCULUS_RIFT,
+        OCULUS_RIFT_S,
+        OCULUS_GO,
+        OCULUS_QUEST,
+        GEAR_VR,
         WMR,
         NULL    //To handle errors
     }

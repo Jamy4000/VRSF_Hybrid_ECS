@@ -7,6 +7,6 @@
     {
         ON = 0,
         OFF = 1,
-        SELECTABLE = 2
+        DISAPPEARING = 2
     }
 }

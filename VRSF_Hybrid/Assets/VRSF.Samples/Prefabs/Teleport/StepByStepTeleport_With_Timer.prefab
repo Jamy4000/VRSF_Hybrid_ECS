@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6035986327998150517}
   - component: {fileID: 5927372344715329623}
-  - component: {fileID: 5927799632383259745}
-  - component: {fileID: 5927327680968075791}
-  - component: {fileID: 5927808332592264775}
   - component: {fileID: 5930291163342782483}
   - component: {fileID: 5927335899324528623}
   - component: {fileID: 5927042748662785547}
-  - component: {fileID: 5927601800766086711}
+  - component: {fileID: 149062561700431610}
+  - component: {fileID: 360170948723567723}
+  - component: {fileID: 2197693841485533738}
   m_Layer: 0
   m_Name: StepByStepTeleport_With_Timer
   m_TagString: Untagged
@@ -52,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistanceStepByStep: 1
   StepHeight: 0.5
---- !u!114 &5927799632383259745
+--- !u!114 &5930291163342782483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,19 +60,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6040334932541740785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 2
-  RayOriginTransform: {fileID: 0}
-  IgnoredLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
-  CheckRaycast: 0
-  IsSetup: 0
---- !u!114 &5927327680968075791
+--- !u!114 &5927335899324528623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,11 +72,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 6040334932541740785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
+  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsingFadingEffect: 1
+  ExcludedLayers:
+    serializedVersion: 2
+    m_Bits: 6
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}
+--- !u!114 &5927042748662785547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040334932541740785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &149062561700431610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040334932541740785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637f9ca74e487cb4abcc493cb83510af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
+  ParametersAreInvalid: 1
   CorrectSDK: 1
   IsSetup: 0
   CanBeUsed: 1
@@ -96,11 +116,10 @@ MonoBehaviour:
   UnclickEventWasRaised: 0
   IsUsingOculusButton: 0
   IsUsingViveButton: 0
-  IsUsingWheelButton: 0
   ThumbPos: {fileID: 0}
   IsTouching: {fileID: 0}
   IsClicking: {fileID: 0}
---- !u!114 &5927808332592264775
+--- !u!114 &360170948723567723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,19 +128,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6040334932541740785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
+  m_Script: {fileID: 11500000, guid: bd54adebdac7f3d4693f3f5b08257631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionType: 2
   ButtonHand: 2
-  UseGazeButton: 0
   ActionButton: 1
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
-  TouchThreshold: 0.5
-  ClickThreshold: 0.5
+  TouchThreshold: 0
+  ClickThreshold: 0
   OnButtonStartTouching:
     m_PersistentCalls:
       m_Calls: []
@@ -153,7 +171,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   BACTimer: {fileID: 0}
---- !u!114 &5930291163342782483
+--- !u!114 &2197693841485533738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,45 +180,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6040334932541740785}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5927335899324528623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040334932541740785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7e6feac03f0bed4f926335b61bb4961, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsUsingFadingEffect: 1
---- !u!114 &5927042748662785547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040334932541740785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5927601800766086711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6040334932541740785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ad190598795de4ca91213b1cc64d31, type: 3}
+  m_Script: {fileID: 11500000, guid: ab9a8528d13ba6749b19f217933b784f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsUpdatedBeforeThreshold: 1
-  TimerThreshold: 1
+  TimerThreshold: 0.7

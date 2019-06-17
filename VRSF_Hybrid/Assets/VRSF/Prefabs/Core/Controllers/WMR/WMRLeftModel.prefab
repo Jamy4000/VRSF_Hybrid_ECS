@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5086118184507936211}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WMRLeftModel
   m_TagString: RESERVED_ControllerModel
   m_Icon: {fileID: 0}
@@ -452,7 +452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 385ac49c36ab3424e859bf2f8b6fa268, type: 3}
       propertyPath: m_TagString
-      value: Trigger
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 385ac49c36ab3424e859bf2f8b6fa268, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,7 +1,6 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using VRSF.Core.Controllers;
-using VRSF.Core.Gaze;
 using VRSF.Core.Inputs;
 using VRSF.Core.Utils.ButtonActionChoser;
 
@@ -20,9 +19,6 @@ namespace VRSF.Core.Utils.Editor
 
 
         #region PRIVATE_VARIABLES
-        private GazeParametersVariable _gazeParameters;
-        private ControllersParametersVariable _controllersParameters;
-
         // let us know if we are showing the left and right thumb position parameters
         private bool _leftThumbPosIsShown;
         private bool _rightThumbPosIsShown;
@@ -50,10 +46,7 @@ namespace VRSF.Core.Utils.Editor
             // We set the buttonActionChoser reference
             _buttonActionChoser = (BACGeneralComponent)target;
             _bacCalculations = _buttonActionChoser.GetComponent<BACCalculationsComponent>();
-
-            _gazeParameters = GazeParametersVariable.Instance;
-            _controllersParameters = ControllersParametersVariable.Instance;
-
+            
             _onButtonStartTouchingProperty = serializedObject.FindProperty("OnButtonStartTouching");
             _onButtonStopTouchingProperty = serializedObject.FindProperty("OnButtonStopTouching");
             _onButtonIsTouchingProperty = serializedObject.FindProperty("OnButtonIsTouching");
@@ -85,52 +78,34 @@ namespace VRSF.Core.Utils.Editor
             if (!DisplayHandParameters()) return;
 
             EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
-            if (_gazeParameters.UseGaze && _controllersParameters.UseControllers)
+            EditorGUILayout.LabelField("The button you wanna use for this feature", EditorStyles.miniBoldLabel);
+            _buttonActionChoser.ActionButton = (EControllersButton)EditorGUILayout.EnumPopup("Button to use", _buttonActionChoser.ActionButton);
+
+            EditorGUILayout.Space();
+
+            switch (_buttonActionChoser.InteractionType)
             {
-                EditorGUILayout.LabelField("If you want to use the Gaze Button. Specified in Window/VRSF/Gaze Parameters.", EditorStyles.miniBoldLabel);
-                _buttonActionChoser.UseGazeButton = EditorGUILayout.Toggle("Use Gaze Button", _buttonActionChoser.UseGazeButton);
-            }
-            else
-            {
-                _buttonActionChoser.UseGazeButton = false;
-            }
+                case EControllerInteractionType.TOUCH:
+                    HandleTouchDisplay();
+                    break;
 
-            if (_buttonActionChoser.UseGazeButton)
-            {
-                DisplayGazeInfo();
-            }
-            else
-            {
-                EditorGUILayout.Space();
+                case EControllerInteractionType.CLICK:
+                    HandleClickDisplay();
+                    break;
 
-                EditorGUILayout.LabelField("The button you wanna use for this feature", EditorStyles.miniBoldLabel);
-                _buttonActionChoser.ActionButton = (EControllersButton)EditorGUILayout.EnumPopup("Button to use", _buttonActionChoser.ActionButton);
+                case EControllerInteractionType.ALL:
+                    HandleTouchDisplay();
+                    EditorGUILayout.Space();
+                    HandleClickDisplay();
+                    break;
 
-                EditorGUILayout.Space();
-
-                switch (_buttonActionChoser.InteractionType)
-                {
-                    case EControllerInteractionType.TOUCH:
-                        HandleTouchDisplay();
-                        break;
-
-                    case EControllerInteractionType.CLICK:
-                        HandleClickDisplay();
-                        break;
-
-                    case EControllerInteractionType.ALL:
-                        HandleTouchDisplay();
-                        EditorGUILayout.Space();
-                        HandleClickDisplay();
-                        break;
-
-                    default:
-                        _bacCalculations.ParametersAreInvalid = true;
-                        _buttonActionChoser.ActionButton = EControllersButton.NONE;
-                        EditorGUILayout.HelpBox("Please chose a valid Interaction Type.", MessageType.Error);
-                        break;
-                }
+                default:
+                    _bacCalculations.ParametersAreInvalid = true;
+                    _buttonActionChoser.ActionButton = EControllersButton.NONE;
+                    EditorGUILayout.HelpBox("Please chose a valid Interaction Type.", MessageType.Error);
+                    break;
             }
 
             CheckThumbPos();
@@ -156,7 +131,7 @@ namespace VRSF.Core.Utils.Editor
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
-                    
+
                 case EControllersButton.TOUCHPAD:
                     DisplayThumbPosition(EControllerInteractionType.TOUCH, _buttonActionChoser.ButtonHand);
                     break;
@@ -197,17 +172,17 @@ namespace VRSF.Core.Utils.Editor
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersButton.MENU:
-                    if (_buttonActionChoser.ButtonHand == EHand.RIGHT)
-                        DisplayViveWarning();
-
+                case EControllersButton.BACK_BUTTON:
+                    DisplaySingleControllerWarning();
                     _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
                     break;
 
-                case EControllersButton.WHEEL_BUTTON:
-                    DisplaySimulatorWarning();
+                case EControllersButton.MENU:
+                    if (_buttonActionChoser.ButtonHand == EHand.RIGHT)
+                        DisplayViveWarning();
+
                     _bacCalculations.ParametersAreInvalid = false;
                     _leftThumbPosIsShown = false;
                     _rightThumbPosIsShown = false;
@@ -242,31 +217,31 @@ namespace VRSF.Core.Utils.Editor
         private void DisplayOculusWarning()
         {
             EditorGUILayout.HelpBox("This feature will only be available for the Oculus Touch Controllers, " +
-                "as the A, B, X, Y button and the Thumbrests doesn't exist on the Vive Controllers.", MessageType.Warning);
+                "as the A, B, X, Y button and the Thumbrests doesn't exist on the other type Controllers.", MessageType.Warning);
+        }
+
+        private void DisplaySingleControllerWarning()
+        {
+            EditorGUILayout.HelpBox("This feature will only be available for the Oculus Go and the Gear VR Controllers, " +
+                "as the Back button doesn't exist on the other type Controllers.", MessageType.Warning);
         }
 
         private void DisplayViveWarning()
         {
             EditorGUILayout.HelpBox("This feature will only be available for the Vive Controllers, " +
-                "as the Right Menu button cannot be use with the Oculus Touch Controllers.", MessageType.Warning);
-        }
-
-        private void DisplaySimulatorWarning()
-        {
-            EditorGUILayout.HelpBox("The Wheel Button will only be available for the Simulator, " +
-                "as the Wheel Button is on the Mouse.", MessageType.Warning);
+                "as the Right Menu button cannot be use with the other type Controllers.", MessageType.Warning);
         }
 
         private void DisplayTouchError()
         {
             EditorGUILayout.HelpBox("This Button cannot be use for the Touch Interaction, as it is not available " +
-                "on the Vive Controller and Oculus Touch Controllers.", MessageType.Error);
+                "on the current devices.", MessageType.Error);
         }
 
         private void DisplayClickError()
         {
             EditorGUILayout.HelpBox("This Button cannot be use for the Click Interaction, as it is not available " +
-                "on the Vive Controller and Oculus Touch Controllers.", MessageType.Error);
+                "on the current devices.", MessageType.Error);
         }
 
 
@@ -311,12 +286,6 @@ namespace VRSF.Core.Utils.Editor
                     _buttonActionChoser.TouchThreshold = EditorGUILayout.Slider("Touch Detection Threshold", _buttonActionChoser.TouchThreshold, 0.0f, 1.0f);
                     break;
             }
-        }
-
-        private void DisplayGazeInfo()
-        {
-            _bacCalculations.ParametersAreInvalid = false;
-            EditorGUILayout.HelpBox("You can set the button to use for the Gaze in the Gaze Parameters window (Window/VRSF/Gaze Parameters.", MessageType.Info);
         }
 
 

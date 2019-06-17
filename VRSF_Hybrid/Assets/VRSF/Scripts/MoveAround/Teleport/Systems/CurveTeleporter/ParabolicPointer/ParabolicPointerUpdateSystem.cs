@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Utils;
@@ -19,6 +18,7 @@ namespace VRSF.MoveAround.Teleport
         public struct Filter
         {
             public BACGeneralComponent BAC_Comp;
+            public TeleportGeneralComponent TeleportGeneral;
             public ParabolObjectsComponent PointerObjects;
             public ParabolCalculationsComponent PointerCalculations;
             public SceneObjectsComponent SceneObjects;
@@ -27,7 +27,6 @@ namespace VRSF.MoveAround.Teleport
         protected override void OnCreateManager()
         {
             base.OnCreateManager();
-            ParabolicRendererHelper.ControllersParameters = ControllersParametersVariable.Instance;
             OnSetupVRReady.Listeners += Init;
         }
 
@@ -107,6 +106,7 @@ namespace VRSF.MoveAround.Teleport
         {
             if (e.BAC_Comp != null && TeleportGeneralComponent.CanTeleport)
             {
+                Debug.Log("Biboup");
                 // Deactivate laser if it's still active
                 if (e.PointerObjects._ControllerPointer.enabled)
                     ParabolicRendererHelper.ToggleHandLaser(e, false);
