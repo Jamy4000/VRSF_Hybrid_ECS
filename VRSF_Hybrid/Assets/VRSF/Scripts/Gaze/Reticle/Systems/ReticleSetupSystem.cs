@@ -33,7 +33,6 @@ namespace VRSF.Gaze
         {
             foreach (var e in GetEntities<Filter>())
             {
-                e.ReticleCalculations._ReticleImage = e.ReticleCalculations.GetComponent<UnityEngine.UI.Image>();
                 e.ReticleCalculations._ReticleTransform = e.ReticleCalculations.GetComponent<UnityEngine.Transform>();
 
                 // Store the original scale and rotation.

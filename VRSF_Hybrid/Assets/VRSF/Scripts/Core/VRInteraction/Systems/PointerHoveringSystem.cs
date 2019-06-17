@@ -54,20 +54,16 @@ namespace VRSF.Core.Interactions
             if (isOverSomething.Value && hitVar.IsNull)
             {
                 previousHit = null;
-                SetVariables(null, true);
+                isOverSomething.SetValue(false);
+                new ObjectWasHoveredEvent(origin, null);
             }
             //If something is hit, we check that the collider is still "alive", and we check that the new transform hit is not the same as the previous one
             else if (!hitVar.IsNull && hitVar.Value.collider != null && hitVar.Value.collider.transform != previousHit)
             {
                 var hitTransform = hitVar.Value.collider.transform;
                 previousHit = hitTransform;
-                SetVariables(hitTransform, true);
-            }
-
-            void SetVariables(Transform newHit, bool newOverValue)
-            {
-                isOverSomething.SetValue(newOverValue);
-                new ObjectWasHoveredEvent(origin, newHit);
+                isOverSomething.SetValue(true);
+                new ObjectWasHoveredEvent(origin, hitTransform);
             }
         }
         #endregion PRIVATE_METHODS

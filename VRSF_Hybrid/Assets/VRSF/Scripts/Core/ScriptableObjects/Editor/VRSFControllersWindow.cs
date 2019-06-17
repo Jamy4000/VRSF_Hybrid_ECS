@@ -144,15 +144,11 @@ namespace VRSF.Editor
                 case (EHand.RIGHT):
                     LayerMask rightTempMask = EditorGUILayout.MaskField("Excluded layer Right", InternalEditorUtility.LayerMaskToConcatenatedLayersMask(_controllersParameters.RightExclusionLayer), InternalEditorUtility.layers);
                     _controllersParameters.RightExclusionLayer = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(rightTempMask);
-                    
-                    _controllersParameters.MaxDistancePointerRight = EditorGUILayout.FloatField("Max Distance Right Pointer", _controllersParameters.MaxDistancePointerRight);
                     break;
 
                 case (EHand.LEFT):
                     LayerMask leftTempMask = EditorGUILayout.MaskField("Excluded layer Left", InternalEditorUtility.LayerMaskToConcatenatedLayersMask(_controllersParameters.LeftExclusionLayer), InternalEditorUtility.layers);
                     _controllersParameters.LeftExclusionLayer = InternalEditorUtility.ConcatenatedLayersMaskToLayerMask(leftTempMask);
-                    
-                    _controllersParameters.MaxDistancePointerLeft = EditorGUILayout.FloatField("Max Distance Left Pointer", _controllersParameters.MaxDistancePointerLeft);
                     break;
 
                 default:

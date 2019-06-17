@@ -7,6 +7,5 @@ namespace VRSF.Gaze
     /// </summary>
     public class GazeRaycastComponent : MonoBehaviour
     {
-        [HideInInspector] public Camera _VRCamera;
     }
 }

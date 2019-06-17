@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
+using UnityEngine;
 using VRSF.Core.Controllers;
-using VRSF.Core.Raycast;
 
 namespace VRSF.Gaze.Utils
 {
@@ -12,8 +12,7 @@ namespace VRSF.Gaze.Utils
         struct Filter
         {
             public PointerVisibilityComponents ReticleVisibility;
-            public ReticleCalculationsComponent ReticleCalculations;
-            public ScriptableRaycastComponent ScriptableRaycast;
+            public ReticleImageComponent ReticleImage;
         }
 
         #region ComponentSystem_Methods
@@ -21,8 +20,24 @@ namespace VRSF.Gaze.Utils
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ScriptableRaycast.IsSetup)
+                if (Core.SetupVR.VRSF_Components.SetupVRIsReady && e.ReticleImage.ReticleGraphic != null)
+                {
                     SetReticleVisibility(e);
+                }
+                else if (e.ReticleImage.ReticleGraphic == null)
+                {
+                    Debug.Log("[b]VRSF :[/b] No graphic for Reticle detected, trying to fetch one.");
+                    e.ReticleImage.ReticleGraphic = e.ReticleImage.GetComponent<UnityEngine.UI.Graphic>();
+                    if (e.ReticleImage.ReticleGraphic == null)
+                    {
+                        Debug.LogError("[b]VRSF :[/b] Cannot set reticle visibility without a reference to the graphic target of this reticle. Deactivating system.");
+                        this.Enabled = false;
+                    }
+                    else
+                    {
+                        Debug.Log("[b]VRSF :[/b] Successfully fetch graphic target for Reticle visibility with name : " + e.ReticleImage.ReticleGraphic.name);
+                    }
+                }
             }
         }
         #endregion ComponentSystem_Methods
@@ -38,14 +53,12 @@ namespace VRSF.Gaze.Utils
             switch (e.ReticleVisibility.PointerState)
             {
                 case EPointerState.ON:
-                    UnityEngine.Debug.Log("ON Reticle ");
-                    if (e.ReticleCalculations._ReticleImage.color.a != 1.0f)
+                    if (e.ReticleImage.ReticleGraphic.color.a != 1.0f)
                         SetColorWithAlpha(1.0f);
                     break;
 
                 case EPointerState.DISAPPEARING:
-                    UnityEngine.Debug.Log("DISAPPEARING Reticle ");
-                    float newAlpha = e.ReticleCalculations._ReticleImage.color.a - (UnityEngine.Time.deltaTime * e.ReticleVisibility.DisappearanceSpeed);
+                    float newAlpha = e.ReticleImage.ReticleGraphic.color.a - (UnityEngine.Time.deltaTime * e.ReticleVisibility.DisappearanceSpeed);
                     SetColorWithAlpha(newAlpha);
 
                     if (newAlpha <= 0.0f)
@@ -55,10 +68,9 @@ namespace VRSF.Gaze.Utils
 
             void SetColorWithAlpha(float newAlpha)
             {
-                var color = e.ReticleCalculations._ReticleImage.color;
+                var color = e.ReticleImage.ReticleGraphic.color;
                 color.a = newAlpha;
-                e.ReticleCalculations._ReticleImage.color = color;
-                //UnityEngine.Debug.Log("New color alpha RETICLE : " + color.a);
+                e.ReticleImage.ReticleGraphic.color = color;
             }
         }
         #endregion PRIVATE_METHODS

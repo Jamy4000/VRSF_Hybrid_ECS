@@ -40,11 +40,12 @@ namespace VRSF.Core.Raycast
         /// </summary>
         private void SetupVariables(OnSetupVRReady setupVRReady)
         {
-            var controllersParameters = ControllersParametersVariable.Instance;
             var interactionsContainer = InteractionVariableContainer.Instance;
 
             foreach (var e in GetEntities<Filter>())
             {
+                e.RaycastComp._VRCamera = VRSF_Components.VRCamera.GetComponent<Camera>();
+
                 switch (e.RaycastComp.RayOrigin)
                 {
                     case ERayOrigin.LEFT_HAND:

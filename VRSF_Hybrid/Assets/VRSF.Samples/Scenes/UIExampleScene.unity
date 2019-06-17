@@ -335,7 +335,7 @@ PrefabInstance:
     - target: {fileID: 224258118695773350, guid: 802611e2c9d8ac849a811aab1afc7de4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00014677446
+      value: -0.00012385646
       objectReference: {fileID: 0}
     - target: {fileID: 224263618248371532, guid: 802611e2c9d8ac849a811aab1afc7de4,
         type: 3}
@@ -1415,26 +1415,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4358752950495176892, guid: 3c50188539ecb6e468ae6e4dc8f904ef,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1101136573118984696, guid: 3c50188539ecb6e468ae6e4dc8f904ef,
-        type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0.73958325
-      objectReference: {fileID: 0}
-    - target: {fileID: 1101136573118984696, guid: 3c50188539ecb6e468ae6e4dc8f904ef,
-        type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
-      value: 0.26041675
-      objectReference: {fileID: 0}
-    - target: {fileID: 1101136573118984696, guid: 3c50188539ecb6e468ae6e4dc8f904ef,
-        type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
-      value: 0.26041675
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c50188539ecb6e468ae6e4dc8f904ef, type: 3}

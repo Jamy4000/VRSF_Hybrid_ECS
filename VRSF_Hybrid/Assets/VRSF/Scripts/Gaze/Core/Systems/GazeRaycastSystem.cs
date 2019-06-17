@@ -16,29 +16,19 @@ namespace VRSF.Gaze.Raycast
         }
 
         #region ComponentSystem_Methods
-        protected override void OnCreateManager()
-        {
-            OnSetupVRReady.Listeners += Init;
-            base.OnCreateManager();
-        }
-
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
                 if (e.RaycastComponents.IsSetup)
                 {
-                    Ray rayToUse = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? e.GazeRaycast._VRCamera.ScreenPointToRay(Input.mousePosition) : new Ray(e.GazeRaycast.transform.position, e.GazeRaycast.transform.TransformDirection(Vector3.forward));
+                    Ray rayToUse = VRSF_Components.DeviceLoaded == EDevice.SIMULATOR ? e.RaycastComponents._VRCamera.ScreenPointToRay(Input.mousePosition) : new Ray(e.RaycastComponents._VRCamera.transform.position, e.RaycastComponents._VRCamera.transform.TransformDirection(Vector3.forward));
+
                     e.RaycastComponents.RayVar.SetValue(rayToUse);
-                    RaycastHitHandler(e.RaycastComponents.RayVar.Value, e.RaycastComponents.MaxRaycastDistance, ~e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
+
+                    RaycastHitHandler(rayToUse, e.RaycastComponents.MaxRaycastDistance, ~e.RaycastComponents.ExcludedLayer, ref e.RaycastComponents.RaycastHitVar);
                 }
             }
-        }
-
-        protected override void OnDestroyManager()
-        {
-            OnSetupVRReady.Listeners -= Init;
-            base.OnDestroyManager();
         }
         #endregion
 
@@ -64,15 +54,6 @@ namespace VRSF.Gaze.Raycast
             else
             {
                 hitVariable.SetIsNull(true);
-            }
-        }
-
-        
-        private void Init(OnSetupVRReady info)
-        {
-            foreach (var e in GetEntities<Filter>())
-            {
-                e.GazeRaycast._VRCamera = VRSF_Components.VRCamera.GetComponent<Camera>();
             }
         }
         #endregion PRIVATE_METHODS

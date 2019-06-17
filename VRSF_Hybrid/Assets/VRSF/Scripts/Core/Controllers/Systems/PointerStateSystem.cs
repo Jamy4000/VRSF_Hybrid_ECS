@@ -55,7 +55,6 @@ namespace VRSF.Core.Controllers
         {
             foreach (var e in GetEntities<Filter>())
             {
-                UnityEngine.Debug.Log("Object hovered with origin " + info.RaycastOrigin + ". Object is : " + info.ObjectHovered.name);
                 if (info.RaycastOrigin == e.ScriptableRaycast.RayOrigin && info.ObjectHovered != null)
                     e.PointerVisibility.PointerState = EPointerState.ON;
             }

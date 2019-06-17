@@ -24,9 +24,6 @@ namespace VRSF.Core.Controllers
         
         [Tooltip("OPTIONAL : Layer(s) to exclude from the raycast with the Left controller Pointer. Use the Layer number given in the Layer list.")]
         public LayerMask LeftExclusionLayer = 0;
-        
-        [Tooltip("Themaximum distance at which the left pointer is going.")]
-        public float MaxDistancePointerLeft = 100f;
 
 
         [Header("Right Controller Parameters")]
@@ -35,9 +32,6 @@ namespace VRSF.Core.Controllers
 
         [Tooltip("OPTIONAL : Layer(s) to exclude from the raycast with the Right controller Pointer. Use the Layer number given in the Layer list.")]
         public LayerMask RightExclusionLayer = 0;
-        
-        [Tooltip("Themaximum distance at which the right pointer is going.")]
-        public float MaxDistancePointerRight = 100f;
         #endregion PUBLIC_VARIABLE
 
 
@@ -51,11 +45,9 @@ namespace VRSF.Core.Controllers
 
             UsePointerLeft = true;
             LeftExclusionLayer = 0;
-            MaxDistancePointerLeft = 100f;
 
             UsePointerRight = true;
             RightExclusionLayer = 0;
-            MaxDistancePointerRight = 100f;
         }
 
         /// <summary>

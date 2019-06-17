@@ -32,6 +32,11 @@ namespace VRSF.Core.Raycast
         [HideInInspector] public RayVariable RayVar;
 
         /// <summary>
+        /// Reference to the VRCamera object
+        /// </summary>
+        [HideInInspector] public Camera _VRCamera;
+
+        /// <summary>
         /// Wheter we check the raycast, set at runtime by checking if we use the controllers or the gaze
         /// </summary>
         [HideInInspector] public bool IsSetup = false;

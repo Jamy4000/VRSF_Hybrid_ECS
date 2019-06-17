@@ -562,6 +562,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4069715111207404}
     m_Modifications:
+    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
+      propertyPath: m_Name
+      value: Pointer
+      objectReference: {fileID: 0}
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -606,14 +610,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Pointer
-      objectReference: {fileID: 0}
     - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}
       propertyPath: RayOrigin
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2749488080622661080, guid: 5cd2f90e1e91a2b4e82bd99898002538,
+        type: 3}
+      propertyPath: DisappearanceSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2017598734981600736, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}
@@ -641,6 +646,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4683859054567476}
     m_Modifications:
+    - target: {fileID: 2841290581860168777, guid: 319214ee5b8d02d42839e07242c281a3,
+        type: 3}
+      propertyPath: m_Name
+      value: FadingCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 312916745875095277, guid: 319214ee5b8d02d42839e07242c281a3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -746,11 +756,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2841290581860168777, guid: 319214ee5b8d02d42839e07242c281a3,
-        type: 3}
-      propertyPath: m_Name
-      value: FadingCanvas
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 319214ee5b8d02d42839e07242c281a3, type: 3}
 --- !u!224 &4702034367136340448 stripped
@@ -766,6 +771,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4574007437801686}
     m_Modifications:
+    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
+      propertyPath: m_Name
+      value: Pointer
+      objectReference: {fileID: 0}
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -809,10 +818,6 @@ PrefabInstance:
     - target: {fileID: 4713180758324616, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1271298274943666, guid: 5cd2f90e1e91a2b4e82bd99898002538, type: 3}
-      propertyPath: m_Name
-      value: Pointer
       objectReference: {fileID: 0}
     - target: {fileID: 4597738430262354391, guid: 5cd2f90e1e91a2b4e82bd99898002538,
         type: 3}

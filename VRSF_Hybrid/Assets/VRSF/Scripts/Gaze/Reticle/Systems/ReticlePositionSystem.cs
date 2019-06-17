@@ -1,7 +1,6 @@
 ﻿using Unity.Entities;
 using UnityEngine;
 using VRSF.Core.Raycast;
-using VRSF.Interactions;
 
 namespace VRSF.Gaze
 {
@@ -10,26 +9,16 @@ namespace VRSF.Gaze
         struct Filter
         {
             public ReticleCalculationsComponent ReticleCalculations;
+            public ScriptableRaycastComponent ScriptableRaycast;
         }
-
-
-        #region PRIVATE_VARIABLES
-        private InteractionVariableContainer _interactionContainer;
-        #endregion PRIVATE_VARIABLES
 
 
         #region ComponentSystem_Methods
-        protected override void OnCreateManager()
-        {
-            base.OnCreateManager();
-            _interactionContainer = InteractionVariableContainer.Instance;
-        }
-
         protected override void OnUpdate()
         {
             foreach (var e in GetEntities<Filter>())
             {
-                if (e.ReticleCalculations.GazeScriptableRaycast != null && e.ReticleCalculations.GazeScriptableRaycast.IsSetup)
+                if (e.ScriptableRaycast.IsSetup)
                     CheckGazePosition(e);
             }
         }
@@ -42,7 +31,7 @@ namespace VRSF.Gaze
         /// </summary>
         private void CheckGazePosition(Filter entity)
         {
-            if (!_interactionContainer.GazeHit.IsNull)
+            if (!entity.ScriptableRaycast.RaycastHitVar.IsNull)
                 //Reduce the reticle positon to the object that was hit
                 SetPositionToHit(entity);
             else
@@ -56,13 +45,14 @@ namespace VRSF.Gaze
         /// </summary>
         private void SetPositionToNormal(Filter e)
         {
-            Transform camTransform = Core.SetupVR.VRSF_Components.VRCamera.transform;
+            Transform camTransform = e.ScriptableRaycast._VRCamera.transform;
 
             // Set the position of the reticle to the default distance in front of the camera.
-            e.ReticleCalculations._ReticleTransform.position = camTransform.position + camTransform.forward * e.ReticleCalculations.GazeScriptableRaycast.MaxRaycastDistance;
+            e.ReticleCalculations._ReticleTransform.position = camTransform.position + camTransform.forward * e.ScriptableRaycast.MaxRaycastDistance;
 
             // Set the scale based on the original and the distance from the camera.
-            e.ReticleCalculations._ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * e.ReticleCalculations.GazeScriptableRaycast.MaxRaycastDistance;
+            if (!e.ReticleCalculations.KeepSameScale)
+                e.ReticleCalculations._ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * e.ScriptableRaycast.MaxRaycastDistance;
 
             // The rotation should just be the default.
             e.ReticleCalculations._ReticleTransform.rotation = e.ReticleCalculations._OriginalRotation;
@@ -74,13 +64,16 @@ namespace VRSF.Gaze
         /// </summary>
         private void SetPositionToHit(Filter e)
         {
-            e.ReticleCalculations._ReticleTransform.position = _interactionContainer.GazeHit.Value.point;
+            var hitVar = e.ScriptableRaycast.RaycastHitVar;
 
-            e.ReticleCalculations._ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * _interactionContainer.GazeHit.Value.distance;
+            e.ReticleCalculations._ReticleTransform.position = hitVar.Value.point;
+
+            if (!e.ReticleCalculations.KeepSameScale)
+                e.ReticleCalculations._ReticleTransform.localScale = e.ReticleCalculations._OriginalScale * hitVar.Value.distance;
 
             // If the reticle should use the normal of what has been hit...
             // ... set it's rotation based on it's forward vector facing along the normal OR it's local rotation should be as it was originally.
-            e.ReticleCalculations._ReticleTransform.rotation = e.ReticleCalculations.UseNormal ? Quaternion.FromToRotation(Vector3.forward, _interactionContainer.GazeHit.Value.normal) : e.ReticleCalculations._OriginalRotation;
+            e.ReticleCalculations._ReticleTransform.rotation = e.ReticleCalculations.UseNormal ? Quaternion.FromToRotation(Vector3.forward, hitVar.Value.normal) : e.ReticleCalculations._OriginalRotation;
         }
         #endregion PUBLIC_METHODS
     }

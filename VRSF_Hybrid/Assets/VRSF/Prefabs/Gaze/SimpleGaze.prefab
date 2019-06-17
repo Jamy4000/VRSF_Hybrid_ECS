@@ -9,10 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224136163061716720}
-  - component: {fileID: 223968177448338634}
-  - component: {fileID: 114591614743842584}
   - component: {fileID: 114615131468648116}
-  - component: {fileID: 7446609118148989479}
   - component: {fileID: 6929030901193180907}
   - component: {fileID: 9045542561167423802}
   m_Layer: 5
@@ -30,7 +27,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893868689291000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.32}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -39,51 +36,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
+  m_SizeDelta: {x: 0.05, y: 0.05}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &223968177448338634
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893868689291000}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 0.31
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 1
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1900413077
-  m_SortingOrder: -1
-  m_TargetDisplay: 0
---- !u!114 &114591614743842584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893868689291000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 1
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 15
 --- !u!114 &114615131468648116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,14 +50,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!222 &7446609118148989479
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893868689291000}
-  m_CullTransparentMesh: 0
 --- !u!114 &6929030901193180907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +62,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539155346a869ed46896f7ba3dab1e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _VRCamera: {fileID: 0}
 --- !u!114 &9045542561167423802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,4 +82,5 @@ MonoBehaviour:
   RayOriginTransform: {fileID: 0}
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+  _VRCamera: {fileID: 0}
   IsSetup: 0

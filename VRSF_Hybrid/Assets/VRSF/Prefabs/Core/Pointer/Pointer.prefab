@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4474770695515306364}
   - component: {fileID: 2749488080622661080}
   - component: {fileID: 9170330058729317002}
+  - component: {fileID: 8799807386733519374}
   m_Layer: 0
   m_Name: Pointer
   m_TagString: Untagged
@@ -58,6 +59,7 @@ MonoBehaviour:
   RayOriginTransform: {fileID: 0}
   RaycastHitVar: {fileID: 0}
   RayVar: {fileID: 0}
+  _VRCamera: {fileID: 0}
   IsSetup: 0
 --- !u!120 &120434401924706192
 LineRenderer:
@@ -107,9 +109,9 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5
+        value: 0.73958325
         inSlope: 0
-        outSlope: 0.5
+        outSlope: 0.26041675
         tangentMode: 69
         weightedMode: 0
         inWeight: 0.33333334
@@ -117,7 +119,7 @@ LineRenderer:
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0.5
+        inSlope: 0.26041675
         outSlope: 0
         tangentMode: 69
         weightedMode: 0
@@ -213,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PointerState: 0
-  DisappearanceSpeed: 1
+  DisappearanceSpeed: 2
 --- !u!114 &9170330058729317002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +230,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _BaseStartWidth: 0
   _BaseEndWidth: 0
+--- !u!114 &8799807386733519374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1271298274943666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3bdb2b8dcdb7d4fba668a13c67889f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PointerMaxLength: 200
 --- !u!1 &6062370434510619099
 GameObject:
   m_ObjectHideFlags: 0

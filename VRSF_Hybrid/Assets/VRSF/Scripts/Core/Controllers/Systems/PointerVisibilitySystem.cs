@@ -55,8 +55,8 @@ namespace VRSF.Core.Controllers
                     break;
 
                 case EPointerState.DISAPPEARING:
-                    e.PointerRenderer.startWidth -= (Time.deltaTime * e.PointerVisibility.DisappearanceSpeed) / 2000;
-                    e.PointerRenderer.endWidth -= (Time.deltaTime * e.PointerVisibility.DisappearanceSpeed) / 2000;
+                    e.PointerRenderer.startWidth -= (Time.deltaTime * e.PointerVisibility.DisappearanceSpeed) / 1000;
+                    e.PointerRenderer.endWidth -= (Time.deltaTime * e.PointerVisibility.DisappearanceSpeed) / 1000;
 
                     if (e.PointerRenderer.startWidth == 0.0f && e.PointerRenderer.endWidth == 0.0f)
                         e.PointerVisibility.PointerState = EPointerState.OFF;
