@@ -172,13 +172,6 @@ namespace VRSF.UI
             _leftIsClicking = _inputContainer.LeftClickBoolean.Get("TriggerIsDown");
 
             GetFillRectReference();
-
-            // If the controllers are not used, we cannot click on the slider, so we will fill the slider with the Over events
-            if (!ControllersParametersVariable.Instance.UseControllers && FillWithClick)
-            {
-                FillWithClick = false;
-                Debug.LogError("<b>[VRSF] :</b> UseController is set at false. The auto fill slider won't use the controller to fill but the gaze.");
-            }
         }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace VRSF.Core.Inputs
 {
     [CreateAssetMenu(menuName = "RuntimeSet/Dictionnary/VRInputsBool")]
-    public class VRInputsBoolean : RuntimeDictionnary<string, BoolVariable>
+    public class VRInputsBoolean : ScriptableDictionnary<string, BoolVariable>
     {
     }
 }

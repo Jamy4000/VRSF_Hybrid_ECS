@@ -27,6 +27,7 @@ namespace VRSF.UI
         [SerializeField] public bool ControllerClickable = true;
         #endregion PUBLIC_VARIABLES
 
+
         #region MONOBEHAVIOUR_METHODS
         protected override void OnEnable()
         {
@@ -35,7 +36,7 @@ namespace VRSF.UI
             if (Application.isPlaying)
             {
                 if (LaserClickable)
-                    SetupListeners();
+                    ObjectWasClickedEvent.Listeners += CheckInputFieldClick;
 
                 if (ControllerClickable)
                     GetComponent<BoxCollider>().isTrigger = true;
@@ -63,24 +64,7 @@ namespace VRSF.UI
         #endregion MONOBEHAVIOUR_METHODS
 
 
-        // EMPTY
-        #region PUBLIC_METHODS
-        #endregion PUBLIC_METHODS
-
-
         #region PRIVATE_METHODS
-        private void SetupListeners()
-        {
-            // If the controllers are not used, we cannot click on a InputField
-            if (!ControllersParametersVariable.Instance.UseControllers)
-            {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR InputField if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
-            ObjectWasClickedEvent.Listeners += CheckInputFieldClick;
-        }
-
         /// <summary>
         /// Method called when the user is clicking
         /// </summary>

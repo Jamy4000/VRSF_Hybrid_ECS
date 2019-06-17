@@ -65,13 +65,6 @@ namespace VRSF.UI
         #region PRIVATE_METHODS
         private void SetupUIElement()
         {
-            // If the controllers are not used, we cannot click on a Dropdown
-            if (!ControllersParametersVariable.Instance.UseControllers)
-            {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR DropDown if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
             _onValueChangedAction = delegate { SetDropDownNewState(); };
             onValueChanged.AddListener(_onValueChangedAction);
             ObjectWasClickedEvent.RegisterListener(CheckObjectClicked);

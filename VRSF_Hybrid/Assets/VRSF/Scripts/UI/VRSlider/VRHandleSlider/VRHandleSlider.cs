@@ -94,15 +94,8 @@ namespace VRSF.UI
             _scrollableSetup = new VRUIScrollableSetup(UnityUIToVRSFUI.SliderDirectionToUIDirection(direction), minValue, maxValue, wholeNumbers);
 
             CheckSliderReferences();
-
-            // If the controllers are not used, we cannot click on the slider, so we will fill the slider with the Over events
-            if (!ControllersParametersVariable.Instance.UseControllers)
-            {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR Handle Slider if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
-            ObjectWasClickedEvent.RegisterListener(CheckSliderClick);
+            
+            ObjectWasClickedEvent.Listeners += CheckSliderClick;
 
             _RaycastHitDictionary = new Dictionary<ERayOrigin, RaycastHitVariable>
             {

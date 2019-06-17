@@ -19,7 +19,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         }
 
         #region PRIVATE_VARIBALES
-        private ControllersParametersVariable _controllersParameters;
         private InputVariableContainer _inputsContainer;
         #endregion PRIVATE_VARIABLES
 
@@ -29,8 +28,6 @@ namespace VRSF.Core.Utils.ButtonActionChoser
         protected override void OnCreateManager()
         {
             SDKChoserIsSetup.Listeners += StartBACsSetup;
-
-            _controllersParameters = ControllersParametersVariable.Instance;
             _inputsContainer = InputVariableContainer.Instance;
 
             base.OnCreateManager();

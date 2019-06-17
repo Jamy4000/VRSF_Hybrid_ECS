@@ -24,18 +24,14 @@ namespace VRSF.Core.Inputs
 
         protected override void OnUpdate()
         {
-            // If we doesn't use the controllers, we don't check for the inputs.
-            if (ControllersParametersVariable.Instance.UseControllers)
+            foreach (var e in GetEntities<Filter>())
             {
-                foreach (var e in GetEntities<Filter>())
+                if (e.InputCapture.IsSetup)
                 {
-                    if (e.InputCapture.IsSetup)
-                    {
-                        // We check the Input for the Left controller
-                        CheckControllerInput(e.OculusControllersInput);
-                    }
+                    // We check the Input for the Left controller
+                    CheckControllerInput(e.OculusControllersInput);
                 }
-            }
+                }
         }
 
         protected override void OnDestroyManager()

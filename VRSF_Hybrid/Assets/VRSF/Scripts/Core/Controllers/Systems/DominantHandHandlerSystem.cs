@@ -61,8 +61,6 @@ namespace VRSF.Core.Controllers
         {
             VRSF_Components.LeftController.SetActive(!isUserRightHanded);
             VRSF_Components.RightController.SetActive(isUserRightHanded);
-            ControllersParametersVariable.Instance.UsePointerLeft = !isUserRightHanded;
-            ControllersParametersVariable.Instance.UsePointerRight = isUserRightHanded;
         }
     }
 }

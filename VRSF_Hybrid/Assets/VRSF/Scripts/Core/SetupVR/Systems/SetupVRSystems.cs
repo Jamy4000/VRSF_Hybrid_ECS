@@ -20,8 +20,6 @@ namespace VRSF.Core.SetupVR
             public SetupVRComponents SetupVR;
         }
 
-        private ControllersParametersVariable _controllersParameters;
-
         #region ComponentSystem_Methods
         protected override void OnCreateManager()
         {
@@ -34,7 +32,6 @@ namespace VRSF.Core.SetupVR
         protected override void OnStartRunning()
         {
             base.OnStartRunning();
-            _controllersParameters = ControllersParametersVariable.Instance;
 
             foreach (var e in GetEntities<Filter>())
             {
@@ -129,7 +126,7 @@ namespace VRSF.Core.SetupVR
             VRSF_Components.VRCamera = setupVR.VRCamera;
 
             // If the user is not using the controllers and we cannot disable them
-            if (!_controllersParameters.UseControllers && !DisableControllers(setupVR))
+            if (!DisableControllers(setupVR))
             {
                 setupVR.LeftController.SetActive(false);
                 setupVR.RightController.SetActive(false);

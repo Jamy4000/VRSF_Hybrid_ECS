@@ -6,8 +6,6 @@ namespace VRSF.MoveAround.Teleport
 {
     public static class ParabolicRendererHelper
     {
-        public static ControllersParametersVariable ControllersParameters;
-
         /// <summary>
         /// Calculate the points on the way of the Parabola
         /// </summary>
@@ -71,21 +69,16 @@ namespace VRSF.MoveAround.Teleport
         /// <param name="active"></param>
         public static void ToggleHandLaser(ParabolicPointerUpdateSystem.Filter e, bool active)
         {
-            // Change pointer activation if the user is using it
-            if ((e.BAC_Comp.ButtonHand == EHand.LEFT && ControllersParameters.UsePointerLeft) ||
-                (e.BAC_Comp.ButtonHand == EHand.RIGHT && ControllersParameters.UsePointerRight))
-            {
-                // We deactivate the fact that the user is able to click on stuffs as long as the curve teleport is on
-                if (e.BAC_Comp.ButtonHand == EHand.LEFT)
-                    PointerClickComponent.LeftTriggerCanClick = active;
-                else
-                    PointerClickComponent.RightTriggerCanClick = active;
+            // We deactivate the fact that the user is able to click on stuffs as long as the curve teleport is on
+            if (e.BAC_Comp.ButtonHand == EHand.LEFT)
+                PointerClickComponent.LeftTriggerCanClick = active;
+            else
+                PointerClickComponent.RightTriggerCanClick = active;
 
-                if (e.PointerObjects._ControllerPointer != null)
-                {
-                    // We change the status of the laser gameObject
-                    e.PointerObjects._ControllerPointer.enabled = active;
-                }
+            if (e.PointerObjects._ControllerPointer != null)
+            {
+                // We change the status of the laser gameObject
+                e.PointerObjects._ControllerPointer.enabled = active;
             }
         }
 

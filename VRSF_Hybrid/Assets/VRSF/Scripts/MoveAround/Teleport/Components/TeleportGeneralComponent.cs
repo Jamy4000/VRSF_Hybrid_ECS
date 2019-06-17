@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace VRSF.MoveAround.Teleport
@@ -11,6 +12,9 @@ namespace VRSF.MoveAround.Teleport
     {
         [Header("Is this teleport feature using fade out/in")]
         public bool IsUsingFadingEffect = true;
+
+        [Header("Layer on which we should check the teleport hit")]
+        public LayerMask LayerMaskVariable;
 
         /// <summary>
         /// Indicates the current use of teleportation.

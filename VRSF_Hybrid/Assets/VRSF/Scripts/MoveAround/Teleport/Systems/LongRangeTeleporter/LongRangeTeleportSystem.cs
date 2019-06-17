@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.Raycast;
 using VRSF.Core.SetupVR;
@@ -22,18 +21,12 @@ namespace VRSF.MoveAround.Teleport
             public SceneObjectsComponent SceneObjects;
         }
 
-        /// <summary>
-        /// The reference to the ScriptableSingleton containing the variables for the Controllers
-        /// </summary>
-        private ControllersParametersVariable _controllersVariable;
-
         #region ComponentSystem_Methods
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += Init;
             base.OnCreateManager();
-            _controllersVariable = ControllersParametersVariable.Instance;
         }
 
         protected override void OnStopRunning()

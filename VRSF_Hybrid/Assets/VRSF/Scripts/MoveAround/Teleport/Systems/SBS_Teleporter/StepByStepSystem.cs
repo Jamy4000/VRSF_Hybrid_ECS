@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using VRSF.Core.Controllers;
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Raycast;
@@ -16,7 +15,6 @@ namespace VRSF.MoveAround.Teleport
         public struct Filter : ITeleportFilter
         {
             public StepByStepComponent SBS_Comp;
-            public ScriptableRaycastComponent RayComp;
             public BACGeneralComponent BAC_Comp;
             public SceneObjectsComponent SceneObjects;
             public TeleportGeneralComponent TeleportGeneral;

@@ -125,15 +125,8 @@ namespace VRSF.UI
             }
 
             _scrollableSetup = new VRUIScrollableSetup(Direction);
-
-            // If the controllers are not used, we cannot click on a Scroll Bar
-            if (!ControllersParametersVariable.Instance.UseControllers)
-            {
-                Debug.Log("<b>[VRSF] :</b> You won't be able to use the VR ScrollRect if you're not using the Controllers. To change that,\n" +
-                    "Go into the Window/VRSF/VR Interaction Parameters and set the UseControllers bool to true.");
-            }
-
-            ObjectWasClickedEvent.RegisterListener(CheckRectClick);
+            
+            ObjectWasClickedEvent.Listeners += CheckRectClick;
             _eventWereRegistered = true;
 
             // We initialize the _RaycastHitDictionary
