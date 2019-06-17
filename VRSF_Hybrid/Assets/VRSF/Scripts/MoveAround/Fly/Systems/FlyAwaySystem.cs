@@ -16,7 +16,6 @@ namespace VRSF.MoveAround.Fly
             public FlyVelocityComponent VelocityComponent;
             public FlyDirectionComponent DirectionComponent;
             public FlyBoundariesComponent BoundariesComponent;
-            public ScriptableRaycastComponent BAC_RayComp;
         }
 
 
@@ -67,7 +66,7 @@ namespace VRSF.MoveAround.Fly
             if (entity.ParametersComponent._WantToFly)
             {
                 entity.DirectionComponent.FlightDirection = entity.ParametersComponent._FlyForward ? 1.0f : -1.0f;
-                entity.DirectionComponent.NormalizedDir = Vector3.Normalize(entity.BAC_RayComp.RayVar.Value.direction);
+                entity.DirectionComponent.NormalizedDir = Vector3.Normalize(entity.DirectionComponent.RayVar.Value.direction);
             }
 
             // We get the min and max pos in Y depending if we're using boundaries or not.

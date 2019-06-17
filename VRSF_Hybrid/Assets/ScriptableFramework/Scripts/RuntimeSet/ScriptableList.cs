@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ScriptableFramework.RuntimeSet
 {
-    public class RuntimeSet<T> : ScriptableObject
+    public class ScriptableList<T> : ScriptableObject
     {
         public List<T> Items = new List<T>();
 

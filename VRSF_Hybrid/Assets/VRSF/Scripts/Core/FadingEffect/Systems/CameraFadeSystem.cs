@@ -15,10 +15,13 @@ namespace VRSF.Core.FadingEffect
         protected override void OnCreateManager()
         {
             OnSetupVRReady.Listeners += StartFadingIn;
+
             StartFadingInEvent.Listeners += StartFadeIn;
             StartFadingOutEvent.Listeners += StartFadeOut;
+
             OnFadingInEndedEvent.Listeners += OnFadeInEnded;
             OnFadingOutEndedEvent.Listeners += OnFadeOutEnded;
+
             base.OnCreateManager();
         }
 
@@ -36,11 +39,13 @@ namespace VRSF.Core.FadingEffect
         protected override void OnDestroyManager()
         {
             base.OnCreateManager();
+            OnSetupVRReady.Listeners -= StartFadingIn;
+
             StartFadingInEvent.Listeners -= StartFadeIn;
             StartFadingOutEvent.Listeners -= StartFadeOut;
+
             OnFadingInEndedEvent.Listeners -= OnFadeInEnded;
             OnFadingOutEndedEvent.Listeners -= OnFadeOutEnded;
-            OnSetupVRReady.Listeners -= StartFadingIn;
         }
 
         private void StartFadeIn(StartFadingInEvent info)
@@ -83,10 +88,13 @@ namespace VRSF.Core.FadingEffect
             foreach (var e in GetEntities<Filter>())
             {
                 var overrideSpeed = e.CameraFade.FadingSpeed;
+
                 ResetParameters(e.CameraFade);
 
                 if (e.CameraFade._ShouldImmediatlyFadeIn)
                     new StartFadingInEvent(overrideSpeed);
+
+                e.CameraFade._ShouldImmediatlyFadeIn = false;
             }
         }
 
@@ -135,7 +143,6 @@ namespace VRSF.Core.FadingEffect
         private void ResetParameters(CameraFadeComponent fadeComponent)
         {
             fadeComponent.FadingInProgress = false;
-            fadeComponent._ShouldImmediatlyFadeIn = false;
             fadeComponent.FadingSpeed = fadeComponent._OldFadingSpeedFactor;
         }
     }

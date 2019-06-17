@@ -22,7 +22,7 @@ namespace VRSF.MoveAround.Teleport
                 e.PointerCalculations.PointSpacing,
                 e.PointerCalculations.PointCount,
                 e.SceneObjects._TeleportNavMesh,
-                ControllersParameters.GetExclusionsLayer(e.BAC_Comp.ButtonHand),
+                e.TeleportGeneral.ExcludedLayers,
                 out e.PointerObjects.ParabolaPoints,
                 out Vector3 normal
             );

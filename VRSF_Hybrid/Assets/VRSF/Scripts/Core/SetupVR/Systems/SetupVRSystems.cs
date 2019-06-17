@@ -125,13 +125,6 @@ namespace VRSF.Core.SetupVR
 
             VRSF_Components.VRCamera = setupVR.VRCamera;
 
-            // If the user is not using the controllers and we cannot disable them
-            if (!DisableControllers(setupVR))
-            {
-                setupVR.LeftController.SetActive(false);
-                setupVR.RightController.SetActive(false);
-            }
-
             VRSF_Components.LeftController = setupVR.LeftController;
             VRSF_Components.RightController = setupVR.RightController;
 

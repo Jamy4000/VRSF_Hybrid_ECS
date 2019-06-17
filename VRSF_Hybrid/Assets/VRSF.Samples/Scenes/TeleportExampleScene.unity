@@ -193,6 +193,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7543292208824157588, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ActionButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7944682077613207301, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ParametersAreInvalid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612086464638795552, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ActionButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6200247589234776941, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ParametersAreInvalid
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1145030858495759583, guid: c7744e4080678eb4cac679cd8fa93883,
         type: 3}
       propertyPath: m_Name
@@ -287,6 +307,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ClickThreshold
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683277984229782827, guid: c7744e4080678eb4cac679cd8fa93883,
+        type: 3}
+      propertyPath: ExcludedLayer.m_Bits
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7744e4080678eb4cac679cd8fa93883, type: 3}

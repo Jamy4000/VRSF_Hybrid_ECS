@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Utils.ButtonActionChoser;
-using VRSF.Core.Raycast;
 using VRSF.Core.Inputs;
 
 namespace VRSF.MoveAround.Rotate
@@ -18,7 +17,6 @@ namespace VRSF.MoveAround.Rotate
             public CameraRotationComponent RotationComp;
             public BACGeneralComponent BACGeneral;
             public BACCalculationsComponent BACCalculations;
-            public ScriptableRaycastComponent RaycastComp;
         }
 
 
@@ -82,7 +80,7 @@ namespace VRSF.MoveAround.Rotate
         private void HandleRotationWithAcceleration(Filter entity)
         {
             // If the user is not aiming to the UI
-            if (!entity.RaycastComp.RaycastHitVar.RaycastHitIsOnUI())
+            if (!entity.RotationComp.RaycastHitVar.RaycastHitIsOnUI())
             {
                 // isAccelerating : The user is Rotating (touching/clicking the thumbstick) and the currentSpeed is < (maxSpeed / 5)
                 bool isAccelerating = entity.RotationComp.IsRotating && entity.RotationComp.CurrentSpeed < (entity.RotationComp.MaxSpeed / 20);

@@ -184,6 +184,11 @@ PrefabInstance:
       propertyPath: TouchThreshold
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3653959853538298663, guid: b9ccd46eee2e3cc4b840f1135f4a0274,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9ccd46eee2e3cc4b840f1135f4a0274, type: 3}
 --- !u!1 &1355546517
@@ -294,11 +299,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 23373085400228198, guid: 79776326346a9d348bcf49e5e86b9da0,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 3149bbdf6304d62459b89e8cb91803c6, type: 2}
     - target: {fileID: 23646475444687944, guid: 79776326346a9d348bcf49e5e86b9da0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -310,6 +310,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 3149bbdf6304d62459b89e8cb91803c6, type: 2}
     - target: {fileID: 23874346354809582, guid: 79776326346a9d348bcf49e5e86b9da0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3149bbdf6304d62459b89e8cb91803c6, type: 2}
+    - target: {fileID: 23373085400228198, guid: 79776326346a9d348bcf49e5e86b9da0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

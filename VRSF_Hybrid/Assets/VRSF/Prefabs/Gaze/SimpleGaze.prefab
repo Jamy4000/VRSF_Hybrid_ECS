@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224136163061716720}
   - component: {fileID: 114615131468648116}
-  - component: {fileID: 6929030901193180907}
   - component: {fileID: 9045542561167423802}
   m_Layer: 5
   m_Name: SimpleGaze
@@ -48,18 +47,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bf10cdea1344482e91a4f2b58506b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6929030901193180907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893868689291000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 539155346a869ed46896f7ba3dab1e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &9045542561167423802

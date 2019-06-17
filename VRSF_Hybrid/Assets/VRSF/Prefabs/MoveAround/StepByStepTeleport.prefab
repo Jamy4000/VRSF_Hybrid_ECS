@@ -10,12 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4077945284909776}
   - component: {fileID: 114311887240058022}
-  - component: {fileID: 114379532114450960}
-  - component: {fileID: 114117341646516142}
-  - component: {fileID: 114853679301929544}
+  - component: {fileID: 2943111494037759088}
   - component: {fileID: 114476093172704892}
   - component: {fileID: 114019279060861324}
   - component: {fileID: 114239108694249020}
+  - component: {fileID: 3073077807313932282}
   m_Layer: 0
   m_Name: StepByStepTeleport
   m_TagString: Untagged
@@ -51,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistanceStepByStep: 0.05
   StepHeight: 1
---- !u!114 &114379532114450960
+--- !u!114 &2943111494037759088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,64 +59,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965356667570362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81c4a020d2a5f6549a97e998d561b27a, type: 3}
+  m_Script: {fileID: 11500000, guid: bd54adebdac7f3d4693f3f5b08257631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayOrigin: 2
-  RayOriginTransform: {fileID: 0}
-  RaycastHitVar: {fileID: 0}
-  RayVar: {fileID: 0}
-  CheckRaycast: 0
-  IsSetup: 0
---- !u!114 &114117341646516142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965356667570362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a89658d5256d2064cbfecdf9b9a82998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionButtonIsReady: 0
-  ParametersAreInvalid: 0
-  CorrectSDK: 1
-  IsSetup: 0
-  CanBeUsed: 1
-  ClickActionBeyondThreshold: 0
-  TouchActionBeyondThreshold: 0
-  UntouchedEventWasRaised: 0
-  UnclickEventWasRaised: 0
-  IsUsingOculusButton: 0
-  IsUsingViveButton: 0
-  IsUsingWheelButton: 0
-  ThumbPos: {fileID: 0}
-  IsTouching: {fileID: 0}
-  IsClicking: {fileID: 0}
---- !u!114 &114853679301929544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965356667570362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d8922b657dd054db03af7807bf0529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractionType: 2
-  ButtonHand: 2
-  UseGazeButton: 0
-  ActionButton: 1
+  InteractionType: 0
+  ButtonHand: 0
+  ActionButton: 0
   LeftTouchThumbPosition: 0
   RightTouchThumbPosition: 0
   LeftClickThumbPosition: 0
   RightClickThumbPosition: 0
-  TouchThreshold: 0.5
-  ClickThreshold: 0.5
+  TouchThreshold: 0
+  ClickThreshold: 0
   OnButtonStartTouching:
     m_PersistentCalls:
       m_Calls: []
@@ -174,6 +127,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUsingFadingEffect: 1
+  ExcludedLayers:
+    serializedVersion: 2
+    m_Bits: 22
+  RaycastHitVar: {fileID: 0}
+  RayVar: {fileID: 0}
 --- !u!114 &114239108694249020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,3 +144,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6dc7141c91965489f81246e2ac06f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3073077807313932282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965356667570362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637f9ca74e487cb4abcc493cb83510af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionButtonIsReady: 0
+  ParametersAreInvalid: 1
+  CorrectSDK: 1
+  IsSetup: 0
+  CanBeUsed: 1
+  ClickActionBeyondThreshold: 0
+  TouchActionBeyondThreshold: 0
+  UntouchedEventWasRaised: 0
+  UnclickEventWasRaised: 0
+  IsUsingOculusButton: 0
+  IsUsingViveButton: 0
+  ThumbPos: {fileID: 0}
+  IsTouching: {fileID: 0}
+  IsClicking: {fileID: 0}

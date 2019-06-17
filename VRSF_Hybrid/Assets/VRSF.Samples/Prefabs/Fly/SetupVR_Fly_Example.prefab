@@ -5,7 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3650903490406325803}
+    m_TransformParent: {fileID: 3653729962599040785}
     m_Modifications:
     - target: {fileID: 3230186655363618503, guid: 050144e7509486344acf1a239e4e464c,
         type: 3}
@@ -50,7 +50,7 @@ PrefabInstance:
     - target: {fileID: 3232055732424558521, guid: 050144e7509486344acf1a239e4e464c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3232055732424558521, guid: 050144e7509486344acf1a239e4e464c,
         type: 3}
@@ -80,31 +80,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SetupVR_Fly_Example
       objectReference: {fileID: 0}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: CameraRig
-      value: 
-      objectReference: {fileID: 3647964071117088171}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: LeftController
-      value: 
-      objectReference: {fileID: 3649933906446808263}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: RightController
-      value: 
-      objectReference: {fileID: 3648211013418096303}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: VRCamera
-      value: 
-      objectReference: {fileID: 3648149769390103835}
-    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
-        type: 3}
-      propertyPath: FloorOffset
-      value: 
-      objectReference: {fileID: 850320580667801007}
     - target: {fileID: 4325968150092906, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -149,7 +124,64 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: CameraRig
+      value: 
+      objectReference: {fileID: 3647964071117088171}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: LeftController
+      value: 
+      objectReference: {fileID: 3649933906446808263}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: RightController
+      value: 
+      objectReference: {fileID: 3648211013418096303}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: VRCamera
+      value: 
+      objectReference: {fileID: 3648149769390103835}
+    - target: {fileID: 114468450047122696, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: FloorOffset
+      value: 
+      objectReference: {fileID: 850320580667801007}
+    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4944655739073760, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 12.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 3647795418507851708, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622641028891260420, guid: bc49bde1c2e008942bd59fd92b11985a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1488167892825845740, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
+    - {fileID: 9065960068629802580, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bc49bde1c2e008942bd59fd92b11985a, type: 3}
 --- !u!1 &3647964071117088171 stripped
 GameObject:
@@ -198,7 +230,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3653729962599040785}
+    m_TransformParent: {fileID: 3650903490406325803}
     m_Modifications:
     - target: {fileID: 1914761902482664035, guid: 17f9e6c42d9dbce41afa27e78aa78f9e,
         type: 3}
@@ -243,7 +275,7 @@ PrefabInstance:
     - target: {fileID: 1916426388503495835, guid: 17f9e6c42d9dbce41afa27e78aa78f9e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1916426388503495835, guid: 17f9e6c42d9dbce41afa27e78aa78f9e,
         type: 3}

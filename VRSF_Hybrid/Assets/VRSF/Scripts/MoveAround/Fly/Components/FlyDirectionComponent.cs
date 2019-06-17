@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 
 namespace VRSF.MoveAround.Fly
 {
@@ -9,5 +10,8 @@ namespace VRSF.MoveAround.Fly
 
         [HideInInspector] public Vector3 NormalizedDir = new Vector3();
         [HideInInspector] public Vector3 FinalDirection = new Vector3();
+
+        [HideInInspector] public RaycastHitVariable RaycastHitVar;
+        [HideInInspector] public RayVariable RayVar;
     }
 }

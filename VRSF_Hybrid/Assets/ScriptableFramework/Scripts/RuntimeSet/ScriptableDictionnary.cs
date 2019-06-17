@@ -10,7 +10,7 @@ namespace ScriptableFramework.RuntimeSet
     /// </summary>
     /// <typeparam name="K">Type of the key</typeparam>
     /// <typeparam name="V">Type of the value</typeparam>
-    public class RuntimeDictionnary<K, V> : ScriptableObject
+    public class ScriptableDictionnary<K, V> : ScriptableObject
     {
         /// <summary>
         /// Dictionnary holding the key/value pair 

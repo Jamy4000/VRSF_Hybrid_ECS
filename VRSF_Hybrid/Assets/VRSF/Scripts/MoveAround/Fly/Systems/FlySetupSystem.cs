@@ -2,7 +2,7 @@
 using VRSF.Core.Inputs;
 using VRSF.Core.SetupVR;
 using VRSF.Core.Utils.ButtonActionChoser;
-using VRSF.Core.Raycast;
+using VRSF.Interactions;
 
 namespace VRSF.MoveAround.Fly
 {
@@ -14,9 +14,9 @@ namespace VRSF.MoveAround.Fly
         public struct Filter
         {
             public FlyParametersComponent FlyComponent;
+            public FlyDirectionComponent FlyDirection;
             public BACGeneralComponent BACGeneral;
             public BACCalculationsComponent BACCalculations;
-            public ScriptableRaycastComponent RaycastComp;
         }
 
 
@@ -95,7 +95,7 @@ namespace VRSF.MoveAround.Fly
         public void ButtonIsInteracting(Filter entity)
         {
             // If the user is aiming to the UI, we don't activate the system
-            entity.FlyComponent._IsInteracting = !entity.RaycastComp.RaycastHitVar.RaycastHitIsOnUI();
+            entity.FlyComponent._IsInteracting = !entity.FlyDirection.RaycastHitVar.RaycastHitIsOnUI();
         }
         #endregion PUBLIC_METHODS
 
@@ -107,8 +107,25 @@ namespace VRSF.MoveAround.Fly
         /// <param name="onSetupVR"></param>
         private void OnSetupVRIsReady(OnSetupVRReady onSetupVR)
         {
+            InteractionVariableContainer interactionVariable = InteractionVariableContainer.Instance;
+
             foreach (var e in GetEntities<Filter>())
             {
+                switch (e.BACGeneral.ButtonHand)
+                {
+                    case Core.Controllers.EHand.LEFT:
+                        e.FlyDirection.RaycastHitVar = interactionVariable.LeftHit;
+                        e.FlyDirection.RayVar = interactionVariable.LeftRay;
+                        break;
+                    case Core.Controllers.EHand.RIGHT:
+                        e.FlyDirection.RaycastHitVar = interactionVariable.RightHit;
+                        e.FlyDirection.RayVar = interactionVariable.RightRay;
+                        break;
+                    default:
+                        Debug.LogError("[b]VRSF :[/b] Please specifiy a correct hand on the BAC General Component for the object " + e.BACGeneral.transform.name, e.BACGeneral.gameObject);
+                        break;
+                }
+
                 if (e.BACGeneral.ActionButton != EControllersButton.TOUCHPAD)
                 {
                     Debug.LogError("<b>[VRSF] :</b> You need to assign Left Touchpad or Right Touchpad to use the Fly script. Setting CanBeUsed at false.");

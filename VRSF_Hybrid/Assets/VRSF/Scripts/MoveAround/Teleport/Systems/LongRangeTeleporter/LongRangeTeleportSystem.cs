@@ -16,7 +16,6 @@ namespace VRSF.MoveAround.Teleport
         {
             public LongRangeTeleportComponent LRT_Comp;
             public BACGeneralComponent BAC_Comp;
-            public ScriptableRaycastComponent RaycastComp;
             public TeleportGeneralComponent TeleportGeneral;
             public SceneObjectsComponent SceneObjects;
         }
@@ -120,15 +119,15 @@ namespace VRSF.MoveAround.Teleport
         /// </summary>
         private void OnIsInteractingCallback(Filter e)
         {
-            // I think the mistake is coming from here. The CanTeleport is reset at false in one of the if/else below, and block the teleportUserSystem
+            // TODO : Check that : I think the mistake is coming from here. The CanTeleport is reset at false in one of the if/else below, and block the teleportUserSystem
 
             e.LRT_Comp._LoadingTimer += Time.deltaTime;
             
             // If the raycast is hitting something and it's not a UI Element
-            if (e.RaycastComp.RaycastHitVar.RaycastHitIsNotOnUI())
+            if (e.TeleportGeneral.RaycastHitVar.RaycastHitIsNotOnUI())
             {
-                TeleportNavMeshHelper.Linecast(e.RaycastComp.RayVar.Value.origin, e.RaycastComp.RaycastHitVar.Value.point, out bool endOnNavmesh,
-                                           _controllersVariable.GetExclusionsLayer(e.BAC_Comp.ButtonHand), out TeleportGeneralComponent.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
+                TeleportNavMeshHelper.Linecast(e.TeleportGeneral.RayVar.Value.origin, e.TeleportGeneral.RaycastHitVar.Value.point, out bool endOnNavmesh,
+                                           e.TeleportGeneral.ExcludedLayers, out TeleportGeneralComponent.PointToGoTo, out Vector3 norm, e.SceneObjects._TeleportNavMesh);
 
                 TeleportGeneralComponent.CanTeleport = e.LRT_Comp.UseLoadingTimer ? (endOnNavmesh && e.LRT_Comp._LoadingTimer > e.LRT_Comp.LoadingTime) : endOnNavmesh;
             }

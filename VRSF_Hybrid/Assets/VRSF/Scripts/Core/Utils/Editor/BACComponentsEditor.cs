@@ -19,8 +19,6 @@ namespace VRSF.Core.Utils.Editor
 
 
         #region PRIVATE_VARIABLES
-        private ControllersParametersVariable _controllersParameters;
-
         // let us know if we are showing the left and right thumb position parameters
         private bool _leftThumbPosIsShown;
         private bool _rightThumbPosIsShown;
@@ -49,8 +47,6 @@ namespace VRSF.Core.Utils.Editor
             _buttonActionChoser = (BACGeneralComponent)target;
             _bacCalculations = _buttonActionChoser.GetComponent<BACCalculationsComponent>();
             
-            _controllersParameters = ControllersParametersVariable.Instance;
-
             _onButtonStartTouchingProperty = serializedObject.FindProperty("OnButtonStartTouching");
             _onButtonStopTouchingProperty = serializedObject.FindProperty("OnButtonStopTouching");
             _onButtonIsTouchingProperty = serializedObject.FindProperty("OnButtonIsTouching");

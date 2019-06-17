@@ -13,10 +13,8 @@ GameObject:
   - component: {fileID: 120434401924706192}
   - component: {fileID: 6857496641270699895}
   - component: {fileID: 2017598734981600736}
-  - component: {fileID: 4474770695515306364}
   - component: {fileID: 2749488080622661080}
   - component: {fileID: 9170330058729317002}
-  - component: {fileID: 8799807386733519374}
   m_Layer: 0
   m_Name: Pointer
   m_TagString: Untagged
@@ -52,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RayOrigin: 3
-  MaxRaycastDistance: 50
+  MaxRaycastDistance: 200
   ExcludedLayer:
     serializedVersion: 2
     m_Bits: 4
@@ -190,18 +188,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HandClicking: 0
---- !u!114 &4474770695515306364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271298274943666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13b86f0a22ab6a84884a8cbc21b52103, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2749488080622661080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,19 +216,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _BaseStartWidth: 0
   _BaseEndWidth: 0
---- !u!114 &8799807386733519374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271298274943666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d3bdb2b8dcdb7d4fba668a13c67889f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PointerMaxLength: 200
 --- !u!1 &6062370434510619099
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableFramework.Variables;
+using UnityEngine;
 using VRSF.Core.Utils.ButtonActionChoser;
 
 namespace VRSF.MoveAround.Fly
