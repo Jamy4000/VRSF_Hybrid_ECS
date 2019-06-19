@@ -30,13 +30,14 @@ namespace VRSF.Core.Controllers.Haptic
         {
             XRNode hand = onHapticRequested.Hand == EHand.LEFT ? XRNode.LeftHand : XRNode.RightHand;
 
-            if (InputDevices.GetDeviceAtXRNode(hand).IsValid)
+            if (InputDevices.GetDeviceAtXRNode(hand).isValid)
                 SendImpulseToNode(hand, onHapticRequested.HapticAmplitude, onHapticRequested.HapticDuration);
-        }
 
-        private void SendImpulseToNode(XRNode node, float amplitude, float duration)
-        {
-            InputDevices.GetDeviceAtXRNode(node).SendHapticImpulse(0, amplitude, duration);
+
+            void SendImpulseToNode(XRNode node, float amplitude, float duration)
+            {
+                InputDevices.GetDeviceAtXRNode(node).SendHapticImpulse(0, amplitude, duration);
+            }
         }
     }
 }
