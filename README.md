@@ -6,16 +6,17 @@ If you have any in question on how to use this tool, I'll be glad to answer you,
 
 
 ## Description
-The repository you're currently is a Crossfplatform, Lightweight VR framework giving you access to some basic features often used in VR. It's an alternative to Libraries like VRTK, that was way too big for me when I first used it. Numerous tools and scripts will come in the future, as well as other device supports.
+The repository you're currently is a Crossfplatform, Lightweight VR Framework giving you access to some basic features often used in VR (UI, Teleportation, Flying mode, Gaze, Inputs Management, ...). It's an alternative to Libraries like VRTK, that was way too big for me when I first used it.
 
 
 The supported devices for now are :
 - The HTC Vive
+- The HTC Focus (No 3D Models for the controllers are provided for now)
 - The Microsoft Mixed Reality Headset
 - The Oculus Rift with Touch Controllers
+- The Oculus Quest
 - The Oculus GO
 - The Gear VR
-- The Oculus Quest
 - A VR Simulator (only recommended for debug)
 
 
@@ -28,40 +29,48 @@ The stable versions are placed in the Releases section of this repository. Multi
 
 Those are the last releases for this repository, as we're now switching to the DOTS Workflow, meaning that we gonna recreate a new repository. More info to come ! 
 
-## Libraries Required
-To use this Framework, you gonna need to import the following stuffs :
-- **Unity3D 2018.x or later** : Required to be able to use the ECS Hybrid System. An error occur in the Haptic Systems in 2019.x, you just need to change the IsInvalid parameter to isInvalid (Thanks Unity for this lovely change).
-- **The Entities Package 0.0.12-Preview.21** : You can find it in the Package Manager from Unity (in Unity, Tab Window > Package Manager, in the Packages Window click on Advanced > Show Preview Packages, and then : All Packages > Entities 0.0.12-preview.21 > Install). I need to update the systems, as for now the project is only working with an old version of this package.
-- **VR Support** : In the Player Settings Window (Edit > Project Settings > Player), go to the last tab called XR Settings, set the Virtual Reality Supported toggle to true, and add the Oculus, OpenVR and None SDKs to the list.
-- **Scripting Runtime Version** : This one is normally set by default in the last versions of Unity, but we never know :  still in the Player Settings Window, go to the Other Settings tab and set the Scripting Runtime version to .NET 4.x Equivalent.
 
-## Optional Libraries
-You still need to import some VR Packages, depending on your needs, to use this framework :
-- **Oculus for Desktop** : If you want to use the Rift or Rift S Support
-- **Oculus for Desktop** : If you want to use the Oculus Go, Gear VR or Oculus Quest Support
+# Requirements
+For Unity, you need to download the latest **2018.x version or later**, as it's required to be able to use Unity ECS.
+
+## Packages
+To use this Framework, you gonna need the following stuffs :
+- **The XR Legacy Input Helpers** : You can find it in the Package Manager from Unity (in Unity, Tab Window > Package Manager, in the Packages Window click on All Packages > XR Legacy Input Helpers > Install).
+- **The Entities Package 0.0.12-Preview.21** : You can find it in the Package Manager from Unity (in Unity, Tab Window > Package Manager, in the Packages Window click on Advanced > Show Preview Packages, and then : All Packages > Entities 0.0.12-preview.21 > Install). I need to update the systems, as for now the project is only working with an old version of this package.
+
+## Optional Packages
+You still need to import some VR Packages, depending on your needs, to use this framework. Those are found in the Package Manager from Unity :
+- **Oculus (Desktop)** : If you want to use the Rift or Rift S Support
+- **Oculus (Android)** : If you want to use the Oculus Go, Gear VR or Oculus Quest Support
+- **OpenVR (Desktop)** : If you want to use the HTC Vive or HTC Focus (**WARNING :** MODELS FOR FOCUS CONTROLLERS NOT PROVIDED)
 - **Windows Mixed Reality** : If you want to use the WMR Headset
-- **OpenVR for Desktop** : If you want to use the HTC Vive or HTC Focus (**WARNING :** MODELs FOR CONTROLLERS NOT PROVIDED)
 
 ### Oculus GO, Oculus Quest, Gear VR and HTC Focus Specifities
 If you need to build for a mobile platform, you need as well to download the Android Building support (File > Build Settings > Android) and to switch the platform to Android.
 
+## Other Settings
+- **VR Support** : In the Player Settings Window (Edit > Project Settings > Player), go to the last tab called XR Settings, set the Virtual Reality Supported toggle to true, and add the Oculus, OpenVR and None SDKs to the list.
+- **Scripting Runtime Version** : This one is normally set by default in the last versions of Unity, but we never know :  still in the Player Settings Window, go to the Other Settings tab and set the Scripting Runtime version to .NET 4.x Equivalent.
+
 
 Once all of that is done, **Restart your project so everything can be recompiled !**
 
-## Basic Setup :
 
-1. Import the different packages listed above
-2. Relaunch the Editor to fix a bug sometimes appearing with the Entity Package
-3. Import the VRSF_Core package
-4. Import the other packages you need
-5. Add SetupVR in your scene
-6. Go to Edit > ProjectSettings > Input and use the Preset button to set the Inputs to the preset included in the Core Package from VRSF
-7. Go to Edit > Player > Project Settings > XR Settings and tick the Virtual Reality Supported checkbox
-8. Add, in this order, the Oculus SDK, OpenVR SDK, amnd None (For the Simulator)
+# Basic Setup
+
+1. Import the different packages and setup the settings listed above
+2. Relaunch the Editor to be sure that everything is correctly recompiled
+3. Import the VRSF_DOTS_Core package
+4. Import the other VRSF_DOTS extension packages you need (Samples, Move Around, UI or Gaze)
+5. Go to Edit > ProjectSettings > Input and use the Preset button on the top right corner to set the Inputs to the preset included in the Core Package from VRSF
+6. Go to Edit > Player > Project Settings > XR Settings and tick the Virtual Reality Supported checkbox
+7. Add, in this order, the Oculus SDK, OpenVR SDK, and None (For the Simulator)
+8. Add SetupVR in your scene (Right click in Scene View > VRSF > Add SetupVR in Scene)
 9. Set the Start Position of your CameraRig using the CameraRig object
 10. You should be good to go !
 
 If you want to add anything more in your scene (Movements, UI, Gaze, ...), just check the prefabs in the different Extension Packages, or check the different scenes in the VRSF.Samples folder of this repository :)
+
 
 
 ## Credits
