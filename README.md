@@ -24,6 +24,8 @@ The stable versions are placed in the Releases section of this repository. Multi
 **Warning** Depending on your Unity version, you must use one of those packages :
 - [Unity 2018.x](https://github.com/Jamy4000/VRSF_Hybrid_ECS/releases/tag/v2.3 "VRSF 2.3")
 - [Unity 2019.x](https://github.com/Jamy4000/VRSF_Hybrid_ECS/releases/tag/v2.4 "VRSF 2.4")
+
+
 Those are the last releases for this repository, as we're now switching to the DOTS Workflow, meaning that we gonna recreate a new repository. More info to come ! 
 
 ## Libraries Required
