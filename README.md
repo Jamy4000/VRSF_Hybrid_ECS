@@ -19,6 +19,13 @@ The supported devices for now are :
 - A VR Simulator (only recommended for debug)
 
 
+# Releases
+The stable versions are placed in the Releases section of this repository. Multiple packages are available, with extensions depending on your use. The only one you absolutely need is the VRSF_Hybrid_Core package.
+**Warning** Depending on your Unity version, you must use one of those packages :
+- [Unity 2018.x](https://github.com/Jamy4000/VRSF_Hybrid_ECS/releases/tag/v2.3 "VRSF 2.3")
+- [Unity 2019.x](https://github.com/Jamy4000/VRSF_Hybrid_ECS/releases/tag/v2.4 "VRSF 2.4")
+Those are the last releases for this repository, as we're now switching to the DOTS Workflow, meaning that we gonna recreate a new repository. More info to come ! 
+
 ## Libraries Required
 To use this Framework, you gonna need to import the following stuffs :
 - **Unity3D 2018.x or later** : Required to be able to use the ECS Hybrid System. An error occur in the Haptic Systems in 2019.x, you just need to change the IsInvalid parameter to isInvalid (Thanks Unity for this lovely change).
@@ -68,7 +75,3 @@ For more info about this VR framework,please send me a message, as the Wiki is s
 For more info about the Scriptable Objects and the Framework created, please check the Github Repository given above as well as the Unite talk and Example project provided by Unity and Ryan Hipple.
 
 For more info about the Event System we are using, please check the Github Repository and video given above as well as the example project I've created on my Github page.
-
-
-# Releases
-The stable versions are placed in the Release section of this repository. Multiple packages are available, with extensions depending on your use. The only one you absolutely need is the VRSF_Hybrid_Core package.
