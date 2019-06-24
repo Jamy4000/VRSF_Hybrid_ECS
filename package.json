@@ -1,0 +1,17 @@
+{
+    "name": "com.jamy4000.vrsf_hybrid_ecs",
+    "author": "Arnaud Briche / Jamy4000 - Absolute Software GmbH",
+    "displayName": "VRSF Hybrid ECS",
+    "version": "0.0.1",
+    "unity": "2018.1",
+    "description": "Easy-to-use Virtual Reality using Hybrid ECS approach, Event Callbacks, Scriptable Objects and a bit of magic.",
+    "dependencies": {
+        "com.unity.entities": "0.0.12-preview.21"
+    },
+    "keywords": [
+        "entities",
+        "hybrid",
+        "xr",
+        "vr"
+    ]
+}
