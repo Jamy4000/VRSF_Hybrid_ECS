@@ -58,6 +58,8 @@ Once all of that is done, **Restart your project so everything can be recompiled
 
 # Basic Setup
 
+I created (a video)[https://youtu.be/0jGsLzwOKQ4] to show you how to setup the core package in Unity 2019.1.8 for Oculus Rift, but here's the step-by-step guide to load everything up :
+
 1. Import the different packages and setup the settings listed above
 2. Relaunch the Editor to be sure that everything is correctly recompiled
 3. Import the VRSF_DOTS_Core package
