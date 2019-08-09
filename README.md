@@ -1,4 +1,6 @@
 # VR Scriptable Framework using Hybrid ECS
+**DEPRECATED** This version of the framework is not updated anymore. I'm now working on a new framework using the last update from the Entity Package, [go check the repository](https://github.com/Jamy4000/VRSF_DOTS) ! :)
+
 This repository is a Unity Framework using Scriptable Objects and the Unity Input Manager for Inputs and Interaction, an Event System as seen in [Quill18 video](https://www.youtube.com/watch?v=04wXkgfd9V8) and the Hybrid ECS from Unity3D. It aims to ease the use of Virtual Reality in a project, and to have a light tool for that, while integrating a cross-platform project and some basic VR features. 
 
 **Warning** The current Wiki documentation is not up-to-date. I need to take some time to explain the different features and how to use them, but as no request were made, I'm not gonna do that as top prio.
